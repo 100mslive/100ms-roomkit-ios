@@ -10,7 +10,7 @@ import SwiftUI
 #if !Preview
 import HMSSDK
 #endif
-@_implementationOnly import Popovers
+import Popovers
 
 struct HMSChatMessageView: View {
     

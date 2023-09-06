@@ -10,7 +10,7 @@ import SwiftUI
 #if !Preview
 import HMSSDK
 #endif
-@_implementationOnly import Lottie
+import Lottie
 
 struct HMSAudioTrackView: View {
     enum ButtonStyle {

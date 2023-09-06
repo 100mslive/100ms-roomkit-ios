@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "100ms-ios-analytics-sdk",
+      "identity" : "popovers",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/100mslive/100ms-ios-analytics-sdk",
+      "location" : "https://github.com/100mslive/Popovers",
       "state" : {
-        "revision" : "ffbd36c153603a3309ad9740d287438c4e89bd40",
-        "version" : "0.0.2"
+        "branch" : "main",
+        "revision" : "f9743225a3d1b8acf080be0b16c8b288588269dc"
       }
     }
   ],

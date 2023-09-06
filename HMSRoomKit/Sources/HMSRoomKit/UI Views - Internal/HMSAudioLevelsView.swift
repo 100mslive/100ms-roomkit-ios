@@ -8,7 +8,7 @@
 
 import SwiftUI
 import HMSSDK
-@_implementationOnly import Lottie
+import Lottie
 
 struct HMSAudioLevelsView: View {
     
