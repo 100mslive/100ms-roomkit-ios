@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "100ms-ios-analytics-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/100ms-ios-analytics-sdk",
+      "state" : {
+        "revision" : "ffbd36c153603a3309ad9740d287438c4e89bd40",
+        "version" : "0.0.2"
+      }
+    },
+    {
+      "identity" : "100ms-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/100ms-ios-sdk",
+      "state" : {
+        "revision" : "649be2e4945605df894218f47b2132e691fa5365",
+        "version" : "0.9.10"
+      }
+    }
+  ],
+  "version" : 2
+}
