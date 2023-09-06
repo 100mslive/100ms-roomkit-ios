@@ -23,9 +23,6 @@ let package = Package(
         .target(
             name: "HMSRoomKit",
             dependencies: []),
-        .testTarget(
-            name: "HMSRoomKitTests",
-            dependencies: ["HMSRoomKit"]),
         .binaryTarget(
             name: "HMSSDK",
             url: "https://github.com/100mslive/100ms-ios-sdk/releases/download/0.9.10/HMSSDK.xcframework.zip",
