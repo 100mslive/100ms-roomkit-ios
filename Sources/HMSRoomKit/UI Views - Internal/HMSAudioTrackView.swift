@@ -89,7 +89,7 @@ struct LottieView: UIViewRepresentable {
             animationView.heightAnchor.constraint(equalTo: uiView.heightAnchor)
         ])
         
-        animationView.animation = LottieAnimation.named(animationName, bundle: Bundle(identifier:"live.100ms.HMS.RoomKit")!)
+        animationView.animation = LottieAnimation.named(animationName, bundle: .module)
         animationView.contentMode = contentMode
         animationView.loopMode = loopMode
         animationView.play()

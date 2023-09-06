@@ -10,13 +10,13 @@ import SwiftUI
 
 extension Image {
     init(assetName: String) {
-        self.init(assetName, bundle: Bundle(identifier:"live.100ms.HMS.RoomKit"))
+        self.init(assetName, bundle: .module)
         self = self.renderingMode(.template)
     }
 }
 
 extension Color {
     init(assetName: String) {
-        self.init(assetName, bundle: Bundle(identifier:"live.100ms.HMS.RoomKit"))
+        self.init(assetName, bundle: .module)
     }
 }
