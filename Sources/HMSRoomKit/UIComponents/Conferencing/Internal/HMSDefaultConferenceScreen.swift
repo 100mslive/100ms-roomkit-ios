@@ -10,6 +10,7 @@ import AVKit
 #if !Preview
 import HMSSDK
 #endif
+import HMSRoomModels
 
 public struct HMSDefaultConferenceScreen: View {
     

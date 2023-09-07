@@ -8,6 +8,7 @@
 
 import SwiftUI
 import HMSSDK
+import HMSRoomModels
 
 struct HMSEndCallView: View {
     @EnvironmentObject var roomModel: HMSRoomModel

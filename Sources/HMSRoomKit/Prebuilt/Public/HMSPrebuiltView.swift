@@ -8,6 +8,7 @@
 import SwiftUI
 import HMSSDK
 import Combine
+import HMSRoomModels
 
 public struct HMSPrebuiltView: View {
     

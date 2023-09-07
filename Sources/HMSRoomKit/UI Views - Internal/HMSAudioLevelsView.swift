@@ -9,6 +9,7 @@
 import SwiftUI
 import HMSSDK
 @_implementationOnly import Lottie
+import HMSRoomModels
 
 struct HMSAudioLevelsView: View {
     

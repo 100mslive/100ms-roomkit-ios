@@ -9,6 +9,7 @@
 import Foundation
 import HMSSDK
 import SwiftUI
+import HMSRoomModels
 
 // Objects share in the room, available to all peer to read and write
 extension HMSRoomModel {

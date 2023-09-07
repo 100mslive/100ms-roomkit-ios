@@ -10,6 +10,7 @@ import SwiftUI
 #if !Preview
 import HMSSDK
 #endif
+import HMSRoomModels
 
 struct HMSTopControlStrip: View {
     @EnvironmentObject var roomModel: HMSRoomModel

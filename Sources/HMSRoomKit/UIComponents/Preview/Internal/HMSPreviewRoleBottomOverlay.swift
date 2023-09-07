@@ -12,6 +12,7 @@ import Combine
 #if !Preview
 import HMSSDK
 #endif
+import HMSRoomModels
 
 struct HMSPreviewRoleBottomOverlay: View {
     @EnvironmentObject var roomModel: HMSRoomModel

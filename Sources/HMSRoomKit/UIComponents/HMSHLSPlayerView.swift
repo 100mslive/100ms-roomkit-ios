@@ -11,6 +11,7 @@ import SwiftUI
 import HMSSDK
 import HMSHLSPlayerSDK
 #endif
+import HMSRoomModels
 
 import AVKit
 

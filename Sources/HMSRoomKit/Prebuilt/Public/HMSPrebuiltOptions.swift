@@ -11,6 +11,7 @@ import Combine
 #if !Preview
 import HMSSDK
 #endif
+import HMSRoomModels
 
 public class HMSPrebuiltOptions: ObservableObject {
     

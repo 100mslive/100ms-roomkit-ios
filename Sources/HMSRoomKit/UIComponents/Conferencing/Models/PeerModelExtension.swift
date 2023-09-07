@@ -8,6 +8,7 @@
 
 import SwiftUI
 import HMSSDK
+import HMSRoomModels
 
 // Objects attached to a peer, available to all peer to read and and owner peer to write
 extension HMSPeerModel {

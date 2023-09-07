@@ -8,6 +8,7 @@
 
 import SwiftUI
 import HMSSDK
+import HMSRoomModels
 
 public struct HMSConferenceScreen: View {
     

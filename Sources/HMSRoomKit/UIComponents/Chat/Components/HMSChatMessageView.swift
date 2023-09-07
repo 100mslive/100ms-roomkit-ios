@@ -11,6 +11,7 @@ import SwiftUI
 import HMSSDK
 #endif
 @_implementationOnly import Popovers
+import HMSRoomModels
 
 struct HMSChatMessageView: View {
     

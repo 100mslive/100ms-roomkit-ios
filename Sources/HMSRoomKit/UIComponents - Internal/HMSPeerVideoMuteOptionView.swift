@@ -10,6 +10,7 @@ import SwiftUI
 #if !Preview
 import HMSSDK
 #endif
+import HMSRoomModels
 
 struct HMSPeerVideoMuteOptionView: View {
     @ObservedObject var regularVideoTrackModel: HMSTrackModel

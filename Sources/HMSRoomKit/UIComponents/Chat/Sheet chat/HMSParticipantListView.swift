@@ -12,6 +12,7 @@ import SwiftUI
 import HMSSDK
 #endif
 import Combine
+import HMSRoomModels
 
 class PeerSectionViewModel: ObservableObject, Identifiable {
     internal init(name: String) {

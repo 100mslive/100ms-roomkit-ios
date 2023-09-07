@@ -8,6 +8,7 @@
 
 import SwiftUI
 import HMSSDK
+import HMSRoomModels
 
 struct HMSPeerVolumeOptionView: View {
     @ObservedObject var regularAudioTrackModel: HMSTrackModel

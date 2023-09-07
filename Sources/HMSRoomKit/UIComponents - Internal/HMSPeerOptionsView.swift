@@ -10,6 +10,7 @@ import SwiftUI
 #if !Preview
 import HMSSDK
 #endif
+import HMSRoomModels
 
 struct HMSPeerOptionsViewContext {
     enum Action: Equatable, Hashable {

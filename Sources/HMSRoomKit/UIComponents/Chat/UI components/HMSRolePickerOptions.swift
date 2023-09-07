@@ -10,6 +10,7 @@ import SwiftUI
 #if !Preview
 import HMSSDK
 #endif
+import HMSRoomModels
 
 struct HMSRolePickerOptionsView: View {
     @EnvironmentObject var currentTheme: HMSUITheme

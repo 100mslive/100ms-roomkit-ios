@@ -10,6 +10,7 @@ import SwiftUI
 #if !Preview
 import HMSSDK
 #endif
+import HMSRoomModels
 
 struct HMSChatParticipantToggleView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
