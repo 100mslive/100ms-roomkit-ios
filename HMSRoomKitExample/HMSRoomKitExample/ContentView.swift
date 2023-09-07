@@ -7,21 +7,17 @@
 
 import SwiftUI
 import HMSRoomKit
-import HMSRoomModels
-import HMSSDK
 
 struct ContentView: View {
     @State var isMeetingViewPresented = false
     @State var roomCode = ""
-    
-    let roomModel = HMSRoomModel(roomCode: "")
-    let sdk = HMSSDK.build()
     
     var body: some View {
         if isMeetingViewPresented && !roomCode.isEmpty {
             HMSPrebuiltView(roomCode: roomCode, onDismiss: {
                 isMeetingViewPresented = false
             })
+            .screenShare(appGroupName: "group.live.100ms.videoapp.roomkit", preferredExtensionName: "live.100ms.videoapp.roomkit.Screenshare")
         }
         else {
             JoiningView(roomCode: $roomCode, isMeetingViewPresented: $isMeetingViewPresented)

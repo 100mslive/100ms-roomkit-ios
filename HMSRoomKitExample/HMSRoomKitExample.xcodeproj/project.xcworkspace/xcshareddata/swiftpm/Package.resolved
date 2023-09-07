@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "100ms-ios-broadcast-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/100ms-ios-broadcast-sdk.git",
+      "state" : {
+        "revision" : "f4c834ec1f04eb647d8e5e554f6e85ee6c000307",
+        "version" : "0.0.9"
+      }
+    },
+    {
       "identity" : "100ms-roomkit-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/100ms-roomkit-ios",
