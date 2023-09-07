@@ -17,18 +17,29 @@ struct HMSTopControlStrip: View {
     @EnvironmentObject var currentTheme: HMSUITheme
     
     var showCallControls = true
+    @State var isParticipantsPresented = false
     
     var body: some View {
         HStack {
             HStack(spacing: 12) {
                 
                 HMSCompanyLogoView()
-
+                
                 HStack(spacing: 8) {
                     HMSStreamingStatusView()
                     HMSRecordingStatusView()
                     if roomModel.isBeingStreamed == true {
                         HMSParticipantCountStatusView()
+                            .onTapGesture {
+                                isParticipantsPresented.toggle()
+                            }
+                            .sheet(isPresented: $isParticipantsPresented) {
+                                if #available(iOS 16.0, *) {
+                                    HMSChatParticipantToggleView(initialPane: .participants).presentationDetents([.large])
+                                } else {
+                                    HMSChatParticipantToggleView(initialPane: .participants)
+                                }
+                            }
                     }
                 }
             }

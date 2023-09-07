@@ -37,19 +37,7 @@ struct HMSMainConferenceView: View {
                     }
             }
             else {
-                if isChatOverlay {
-                    HMSPeerCallLayout()
-                }
-                else {
-                    HMSPeerCallLayout()
-                        .sheet(isPresented: $isChatPresented) {
-                            if #available(iOS 16.0, *) {
-                                HMSChatParticipantToggleView().presentationDetents([.large])
-                            } else {
-                                HMSChatParticipantToggleView()
-                            }
-                        }
-                }
+                HMSPeerCallLayout()
             }
         }
     }

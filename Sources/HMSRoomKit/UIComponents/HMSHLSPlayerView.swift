@@ -15,6 +15,16 @@ import HMSRoomModels
 
 import AVKit
 
+@MainActor
+class AVPlayerModel {
+    static let shared = AVPlayerModel()
+    weak var currentAVPlayerInstance: AVPlayerViewController?
+    
+    deinit {
+        print("pawan: AVPlayerModel deinit")
+    }
+}
+
 extension AVPlayerViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +32,7 @@ extension AVPlayerViewController {
         self.allowsPictureInPicturePlayback = true
         self.canStartPictureInPictureAutomaticallyFromInline = true
         self.videoGravity = .resizeAspectFill
+        AVPlayerModel.shared.currentAVPlayerInstance = self
     }
 }
 
@@ -31,6 +42,10 @@ public struct HMSHLSPlayerView<VideoOverlay> : View where VideoOverlay : View {
     class Coordinator: HMSHLSPlayerDelegate, ObservableObject {
         
         let player = HMSHLSPlayer()
+        
+        deinit {
+            print("pawan: Coordinator deinit")
+        }
         
         init() {
             player.delegate = self
@@ -53,6 +68,14 @@ public struct HMSHLSPlayerView<VideoOverlay> : View where VideoOverlay : View {
         }
         func onResolutionChanged(videoSize: CGSize) {
             onResolutionChanged?(videoSize)
+            Task { @MainActor in
+                if videoSize.width > videoSize.height {
+                    AVPlayerModel.shared.currentAVPlayerInstance?.videoGravity = .resizeAspect
+                }
+                else {
+                    AVPlayerModel.shared.currentAVPlayerInstance?.videoGravity = .resizeAspectFill
+                }
+            }
         }
     }
 #else

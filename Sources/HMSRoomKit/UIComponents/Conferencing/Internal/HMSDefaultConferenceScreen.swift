@@ -46,7 +46,19 @@ public struct HMSDefaultConferenceScreen: View {
                         .opacity(controlsState == .hidden ? 0 : 1)
                 }
                 
-                HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                if isChatOverlay {
+                    HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                }
+                else {
+                    HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                        .sheet(isPresented: $isChatPresented) {
+                            if #available(iOS 16.0, *) {
+                                HMSChatParticipantToggleView().presentationDetents([.large])
+                            } else {
+                                HMSChatParticipantToggleView()
+                            }
+                        }
+                }
                 
                 if !isHLSViewer {
                     HMSBottomControlStrip(isChatPresented: $isChatPresented)

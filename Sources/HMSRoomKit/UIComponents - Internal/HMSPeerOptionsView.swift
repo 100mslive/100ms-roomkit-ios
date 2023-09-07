@@ -233,7 +233,7 @@ struct HMSPeerOptionsView: View {
                     case .minimizeTile:
                         HStack {
                             Image(assetName: "minimize-icon").padding(.horizontal, 3)
-                            Text("Minimize Your Video")
+                            Text("Minimize Your Tile")
                             Spacer(minLength: 0)
                         }
                         .padding(.vertical, 16)

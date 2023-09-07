@@ -88,9 +88,13 @@ struct HMSPreviewBottomOverlay: View {
                                 }
                                 do {
                                     try await roomModel.startStreaming()
+                                    if roomModel.isBeingStreamed {
+                                        roomModel.roomState = .meeting
+                                    }
                                 } catch {
                                     isStartingStream = false
                                     cancellable = nil
+                                    try await roomModel.leave()
                                 }
                             }
                             else {
