@@ -7,10 +7,15 @@
 
 import SwiftUI
 import HMSRoomKit
+import HMSRoomModels
+import HMSSDK
 
 struct ContentView: View {
     @State var isMeetingViewPresented = false
     @State var roomCode = ""
+    
+    let roomModel = HMSRoomModel(roomCode: "")
+    let sdk = HMSSDK.build()
     
     var body: some View {
         if isMeetingViewPresented && !roomCode.isEmpty {
