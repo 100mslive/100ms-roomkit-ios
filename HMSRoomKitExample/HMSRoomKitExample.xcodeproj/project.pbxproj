@@ -57,6 +57,7 @@
 		879325692AA8D46B00A9F241 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8793256B2AA8D46C00A9F241 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8793256E2AA8D46C00A9F241 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		87D35C4E2AAA1F8B009D2722 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +122,7 @@
 		879325662AA8D46B00A9F241 /* HMSRoomKitExample */ = {
 			isa = PBXGroup;
 			children = (
+				87D35C4E2AAA1F8B009D2722 /* Info.plist */,
 				870049342AA9E3E700A7850D /* HMSRoomKitExample.entitlements */,
 				879325672AA8D46B00A9F241 /* HMSRoomKitExampleApp.swift */,
 				879325692AA8D46B00A9F241 /* ContentView.swift */,
@@ -465,6 +467,7 @@
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HMSRoomKitExample/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "100ms needs access to Camera to enable high quality video conferencing.";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "100ms needs access to Local Network to enable high quality video conferencing.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "100ms needs access to Microphone to enable high quality video conferencing.";
@@ -500,6 +503,7 @@
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HMSRoomKitExample/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "100ms needs access to Camera to enable high quality video conferencing.";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "100ms needs access to Local Network to enable high quality video conferencing.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "100ms needs access to Microphone to enable high quality video conferencing.";
