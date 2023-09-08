@@ -26,6 +26,10 @@ public struct HMSPrebuiltView: View {
             sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
         }
         
+        if let userName = options?.userName {
+            roomModel.userName = userName
+        }
+        
         self.roomCode = roomCode
         self.onDismiss = onDismiss
         self.options = options ?? HMSPrebuiltOptions()
