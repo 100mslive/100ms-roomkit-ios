@@ -13,6 +13,9 @@ import HMSSDK
 import HMSRoomModels
 
 struct HMSTopControlStrip: View {
+    
+    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
     
@@ -20,6 +23,9 @@ struct HMSTopControlStrip: View {
     @State var isParticipantsPresented = false
     
     var body: some View {
+        
+        let isParticipantListEnabled = conferenceComponentParam.participantList != nil
+        
         HStack {
             HStack(spacing: 12) {
                 
@@ -31,7 +37,9 @@ struct HMSTopControlStrip: View {
                     if roomModel.isBeingStreamed == true {
                         HMSParticipantCountStatusView()
                             .onTapGesture {
-                                isParticipantsPresented.toggle()
+                                if isParticipantListEnabled {
+                                    isParticipantsPresented.toggle()
+                                }
                             }
                             .sheet(isPresented: $isParticipantsPresented) {
                                 if #available(iOS 16.0, *) {
