@@ -14,6 +14,8 @@ import HMSRoomModels
 
 struct HMSBottomControlStrip: View {
     
+    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    
     @Environment(\.menuContext) var menuContext
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
@@ -25,6 +27,9 @@ struct HMSBottomControlStrip: View {
     @State var isOptionsSheetPresented: Bool = false
     
     var body: some View {
+        
+        let isChatEnabled = conferenceComponentParam.chat != nil
+        
         if let localPeerModel = roomModel.localPeerModel {
             HStack(spacing: 0) {
                 Spacer(minLength: 0)
@@ -44,12 +49,14 @@ struct HMSBottomControlStrip: View {
                         HMSCameraToggle()
                     }
                     
-                    HMSChatToggleView()
-                        .controlAppearance(isEnabled: !isChatPresented)
-                        .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
-                        .onTapGesture {
-                            isChatPresented.toggle()
-                        }
+                    if isChatEnabled {
+                        HMSChatToggleView()
+                            .controlAppearance(isEnabled: !isChatPresented)
+                            .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
+                            .onTapGesture {
+                                isChatPresented.toggle()
+                            }
+                    }
                     
                     HMSOptionsToggleView()
                         .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
@@ -83,6 +90,7 @@ struct HMSBottomControlStrip_Previews: PreviewProvider {
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(3))
             .environmentObject(HMSPrebuiltOptions())
+            .environment(\.chatBadgeState, .constant(.badged))
 #endif
     }
 }

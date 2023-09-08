@@ -17,7 +17,7 @@ struct HMSBRBIconView: View {
                 Image(assetName: "brb-icon")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .foreground(.onSurfaceHigh)
+                    .foreground(.onSecondaryHigh)
                     .frame(width: 25, height: 25)
             }
             .frame(width: 32, height: 32)

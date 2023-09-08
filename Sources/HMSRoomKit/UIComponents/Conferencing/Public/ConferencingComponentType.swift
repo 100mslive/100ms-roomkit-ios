@@ -67,12 +67,17 @@ extension HMSConferenceScreen {
         }
         
         public var onStageExperience: OnStageExperience?
-        
         public struct OnStageExperience {
             public let onStageRoleName: String
             public let rolesWhoCanComeOnStage: [String]
             public let bringToStageLabel: String
             public let removeFromStageLabel: String
         }
+        
+        public var brb: BRB?
+        public struct BRB {}
+        
+        public var participantList: ParticipantList?
+        public struct ParticipantList {}
     }
 }

@@ -20,4 +20,17 @@ internal extension EnvironmentValues {
         get { self[HMSConferenceComponentParamKey.self] }
         set { self[HMSConferenceComponentParamKey.self] = newValue }
     }
+    
+    enum HMSChatBadgeState {
+        case badged, none
+        
+        struct Key: EnvironmentKey {
+            static let defaultValue: Binding<HMSChatBadgeState> = .constant(.none)
+        }
+    }
+    
+    var chatBadgeState: Binding<HMSChatBadgeState> {
+        get { self[HMSChatBadgeState.Key.self] }
+        set { self[HMSChatBadgeState.Key.self] = newValue }
+    }
 }

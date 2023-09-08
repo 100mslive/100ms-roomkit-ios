@@ -59,7 +59,7 @@ public struct HMSSegmentedControl<Data, Content> : View where Data: Hashable, Co
                             .padding(EdgeInsets(top: borderWidth ?? 2, leading: borderWidth ?? 2, bottom: borderWidth ?? 2, trailing: borderWidth ?? 2))
                             .frame(width: geo.size.width / CGFloat(sources.count))
                             .shadow(color: .black.opacity(0.1), radius: 2, x: 1, y: 1)
-                            .animation(.spring().speed(1.5))
+                            .animation(.spring().speed(1.5), value: borderWidth)
                             .offset(x: geo.size.width / CGFloat(sources.count) * CGFloat(selectedIdx), y: 0)
                     }.frame(height: 36)
             }

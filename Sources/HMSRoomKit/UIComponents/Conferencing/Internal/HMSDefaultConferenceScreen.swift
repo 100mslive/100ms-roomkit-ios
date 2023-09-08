@@ -22,6 +22,7 @@ public struct HMSDefaultConferenceScreen: View {
     @State private var tabPageBarState = EnvironmentValues.HMSTabPageBarState.hidden
     @State private var menuContext = EnvironmentValues.MenuContext.none
     @State private var keyboardState = EnvironmentValues.HMSKeyboardState.hidden
+    @State private var chatBadgeState = EnvironmentValues.HMSChatBadgeState.none
     
     @State var isChatPresented = false
     
@@ -160,7 +161,6 @@ public struct HMSDefaultConferenceScreen: View {
                 roomKitModel.addNotification(notification)
             }
         }
-
         .onChange(of: roomModel.serviceMessages) { message in
             let existingIDs = Set(roomKitModel.notifications.filter { $0.type == .declineRoleChange }.map { $0.id } )
             roomModel.serviceMessages.filter { !existingIDs.contains($0.messageID) && $0.type == HMSRoomModel.roleChangeDeclinedNotificationType }
@@ -169,12 +169,19 @@ public struct HMSDefaultConferenceScreen: View {
                     roomKitModel.addNotification(notification)
                 }
         }
+        .onChange(of: roomModel.messages) { message in
+            chatBadgeState = .badged
+        }
+        .onChange(of: isChatPresented) { isChatPresented in
+            chatBadgeState = .none
+        }
 #endif
         .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
         .environment(\.menuContext, $menuContext)
         .environment(\.controlsState, $controlsState)
         .environment(\.tabPageBarState, $tabPageBarState)
         .environment(\.keyboardState, $keyboardState)
+        .environment(\.chatBadgeState, $chatBadgeState)
     }
     
     func checkAndHideControls() {

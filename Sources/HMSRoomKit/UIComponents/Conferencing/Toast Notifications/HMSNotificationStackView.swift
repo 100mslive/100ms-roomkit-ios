@@ -21,8 +21,8 @@ struct HMSNotificationStackView: View {
     
     var body: some View {
         
-        let handRaisedNotifications = roomKitModel.activeNotifications.filter{$0.type == .raiseHand}
-        let declineRoleChangeNotifications = roomKitModel.activeNotifications.filter{$0.type == .declineRoleChange}
+        let handRaisedNotifications = Set(roomKitModel.activeNotifications.filter{$0.type == .raiseHand})
+        let declineRoleChangeNotifications = Set(roomKitModel.activeNotifications.filter{$0.type == .declineRoleChange})
         
         let groupedNotifications: [HMSRoomKitNotification] = {
             

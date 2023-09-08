@@ -13,6 +13,9 @@ import HMSSDK
 import HMSRoomModels
 
 struct HMSOptionSheetView: View {
+    
+    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    
     enum Sheet: String, Identifiable {
         case chat
         case participants
@@ -26,6 +29,11 @@ struct HMSOptionSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
+        
+        let isParticipantListEnabled = conferenceComponentParam.participantList != nil
+        let isBrbEnabled = conferenceComponentParam.brb != nil
+        let isHandRaiseEnabled = conferenceComponentParam.onStageExperience != nil
+        
         VStack(spacing: 0) {
             HMSOptionsHeaderView(title: "Options", onClose: {
                 presentationMode.wrappedValue.dismiss()
@@ -35,8 +43,10 @@ struct HMSOptionSheetView: View {
                 
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]) {
                     
-                    HMSSessionMenuButton(text: "Participants", image: "group", highlighted: false, badgeText: "\(roomModel.peerModels.count)").onTapGesture {
-                        internalSheet = .participants
+                    if isParticipantListEnabled {
+                        HMSSessionMenuButton(text: "Participants", image: "group", highlighted: false, badgeText: "\(roomModel.peerModels.count)").onTapGesture {
+                            internalSheet = .participants
+                        }
                     }
                     
                     if roomModel.userCanShareScreen {
@@ -47,17 +57,21 @@ struct HMSOptionSheetView: View {
                         }
                     }
                     
-                    HMSSessionMenuButton(text: localPeerModel.status == .beRightBack ? "Cancel Be Right Back" : "Be Right Back", image: "brb-icon", highlighted: localPeerModel.status == .beRightBack)
-                        .onTapGesture {
-                            roomModel.setUserStatus(localPeerModel.status == .beRightBack ? .none : .beRightBack)
-                            presentationMode.wrappedValue.dismiss()
-                        }
+                    if isBrbEnabled {
+                        HMSSessionMenuButton(text: localPeerModel.status == .beRightBack ? "Cancel Be Right Back" : "Be Right Back", image: "brb-icon", highlighted: localPeerModel.status == .beRightBack)
+                            .onTapGesture {
+                                roomModel.setUserStatus(localPeerModel.status == .beRightBack ? .none : .beRightBack)
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                    }
                     
-                    HMSSessionMenuButton(text: localPeerModel.status == .handRaised ? "Lower Hand" : "Raise Hand", image: "hand-raise-icon", highlighted: localPeerModel.status == .handRaised)
-                        .onTapGesture {
-                            roomModel.setUserStatus(localPeerModel.status == .handRaised ? .none : .handRaised)
-                            presentationMode.wrappedValue.dismiss()
-                        }
+                    if isHandRaiseEnabled {
+                        HMSSessionMenuButton(text: localPeerModel.status == .handRaised ? "Lower Hand" : "Raise Hand", image: "hand-raise-icon", highlighted: localPeerModel.status == .handRaised)
+                            .onTapGesture {
+                                roomModel.setUserStatus(localPeerModel.status == .handRaised ? .none : .handRaised)
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                    }
                     
                     if roomModel.userCanStartStopRecording {
                         HMSSessionMenuButton(text: roomModel.recordingState != .stopped ? "Recording On" : "Start Recording", image: "record-on", highlighted: roomModel.recordingState != .stopped, isDisabled: roomModel.isUserHLSViewer)
