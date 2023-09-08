@@ -7,3 +7,19 @@ Roomkit SDK for iOS enables you to use our production ready Prebuilt conference 
 ## ☝️ Pre-requisites
 - Xcode 14 or higher
 - iOS 15 or higher
+
+## Integration
+
+Add RoomKit SDK with **Swift Package Manager** using the following url as source: https://github.com/100mslive/100ms-roomkit-ios.git
+
+## Example usage
+
+```swift
+
+struct ContentView: View {
+    var body: some View {
+        HMSPrebuiltView(roomCode: /*pass room code as string here*/)
+    }
+}
+
+```
