@@ -468,6 +468,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HMSRoomKitExample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = 100ms;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSCameraUsageDescription = "100ms needs access to Camera to enable high quality video conferencing.";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "100ms needs access to Local Network to enable high quality video conferencing.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "100ms needs access to Microphone to enable high quality video conferencing.";
@@ -504,6 +506,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HMSRoomKitExample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = 100ms;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSCameraUsageDescription = "100ms needs access to Camera to enable high quality video conferencing.";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "100ms needs access to Local Network to enable high quality video conferencing.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "100ms needs access to Microphone to enable high quality video conferencing.";
