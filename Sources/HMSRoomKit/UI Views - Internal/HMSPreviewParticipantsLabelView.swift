@@ -15,6 +15,9 @@ struct HMSPreviewParticipantsLabelView: View {
     var body: some View {
         
         let peerCount = peerCount
+        var remotePeerCount: Int {
+            peerCount - 1
+        }
         
         Group {
             HStack {
@@ -22,12 +25,12 @@ struct HMSPreviewParticipantsLabelView: View {
 //                    .renderingMode(.template)
                 
                 
-                if peerCount == 0 {
+                if remotePeerCount == 0 {
                     Text("You are the first to join")
                         .font(.body2Semibold14)
                 }
                 else {
-                    Text("\(peerCount) other\(peerCount > 1 ? "s" : "") in session")
+                    Text("\(remotePeerCount) other\(remotePeerCount > 1 ? "s" : "") in session")
                         .font(.body2Semibold14)
                 }
                 

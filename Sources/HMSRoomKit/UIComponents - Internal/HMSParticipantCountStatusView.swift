@@ -19,10 +19,11 @@ struct HMSParticipantCountStatusView: View {
     var body: some View {
         
         if let peerCount = roomModel.peerCount, peerCount > 0 {
+            let remotePeerCount = peerCount - 1
             HStack(spacing: 4) {
                 Image(assetName: "eye-icon")
                     .foreground(.onSurfaceHigh)
-                Text("\(viewerCountString(count: peerCount))")
+                Text("\(viewerCountString(count: remotePeerCount))")
                     .font(.overlineMedium)
                     .foreground(.onSurfaceHigh)
             }
