@@ -20,7 +20,7 @@ struct HMSBottomControlStrip: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var options: HMSPrebuiltOptions
-
+    
     @Binding var isChatPresented: Bool
     @State var isSessionMenuPresented = false
     
@@ -29,6 +29,13 @@ struct HMSBottomControlStrip: View {
     var body: some View {
         
         let isChatEnabled = conferenceComponentParam.chat != nil
+        
+        let isParticipantListEnabled = conferenceComponentParam.participantList != nil
+        let isBrbEnabled = conferenceComponentParam.brb != nil
+        let isHandRaiseEnabled = conferenceComponentParam.onStageExperience != nil
+        let canStartRecording = roomModel.userCanStartStopRecording
+        let canScreenShare = roomModel.userCanShareScreen
+        
         
         if let localPeerModel = roomModel.localPeerModel {
             HStack(spacing: 0) {
@@ -58,23 +65,25 @@ struct HMSBottomControlStrip: View {
                             }
                     }
                     
-                    HMSOptionsToggleView()
-                        .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
-                        .onTapGesture {
-                            isSessionMenuPresented.toggle()
-                        }
-                        .sheet(isPresented: $isSessionMenuPresented, onDismiss: {
-                            menuContext.wrappedValue = .none
-                        }) {
-                            HMSSheet {
-                                HMSOptionSheetView()
-                                    .environmentObject(currentTheme)
-                                    .environmentObject(options)
-                                    .environmentObject(roomModel)
-                                    .environmentObject(localPeerModel)
+                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+                        HMSOptionsToggleView()
+                            .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
+                            .onTapGesture {
+                                isSessionMenuPresented.toggle()
                             }
-                            .edgesIgnoringSafeArea(.all)
-                        }
+                            .sheet(isPresented: $isSessionMenuPresented, onDismiss: {
+                                menuContext.wrappedValue = .none
+                            }) {
+                                HMSSheet {
+                                    HMSOptionSheetView()
+                                        .environmentObject(currentTheme)
+                                        .environmentObject(options)
+                                        .environmentObject(roomModel)
+                                        .environmentObject(localPeerModel)
+                                }
+                                .edgesIgnoringSafeArea(.all)
+                            }
+                    }
                 }
                 Spacer(minLength: 0)
             }
