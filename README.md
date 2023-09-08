@@ -6,4 +6,4 @@ Roomkit SDK for iOS enables you to use our production ready Prebuilt conference 
   
 ## ☝️ Pre-requisites
 - Xcode 14 or higher
-- Support for iOS 15 or higher
+- iOS 15 or higher
