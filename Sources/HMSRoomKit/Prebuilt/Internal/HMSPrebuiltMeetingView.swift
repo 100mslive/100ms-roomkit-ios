@@ -34,13 +34,36 @@ struct HMSPrebuiltMeetingView: View {
                                     if let chat = defaultScreen.elements?.chat {
                                         screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay , allowsPinningMessages: chat.allow_pinning_messages )
                                     }
+                                    else {
+                                        screen.chat = nil
+                                    }
                                     
                                     if let tileLayout = defaultScreen.elements?.video_tile_layout?.grid {
                                         screen.tileLayout = .init(grid: .init(isLocalTileInsetEnabled: tileLayout.enable_local_tile_inset , prominentRoles: tileLayout.prominent_roles , canSpotlightParticipant: tileLayout.enable_spotlighting_peer ))
                                     }
+                                    else {
+                                        screen.tileLayout = nil
+                                    }
                                     
                                     if let on_stage_exp = defaultScreen.elements?.on_stage_exp {
                                         screen.onStageExperience = .init(onStageRoleName: on_stage_exp.on_stage_role, rolesWhoCanComeOnStage: on_stage_exp.off_stage_roles, bringToStageLabel: on_stage_exp.bring_to_stage_label, removeFromStageLabel: on_stage_exp.remove_from_stage_label)
+                                    }
+                                    else {
+                                        screen.onStageExperience = nil
+                                    }
+                                    
+                                    if (defaultScreen.elements?.brb) != nil {
+                                        screen.brb = .init()
+                                    }
+                                    else {
+                                        screen.brb = nil
+                                    }
+                                    
+                                    if (defaultScreen.elements?.participant_list) != nil {
+                                        screen.participantList = .init()
+                                    }
+                                    else {
+                                        screen.participantList = nil
                                     }
                                 }
                             }
@@ -51,13 +74,36 @@ struct HMSPrebuiltMeetingView: View {
                                     if let chat = defaultScreen.elements?.chat {
                                         screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay , allowsPinningMessages: chat.allow_pinning_messages )
                                     }
+                                    else {
+                                        screen.chat = nil
+                                    }
                                     
                                     if let tileLayout = defaultScreen.elements?.video_tile_layout?.grid {
                                         screen.tileLayout = .init(grid: .init(isLocalTileInsetEnabled: tileLayout.enable_local_tile_inset , prominentRoles: tileLayout.prominent_roles , canSpotlightParticipant: tileLayout.enable_spotlighting_peer ))
                                     }
+                                    else {
+                                        screen.tileLayout = nil
+                                    }
                                     
                                     if let on_stage_exp = defaultScreen.elements?.on_stage_exp {
                                         screen.onStageExperience = .init(onStageRoleName: on_stage_exp.on_stage_role, rolesWhoCanComeOnStage: on_stage_exp.off_stage_roles, bringToStageLabel: on_stage_exp.bring_to_stage_label, removeFromStageLabel: on_stage_exp.remove_from_stage_label)
+                                    }
+                                    else {
+                                        screen.onStageExperience = nil
+                                    }
+                                    
+                                    if (defaultScreen.elements?.brb) != nil {
+                                        screen.brb = .init()
+                                    }
+                                    else {
+                                        screen.brb = nil
+                                    }
+                                    
+                                    if (defaultScreen.elements?.participant_list) != nil {
+                                        screen.participantList = .init()
+                                    }
+                                    else {
+                                        screen.participantList = nil
                                     }
                                 }
                             }
