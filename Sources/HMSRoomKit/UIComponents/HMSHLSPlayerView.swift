@@ -29,8 +29,8 @@ extension AVPlayerViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         self.showsPlaybackControls = false
-        self.allowsPictureInPicturePlayback = true
-        self.canStartPictureInPictureAutomaticallyFromInline = true
+        self.allowsPictureInPicturePlayback = false
+        self.canStartPictureInPictureAutomaticallyFromInline = false
         self.videoGravity = .resizeAspectFill
         AVPlayerModel.shared.currentAVPlayerInstance = self
     }
