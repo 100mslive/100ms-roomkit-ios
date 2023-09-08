@@ -102,6 +102,8 @@ struct JoiningView: View {
         }
         .background(.black)
         .onOpenURL { incomingURL in
+            // Assign to text field as well
+            roomCodeOrRoomLink = incomingURL.absoluteString
             analyseAndOpenLink(link: incomingURL.absoluteString)
         }
         .onTapGesture {
