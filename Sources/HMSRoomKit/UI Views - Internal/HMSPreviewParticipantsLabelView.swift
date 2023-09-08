@@ -27,7 +27,7 @@ struct HMSPreviewParticipantsLabelView: View {
                         .font(.body2Semibold14)
                 }
                 else {
-                    Text("\(peerCount) others in session")
+                    Text("\(peerCount) other\(peerCount > 1 ? "s" : "") in session")
                         .font(.body2Semibold14)
                 }
                 
