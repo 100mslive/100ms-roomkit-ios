@@ -61,10 +61,10 @@ struct HMSPreviewRoleBottomOverlay: View {
                     }
                 Text("Decline")
                     .font(.body1Semibold16)
-                    .foreground(.onPrimaryHigh)
+                    .foreground(.onSurfaceHigh)
                     .padding(.vertical, 12)
                     .frame(maxWidth: .infinity, maxHeight: 48, alignment: .center)
-                    .background(nil, cornerRadius: 8)
+                    .background(.secondaryDefault, cornerRadius: 8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                         .inset(by: 0.5)
