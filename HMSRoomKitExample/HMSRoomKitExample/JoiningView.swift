@@ -54,7 +54,7 @@ struct JoiningView: View {
                         .scaleEffect(CGSize(width: isFocused ? 0.8 : 1.0, height: isFocused ? 0.8 : 1.0))
                     
                     if !isFocused {
-                        Text("Jump right in by pasting a room link, room code or scanning a QR code")
+                        Text("Jump right in by pasting a room link, room code")
                             .fixedSize(horizontal: false, vertical: true)
                             .multilineTextAlignment(.center)
                             .foregroundStyle(mediumEmph)
