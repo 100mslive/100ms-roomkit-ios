@@ -61,6 +61,8 @@ struct HMSNotificationStackView: View {
                             switch notification.type {
                             case .groupedRaiseHand(let ids):
                                 ids.forEach {roomKitModel.dismissNotification(for: $0)}
+                            case .groupedDeclineRoleChange(let ids):
+                                ids.forEach {roomKitModel.dismissNotification(for: $0)}
                             default:
                                 roomKitModel.dismissNotification(for: notification.id)
                             }
