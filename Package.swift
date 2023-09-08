@@ -29,7 +29,8 @@ let package = Package(
                 .product(name: "HMSSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "HMSAnalyticsSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "WebRTC", package: "100ms-roomkit-models-ios")
-                ]
+                ],
+            resources: [.process("audio-level-white.json")]
         ),
         .binaryTarget(
             name: "HMSHLSPlayerSDK",
