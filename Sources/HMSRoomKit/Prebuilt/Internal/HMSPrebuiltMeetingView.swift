@@ -32,11 +32,11 @@ struct HMSPrebuiltMeetingView: View {
                                 if let defaultScreen = roomInfoModel.defaultConferencingScreen {
                                     
                                     if let chat = defaultScreen.elements?.chat {
-                                        screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay ?? false, allowsPinningMessages: chat.allow_pinning_messages ?? false)
+                                        screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay , allowsPinningMessages: chat.allow_pinning_messages )
                                     }
                                     
                                     if let tileLayout = defaultScreen.elements?.video_tile_layout?.grid {
-                                        screen.tileLayout = .init(grid: .init(isLocalTileInsetEnabled: tileLayout.enable_local_tile_inset ?? false, prominentRoles: tileLayout.prominent_roles ?? [], canSpotlightParticipant: tileLayout.enable_spotlighting_peer ?? false))
+                                        screen.tileLayout = .init(grid: .init(isLocalTileInsetEnabled: tileLayout.enable_local_tile_inset , prominentRoles: tileLayout.prominent_roles , canSpotlightParticipant: tileLayout.enable_spotlighting_peer ))
                                     }
                                     
                                     if let on_stage_exp = defaultScreen.elements?.on_stage_exp {
@@ -49,11 +49,11 @@ struct HMSPrebuiltMeetingView: View {
                                 if let defaultScreen = roomInfoModel.liveStreamingConferencingScreen {
                                     
                                     if let chat = defaultScreen.elements?.chat {
-                                        screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay ?? false, allowsPinningMessages: chat.allow_pinning_messages ?? false)
+                                        screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay , allowsPinningMessages: chat.allow_pinning_messages )
                                     }
                                     
                                     if let tileLayout = defaultScreen.elements?.video_tile_layout?.grid {
-                                        screen.tileLayout = .init(grid: .init(isLocalTileInsetEnabled: tileLayout.enable_local_tile_inset ?? false, prominentRoles: tileLayout.prominent_roles ?? [], canSpotlightParticipant: tileLayout.enable_spotlighting_peer ?? false))
+                                        screen.tileLayout = .init(grid: .init(isLocalTileInsetEnabled: tileLayout.enable_local_tile_inset , prominentRoles: tileLayout.prominent_roles , canSpotlightParticipant: tileLayout.enable_spotlighting_peer ))
                                     }
                                     
                                     if let on_stage_exp = defaultScreen.elements?.on_stage_exp {
@@ -76,7 +76,7 @@ struct HMSPrebuiltMeetingView: View {
                 case .default, .none:
                     HMSPreviewScreen { screen in
                         if let defaultScreen = roomInfoModel.defaultPreviewScreen {
-                            screen = .init(title: defaultScreen.elements?.preview_header?.title ?? "", subTitle: defaultScreen.elements?.preview_header?.sub_title ?? "", joinButtonType: defaultScreen.elements?.join_form?.join_btn_type == .join ? .join : .goLive, joinButtonLabel: defaultScreen.elements?.join_form?.join_btn_label ?? "", goLiveButtonLabel: defaultScreen.elements?.join_form?.go_live_btn_label ?? "")
+                            screen = .init(title: defaultScreen.elements?.preview_header?.title ?? "", subTitle: defaultScreen.elements?.preview_header?.sub_title ?? "", joinButtonType: defaultScreen.elements?.join_form.join_btn_type == .join ? .join : .goLive, joinButtonLabel: defaultScreen.elements?.join_form.join_btn_label ?? "", goLiveButtonLabel: defaultScreen.elements?.join_form.go_live_btn_label ?? "")
                         }
                     }
                     .onAppear() {
@@ -92,8 +92,6 @@ struct HMSPrebuiltMeetingView: View {
                     .onAppear() {
                         UIApplication.shared.isIdleTimerDisabled = false
                     }
-            @unknown default:
-                fatalError()
             }
         }
         .onChange(of: roomModel.userRole) { role in

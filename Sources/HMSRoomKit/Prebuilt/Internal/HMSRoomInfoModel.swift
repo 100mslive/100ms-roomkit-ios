@@ -69,7 +69,7 @@ class HMSRoomInfoModel: ObservableObject {
         theme.logoURL = logoUrl
         
         // Update on stage experience
-        if let stageExp = layoutData.screens?.conferencing?.default?.elements?.on_stage_exp {
+        if let stageExp = layoutData.screens?.conferencing.default?.elements?.on_stage_exp {
             isBroadcaster = true
             onStageRole = stageExp.on_stage_role
             offStageRoles = stageExp.off_stage_roles
@@ -93,12 +93,12 @@ class HMSRoomInfoModel: ObservableObject {
         }
         
         // Update conferencing screen
-        if let conferencingScreen = layoutData.screens?.conferencing?.default {
+        if let conferencingScreen = layoutData.screens?.conferencing.default {
             conferencingType = .default
             
             defaultConferencingScreen = conferencingScreen
         }
-        else if let conferencingScreen = layoutData.screens?.conferencing?.hls_live_streaming {
+        else if let conferencingScreen = layoutData.screens?.conferencing.hls_live_streaming {
             conferencingType = .liveStreaming
             liveStreamingConferencingScreen = conferencingScreen
         }

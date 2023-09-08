@@ -39,7 +39,7 @@ struct HMSPeerVolumeOptionView: View {
                 .padding(.horizontal, 24)
                 .onAppear() {
 #if !Preview
-                    let volume = 1.0//(regularAudioTrackModel.track as? HMSRemoteAudioTrack)?.volume() ?? 0.0
+                    let volume = (regularAudioTrackModel.track as? HMSRemoteAudioTrack)?.volume() ?? 0.0
                     renderVolume = volume == 0 ? 1.0 : volume
 #endif
                 }
