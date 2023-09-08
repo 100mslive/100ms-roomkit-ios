@@ -170,7 +170,9 @@ public struct HMSDefaultConferenceScreen: View {
                 }
         }
         .onChange(of: roomModel.messages) { message in
-            chatBadgeState = .badged
+            if !isChatPresented {
+                chatBadgeState = .badged
+            }
         }
         .onChange(of: isChatPresented) { isChatPresented in
             chatBadgeState = .none
