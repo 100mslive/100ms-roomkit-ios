@@ -575,7 +575,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/100mslive/100ms-roomkit-ios";
 			requirement = {
-				branch = development;
+				branch = "improve-public-api";
 				kind = branch;
 			};
 		};
