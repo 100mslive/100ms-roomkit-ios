@@ -41,7 +41,7 @@ public struct HMSShareScreenButton<Content>: View where Content : View {
             onTap?()
         }
         .onAppear() {
-            broadcastPickerView.preferredExtension = room.options?.preferredExtensionName
+            broadcastPickerView.preferredExtension = room.options?.screenShareBroadcastExtensionBundleId
         }
     }
 }

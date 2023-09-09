@@ -84,9 +84,9 @@ public extension HMSPrebuiltView {
         return HMSPrebuiltView(roomCode: self.roomCode, options: options, onDismiss: self.onDismiss)
     }
     
-    func screenShare(appGroupName: String, preferredExtensionName: String) -> HMSPrebuiltView {
+    func screenShare(appGroupName: String, screenShareBroadcastExtensionBundleId: String) -> HMSPrebuiltView {
         let options = self.options
-        options.roomOptions = HMSRoomOptions(appGroupName: appGroupName, preferredExtensionName: preferredExtensionName)
+        options.roomOptions = HMSRoomOptions(appGroupName: appGroupName, screenShareBroadcastExtensionBundleId: screenShareBroadcastExtensionBundleId)
         return HMSPrebuiltView(roomCode: self.roomCode, options: options, onDismiss: self.onDismiss)
     }
 }
