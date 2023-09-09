@@ -18,7 +18,7 @@ struct HMSLoadingScreen: View {
     }
 }
 
-struct HMSLoadingView<Content>: View where Content : View {
+public struct HMSLoadingView<Content>: View where Content : View {
     
     @State private var isRotating = false
     
@@ -27,7 +27,7 @@ struct HMSLoadingView<Content>: View where Content : View {
         self.content = content
     }
     
-    var body: some View {
+    public var body: some View {
         content()
             .rotationEffect(.degrees(isRotating ? 360 : 0))
             .onAppear {

@@ -9,7 +9,7 @@
 import SwiftUI
 import AVKit
 
-struct HMSAirplayButton<Content>: View where Content : View {
+public struct HMSAirplayButton<Content>: View where Content : View {
     
     let routePickerView: AVRoutePickerView
     
@@ -19,7 +19,7 @@ struct HMSAirplayButton<Content>: View where Content : View {
         routePickerView = AVRoutePickerView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
     }
     
-    var body: some View {
+    public var body: some View {
         content()
         .background(Color.black.opacity(0.0001))
         .onTapGesture {
