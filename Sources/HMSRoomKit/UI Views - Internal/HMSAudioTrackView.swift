@@ -34,7 +34,7 @@ struct HMSAudioTrackView: View {
                         Image(assetName: "mic.slash")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .foreground(.onSurfaceHigh)
+                            .foreground(.onSecondaryHigh)
                             .frame(width: 16, height: 16)
                     }
                     .frame(width: 32, height: 32)
@@ -46,7 +46,7 @@ struct HMSAudioTrackView: View {
                         Image(assetName: "mic.slash")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .foreground(.onSurfaceHigh)
+                            .foreground(.onSecondaryHigh)
                             .frame(width: 16, height: 16)
                     }
                     .frame(width: 24, height: 24)
