@@ -18,6 +18,10 @@ public struct HMSEndCallScreen: View {
     
     var onDismiss: (() -> Void)? = nil
     
+    public init(onDismiss: (() -> Void)? = nil) {
+        self.onDismiss = onDismiss
+    }
+    
     public var body: some View {
         VStack {
             
