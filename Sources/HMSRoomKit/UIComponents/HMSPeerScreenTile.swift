@@ -18,6 +18,11 @@ public struct HMSPeerScreenTile: View {
     @ObservedObject public var peerModel: HMSPeerModel
     public var isZoomAndPanEnabled = true
     
+    public init(peerModel: HMSPeerModel, isZoomAndPanEnabled: Bool = true){
+        self.peerModel = peerModel
+        self.isZoomAndPanEnabled = isZoomAndPanEnabled
+    }
+    
     public var body: some View {
         
         GeometryReader { proxy in

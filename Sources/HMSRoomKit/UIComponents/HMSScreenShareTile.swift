@@ -18,6 +18,8 @@ public struct HMSScreenSharePaginatedView: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     
+    public init(){}
+    
     public var body: some View {
         
         let screenSharingPeers = roomModel.peersSharingScreen.filter{!$0.isLocal}
