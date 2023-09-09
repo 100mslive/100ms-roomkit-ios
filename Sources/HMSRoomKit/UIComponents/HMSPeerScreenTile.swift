@@ -12,13 +12,13 @@ import HMSSDK
 #endif
 import HMSRoomModels
 
-struct HMSPeerScreenTile: View {
+public struct HMSPeerScreenTile: View {
     
     // Params
-    @ObservedObject var peerModel: HMSPeerModel
-    var isZoomAndPanEnabled = true
+    @ObservedObject public var peerModel: HMSPeerModel
+    public var isZoomAndPanEnabled = true
     
-    var body: some View {
+    public var body: some View {
         
         GeometryReader { proxy in
             Group {

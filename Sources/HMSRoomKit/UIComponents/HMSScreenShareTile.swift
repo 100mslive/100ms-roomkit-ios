@@ -12,15 +12,15 @@ import HMSSDK
 #endif
 import HMSRoomModels
 
-struct HMSScreenSharePaginatedView: View {
+public struct HMSScreenSharePaginatedView: View {
     
     @Environment(\.tabPageBarState) var tabPageBarState
     
-    let screenSharingPeers: [HMSPeerModel]
-    
     @EnvironmentObject var roomModel: HMSRoomModel
     
-    var body: some View {
+    public var body: some View {
+        
+        let screenSharingPeers = roomModel.peersSharingScreen.filter{!$0.isLocal}
         
         TabView {
             ForEach(screenSharingPeers, id: \.self) { peer in

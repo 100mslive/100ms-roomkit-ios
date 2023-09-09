@@ -18,8 +18,6 @@ struct HMSScreenProminenceLayout: View {
     
     @Environment(\.controlsState) var controlsState
     
-    let screenSharingPeers: [HMSPeerModel]
-    
     @AppStorage("isInsetMinimized") var isInsetMinimized: Bool = false
     
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -32,10 +30,11 @@ struct HMSScreenProminenceLayout: View {
         
         let isInsetMode = conferenceComponentParam.tileLayout?.grid.isLocalTileInsetEnabled ?? false
         let visiblePeers = roomModel.visiblePeersInLayout(isUsingInset: isInsetMode)
+        let screenSharingPeers = roomModel.peersSharingScreen.filter{!$0.isLocal}
         
         GeometryReader { geo in
             VStack(spacing: 0) {
-                HMSScreenSharePaginatedView(screenSharingPeers: screenSharingPeers)
+                HMSScreenSharePaginatedView()
                     .overlay(alignment: .topTrailing) {
                         HMSExpandIconView()
                             .frame(width: 16, height: 16)
