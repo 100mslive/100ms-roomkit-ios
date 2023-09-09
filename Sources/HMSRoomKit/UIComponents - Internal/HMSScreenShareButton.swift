@@ -14,7 +14,7 @@ import HMSRoomModels
 extension RPSystemBroadcastPickerView: ObservableObject {}
 public struct HMSShareScreenButton<Content>: View where Content : View {
     
-    @EnvironmentObject var roomOptions: HMSRoomOptions
+    @EnvironmentObject var room: HMSRoomModel
     
     @StateObject var broadcastPickerView = {
         let picker = RPSystemBroadcastPickerView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -41,7 +41,7 @@ public struct HMSShareScreenButton<Content>: View where Content : View {
             onTap?()
         }
         .onAppear() {
-            broadcastPickerView.preferredExtension = roomOptions.preferredExtensionName
+            broadcastPickerView.preferredExtension = room.options?.preferredExtensionName
         }
     }
 }
