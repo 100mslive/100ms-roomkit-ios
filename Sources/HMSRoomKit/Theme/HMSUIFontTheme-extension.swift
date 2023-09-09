@@ -42,7 +42,7 @@ extension HMSUIFontTheme {
      }
 }
 
-enum HMSThemeFont {
+public enum HMSThemeFont {
     case captionRegular12
     case captionSemibold
     case body2Regular14

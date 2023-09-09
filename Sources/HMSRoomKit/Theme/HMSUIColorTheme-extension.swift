@@ -84,7 +84,7 @@ extension HMSUIColorTheme {
     }
 }
 
-enum HMSThemeColor {
+public enum HMSThemeColor {
     case primaryDefault
     case primaryBright
     case primaryDim

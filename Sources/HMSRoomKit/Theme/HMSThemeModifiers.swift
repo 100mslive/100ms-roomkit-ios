@@ -88,14 +88,14 @@ struct HMSControlsModifier: ViewModifier {
 }
 
 extension View {
-    func font(_ themeFont: HMSThemeFont) -> some View {
+    public func font(_ themeFont: HMSThemeFont) -> some View {
         self.modifier(HMSFontModifier(font: themeFont))
     }
     
-    func foreground(_ themeColor: HMSThemeColor) -> some View {
+    public func foreground(_ themeColor: HMSThemeColor) -> some View {
         self.modifier(HMSForegroundModifier(themeColor: themeColor))
     }
-    func background(_ themeColor: HMSThemeColor?, cornerRadius: CGFloat, corners: UIRectCorner = .allCorners, opacity: CGFloat = 1.0, border: HMSThemeColor? = nil, ignoringEdges: Edge.Set? = nil) -> some View {
+    public func background(_ themeColor: HMSThemeColor?, cornerRadius: CGFloat, corners: UIRectCorner = .allCorners, opacity: CGFloat = 1.0, border: HMSThemeColor? = nil, ignoringEdges: Edge.Set? = nil) -> some View {
         self.modifier(HMSBackgroundModifier(cornerRadius: cornerRadius, corners: corners, themeColor: themeColor, opacity: opacity, border: border, ignoringEdges: ignoringEdges))
     }
     
