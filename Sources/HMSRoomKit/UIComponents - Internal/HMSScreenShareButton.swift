@@ -9,11 +9,12 @@
 import SwiftUI
 import ReplayKit
 import Combine
+import HMSRoomModels
 
 extension RPSystemBroadcastPickerView: ObservableObject {}
 public struct HMSShareScreenButton<Content>: View where Content : View {
     
-    @EnvironmentObject var options: HMSPrebuiltOptions
+    @EnvironmentObject var roomOptions: HMSRoomOptions
     
     @StateObject var broadcastPickerView = {
         let picker = RPSystemBroadcastPickerView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -40,7 +41,7 @@ public struct HMSShareScreenButton<Content>: View where Content : View {
             onTap?()
         }
         .onAppear() {
-            broadcastPickerView.preferredExtension = options.preferredExtensionName
+            broadcastPickerView.preferredExtension = roomOptions.preferredExtensionName
         }
     }
 }

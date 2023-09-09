@@ -18,12 +18,10 @@ public class HMSPrebuiltOptions: ObservableObject {
     var userName: String?
     var theme: HMSUITheme?
     var roomOptions: HMSRoomOptions?
-    var preferredExtensionName: String?
     
-    public init(userName: String? = nil, theme: HMSUITheme? = nil, roomOptions: HMSRoomOptions? = nil, preferredExtensionName: String? = nil) {
+    public init(userName: String? = nil, theme: HMSUITheme? = nil, roomOptions: HMSRoomOptions? = nil) {
         self.userName = userName
         self.theme = theme
         self.roomOptions = roomOptions
-        self.preferredExtensionName = preferredExtensionName
     }
 }

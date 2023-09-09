@@ -45,6 +45,7 @@ public struct HMSPrebuiltView: View {
                     .environmentObject(roomModel)
                     .environmentObject(roomInfoModel)
                     .environmentObject(options)
+                    .environmentObject(options.roomOptions ?? .init())
             }
             else {
                 HMSLoadingScreen()
@@ -85,8 +86,7 @@ public extension HMSPrebuiltView {
     
     func screenShare(appGroupName: String, preferredExtensionName: String) -> HMSPrebuiltView {
         let options = self.options
-        options.roomOptions = HMSRoomOptions(appGroupName: appGroupName)
-        options.preferredExtensionName = preferredExtensionName
+        options.roomOptions = HMSRoomOptions(appGroupName: appGroupName, preferredExtensionName: preferredExtensionName)
         return HMSPrebuiltView(roomCode: self.roomCode, options: options, onDismiss: self.onDismiss)
     }
 }

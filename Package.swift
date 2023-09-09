@@ -15,7 +15,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/100mslive/100ms-roomkit-models-ios", branch:"development"),
+        .package(url: "https://github.com/100mslive/100ms-roomkit-models-ios", branch:"improve-public-api"),
         .package(url: "https://github.com/100mslive/Popovers", branch:"main"),
     ],
     targets: [
