@@ -39,7 +39,7 @@ struct HMSWifiSignalView: View {
             .frame(width: 20, height: 20)
         } else {
             Circle()
-                .foreground(.secondaryDim)
+                .foreground(.surfaceBright)
                 .overlay {
                     if level == 1 {
                         HMSWifiSignalView1()
