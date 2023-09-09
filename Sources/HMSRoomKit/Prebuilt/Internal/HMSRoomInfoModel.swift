@@ -9,7 +9,9 @@
 import SwiftUI
 import HMSSDK
 
-class HMSRoomInfoModel: ObservableObject {
+public class HMSRoomInfoModel: ObservableObject {
+    
+    public init(){}
     
     // Color theme
     @Published var theme = HMSUITheme()
