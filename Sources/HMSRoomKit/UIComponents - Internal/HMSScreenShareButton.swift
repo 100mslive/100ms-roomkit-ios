@@ -11,7 +11,7 @@ import ReplayKit
 import Combine
 
 extension RPSystemBroadcastPickerView: ObservableObject {}
-struct HMSShareScreenButton<Content>: View where Content : View {
+public struct HMSShareScreenButton<Content>: View where Content : View {
     
     @EnvironmentObject var options: HMSPrebuiltOptions
     
@@ -28,7 +28,7 @@ struct HMSShareScreenButton<Content>: View where Content : View {
         self.onTap = onTap
     }
     
-    var body: some View {
+    public var body: some View {
         content()
         .background(Color.black.opacity(0.0001))
         .onTapGesture {
