@@ -10,7 +10,7 @@ Roomkit SDK for iOS enables you to use our production ready Prebuilt conference 
 
 ## Integration
 
-Add RoomKit SDK with **Swift Package Manager** using the following url as source: https://github.com/100mslive/100ms-roomkit-ios.git
+Add RoomKit SDK as package dependency using **Swift Package Manager** built into Xcode. Use the following url as source for the package: https://github.com/100mslive/100ms-roomkit-ios.git
 
 ## Example usage
 
