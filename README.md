@@ -26,7 +26,7 @@ struct ContentView: View {
 
 ```
 
-### How to show Prebuilt UI from within your own views
+### How to show Prebuilt UI conditionally from within your own views
 
 ```swift
 import SwiftUI
