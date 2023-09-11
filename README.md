@@ -1,12 +1,12 @@
 # 🎉 100ms RoomKit SDK ＆ Sample App 🚀
 
 RoomKit SDK for iOS enables you to integrate our production-ready conferencing and livestreaming UI into your own app effortlessly. This README will guide you through the integration process and provide examples of common use cases.
-
-👀 To see a Example App implementation of 100ms RoomKit SDK, checkout the [Example folder](https://github.com/100mslive/100ms-roomkit-ios/tree/main/HMSRoomKitExample)
   
 ## ☝️ Pre-requisites
 - Xcode 14 or higher
 - iOS 15 or higher
+
+👀 To see an example app implementation of a conferencing/livestreaming app using 100ms RoomKit SDK, checkout the [example folder](https://github.com/100mslive/100ms-roomkit-ios/tree/main/HMSRoomKitExample).
 
 ## Integration
 
