@@ -15,11 +15,46 @@ Add RoomKit SDK with **Swift Package Manager** using the following url as source
 ## Example usage
 
 ```swift
+import SwiftUI
 import HMSRoomKit
 
 struct ContentView: View {
     var body: some View {
         HMSPrebuiltView(roomCode: /*pass room code as string here*/)
+    }
+}
+
+```
+
+### How to show Prebuilt UI from within your own views
+
+```swift
+import SwiftUI
+import HMSRoomKit
+
+struct ContentView: View {
+    
+    @State var roomCode = ""
+    @State var isMeetingViewPresented = false
+    
+    var body: some View {
+        
+        if isMeetingViewPresented && !roomCode.isEmpty {
+            
+            HMSPrebuiltView(roomCode: roomCode, onDismiss: {
+                isMeetingViewPresented = false
+            })
+        }
+        else {
+            VStack {
+                TextField("Enter Room Code", text: $roomCode)
+                Button {
+                    isMeetingViewPresented.toggle()
+                } label: {
+                    Text("Join")
+                }
+            }
+        }
     }
 }
 
