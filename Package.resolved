@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "100ms-roomkit-models-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/100ms-roomkit-models-ios",
+      "state" : {
+        "revision" : "968e2f0ebbfff1c268cf6a849b31b21d380e4286",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "popovers",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/Popovers",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f9743225a3d1b8acf080be0b16c8b288588269dc"
+      }
+    }
+  ],
+  "version" : 2
+}

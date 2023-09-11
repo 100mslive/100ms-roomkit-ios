@@ -1,0 +1,41 @@
+{
+  "pins" : [
+    {
+      "identity" : "100ms-ios-broadcast-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/100ms-ios-broadcast-sdk.git",
+      "state" : {
+        "revision" : "f4c834ec1f04eb647d8e5e554f6e85ee6c000307",
+        "version" : "0.0.9"
+      }
+    },
+    {
+      "identity" : "100ms-roomkit-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/100ms-roomkit-ios",
+      "state" : {
+        "branch" : "development",
+        "revision" : "bfb12ac8115404b1d90b4be16cc78320dc35cdc4"
+      }
+    },
+    {
+      "identity" : "100ms-roomkit-models-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/100ms-roomkit-models-ios",
+      "state" : {
+        "branch" : "development",
+        "revision" : "07c2ad14552eda336e47b72e4d0214b26395490e"
+      }
+    },
+    {
+      "identity" : "popovers",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/Popovers",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f9743225a3d1b8acf080be0b16c8b288588269dc"
+      }
+    }
+  ],
+  "version" : 2
+}
