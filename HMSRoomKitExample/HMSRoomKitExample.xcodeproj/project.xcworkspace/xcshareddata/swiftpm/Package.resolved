@@ -15,7 +15,7 @@
       "location" : "https://github.com/100mslive/100ms-roomkit-ios",
       "state" : {
         "branch" : "main",
-        "revision" : "84caa36af0d9fb3b8e526cbfebfe819267a550a6"
+        "revision" : "94efef75a0d9b64e87bea06247fe46899fda26d3"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/Popovers",
       "state" : {
-        "branch" : "main",
-        "revision" : "f9743225a3d1b8acf080be0b16c8b288588269dc"
+        "revision" : "f9743225a3d1b8acf080be0b16c8b288588269dc",
+        "version" : "1.0.0"
       }
     }
   ],
