@@ -11,6 +11,8 @@ import HMSRoomModels
 
 struct HMSPrebuiltMeetingView: View {
     
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     
@@ -144,6 +146,10 @@ struct HMSPrebuiltMeetingView: View {
             if let role = role {
                 roomInfoModel.update(role: role.name)
             }
+        }
+        .onAppear() {
+            UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(currentTheme.colorTheme.colorForToken(.onSurfaceHigh))
+            UIPageControl.appearance().pageIndicatorTintColor = UIColor(currentTheme.colorTheme.colorForToken(.onSurfaceLow))
         }
     }
 }
