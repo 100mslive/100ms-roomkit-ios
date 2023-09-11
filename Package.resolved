@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/Popovers",
       "state" : {
-        "branch" : "main",
-        "revision" : "f9743225a3d1b8acf080be0b16c8b288588269dc"
+        "revision" : "f9743225a3d1b8acf080be0b16c8b288588269dc",
+        "version" : "1.0.0"
       }
     }
   ],
