@@ -15,6 +15,7 @@ Add RoomKit SDK with **Swift Package Manager** using the following url as source
 ## Example usage
 
 ```swift
+import HMSRoomKit
 
 struct ContentView: View {
     var body: some View {
