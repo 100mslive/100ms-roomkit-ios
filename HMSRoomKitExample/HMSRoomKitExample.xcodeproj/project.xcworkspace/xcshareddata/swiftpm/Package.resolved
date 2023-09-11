@@ -15,7 +15,7 @@
       "location" : "https://github.com/100mslive/100ms-roomkit-ios",
       "state" : {
         "branch" : "development",
-        "revision" : "4807e29ebcc4ea8098c5f8438ffedfb7d6c87592"
+        "revision" : "001c6b376e0c5827c1fa6d34a86adc7052afe919"
       }
     },
     {
@@ -23,7 +23,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/100ms-roomkit-models-ios",
       "state" : {
-        "branch" : "improve-public-api",
+        "branch" : "development",
         "revision" : "07c2ad14552eda336e47b72e4d0214b26395490e"
       }
     },
