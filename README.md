@@ -14,6 +14,8 @@ Add RoomKit SDK as package dependency using **Swift Package Manager** built into
 
 ## Example usage
 
+### Fully featured conferencing app with just room code for a role
+
 ```swift
 import SwiftUI
 import HMSRoomKit
@@ -24,6 +26,35 @@ struct ContentView: View {
     }
 }
 ```
+
+### Fully featured conferencing app with just Auth Token for a role
+
+```swift
+import SwiftUI
+import HMSRoomKit
+
+struct ContentView: View {
+    var body: some View {
+        HMSPrebuiltView(token: /*pass role's auth token as string here*/)
+    }
+}
+```
+
+### How to add screen sharing in Prebuilt
+
+```swift
+import SwiftUI
+import HMSRoomKit
+
+struct ContentView: View {
+    var body: some View {
+        HMSPrebuiltView(roomCode: "qsw-mik-seb")
+          .screenShare(appGroupName: "group.live.100ms.videoapp.roomkit", screenShareBroadcastExtensionBundleId: "live.100ms.videoapp.roomkit.Screenshare")
+    }
+}
+```
+
+Where "group.live.100ms.videoapp.roomkit" is your App Group ID and "live.100ms.videoapp.roomkit.Screenshare" is your Broadcast Upload Extension's bundle ID. Additionally you'll also need to add a broadcast upload extension target to your app and hook it up with 100ms-ios-broadcast-sdk. You can follow the steps mentioned here: https://github.com/100mslive/100ms-ios-broadcast-sdk
 
 ### How to show Prebuilt UI conditionally from within your own views
 
@@ -57,19 +88,3 @@ struct ContentView: View {
     }
 }
 ```
-
-### How to add screen sharing in Prebuilt
-
-```swift
-import SwiftUI
-import HMSRoomKit
-
-struct ContentView: View {
-    var body: some View {
-        HMSPrebuiltView(roomCode: "qsw-mik-seb")
-          .screenShare(appGroupName: "group.live.100ms.videoapp.roomkit", screenShareBroadcastExtensionBundleId: "live.100ms.videoapp.roomkit.Screenshare")
-    }
-}
-```
-
-Where "group.live.100ms.videoapp.roomkit" is your App Group ID and "live.100ms.videoapp.roomkit.Screenshare" is your Broadcast Upload Extension's bundle ID. Additionally you'll also need to add a broadcast upload extension target to your app and hook it up with 100ms-ios-broadcast-sdk. You can follow the steps mentioned here: https://github.com/100mslive/100ms-ios-broadcast-sdk 
