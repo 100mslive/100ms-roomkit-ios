@@ -14,7 +14,8 @@ public struct HMSPrebuiltView: View {
     
     @StateObject var roomInfoModel = HMSRoomInfoModel()
     
-    let roomCode: String
+    let roomCode: String?
+    let token: String?
     let onDismiss: (() -> Void)?
     let options: HMSPrebuiltOptions
     
@@ -31,6 +32,23 @@ public struct HMSPrebuiltView: View {
         }
         
         self.roomCode = roomCode
+        self.token = nil
+        self.onDismiss = onDismiss
+        self.options = options ?? HMSPrebuiltOptions()
+    }
+    
+    public init(token: String, options: HMSPrebuiltOptions? = nil, onDismiss: (() -> Void)? = nil) {
+        
+        roomModel = HMSRoomModel(token: token, options: options?.roomOptions) { sdk in
+            sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
+        }
+        
+        if let userName = options?.userName {
+            roomModel.userName = userName
+        }
+        
+        self.token = token
+        self.roomCode = nil
         self.onDismiss = onDismiss
         self.options = options ?? HMSPrebuiltOptions()
     }
@@ -81,12 +99,26 @@ public extension HMSPrebuiltView {
         builder(theme)
         let options = self.options
         options.theme = theme
-        return HMSPrebuiltView(roomCode: self.roomCode, options: options, onDismiss: self.onDismiss)
+        if let token = token {
+            return HMSPrebuiltView(token: token, options: options, onDismiss: self.onDismiss)
+        }
+        else {
+            // room code must be there if token is nil - our inits make sure of that
+            return HMSPrebuiltView(roomCode: self.roomCode!, options: options, onDismiss: self.onDismiss)
+        }
     }
     
     func screenShare(appGroupName: String, screenShareBroadcastExtensionBundleId: String) -> HMSPrebuiltView {
         let options = self.options
         options.roomOptions = HMSRoomOptions(appGroupName: appGroupName, screenShareBroadcastExtensionBundleId: screenShareBroadcastExtensionBundleId)
-        return HMSPrebuiltView(roomCode: self.roomCode, options: options, onDismiss: self.onDismiss)
+        
+        if let token = token {
+            return HMSPrebuiltView(token: token, options: options, onDismiss: self.onDismiss)
+        }
+        else {
+            // room code must be there if token is nil - our inits make sure of that
+            return HMSPrebuiltView(roomCode: self.roomCode!, options: options, onDismiss: self.onDismiss)
+        }
+        
     }
 }
