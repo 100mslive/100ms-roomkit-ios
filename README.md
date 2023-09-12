@@ -19,6 +19,32 @@ You can integrate RoomKit SDK into your project using Swift Package Manager (SPM
 3. In the dialog that appears, enter the following URL as the package source: https://github.com/100mslive/100ms-roomkit-ios.git
 4. Click `Next` and follow the prompts to add the package to your project.
 
+## RoomKit Basics
+
+### Import SDK
+You import the RoomKit SDK with following import statement
+
+```swift
+import HMSRoomKit
+```
+
+### Instantiate HMSPrebuiltView
+You use SwiftUI view called HMSPrebuiltView to instantiate a production-ready conferencing and livestreaming UI. You can either pass q room code or an auth token to HMSPrebuiltView.
+
+#### Initialize HMSPrebuiltView with a room code
+
+```swift
+// Initialize with room code
+HMSPrebuiltView(roomCode: /*pass room code as string here*/)
+```
+
+#### Initialize HMSPrebuiltView with an auth token
+
+```swift
+// Initialize with auth token
+HMSPrebuiltView(token: /*pass role's auth token as string here*/)
+```
+
 ## Example usage
 
 ### Fully Featured Conferencing/Livestreaming App with Room Code
