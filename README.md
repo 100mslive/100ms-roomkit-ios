@@ -51,6 +51,10 @@ struct ContentView: View {
 }
 ```
 
+Following demo video shows you how to integrate RoomKit SDK in your app
+
+![Demo Video](https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/9947e072-af6c-4381-80af-8128c82f3f2c)
+
 ### Adding Screen Sharing Feature
 
 To add screen sharing to your app that uses Prebuilt, follow these steps:
@@ -107,7 +111,3 @@ struct ContentView: View {
 ```
 
 This code allows you to conditionally display the Prebuilt Screen based on user input.
-
-Following demo video shows you how to integrate RoomKit SDK in your app
-
-![Demo Video](https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/9947e072-af6c-4381-80af-8128c82f3f2c)
