@@ -7,7 +7,7 @@
 ////
 //
 //import SwiftUI
-//@_implementationOnly import Popovers
+//import Popovers
 //
 //struct EndSessionOptionView: View {
 //    

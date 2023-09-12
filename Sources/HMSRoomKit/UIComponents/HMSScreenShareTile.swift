@@ -7,9 +7,7 @@
 //
 
 import SwiftUI
-#if !Preview
 import HMSSDK
-#endif
 import HMSRoomModels
 
 public struct HMSScreenSharePaginatedView: View {
@@ -38,7 +36,7 @@ public struct HMSScreenSharePaginatedView: View {
 struct HMSScreenShareTile_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSScreenSharePaginatedView(screenSharingPeers: HMSRoomModel.screenSharingPeers)
+        HMSScreenSharePaginatedView()
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(1, [.screen, .screen]))
             .environmentObject(HMSPrebuiltOptions())

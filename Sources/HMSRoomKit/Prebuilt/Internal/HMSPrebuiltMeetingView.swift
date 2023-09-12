@@ -142,11 +142,13 @@ struct HMSPrebuiltMeetingView: View {
                     }
             }
         }
+#if !Preview
         .onChange(of: roomModel.userRole) { role in
             if let role = role {
                 roomInfoModel.update(role: role.name)
             }
         }
+        #endif
         .onAppear() {
             UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(currentTheme.colorTheme.colorForToken(.onSurfaceHigh))
             UIPageControl.appearance().pageIndicatorTintColor = UIColor(currentTheme.colorTheme.colorForToken(.onSurfaceLow))
@@ -157,7 +159,7 @@ struct HMSPrebuiltMeetingView: View {
 struct HMSPrebuiltMeetingView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSPrebuiltMeetingView()
+        HMSPrebuiltMeetingView(){}
             .environmentObject(HMSRoomModel.dummyRoom(3))
 #endif
     }

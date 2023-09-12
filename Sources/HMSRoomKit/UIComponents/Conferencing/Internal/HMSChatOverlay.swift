@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import HMSRoomModels
 
 struct HMSChatOverlay: View {
     

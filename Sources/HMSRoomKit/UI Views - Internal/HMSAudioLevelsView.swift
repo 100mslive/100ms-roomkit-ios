@@ -8,7 +8,7 @@
 
 import SwiftUI
 import HMSSDK
-@_implementationOnly import Lottie
+import Lottie
 import HMSRoomModels
 
 struct HMSAudioLevelsView: View {
@@ -65,7 +65,7 @@ struct HMSAudioLevelsView_Previews: PreviewProvider {
         
         VStack {
             Button {
-                peerModel.isSpeaking.toggle()
+//                peerModel.isSpeaking.toggle()
             } label: {
                 Text("speak")
             }

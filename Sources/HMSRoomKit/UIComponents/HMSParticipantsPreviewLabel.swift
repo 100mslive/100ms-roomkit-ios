@@ -7,9 +7,8 @@
 //
 
 import SwiftUI
-#if !Preview
 import HMSSDK
-#endif
+import HMSRoomModels
 
 struct HMSParticipantsPreviewLabel: View {
     

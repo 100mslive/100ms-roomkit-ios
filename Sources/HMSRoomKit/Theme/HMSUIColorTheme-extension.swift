@@ -8,9 +8,7 @@
 
 import SwiftUI
 import Combine
-#if !Preview
 import HMSSDK
-#endif
 
 extension HMSUIColorTheme {
     

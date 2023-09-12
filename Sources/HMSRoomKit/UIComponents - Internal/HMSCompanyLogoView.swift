@@ -7,9 +7,7 @@
 //
 
 import SwiftUI
-#if !Preview
 import HMSSDK
-#endif
 
 struct HMSCompanyLogoView: View {
     

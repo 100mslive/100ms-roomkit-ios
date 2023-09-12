@@ -7,9 +7,7 @@
 //
 
 import SwiftUI
-#if !Preview
 import HMSSDK
-#endif
 import HMSRoomModels
 
 struct HMSScreenProminenceLayout: View {
@@ -92,7 +90,7 @@ struct HMSScreenProminenceLayout: View {
 struct HMSScreenProminenceLayout_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSScreenProminenceLayout(screenSharingPeers: HMSRoomModel.screenSharingPeers)
+        HMSScreenProminenceLayout()
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(1, [.screen, .screen]))
             .environmentObject(HMSPrebuiltOptions())

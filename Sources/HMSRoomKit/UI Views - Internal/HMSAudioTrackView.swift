@@ -7,10 +7,8 @@
 //
 
 import SwiftUI
-#if !Preview
 import HMSSDK
-#endif
-@_implementationOnly import Lottie
+import Lottie
 import HMSRoomModels
 
 struct HMSAudioTrackView: View {
