@@ -51,7 +51,7 @@ struct ContentView: View {
 }
 ```
 
-Following demo video shows you how to integrate RoomKit SDK in your app
+Following demo video shows you how to integrate RoomKit SDK in your app by follwing instructions above
 
 ![Demo Video](https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/9947e072-af6c-4381-80af-8128c82f3f2c)
 
