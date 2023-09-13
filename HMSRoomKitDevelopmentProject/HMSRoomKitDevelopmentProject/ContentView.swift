@@ -8,17 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var roomCode = ""
+    @State var isMeetingViewPresented = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        
+        if isMeetingViewPresented && !roomCode.isEmpty {
+            
+            HMSPrebuiltView(roomCode: roomCode, onDismiss: {
+                isMeetingViewPresented = false
+            })
+            .screenShare(appGroupName: "group.live.100ms.videoapp.roomkit", screenShareBroadcastExtensionBundleId: "live.100ms.videoapp.roomkit.Screenshare")
         }
-        .padding()
+        else {
+            JoiningView(roomCode: $roomCode,
+                        isMeetingViewPresented: $isMeetingViewPresented)
+        }
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

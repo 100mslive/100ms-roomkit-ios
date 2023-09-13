@@ -1,9 +1,8 @@
 //
 //  JoiningView.swift
-//  HMSSDKExample
+//  HMSRoomKitDevelopmentProject
 //
-//  Created by Pawan Dixit on 04/09/2023.
-//  Copyright © 2023 100ms. All rights reserved.
+//  Created by Pawan Dixit on 13/09/2023.
 //
 
 import SwiftUI
@@ -149,4 +148,3 @@ struct JoiningView_Previews: PreviewProvider {
         JoiningView(roomCode: .constant("as"), isMeetingViewPresented: .constant(false))
     }
 }
-
