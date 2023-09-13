@@ -679,7 +679,6 @@
 				875F3EB42AB1A5EF00904307 /* HMSRoomKit.swift */,
 				875F3EB52AB1A5EF00904307 /* Utilities - Internal */,
 				875F3EBD2AB1A5EF00904307 /* Prebuilt */,
-				875F3EC62AB1A5EF00904307 /* HMSRoomModels */,
 				875F3EC72AB1A5EF00904307 /* UI Views - Internal */,
 				875F3EEA2AB1A5EF00904307 /* audio-level-white.json */,
 				875F3EEB2AB1A5EF00904307 /* UIComponents - Internal */,
@@ -732,13 +731,6 @@
 				875F3EC52AB1A5EF00904307 /* HMSPrebuiltOptions.swift */,
 			);
 			path = Public;
-			sourceTree = "<group>";
-		};
-		875F3EC62AB1A5EF00904307 /* HMSRoomModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = HMSRoomModels;
 			sourceTree = "<group>";
 		};
 		875F3EC72AB1A5EF00904307 /* UI Views - Internal */ = {
