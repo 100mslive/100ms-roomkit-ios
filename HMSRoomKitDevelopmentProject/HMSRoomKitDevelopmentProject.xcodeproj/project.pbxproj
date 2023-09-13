@@ -355,7 +355,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopmentProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HMSRoomKitDevelopmentProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HMSRoomKitDevelopment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSRoomKitDevelopmentProjectApp.swift; sourceTree = "<group>"; };
 		875F3A632AB19E7300904307 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		875F3A652AB19E7500904307 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -561,7 +561,7 @@
 			children = (
 				875F40892AB1A5F900904307 /* HMSRoomModels */,
 				875F3EB12AB1A5EF00904307 /* HMSRoomKit */,
-				875F3A602AB19E7300904307 /* HMSRoomKitDevelopmentProject */,
+				875F3A602AB19E7300904307 /* HMSRoomKitDevelopment */,
 				875F3BBE2AB1A2CA00904307 /* HMSRoomKitPreview */,
 				875F3A5F2AB19E7300904307 /* Products */,
 				875F3D172AB1A40A00904307 /* Frameworks */,
@@ -571,13 +571,13 @@
 		875F3A5F2AB19E7300904307 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopmentProject.app */,
+				875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopment.app */,
 				875F3BBD2AB1A2CA00904307 /* HMSRoomKitPreview.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		875F3A602AB19E7300904307 /* HMSRoomKitDevelopmentProject */ = {
+		875F3A602AB19E7300904307 /* HMSRoomKitDevelopment */ = {
 			isa = PBXGroup;
 			children = (
 				875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */,
@@ -586,7 +586,7 @@
 				875F3A652AB19E7500904307 /* Assets.xcassets */,
 				875F3A672AB19E7500904307 /* Preview Content */,
 			);
-			path = HMSRoomKitDevelopmentProject;
+			path = HMSRoomKitDevelopment;
 			sourceTree = "<group>";
 		};
 		875F3A672AB19E7500904307 /* Preview Content */ = {
@@ -1042,9 +1042,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		875F3A5D2AB19E7300904307 /* HMSRoomKitDevelopmentProject */ = {
+		875F3A5D2AB19E7300904307 /* HMSRoomKitDevelopment */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 875F3A6C2AB19E7500904307 /* Build configuration list for PBXNativeTarget "HMSRoomKitDevelopmentProject" */;
+			buildConfigurationList = 875F3A6C2AB19E7500904307 /* Build configuration list for PBXNativeTarget "HMSRoomKitDevelopment" */;
 			buildPhases = (
 				875F3A5A2AB19E7300904307 /* Sources */,
 				875F3A5B2AB19E7300904307 /* Frameworks */,
@@ -1054,12 +1054,12 @@
 			);
 			dependencies = (
 			);
-			name = HMSRoomKitDevelopmentProject;
+			name = HMSRoomKitDevelopment;
 			packageProductDependencies = (
 				875F3A702AB19EA800904307 /* HMSRoomKit */,
 			);
 			productName = HMSRoomKitDevelopmentProject;
-			productReference = 875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopmentProject.app */;
+			productReference = 875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopment.app */;
 			productType = "com.apple.product-type.application";
 		};
 		875F3BBC2AB1A2CA00904307 /* HMSRoomKitPreview */ = {
@@ -1116,7 +1116,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				875F3A5D2AB19E7300904307 /* HMSRoomKitDevelopmentProject */,
+				875F3A5D2AB19E7300904307 /* HMSRoomKitDevelopment */,
 				875F3BBC2AB1A2CA00904307 /* HMSRoomKitPreview */,
 			);
 		};
@@ -1626,7 +1626,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopmentProject/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopment/Preview Content\"";
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1659,7 +1659,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopmentProject/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopment/Preview Content\"";
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1759,7 +1759,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		875F3A6C2AB19E7500904307 /* Build configuration list for PBXNativeTarget "HMSRoomKitDevelopmentProject" */ = {
+		875F3A6C2AB19E7500904307 /* Build configuration list for PBXNativeTarget "HMSRoomKitDevelopment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				875F3A6D2AB19E7500904307 /* Debug */,
