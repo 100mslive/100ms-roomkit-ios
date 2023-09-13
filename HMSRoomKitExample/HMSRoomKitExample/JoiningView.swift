@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
 struct JoiningView: View {
     
     var heading4Semibold34 =  Font(UIFont(name: "Inter-SemiBold", size: 34) ?? .systemFont(ofSize: 34))
@@ -145,7 +144,6 @@ struct JoiningView: View {
     }
 }
 
-@available(iOS 15.0, *)
 struct JoiningView_Previews: PreviewProvider {
     static var previews: some View {
         JoiningView(roomCode: .constant("as"), isMeetingViewPresented: .constant(false))

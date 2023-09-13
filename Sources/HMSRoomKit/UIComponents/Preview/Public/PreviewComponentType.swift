@@ -7,9 +7,7 @@
 //
 
 import Foundation
-#if !Preview
 import HMSSDK
-#endif
 
 extension HMSPreviewScreen {
     

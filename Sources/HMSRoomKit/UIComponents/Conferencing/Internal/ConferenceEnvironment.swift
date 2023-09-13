@@ -8,18 +8,21 @@
 
 import SwiftUI
 
-internal extension EnvironmentValues {
-    
+
+public extension EnvironmentValues {
     struct HMSConferenceComponentParamKey: EnvironmentKey {
         
         // Should never be used but it's required by EnvironmentKey protocol
-        static let defaultValue: HMSConferenceScreen.DefaultType = HMSConferenceScreen.DefaultType()
+        public static let defaultValue: HMSConferenceScreen.DefaultType = HMSConferenceScreen.DefaultType()
     }
     
     var conferenceComponentParam: HMSConferenceScreen.DefaultType {
         get { self[HMSConferenceComponentParamKey.self] }
         set { self[HMSConferenceComponentParamKey.self] = newValue }
     }
+}
+
+internal extension EnvironmentValues {
     
     enum HMSChatBadgeState {
         case badged, none

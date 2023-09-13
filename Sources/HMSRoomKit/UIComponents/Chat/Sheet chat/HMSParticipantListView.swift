@@ -8,9 +8,7 @@
 
 import SwiftUI
 
-#if !Preview
 import HMSSDK
-#endif
 import Combine
 import HMSRoomModels
 

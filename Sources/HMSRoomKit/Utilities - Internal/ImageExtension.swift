@@ -10,13 +10,25 @@ import SwiftUI
 
 extension Image {
     init(assetName: String) {
+#if Development
+        self.init(assetName, bundle: .main)
+#elseif Preview
+        self.init(assetName, bundle: .main)
+#else
         self.init(assetName, bundle: .module)
+#endif
         self = self.renderingMode(.template)
     }
 }
 
 extension Color {
     init(assetName: String) {
+#if Development
+        self.init(assetName, bundle: .main)
+#elseif Preview
+        self.init(assetName, bundle: .main)
+#else
         self.init(assetName, bundle: .module)
+#endif
     }
 }
