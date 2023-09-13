@@ -19,7 +19,7 @@ struct ContentView: View {
             HMSPrebuiltView(roomCode: roomCode, onDismiss: {
                 isMeetingViewPresented = false
             })
-            .screenShare(appGroupName: "group.live.100ms.videoapp.roomkit", screenShareBroadcastExtensionBundleId: "live.100ms.videoapp.roomkit.Screenshare")
+            .screenShare(appGroupName: "group.live.100ms.roomkit.development", screenShareBroadcastExtensionBundleId: "live.100ms.roomkit.development.Screenshare")
         }
         else {
             JoiningView(roomCode: $roomCode,

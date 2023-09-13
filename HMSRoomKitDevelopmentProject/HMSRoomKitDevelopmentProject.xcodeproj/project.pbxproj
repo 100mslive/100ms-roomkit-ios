@@ -352,7 +352,36 @@
 		875F40C32AB1A5F900904307 /* HMSPeerModel-Base-Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F409C2AB1A5F900904307 /* HMSPeerModel-Base-Actions.swift */; };
 		875F40C42AB1A5F900904307 /* HMSPeerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F409D2AB1A5F900904307 /* HMSPeerModel.swift */; };
 		875F40C52AB1A5F900904307 /* HMSPeerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F409D2AB1A5F900904307 /* HMSPeerModel.swift */; };
+		875F40CC2AB1AA4D00904307 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 875F40CB2AB1AA4D00904307 /* ReplayKit.framework */; };
+		875F40CF2AB1AA4D00904307 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F40CE2AB1AA4D00904307 /* SampleHandler.swift */; };
+		875F40D32AB1AA4D00904307 /* Screenshare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 875F40CA2AB1AA4D00904307 /* Screenshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		875F40DA2AB1AA6800904307 /* HMSBroadcastExtensionSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 875F40D92AB1AA6800904307 /* HMSBroadcastExtensionSDK */; };
+		875F40DC2AB1AA7000904307 /* HMSBroadcastExtensionSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 875F40DB2AB1AA7000904307 /* HMSBroadcastExtensionSDK */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		875F40D12AB1AA4D00904307 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 875F3A562AB19E7300904307 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 875F40C92AB1AA4D00904307;
+			remoteInfo = Screenshare;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		875F40D42AB1AA4D00904307 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				875F40D32AB1AA4D00904307 /* Screenshare.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HMSRoomKitDevelopment.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -534,6 +563,11 @@
 		875F409B2AB1A5F900904307 /* HMSRoomModel-Internal-Callbacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HMSRoomModel-Internal-Callbacks.swift"; sourceTree = "<group>"; };
 		875F409C2AB1A5F900904307 /* HMSPeerModel-Base-Actions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HMSPeerModel-Base-Actions.swift"; sourceTree = "<group>"; };
 		875F409D2AB1A5F900904307 /* HMSPeerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSPeerModel.swift; sourceTree = "<group>"; };
+		875F40CA2AB1AA4D00904307 /* Screenshare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Screenshare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		875F40CB2AB1AA4D00904307 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		875F40CE2AB1AA4D00904307 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHandler.swift; sourceTree = "<group>"; };
+		875F40D02AB1AA4D00904307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HMSRoomKitDevelopment.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -541,6 +575,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				875F40DA2AB1AA6800904307 /* HMSBroadcastExtensionSDK in Frameworks */,
 				875F3A712AB19EA800904307 /* HMSRoomKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,6 +585,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				875F3D192AB1A40A00904307 /* HMSRoomKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		875F40C72AB1AA4D00904307 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				875F40DC2AB1AA7000904307 /* HMSBroadcastExtensionSDK in Frameworks */,
+				875F40CC2AB1AA4D00904307 /* ReplayKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,6 +607,7 @@
 				875F3EB12AB1A5EF00904307 /* HMSRoomKit */,
 				875F3A602AB19E7300904307 /* HMSRoomKitDevelopment */,
 				875F3BBE2AB1A2CA00904307 /* HMSRoomKitPreview */,
+				875F40CD2AB1AA4D00904307 /* Screenshare */,
 				875F3A5F2AB19E7300904307 /* Products */,
 				875F3D172AB1A40A00904307 /* Frameworks */,
 			);
@@ -573,6 +618,7 @@
 			children = (
 				875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopment.app */,
 				875F3BBD2AB1A2CA00904307 /* HMSRoomKitPreview.app */,
+				875F40CA2AB1AA4D00904307 /* Screenshare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -580,6 +626,7 @@
 		875F3A602AB19E7300904307 /* HMSRoomKitDevelopment */ = {
 			isa = PBXGroup;
 			children = (
+				875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */,
 				875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */,
 				875F3A632AB19E7300904307 /* ContentView.swift */,
 				875F3BB72AB1A12E00904307 /* JoiningView.swift */,
@@ -619,6 +666,7 @@
 		875F3D172AB1A40A00904307 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				875F40CB2AB1AA4D00904307 /* ReplayKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1039,6 +1087,15 @@
 			path = "../../100ms-roomkit-models-ios/Sources/HMSRoomModels";
 			sourceTree = "<group>";
 		};
+		875F40CD2AB1AA4D00904307 /* Screenshare */ = {
+			isa = PBXGroup;
+			children = (
+				875F40CE2AB1AA4D00904307 /* SampleHandler.swift */,
+				875F40D02AB1AA4D00904307 /* Info.plist */,
+			);
+			path = Screenshare;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1049,14 +1106,17 @@
 				875F3A5A2AB19E7300904307 /* Sources */,
 				875F3A5B2AB19E7300904307 /* Frameworks */,
 				875F3A5C2AB19E7300904307 /* Resources */,
+				875F40D42AB1AA4D00904307 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				875F40D22AB1AA4D00904307 /* PBXTargetDependency */,
 			);
 			name = HMSRoomKitDevelopment;
 			packageProductDependencies = (
 				875F3A702AB19EA800904307 /* HMSRoomKit */,
+				875F40D92AB1AA6800904307 /* HMSBroadcastExtensionSDK */,
 			);
 			productName = HMSRoomKitDevelopmentProject;
 			productReference = 875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopment.app */;
@@ -1082,6 +1142,26 @@
 			productReference = 875F3BBD2AB1A2CA00904307 /* HMSRoomKitPreview.app */;
 			productType = "com.apple.product-type.application";
 		};
+		875F40C92AB1AA4D00904307 /* Screenshare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 875F40D72AB1AA4D00904307 /* Build configuration list for PBXNativeTarget "Screenshare" */;
+			buildPhases = (
+				875F40C62AB1AA4D00904307 /* Sources */,
+				875F40C72AB1AA4D00904307 /* Frameworks */,
+				875F40C82AB1AA4D00904307 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Screenshare;
+			packageProductDependencies = (
+				875F40DB2AB1AA7000904307 /* HMSBroadcastExtensionSDK */,
+			);
+			productName = Screenshare;
+			productReference = 875F40CA2AB1AA4D00904307 /* Screenshare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1098,6 +1178,9 @@
 					875F3BBC2AB1A2CA00904307 = {
 						CreatedOnToolsVersion = 15.0;
 					};
+					875F40C92AB1AA4D00904307 = {
+						CreatedOnToolsVersion = 15.0;
+					};
 				};
 			};
 			buildConfigurationList = 875F3A592AB19E7300904307 /* Build configuration list for PBXProject "HMSRoomKitDevelopmentProject" */;
@@ -1111,6 +1194,7 @@
 			mainGroup = 875F3A552AB19E7300904307;
 			packageReferences = (
 				875F3A6F2AB19EA800904307 /* XCRemoteSwiftPackageReference "100ms-roomkit-ios" */,
+				875F40D82AB1AA6800904307 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */,
 			);
 			productRefGroup = 875F3A5F2AB19E7300904307 /* Products */;
 			projectDirPath = "";
@@ -1118,6 +1202,7 @@
 			targets = (
 				875F3A5D2AB19E7300904307 /* HMSRoomKitDevelopment */,
 				875F3BBC2AB1A2CA00904307 /* HMSRoomKitPreview */,
+				875F40C92AB1AA4D00904307 /* Screenshare */,
 			);
 		};
 /* End PBXProject section */
@@ -1142,6 +1227,13 @@
 				875F3F642AB1A5EF00904307 /* Media.xcassets in Resources */,
 				875F3BC42AB1A2CB00904307 /* Assets.xcassets in Resources */,
 				875F3FC22AB1A5EF00904307 /* audio-level-white.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		875F40C82AB1AA4D00904307 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1497,7 +1589,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		875F40C62AB1AA4D00904307 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				875F40CF2AB1AA4D00904307 /* SampleHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		875F40D22AB1AA4D00904307 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 875F40C92AB1AA4D00904307 /* Screenshare */;
+			targetProxy = 875F40D12AB1AA4D00904307 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		875F3A6A2AB19E7500904307 /* Debug */ = {
@@ -1622,8 +1730,10 @@
 		875F3A6D2AB19E7500904307 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HMSRoomKitDevelopment/HMSRoomKitDevelopment.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopment/Preview Content\"";
@@ -1655,8 +1765,10 @@
 		875F3A6E2AB19E7500904307 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HMSRoomKitDevelopment/HMSRoomKitDevelopment.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopment/Preview Content\"";
@@ -1701,7 +1813,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1732,7 +1844,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1741,6 +1853,58 @@
 				OTHER_SWIFT_FLAGS = "-D Preview";
 				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.roomkit.preview.HMSRoomKitPreview;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		875F40D52AB1AA4D00904307 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5N85PP82A9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Screenshare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Screenshare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.roomkit.development.Screenshare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		875F40D62AB1AA4D00904307 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5N85PP82A9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Screenshare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Screenshare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.roomkit.development.Screenshare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1777,6 +1941,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		875F40D72AB1AA4D00904307 /* Build configuration list for PBXNativeTarget "Screenshare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				875F40D52AB1AA4D00904307 /* Debug */,
+				875F40D62AB1AA4D00904307 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -1786,6 +1959,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
+			};
+		};
+		875F40D82AB1AA6800904307 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/100mslive/100ms-ios-broadcast-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.9;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1800,6 +1981,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 875F3A6F2AB19EA800904307 /* XCRemoteSwiftPackageReference "100ms-roomkit-ios" */;
 			productName = HMSRoomKit;
+		};
+		875F40D92AB1AA6800904307 /* HMSBroadcastExtensionSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 875F40D82AB1AA6800904307 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */;
+			productName = HMSBroadcastExtensionSDK;
+		};
+		875F40DB2AB1AA7000904307 /* HMSBroadcastExtensionSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 875F40D82AB1AA6800904307 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */;
+			productName = HMSBroadcastExtensionSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
