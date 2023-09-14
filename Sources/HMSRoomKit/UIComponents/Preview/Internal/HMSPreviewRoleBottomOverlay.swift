@@ -51,9 +51,9 @@ struct HMSPreviewRoleBottomOverlay: View {
                     .frame(maxWidth: .infinity, maxHeight: 48, alignment: .center)
                     .background(.primaryDefault, cornerRadius: 8)
                     .onTapGesture {
-                        roomModel.localPeerModel?.status = .none
                         roomModel.localPeerModel?.setPreviousRole()
                         Task {
+                            try await roomModel.setUserStatus(.none)
                             try await roomModel.acceptChangeRoleRequest()
                         }
                     }
@@ -69,8 +69,8 @@ struct HMSPreviewRoleBottomOverlay: View {
                         .stroke(currentTheme.colorTheme.secondaryDefault, lineWidth: 1)
                     )
                     .onTapGesture {
-                        roomModel.localPeerModel?.status = .none
                         Task {
+                            try await roomModel.setUserStatus(.none)
                             try await roomModel.declineChangeRoleRequestAndNotify()
                         }
                     }

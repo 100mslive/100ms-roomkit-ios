@@ -13,6 +13,7 @@ import HMSRoomModels
 struct HMSHandRaisedToggle: View {
     
     @EnvironmentObject var localPeerModel: HMSPeerModel
+    @EnvironmentObject var roomModel: HMSRoomModel
     
     var body: some View {
         Image(assetName: "hand-raise-icon")
@@ -21,7 +22,9 @@ struct HMSHandRaisedToggle: View {
             .frame(width: 40, height: 40)
             .background(.white.opacity(0.0001))
             .onTapGesture {
-                localPeerModel.status = localPeerModel.status == .handRaised ? .none : .handRaised
+                Task {
+                    try await roomModel.setUserStatus(localPeerModel.status == .handRaised ? .none : .handRaised)
+                }
             }
             .controlAppearance(isEnabled: localPeerModel.status != .handRaised)
         
