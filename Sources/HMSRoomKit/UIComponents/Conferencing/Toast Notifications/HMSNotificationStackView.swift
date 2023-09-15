@@ -12,14 +12,18 @@ import HMSRoomModels
 
 struct HMSNotificationStackView: View {
     
+    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomKitModel: HMSRoomKitModel
     @EnvironmentObject var currentTheme: HMSUITheme
-    @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     
     @State var isHandRaisedSheetPresented = false
     
     var body: some View {
+        
+        let onStageExperience = conferenceComponentParam.onStageExperience
+        let onStageRole = onStageExperience?.onStageRoleName ?? ""
         
         let handRaisedNotifications = Set(roomKitModel.activeNotifications.filter{$0.type == .raiseHand})
         let declineRoleChangeNotifications = Set(roomKitModel.activeNotifications.filter{$0.type == .declineRoleChange})
@@ -72,10 +76,10 @@ struct HMSNotificationStackView: View {
                         case .none:
                             break
                         case .bringOnStage:
-                            guard !roomInfoModel.onStageRole.isEmpty else { return }
+                            guard !onStageRole.isEmpty else { return }
                             Task {
                                 guard let peerModel = roomModel.peerModels.first(where: { $0.id == notification.id }) else { return }
-                                try await roomModel.changeRole(of: peerModel, to: roomInfoModel.onStageRole)
+                                try await roomModel.changeRole(of: peerModel, to: onStageRole)
                             }
                             roomKitModel.dismissNotification(for: notification.id)
                             break

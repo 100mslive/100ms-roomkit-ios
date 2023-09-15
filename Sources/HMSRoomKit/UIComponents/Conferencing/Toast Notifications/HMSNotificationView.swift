@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct HMSNotificationView: View {
-    @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
+    @Environment(\.conferenceComponentParam) var conferenceComponentParam
     
     let notification: HMSRoomKitNotification
     let onDismiss: ()->Void
@@ -25,6 +25,9 @@ struct HMSNotificationView: View {
     }
 
     var body: some View {
+        
+        let onStageExperience = conferenceComponentParam.onStageExperience
+        let bringToStageLabel = onStageExperience?.bringToStageLabel
         
         HStack(spacing: 0) {
             
@@ -69,7 +72,7 @@ struct HMSNotificationView: View {
                     case .none:
                         EmptyView()
                     case .bringOnStage:
-                        Text(roomInfoModel.bringToStageLabel)
+                        Text(bringToStageLabel ?? "")
                             .fixedSize(horizontal: true, vertical: false)
                             .font(.body2Semibold14)
                             .foreground(.onSecondaryHigh)

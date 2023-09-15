@@ -32,6 +32,7 @@ public struct HMSDefaultConferenceScreen: View {
         
         let isChatOverlay = conferenceComponentParam.chat?.isOverlay ?? false
         let chatInitialState = conferenceComponentParam.chat?.initialState ?? .close
+        let onStageExperience = conferenceComponentParam.onStageExperience
         
         VStack(spacing: 0) {
             
@@ -109,7 +110,7 @@ public struct HMSDefaultConferenceScreen: View {
             // Remove notification for peers who have lowered their hands
             roomKitModel.removeNotification(for: peerIdsWhoHaveLoweredHands)
             
-            guard let rolesWhoCanComeOnStage = conferenceComponentParam.onStageExperience?.rolesWhoCanComeOnStage else {
+            guard let rolesWhoCanComeOnStage = onStageExperience?.rolesWhoCanComeOnStage else {
                 return
             }
             

@@ -21,7 +21,7 @@ struct HMSPeerOptionsViewContext {
         case removeParticipant
         case minimizeTile
         case bringOnStage(String)
-        case removeFromeStage(String)
+        case removeFromStage(String)
         case lowerHand
         case none
     }
@@ -36,6 +36,8 @@ struct HMSPeerOptionsViewContext {
 }
 
 struct HMSPeerOptionsButtonView<Content: View>: View {
+    
+    @Environment(\.conferenceComponentParam) var conferenceComponentParam
     @Environment(\.menuContext) var menuContext
     
     @AppStorage("isInsetMinimized") var isInsetMinimized: Bool = false
@@ -47,7 +49,6 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
-    @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     
     @ObservedObject var peerModel: HMSPeerModel
     
@@ -58,7 +59,7 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
     }
     
     var body: some View {
-        if let context = peerModel.popoverContext(roomModel: roomModel, roomInfoModel: roomInfoModel, isPresented: $isPresented, menuAction: $menuAction) {
+        if let context = peerModel.popoverContext(roomModel: roomModel, conferenceParams: conferenceComponentParam, isPresented: $isPresented, menuAction: $menuAction) {
             label()
                 .gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onEnded({ _ in
                     isPresented.toggle()
@@ -87,7 +88,7 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
                         break
                     case .bringOnStage:
                         break
-                    case .removeFromeStage:
+                    case .removeFromStage:
                         break
                     case .lowerHand:
                         Task {
@@ -160,7 +161,6 @@ struct HMSPeerOptionsView: View {
     @Environment(\.conferenceComponentParam) var conferenceComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
-    @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     @EnvironmentObject var peerModel: HMSPeerModel
     
     @AppStorage("isInsetMinimized") var isInsetMinimized: Bool = false
@@ -172,6 +172,8 @@ struct HMSPeerOptionsView: View {
     var body: some View {
         
         let isSpotlightEnabled = conferenceComponentParam.tileLayout?.grid.canSpotlightParticipant ?? false
+        let onStageExperience = conferenceComponentParam.onStageExperience
+        let onStageRoleName = onStageExperience?.onStageRoleName ?? ""
         
         VStack(alignment: .leading, spacing: 0) {
             HMSOptionsHeaderView(title: peerModel.name + (peerModel.isLocal ? " (You)" : ""), subtitle: context.role, onClose: {
@@ -251,13 +253,13 @@ struct HMSPeerOptionsView: View {
                         .padding(.horizontal, 24)
                         .background(.white.opacity(0.0001))
                         .onTapGesture {
-                            guard !roomInfoModel.onStageRole.isEmpty else { return }
+                            guard !onStageRoleName.isEmpty else { return }
                             Task {
-                                try await roomModel.changeRole(of: peerModel, to: roomInfoModel.onStageRole)
+                                try await roomModel.changeRole(of: peerModel, to: onStageRoleName)
                             }
                             context.isPresented = false
                         }
-                    case .removeFromeStage(let label):
+                    case .removeFromStage(let label):
                         HStack {
                             Image(assetName: "stage")
                             Text(label)
