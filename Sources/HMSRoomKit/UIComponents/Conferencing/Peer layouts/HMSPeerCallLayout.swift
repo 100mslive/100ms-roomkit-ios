@@ -18,7 +18,6 @@ struct HMSPeerCallLayout: View {
     @Environment(\.tabPageBarState) var tabPageBarState
     
     @EnvironmentObject var roomModel: HMSRoomModel
-    @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     
     @AppStorage("isInsetMinimized") var isInsetMinimized: Bool = false
     @State var shouldInsetRefresh = false

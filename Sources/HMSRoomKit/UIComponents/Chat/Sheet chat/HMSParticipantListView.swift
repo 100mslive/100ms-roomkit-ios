@@ -285,7 +285,7 @@ struct HMSParticipantListView_Previews: PreviewProvider {
 }
 
 extension HMSPeerModel {
-    func popoverContext(roomModel: HMSRoomModel, roomInfoModel: HMSRoomInfoModel, isPresented: Binding<Bool>, menuAction: Binding<HMSPeerOptionsViewContext.Action>) -> HMSPeerOptionsViewContext? {
+    func popoverContext(roomModel: HMSRoomModel, conferenceParams: HMSConferenceScreen.DefaultType, isPresented: Binding<Bool>, menuAction: Binding<HMSPeerOptionsViewContext.Action>) -> HMSPeerOptionsViewContext? {
         let audioTrackModel = regularAudioTrackModel
         let regularVideoTrackModel = regularVideoTrackModel
         let isLocal = isLocal
@@ -294,16 +294,23 @@ extension HMSPeerModel {
         }
         
         let currentRole = role?.name ?? ""
-        let isOnStage = roomInfoModel.onStageRole == currentRole
-        let isOffStage = roomInfoModel.offStageRoles.contains(currentRole)
+        
+        let onStageExperience = conferenceParams.onStageExperience
+        let onStageRoleName = onStageExperience?.onStageRoleName ?? ""
+        let rolesWhoCanComeOnStage = onStageExperience?.rolesWhoCanComeOnStage ?? []
+        let bringToStageLabel = onStageExperience?.bringToStageLabel ?? ""
+        let removeFromStageLabel = onStageExperience?.removeFromStageLabel ?? ""
+        
+        let isOnStage = onStageRoleName == currentRole
+        let isOffStage = rolesWhoCanComeOnStage.contains(currentRole)
         
         var actions = [HMSPeerOptionsViewContext.Action]()
         
         if !isLocal {
-            if isOffStage && roomInfoModel.isBroadcaster {
-                actions.append(.bringOnStage(roomInfoModel.bringToStageLabel))
-            } else if roomInfoModel.isBroadcaster && isOnStage {
-                actions.append(.removeFromeStage(roomInfoModel.removeFromStageLabel))
+            if isOffStage && onStageExperience != nil {
+                actions.append(.bringOnStage(bringToStageLabel))
+            } else if onStageExperience != nil && isOnStage {
+                actions.append(.removeFromStage(removeFromStageLabel))
             }
         }
         
