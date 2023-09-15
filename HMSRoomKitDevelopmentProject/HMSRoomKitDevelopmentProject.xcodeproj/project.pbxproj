@@ -568,6 +568,7 @@
 		875F40CE2AB1AA4D00904307 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHandler.swift; sourceTree = "<group>"; };
 		875F40D02AB1AA4D00904307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HMSRoomKitDevelopment.entitlements; sourceTree = "<group>"; };
+		876B00012AB43C9C00F977F9 /* Screenshare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Screenshare.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1082,6 +1083,7 @@
 		875F40CD2AB1AA4D00904307 /* Screenshare */ = {
 			isa = PBXGroup;
 			children = (
+				876B00012AB43C9C00F977F9 /* Screenshare.entitlements */,
 				875F40CE2AB1AA4D00904307 /* SampleHandler.swift */,
 				875F40D02AB1AA4D00904307 /* Info.plist */,
 			);
@@ -1854,6 +1856,7 @@
 		875F40D52AB1AA4D00904307 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Screenshare/Screenshare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5N85PP82A9;
@@ -1880,6 +1883,7 @@
 		875F40D62AB1AA4D00904307 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Screenshare/Screenshare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5N85PP82A9;
