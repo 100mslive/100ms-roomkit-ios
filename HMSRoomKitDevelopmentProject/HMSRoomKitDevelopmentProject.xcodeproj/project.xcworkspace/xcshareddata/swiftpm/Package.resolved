@@ -10,24 +10,6 @@
       }
     },
     {
-      "identity" : "100ms-roomkit-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/100mslive/100ms-roomkit-ios",
-      "state" : {
-        "revision" : "5697c2f116238dfa1dced05932c95ef05028a64b",
-        "version" : "1.0.0"
-      }
-    },
-    {
-      "identity" : "100ms-roomkit-models-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/100mslive/100ms-roomkit-models-ios",
-      "state" : {
-        "revision" : "968e2f0ebbfff1c268cf6a849b31b21d380e4286",
-        "version" : "1.0.0"
-      }
-    },
-    {
       "identity" : "popovers",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/Popovers",

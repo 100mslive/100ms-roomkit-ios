@@ -569,6 +569,8 @@
 		875F40D02AB1AA4D00904307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HMSRoomKitDevelopment.entitlements; sourceTree = "<group>"; };
 		876B00012AB43C9C00F977F9 /* Screenshare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Screenshare.entitlements; sourceTree = "<group>"; };
+		8795293C2AB4D84E00929A30 /* 100ms-roomkit-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-ios"; path = ..; sourceTree = "<group>"; };
+		8795293D2AB4D85200929A30 /* 100ms-roomkit-models-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-models-ios"; path = "../../100ms-roomkit-models-ios"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -604,6 +606,8 @@
 		875F3A552AB19E7300904307 = {
 			isa = PBXGroup;
 			children = (
+				8795293D2AB4D85200929A30 /* 100ms-roomkit-models-ios */,
+				8795293C2AB4D84E00929A30 /* 100ms-roomkit-ios */,
 				875F40892AB1A5F900904307 /* HMSRoomModels */,
 				875F3EB12AB1A5EF00904307 /* HMSRoomKit */,
 				875F3A602AB19E7300904307 /* HMSRoomKitDevelopment */,
