@@ -156,3 +156,8 @@ This code allows you to conditionally display the Prebuilt Screen based on user 
 7. Once you are done, create PRs with your changes to **main branch** of **respective repos**.
 
 <img width="993" alt="Screenshot 2023-09-13 at 5 51 01 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/d1102bde-e081-4857-af2b-4bb969feeffb">
+
+
+Following demo video shows you how to setup RoomKit in your Mac and use HMSRoomKitDevelopment project to contribute to RoomKit:
+
+![Demo Video](https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/72f2279e-f6bd-4b54-ad97-271f37ca5faf)
