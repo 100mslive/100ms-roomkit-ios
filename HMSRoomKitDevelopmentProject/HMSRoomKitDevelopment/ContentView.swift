@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+#if !Development
+import HMSRoomKit
+#endif
 
 struct ContentView: View {
     
