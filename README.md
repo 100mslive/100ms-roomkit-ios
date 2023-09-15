@@ -160,6 +160,4 @@ This code allows you to conditionally display the Prebuilt Screen based on user 
 
 Following demo video shows you how to setup RoomKit in your Mac and use HMSRoomKitDevelopment project to contribute to RoomKit:
 
-<video loop="true" autoplay="autoplay" muted controls>
-    <source src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/72f2279e-f6bd-4b54-ad97-271f37ca5faf" type="video/mp4" />
-</video>
+![Demo Video](https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/72f2279e-f6bd-4b54-ad97-271f37ca5faf)
