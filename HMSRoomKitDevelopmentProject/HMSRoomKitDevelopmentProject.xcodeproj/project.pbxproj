@@ -357,6 +357,7 @@
 		875F40D32AB1AA4D00904307 /* Screenshare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 875F40CA2AB1AA4D00904307 /* Screenshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		875F40DA2AB1AA6800904307 /* HMSBroadcastExtensionSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 875F40D92AB1AA6800904307 /* HMSBroadcastExtensionSDK */; };
 		875F40DC2AB1AA7000904307 /* HMSBroadcastExtensionSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 875F40DB2AB1AA7000904307 /* HMSBroadcastExtensionSDK */; };
+		87952C142AB4DE5500929A30 /* CustomMeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C132AB4DE5500929A30 /* CustomMeetingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -571,6 +572,7 @@
 		876B00012AB43C9C00F977F9 /* Screenshare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Screenshare.entitlements; sourceTree = "<group>"; };
 		8795293C2AB4D84E00929A30 /* 100ms-roomkit-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-ios"; path = ..; sourceTree = "<group>"; };
 		8795293D2AB4D85200929A30 /* 100ms-roomkit-models-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-models-ios"; path = "../../100ms-roomkit-models-ios"; sourceTree = "<group>"; };
+		87952C132AB4DE5500929A30 /* CustomMeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMeetingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -634,6 +636,7 @@
 				875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */,
 				875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */,
 				875F3A632AB19E7300904307 /* ContentView.swift */,
+				87952C132AB4DE5500929A30 /* CustomMeetingView.swift */,
 				875F3BB72AB1A12E00904307 /* JoiningView.swift */,
 				875F3A652AB19E7500904307 /* Assets.xcassets */,
 				875F3A672AB19E7500904307 /* Preview Content */,
@@ -1246,6 +1249,7 @@
 				875F3F992AB1A5EF00904307 /* HMSMicToggleView.swift in Sources */,
 				875F40192AB1A5EF00904307 /* HMSChatPlaceholderView.swift in Sources */,
 				875F3FAB2AB1A5EF00904307 /* HMSWifiSignalView4.swift in Sources */,
+				87952C142AB4DE5500929A30 /* CustomMeetingView.swift in Sources */,
 				875F3FA32AB1A5EF00904307 /* HMSBackButtonView.swift in Sources */,
 				875F40392AB1A5EF00904307 /* HMSTopControlStrip.swift in Sources */,
 				875F40092AB1A5EF00904307 /* HMSParticipantCountStatusView.swift in Sources */,

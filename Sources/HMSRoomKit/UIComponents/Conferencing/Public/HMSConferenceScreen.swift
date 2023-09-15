@@ -60,7 +60,7 @@ struct HMSConferenceScreen_Previews: PreviewProvider {
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(HMSRoomKitModel())
             .environmentObject(HMSRoomInfoModel())
-            .environment(\.conferenceComponentParam, .init(chat: .init(initialState: .open, isOverlay: true), tileLayout: .init(grid: .init(prominentRoles: ["stage"]))))
+            .environment(\.conferenceComponentParam, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
 #endif
     }
 }

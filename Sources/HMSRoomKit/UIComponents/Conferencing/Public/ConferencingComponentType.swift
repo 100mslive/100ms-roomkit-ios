@@ -50,17 +50,39 @@ extension HMSConferenceScreen {
             public var initialState: InitialState = .close
             public var isOverlay: Bool = false
             public var allowsPinningMessages: Bool = true
+            
+            public static let `default`: Self = .init()
+            internal init() {}
+            public init(initialState: InitialState, isOverlay: Bool, allowsPinningMessages: Bool) {
+                self.initialState = initialState
+                self.isOverlay = isOverlay
+                self.allowsPinningMessages = allowsPinningMessages
+            }
         }
         
-        public var tileLayout: TileLayout? = TileLayout(grid: .init())
+        public var tileLayout: TileLayout? = TileLayout(grid: .default)
         
         public struct TileLayout: Codable {
             public let grid: Grid
+            public init(grid: Grid) {
+                self.grid = grid
+            }
             
             public struct Grid: Codable {
+                
+                public static let `default`: Grid = .init()
+                
                 public var isLocalTileInsetEnabled: Bool = true
                 public var prominentRoles: [String] = []
                 public var canSpotlightParticipant: Bool = true
+                
+                internal init(){}
+                
+                public init(isLocalTileInsetEnabled: Bool, prominentRoles: [String], canSpotlightParticipant: Bool) {
+                    self.isLocalTileInsetEnabled = isLocalTileInsetEnabled
+                    self.prominentRoles = prominentRoles
+                    self.canSpotlightParticipant = canSpotlightParticipant
+                }
             }
         }
         
@@ -73,9 +95,15 @@ extension HMSConferenceScreen {
         }
         
         public var brb: BRB?
-        public struct BRB {}
+        public struct BRB {
+            public static let `default`: Self = .init()
+            internal init() {}
+        }
         
         public var participantList: ParticipantList?
-        public struct ParticipantList {}
+        public struct ParticipantList {
+            public static let `default`: Self = .init()
+            internal init() {}
+        }
     }
 }

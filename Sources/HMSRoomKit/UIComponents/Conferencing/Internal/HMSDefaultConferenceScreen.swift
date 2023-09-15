@@ -32,7 +32,6 @@ public struct HMSDefaultConferenceScreen: View {
         
         let isChatOverlay = conferenceComponentParam.chat?.isOverlay ?? false
         let chatInitialState = conferenceComponentParam.chat?.initialState ?? .close
-        let onStageExperience = conferenceComponentParam.onStageExperience
         
         VStack(spacing: 0) {
             
@@ -110,6 +109,7 @@ public struct HMSDefaultConferenceScreen: View {
             // Remove notification for peers who have lowered their hands
             roomKitModel.removeNotification(for: peerIdsWhoHaveLoweredHands)
             
+            let onStageExperience = conferenceComponentParam.onStageExperience
             guard let rolesWhoCanComeOnStage = onStageExperience?.rolesWhoCanComeOnStage else {
                 return
             }
@@ -224,7 +224,7 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
             .environmentObject(HMSPrebuiltOptions())
             .environmentObject(HMSRoomInfoModel())
             .environmentObject(roomKitModel)
-            .environment(\.conferenceComponentParam, .init(chat: .init(initialState: .open, isOverlay: true), tileLayout: .init(grid: .init(prominentRoles: ["stage"]))))
+            .environment(\.conferenceComponentParam, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
 #endif
     }
 }
