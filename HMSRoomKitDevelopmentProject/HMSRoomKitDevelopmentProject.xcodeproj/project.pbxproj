@@ -17,7 +17,6 @@
 		875F3BC22AB1A2CA00904307 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F3BC12AB1A2CA00904307 /* ContentView.swift */; };
 		875F3BC42AB1A2CB00904307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875F3BC32AB1A2CB00904307 /* Assets.xcassets */; };
 		875F3BC72AB1A2CB00904307 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875F3BC62AB1A2CB00904307 /* Preview Assets.xcassets */; };
-		875F3D192AB1A40A00904307 /* HMSRoomKit in Frameworks */ = {isa = PBXBuildFile; productRef = 875F3D182AB1A40A00904307 /* HMSRoomKit */; };
 		875F40CC2AB1AA4D00904307 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 875F40CB2AB1AA4D00904307 /* ReplayKit.framework */; };
 		875F40CF2AB1AA4D00904307 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F40CE2AB1AA4D00904307 /* SampleHandler.swift */; };
 		875F40D32AB1AA4D00904307 /* Screenshare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 875F40CA2AB1AA4D00904307 /* Screenshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -367,6 +366,12 @@
 		87952E3E2AB4E03600929A30 /* HMSPeerModel-Base-Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952E172AB4E03500929A30 /* HMSPeerModel-Base-Actions.swift */; };
 		87952E3F2AB4E03600929A30 /* HMSPeerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952E182AB4E03500929A30 /* HMSPeerModel.swift */; };
 		87952E402AB4E03600929A30 /* HMSPeerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952E182AB4E03500929A30 /* HMSPeerModel.swift */; };
+		87E669AC2AB4EEA800073016 /* HMSSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AB2AB4EEA800073016 /* HMSSDK */; };
+		87E669AE2AB4EEB000073016 /* HMSAnalyticsSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AD2AB4EEB000073016 /* HMSAnalyticsSDK */; };
+		87E669B02AB4EEB600073016 /* WebRTC in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AF2AB4EEB600073016 /* WebRTC */; };
+		87E669B22AB4EEBD00073016 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669B12AB4EEBD00073016 /* Lottie */; };
+		87E669B52AB4F02600073016 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669B42AB4F02600073016 /* Popovers */; };
+		87E669B72AB4F1CD00073016 /* HMSRoomModels in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669B62AB4F1CD00073016 /* HMSRoomModels */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -617,7 +622,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				875F3D192AB1A40A00904307 /* HMSRoomKit in Frameworks */,
+				87E669B52AB4F02600073016 /* Popovers in Frameworks */,
+				87E669B22AB4EEBD00073016 /* Lottie in Frameworks */,
+				87E669AC2AB4EEA800073016 /* HMSSDK in Frameworks */,
+				87E669B02AB4EEB600073016 /* WebRTC in Frameworks */,
+				87E669B72AB4F1CD00073016 /* HMSRoomModels in Frameworks */,
+				87E669AE2AB4EEB000073016 /* HMSAnalyticsSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,7 +1185,12 @@
 			);
 			name = HMSRoomKitPreview;
 			packageProductDependencies = (
-				875F3D182AB1A40A00904307 /* HMSRoomKit */,
+				87E669AB2AB4EEA800073016 /* HMSSDK */,
+				87E669AD2AB4EEB000073016 /* HMSAnalyticsSDK */,
+				87E669AF2AB4EEB600073016 /* WebRTC */,
+				87E669B12AB4EEBD00073016 /* Lottie */,
+				87E669B42AB4F02600073016 /* Popovers */,
+				87E669B62AB4F1CD00073016 /* HMSRoomModels */,
 			);
 			productName = HMSRoomKitPreview;
 			productReference = 875F3BBD2AB1A2CA00904307 /* HMSRoomKitPreview.app */;
@@ -1257,6 +1272,7 @@
 			packageReferences = (
 				875F3A6F2AB19EA800904307 /* XCRemoteSwiftPackageReference "100ms-roomkit-ios" */,
 				875F40D82AB1AA6800904307 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */,
+				87E669B32AB4F02600073016 /* XCRemoteSwiftPackageReference "Popovers" */,
 			);
 			productRefGroup = 875F3A5F2AB19E7300904307 /* Products */;
 			projectDirPath = "";
@@ -2155,15 +2171,18 @@
 				minimumVersion = 0.0.9;
 			};
 		};
+		87E669B32AB4F02600073016 /* XCRemoteSwiftPackageReference "Popovers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/100mslive/Popovers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		875F3A702AB19EA800904307 /* HMSRoomKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 875F3A6F2AB19EA800904307 /* XCRemoteSwiftPackageReference "100ms-roomkit-ios" */;
-			productName = HMSRoomKit;
-		};
-		875F3D182AB1A40A00904307 /* HMSRoomKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 875F3A6F2AB19EA800904307 /* XCRemoteSwiftPackageReference "100ms-roomkit-ios" */;
 			productName = HMSRoomKit;
@@ -2187,6 +2206,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 87952C1B2AB4DEB600929A30 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */;
 			productName = HMSBroadcastExtensionSDK;
+		};
+		87E669AB2AB4EEA800073016 /* HMSSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HMSSDK;
+		};
+		87E669AD2AB4EEB000073016 /* HMSAnalyticsSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HMSAnalyticsSDK;
+		};
+		87E669AF2AB4EEB600073016 /* WebRTC */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WebRTC;
+		};
+		87E669B12AB4EEBD00073016 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Lottie;
+		};
+		87E669B42AB4F02600073016 /* Popovers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87E669B32AB4F02600073016 /* XCRemoteSwiftPackageReference "Popovers" */;
+			productName = Popovers;
+		};
+		87E669B62AB4F1CD00073016 /* HMSRoomModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HMSRoomModels;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

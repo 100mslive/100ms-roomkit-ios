@@ -11,6 +11,9 @@ let package = Package(
         .library(
             name: "HMSRoomKit",
             targets: ["HMSRoomKit"]),
+        .library(
+            name: "Lottie",
+            targets: ["Lottie"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
