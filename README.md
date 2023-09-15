@@ -2,13 +2,15 @@
 
 RoomKit SDK for iOS enables you to integrate our production-ready conferencing and livestreaming UI into your own app effortlessly. This README will guide you through the integration process and provide examples of common use cases.
   
-## ☝️ Pre-requisites
+## Pre-requisites
 - Xcode 14 or higher
 - iOS 15 or higher
 - NSMicrophoneUsageDescription (ie. Privacy - Microphone Usage Description) in info.plist of your app
 - NSCameraUsageDescription (ie. Privacy - Camera Usage Description) in info.plist of your app
 
 👀 To see an example app implementation of a conferencing/livestreaming app using 100ms RoomKit SDK, checkout the [example folder](https://github.com/100mslive/100ms-roomkit-ios/tree/main/HMSRoomKitExample).
+
+To experience the example app made using RoomKit, you can download the app from **TestFlight** to your iOS device here: https://testflight.apple.com/join/Pb4aTS0t
 
 ## Integration
 
