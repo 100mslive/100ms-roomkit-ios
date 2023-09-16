@@ -10,7 +10,9 @@ import SwiftUI
 import HMSSDK
 import HMSRoomModels
 
-struct HMSPeerCallLayout: View {
+public struct HMSPeerLayout: View {
+    
+    public init(){}
     
     @Environment(\.conferenceComponentParam) var conferenceComponentParam
     
@@ -22,7 +24,7 @@ struct HMSPeerCallLayout: View {
     @AppStorage("isInsetMinimized") var isInsetMinimized: Bool = false
     @State var shouldInsetRefresh = false
     
-    var body: some View {
+    public var body: some View {
         
         let isInsetMode = conferenceComponentParam.tileLayout?.grid.isLocalTileInsetEnabled ?? false
         let prominentRoles = conferenceComponentParam.tileLayout?.grid.prominentRoles ?? []
@@ -104,7 +106,7 @@ struct HMSPeerCallLayout: View {
 struct HMSPeerCallLayout_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSPeerCallLayout()
+        HMSPeerLayout()
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(1, [.screen, .prominent, .screen]))
             .environmentObject(HMSRoomInfoModel())

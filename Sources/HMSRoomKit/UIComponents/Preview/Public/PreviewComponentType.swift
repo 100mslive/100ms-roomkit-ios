@@ -23,7 +23,7 @@ extension HMSPreviewScreen {
             
             switch self {
             case .default(let closure):
-                var previewScreen = DefaultType(title: "Get Started", subTitle: "Setup your audio and video before joining", joinButtonType: .join, joinButtonLabel: "Join Now", goLiveButtonLabel: "Go Live")
+                var previewScreen: DefaultType = .default
                 closure(&previewScreen)
                 return InternalType.default(previewScreen)
             }
@@ -32,15 +32,32 @@ extension HMSPreviewScreen {
     
     public struct DefaultType {
         
+        public static let defaultTitle: String = "Get Started"
+        public static let defaultSubTitle: String = "Setup your audio and video before joining"
+        public static let defaultJoinButtonType: JoinButtonType = .join
+        public static let defaultJoinButtonLabel: String = "Join Now"
+        public static let defaultGoLiveButtonLabel: String = "Go Live"
+        
+        public static let `default`: Self = .init()
+        internal init() {}
+        
         public enum JoinButtonType: Int, Codable {
             case join = 0
             case goLive = 1
         }
         
-        public var title: String
-        public var subTitle: String
-        public var joinButtonType: JoinButtonType
-        public var joinButtonLabel: String
-        public var goLiveButtonLabel: String
+        public var title: String = defaultTitle
+        public var subTitle: String = defaultSubTitle
+        public var joinButtonType: JoinButtonType = defaultJoinButtonType
+        public var joinButtonLabel: String = defaultJoinButtonLabel
+        public var goLiveButtonLabel: String = defaultGoLiveButtonLabel
+        
+        public init(title: String = defaultTitle, subTitle: String = defaultSubTitle, joinButtonType: JoinButtonType = defaultJoinButtonType, joinButtonLabel: String = defaultJoinButtonLabel, goLiveButtonLabel: String = defaultGoLiveButtonLabel) {
+            self.title = title
+            self.subTitle = subTitle
+            self.joinButtonType = joinButtonType
+            self.joinButtonLabel = joinButtonLabel
+            self.goLiveButtonLabel = goLiveButtonLabel
+        }
     }
 }

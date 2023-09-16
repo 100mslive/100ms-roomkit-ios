@@ -13,7 +13,7 @@ public extension EnvironmentValues {
     struct HMSConferenceComponentParamKey: EnvironmentKey {
         
         // Should never be used but it's required by EnvironmentKey protocol
-        public static let defaultValue: HMSConferenceScreen.DefaultType = HMSConferenceScreen.DefaultType()
+        public static let defaultValue: HMSConferenceScreen.DefaultType = .default
     }
     
     var conferenceComponentParam: HMSConferenceScreen.DefaultType {

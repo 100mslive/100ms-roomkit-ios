@@ -38,7 +38,7 @@ struct HMSMainConferenceView: View {
                     }
             }
             else {
-                HMSPeerCallLayout()
+                HMSPeerLayout()
             }
         }
     }

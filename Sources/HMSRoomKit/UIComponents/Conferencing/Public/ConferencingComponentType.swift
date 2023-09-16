@@ -25,11 +25,11 @@ extension HMSConferenceScreen {
             
             switch self {
             case .default(let closure):
-                var screen = DefaultType(chat: .init(), tileLayout: .init(grid: .init()))
+                var screen: DefaultType = .default
                 closure(&screen)
                 return InternalType.default(screen)
             case .liveStreaming(let closure):
-                var screen = DefaultType(chat: .init(), tileLayout: .init(grid: .init()))
+                var screen: DefaultType = .default
                 closure(&screen)
                 return InternalType.liveStreaming(screen)
             }
@@ -37,10 +37,16 @@ extension HMSConferenceScreen {
     }
     
     public struct DefaultType {
+        
+        public static let `default`: Self = .init()
+        internal init() {}
 
-        public var chat: Chat? = .init()
+        public var chat: Chat? = .default
         
         public struct Chat {
+            
+            public static let `default`: Self = .init()
+            internal init() {}
             
             public enum InitialState {
                 case open
@@ -51,8 +57,6 @@ extension HMSConferenceScreen {
             public var isOverlay: Bool = false
             public var allowsPinningMessages: Bool = true
             
-            public static let `default`: Self = .init()
-            internal init() {}
             public init(initialState: InitialState, isOverlay: Bool, allowsPinningMessages: Bool) {
                 self.initialState = initialState
                 self.isOverlay = isOverlay
@@ -63,7 +67,9 @@ extension HMSConferenceScreen {
         public var tileLayout: TileLayout? = TileLayout(grid: .default)
         
         public struct TileLayout: Codable {
+            
             public let grid: Grid
+            
             public init(grid: Grid) {
                 self.grid = grid
             }
@@ -71,12 +77,11 @@ extension HMSConferenceScreen {
             public struct Grid: Codable {
                 
                 public static let `default`: Grid = .init()
+                internal init(){}
                 
                 public var isLocalTileInsetEnabled: Bool = true
                 public var prominentRoles: [String] = []
                 public var canSpotlightParticipant: Bool = true
-                
-                internal init(){}
                 
                 public init(isLocalTileInsetEnabled: Bool, prominentRoles: [String], canSpotlightParticipant: Bool) {
                     self.isLocalTileInsetEnabled = isLocalTileInsetEnabled
@@ -86,7 +91,7 @@ extension HMSConferenceScreen {
             }
         }
         
-        public var onStageExperience: OnStageExperience?
+        public var onStageExperience: OnStageExperience? = nil
         public struct OnStageExperience {
             public let onStageRoleName: String
             public let rolesWhoCanComeOnStage: [String]
@@ -94,16 +99,24 @@ extension HMSConferenceScreen {
             public let removeFromStageLabel: String
         }
         
-        public var brb: BRB?
+        public var brb: BRB? = .default
         public struct BRB {
             public static let `default`: Self = .init()
             internal init() {}
         }
         
-        public var participantList: ParticipantList?
+        public var participantList: ParticipantList? = .default
         public struct ParticipantList {
             public static let `default`: Self = .init()
             internal init() {}
+        }
+        
+        public init(chat: Chat? = .default, tileLayout: TileLayout? = .init(grid: .default), onStageExperience: OnStageExperience? = nil, brb: BRB? = .default, participantList: ParticipantList? = .default) {
+            self.chat = chat
+            self.tileLayout = tileLayout
+            self.onStageExperience = onStageExperience
+            self.brb = brb
+            self.participantList = participantList
         }
     }
 }

@@ -17,22 +17,36 @@ struct CustomMeetingView: View {
     
     var body: some View {
         
-        VStack {
-            HMSPreviewScreen { screen in
-                screen.title = "title"
-                screen.subTitle = "subtitle"
-                screen.goLiveButtonLabel = "goLiveButtonLabel"
-                screen.joinButtonLabel = "joinButtonLabel"
-                screen.joinButtonType = .join
-            }
+        TabView {
             
-            HMSConferenceScreen { screen in
-                screen.brb = .default
-                screen.tileLayout = .init(grid: .default)
-                screen.onStageExperience = nil
-                screen.chat = .default
-                screen.participantList = .default
+            VStack {
+                HMSPreviewScreen { screen in
+                    screen.title = "title"
+                    screen.subTitle = "subtitle"
+                    screen.goLiveButtonLabel = "goLiveButtonLabel"
+                    screen.joinButtonLabel = "joinButtonLabel"
+                    screen.joinButtonType = .join
+                }
+                
+                
+                HMSPreviewScreen()
             }
+            .environment(\.previewComponentParam, .init(title: "Hello Kitty"))
+            .tabItem { Text("Preview") }
+            
+            VStack {
+                HMSConferenceScreen { screen in
+                    screen.brb = .default
+                    screen.tileLayout = .init(grid: .default)
+                    screen.onStageExperience = nil
+                    screen.chat = .default
+                    screen.participantList = .default
+                }
+                
+                HMSConferenceScreen()
+            }
+            .environment(\.conferenceComponentParam, .init(chat: .default, tileLayout: .none, onStageExperience: .none, brb: .default, participantList: .default))
+            .tabItem { Text("Conference") }
         }
         .environmentObject(room)
         .environmentObject(HMSUITheme())
