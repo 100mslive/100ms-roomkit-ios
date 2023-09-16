@@ -27,27 +27,11 @@ extension EnvironmentValues {
 
 extension EnvironmentValues {
     
-    enum LeaveContext {
-        case none, cancel, leave, endSession
-    }
-    
-    struct LeaveContextKey: EnvironmentKey {
-        static let defaultValue: Binding<LeaveContext> = .constant(.none)
-    }
-    
-    var leaveContext: Binding<LeaveContext> {
-        get { self[LeaveContextKey.self] }
-        set { self[LeaveContextKey.self] = newValue }
-    }
-}
-
-extension EnvironmentValues {
-    
     enum HMSControlsState {
-        case hidden, none
+        case hidden, visible
         
         struct Key: EnvironmentKey {
-            static let defaultValue: Binding<HMSControlsState> = .constant(.none)
+            static let defaultValue: Binding<HMSControlsState> = .constant(.visible)
         }
     }
     
@@ -57,7 +41,7 @@ extension EnvironmentValues {
     }
     
     enum HMSTabPageBarState {
-        case visible, hidden
+        case hidden, visible
         
         struct Key: EnvironmentKey {
             static let defaultValue: Binding<HMSTabPageBarState> = .constant(.hidden)

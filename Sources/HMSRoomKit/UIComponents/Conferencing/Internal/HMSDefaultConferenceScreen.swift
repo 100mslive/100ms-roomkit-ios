@@ -16,7 +16,7 @@ public struct HMSDefaultConferenceScreen: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     
-    @State private var controlsState = EnvironmentValues.HMSControlsState.none
+    @State private var controlsState = EnvironmentValues.HMSControlsState.visible
     @State private var tabPageBarState = EnvironmentValues.HMSTabPageBarState.hidden
     @State private var menuContext = EnvironmentValues.MenuContext.none
     @State private var keyboardState = EnvironmentValues.HMSKeyboardState.hidden
@@ -194,7 +194,7 @@ public struct HMSDefaultConferenceScreen: View {
         
         if menuContext == .none {
             withAnimation {
-                controlsState = controlsState == .hidden ? .none : .hidden
+                controlsState = controlsState == .hidden ? .visible : .hidden
             }
         }
         else {

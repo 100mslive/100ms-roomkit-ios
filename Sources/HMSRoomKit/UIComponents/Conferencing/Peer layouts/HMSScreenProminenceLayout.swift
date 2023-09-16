@@ -74,13 +74,13 @@ struct HMSScreenProminenceLayout: View {
                 }
                 
                 if isExpanded {
-                    controlsState.wrappedValue = .none
+                    controlsState.wrappedValue = .visible
                 }
             }
         }
         .onChange(of: isExpanded) { isExpanded in
             withAnimation {
-                controlsState.wrappedValue = isExpanded ? .hidden : .none
+                controlsState.wrappedValue = isExpanded ? .hidden : .visible
             }
         }
     }
