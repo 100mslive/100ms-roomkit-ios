@@ -12,11 +12,10 @@ import SwiftUI
 public extension EnvironmentValues {
     struct HMSConferenceComponentParamKey: EnvironmentKey {
         
-        // Should never be used but it's required by EnvironmentKey protocol
         public static let defaultValue: HMSConferenceScreen.DefaultType = .default
     }
     
-    var conferenceComponentParam: HMSConferenceScreen.DefaultType {
+    var conferenceParams: HMSConferenceScreen.DefaultType {
         get { self[HMSConferenceComponentParamKey.self] }
         set { self[HMSConferenceComponentParamKey.self] = newValue }
     }

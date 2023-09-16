@@ -28,24 +28,23 @@ struct CustomMeetingView: View {
                     screen.joinButtonType = .join
                 }
                 
-                
                 HMSPreviewScreen()
             }
-            .environment(\.previewComponentParam, .init(title: "Hello Kitty"))
+            .environment(\.previewParams, .init(title: "Hello Kitty"))
             .tabItem { Text("Preview") }
             
             VStack {
                 HMSConferenceScreen { screen in
                     screen.brb = .default
                     screen.tileLayout = .init(grid: .default)
-                    screen.onStageExperience = nil
+                    screen.onStageExperience = .none
                     screen.chat = .default
                     screen.participantList = .default
                 }
                 
                 HMSConferenceScreen()
             }
-            .environment(\.conferenceComponentParam, .init(chat: .default, tileLayout: .none, onStageExperience: .none, brb: .default, participantList: .default))
+            .environment(\.conferenceParams, .init(chat: .none, tileLayout: .none, onStageExperience: .none, brb: .none, participantList: .none))
             .tabItem { Text("Conference") }
         }
         .environmentObject(room)

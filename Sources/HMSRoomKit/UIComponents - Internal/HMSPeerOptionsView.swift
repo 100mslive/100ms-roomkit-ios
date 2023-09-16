@@ -37,7 +37,7 @@ struct HMSPeerOptionsViewContext {
 
 struct HMSPeerOptionsButtonView<Content: View>: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     @Environment(\.menuContext) var menuContext
     
     @AppStorage("isInsetMinimized") var isInsetMinimized: Bool = false
@@ -158,7 +158,7 @@ struct HMSOptionsHeaderView: View {
 
 struct HMSPeerOptionsView: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var peerModel: HMSPeerModel

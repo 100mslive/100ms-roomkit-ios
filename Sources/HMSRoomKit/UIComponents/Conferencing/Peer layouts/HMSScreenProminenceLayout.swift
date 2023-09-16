@@ -12,7 +12,7 @@ import HMSRoomModels
 
 struct HMSScreenProminenceLayout: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.controlsState) var controlsState
     

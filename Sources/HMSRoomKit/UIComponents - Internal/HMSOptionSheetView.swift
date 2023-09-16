@@ -12,7 +12,7 @@ import HMSRoomModels
 
 struct HMSOptionSheetView: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     enum Sheet: String, Identifiable {
         case chat

@@ -12,7 +12,7 @@ import HMSRoomModels
 
 struct HMSNotificationStackView: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomKitModel: HMSRoomKitModel
