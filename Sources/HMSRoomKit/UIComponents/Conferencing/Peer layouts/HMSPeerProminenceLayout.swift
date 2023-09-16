@@ -12,7 +12,7 @@ import HMSRoomModels
 
 struct HMSPeerProminenceLayout: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.tabPageBarState) var tabPageBarState
     
@@ -58,7 +58,7 @@ struct HMSPeerProminenceLayout_Previews: PreviewProvider {
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(3, [.prominent, .prominent]))
             .environmentObject(HMSRoomInfoModel())
-            .environment(\.conferenceComponentParam, EnvironmentValues.HMSConferenceComponentParamKey.defaultValue)
+            .environment(\.conferenceParams, EnvironmentValues.HMSConferenceComponentParamKey.defaultValue)
 #endif
     }
 }

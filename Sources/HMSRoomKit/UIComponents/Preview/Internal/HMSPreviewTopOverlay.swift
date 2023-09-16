@@ -12,7 +12,7 @@ import HMSRoomModels
 
 struct HMSPreviewTopOverlay: View {
     
-    @Environment(\.previewComponentParam) var previewComponentParam
+    @Environment(\.previewParams) var previewComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme

@@ -28,10 +28,9 @@ struct CustomMeetingView: View {
                     screen.joinButtonType = .join
                 }
                 
-                
                 HMSPreviewScreen()
             }
-            .environment(\.previewComponentParam, .init(title: "Hello Kitty"))
+            .environment(\.previewParams, .init(title: "Hello Kitty"))
             .tabItem { Text("Preview") }
             
             VStack {
@@ -45,7 +44,7 @@ struct CustomMeetingView: View {
                 
                 HMSConferenceScreen()
             }
-            .environment(\.conferenceComponentParam, .init(chat: .default, tileLayout: .none, onStageExperience: .none, brb: .default, participantList: .default))
+            .environment(\.conferenceParams, .init(chat: .default, tileLayout: .none, onStageExperience: .none, brb: .default, participantList: .default))
             .tabItem { Text("Conference") }
         }
         .environmentObject(room)

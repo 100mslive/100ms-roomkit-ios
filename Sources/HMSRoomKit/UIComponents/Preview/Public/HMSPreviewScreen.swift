@@ -12,7 +12,7 @@ import HMSRoomModels
 
 public struct HMSPreviewScreen: View {
     
-    @Environment(\.previewComponentParam) var previewComponentParam
+    @Environment(\.previewParams) var previewComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
@@ -47,7 +47,7 @@ public struct HMSPreviewScreen: View {
             switch type {
             case .default(let previewParams):
                 HMSPreviewScreenLiveStreaming()
-                    .environment(\.previewComponentParam, isDefaultType ? previewComponentParam : previewParams)
+                    .environment(\.previewParams, isDefaultType ? previewComponentParam : previewParams)
             }
         }
         .checkAccessibility(interval: 1, denial: $isPermissionDenialScreenPresented)

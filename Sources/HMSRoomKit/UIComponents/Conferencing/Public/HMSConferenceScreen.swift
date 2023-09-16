@@ -12,7 +12,7 @@ import HMSRoomModels
 
 public struct HMSConferenceScreen: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
@@ -48,11 +48,11 @@ public struct HMSConferenceScreen: View {
             switch type {
             case .default(let conferenceParams):
                 HMSDefaultConferenceScreen(isHLSViewer: false)
-                    .environment(\.conferenceComponentParam, isDefaultType ? conferenceComponentParam : conferenceParams)
+                    .environment(\.conferenceParams, isDefaultType ? conferenceComponentParam : conferenceParams)
                 
             case .liveStreaming(let conferenceParams):
                 HMSDefaultConferenceScreen(isHLSViewer: true)
-                    .environment(\.conferenceComponentParam, isDefaultType ? conferenceComponentParam : conferenceParams)
+                    .environment(\.conferenceParams, isDefaultType ? conferenceComponentParam : conferenceParams)
             }
         }
         .checkAccessibility(interval: 1, denial: $isPermissionDenialScreenPresented)
@@ -71,7 +71,7 @@ struct HMSConferenceScreen_Previews: PreviewProvider {
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(HMSRoomKitModel())
             .environmentObject(HMSRoomInfoModel())
-            .environment(\.conferenceComponentParam, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
+            .environment(\.conferenceParams, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
 #endif
     }
 }

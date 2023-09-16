@@ -14,7 +14,7 @@ public struct HMSPeerLayout: View {
     
     public init(){}
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.controlsState) var controlsState
     @Environment(\.tabPageBarState) var tabPageBarState

@@ -12,11 +12,10 @@ public extension EnvironmentValues {
     
     struct HMSPreviewComponentParamKey: EnvironmentKey {
         
-        // Should never be used but it's required by EnvironmentKey protocol
         public static let defaultValue: HMSPreviewScreen.DefaultType = .default
     }
     
-    var previewComponentParam: HMSPreviewScreen.DefaultType {
+    var previewParams: HMSPreviewScreen.DefaultType {
         get { self[HMSPreviewComponentParamKey.self] }
         set { self[HMSPreviewComponentParamKey.self] = newValue }
     }

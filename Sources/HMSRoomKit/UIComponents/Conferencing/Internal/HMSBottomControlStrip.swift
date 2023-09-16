@@ -12,7 +12,7 @@ import HMSRoomModels
 
 struct HMSBottomControlStrip: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.menuContext) var menuContext
     @EnvironmentObject var roomModel: HMSRoomModel

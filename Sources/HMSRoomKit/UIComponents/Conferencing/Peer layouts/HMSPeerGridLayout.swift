@@ -12,7 +12,7 @@ import HMSRoomModels
 
 struct HMSPeerGridLayout: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     var peersInOnePage = 6
     var prominentPeers: [HMSPeerModel] = []

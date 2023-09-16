@@ -13,7 +13,7 @@ import HMSRoomModels
 struct HMSJoinLabelView: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
-    @Environment(\.previewComponentParam) var previewComponentParam
+    @Environment(\.previewParams) var previewComponentParam
     
     let userName: String
     @Binding var isJoining: Bool
@@ -59,7 +59,7 @@ struct HMSJoinButtonView_Previews: PreviewProvider {
             
             HMSJoinLabelView(userName: "Pawan iOS", isJoining: .constant(false))
                 .environmentObject(HMSUITheme())
-                .environment(\.previewComponentParam, HMSPreviewScreen.DefaultType(title: "Go Live", subTitle: "defaultValue", joinButtonType: .goLive, joinButtonLabel: "defaultValue", goLiveButtonLabel: "defaultGoLive"))
+                .environment(\.previewParams, HMSPreviewScreen.DefaultType(title: "Go Live", subTitle: "defaultValue", joinButtonType: .goLive, joinButtonLabel: "defaultValue", goLiveButtonLabel: "defaultGoLive"))
         }
     }
 }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct HMSNotificationView: View {
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     let notification: HMSRoomKitNotification
     let onDismiss: ()->Void
