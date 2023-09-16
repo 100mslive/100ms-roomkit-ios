@@ -17,7 +17,6 @@ struct HMSBottomControlStrip: View {
     @Environment(\.menuContext) var menuContext
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
-    @EnvironmentObject var options: HMSPrebuiltOptions
     
     @Binding var isChatPresented: Bool
     @State var isSessionMenuPresented = false
@@ -75,7 +74,6 @@ struct HMSBottomControlStrip: View {
                                 HMSSheet {
                                     HMSOptionSheetView()
                                         .environmentObject(currentTheme)
-                                        .environmentObject(options)
                                         .environmentObject(roomModel)
                                         .environmentObject(localPeerModel)
                                 }

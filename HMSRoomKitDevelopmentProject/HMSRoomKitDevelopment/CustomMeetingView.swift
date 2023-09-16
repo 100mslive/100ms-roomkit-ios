@@ -20,32 +20,43 @@ struct CustomMeetingView: View {
         TabView {
             
             VStack {
-                HMSPreviewScreen { screen in
-                    screen.title = "title"
-                    screen.subTitle = "subtitle"
-                    screen.goLiveButtonLabel = "goLiveButtonLabel"
-                    screen.joinButtonLabel = "joinButtonLabel"
-                    screen.joinButtonType = .join
-                }
-                
-                HMSPreviewScreen()
+//                HMSPreviewScreen { screen in
+//                    screen.title = "title"
+//                    screen.subTitle = "subtitle"
+//                    screen.goLiveButtonLabel = "goLiveButtonLabel"
+//                    screen.joinButtonLabel = "joinButtonLabel"
+//                    screen.joinButtonType = .join
+//                }
+//                
+//                HMSPreviewScreen()
             }
             .environment(\.previewParams, .init(title: "Hello Kitty"))
             .tabItem { Text("Preview") }
             
-            VStack {
-                HMSConferenceScreen { screen in
-                    screen.brb = .default
-                    screen.tileLayout = .init(grid: .default)
-                    screen.onStageExperience = .none
-                    screen.chat = .default
-                    screen.participantList = .default
+            Group {
+                VStack {
+//                    HMSConferenceScreen { screen in
+//                        screen.brb = .default
+//                        screen.tileLayout = .init(grid: .default)
+//                        screen.onStageExperience = .none
+//                        screen.chat = .default
+//                        screen.participantList = .default
+//                    }
+                    
+                    HMSConferenceScreen()
                 }
+                .tabItem { Text("Conference") }
                 
-                HMSConferenceScreen()
+                VStack {
+                    HMSPeerLayout()
+                }
+                .tabItem { Text("Layout") }
             }
             .environment(\.conferenceParams, .init(chat: .none, tileLayout: .none, onStageExperience: .none, brb: .none, participantList: .none))
-            .tabItem { Text("Conference") }
+        }
+        .task {
+            try! await room.preview()
+            try! await room.join(userName: "jane")
         }
         .environmentObject(room)
         .environmentObject(HMSUITheme())
