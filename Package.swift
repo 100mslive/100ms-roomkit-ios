@@ -11,15 +11,16 @@ let package = Package(
         .library(
             name: "HMSRoomKit",
             targets: ["HMSRoomKit"]),
-        .library(
-            name: "Lottie",
-            targets: ["Lottie"]),
+//        .library(
+//            name: "Lottie",
+//            targets: ["Lottie"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/100mslive/100ms-roomkit-models-ios", from: "1.0.0"),
         .package(url: "https://github.com/100mslive/Popovers", from: "1.0.0"),
+        .package(name: "Lottie", url: "https://github.com/airbnb/lottie-spm.git", from: "4.3.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -40,9 +41,9 @@ let package = Package(
             url: "https://github.com/100mslive/100ms-ios-hls-sdk/releases/download/0.0.2/HMSHLSPlayerSDK.xcframework.zip",
             checksum: "470932129c8dd358ebbe748bc1e05739f33c642779513fee17e42a117329dce2"
         ),
-        .binaryTarget(
-            name: "Lottie",
-            url: "https://github.com/airbnb/lottie-ios/releases/download/4.2.0/Lottie.xcframework.zip",
-            checksum: "4db3dee208f6213e5c1681f2314c7ed96d466d9b9adfe5cd0030309515075443"),
+//        .binaryTarget(
+//            name: "Lottie",
+//            url: "https://github.com/airbnb/lottie-ios/releases/download/4.2.0/Lottie.xcframework.zip",
+//            checksum: "4db3dee208f6213e5c1681f2314c7ed96d466d9b9adfe5cd0030309515075443"),
     ]
 )
