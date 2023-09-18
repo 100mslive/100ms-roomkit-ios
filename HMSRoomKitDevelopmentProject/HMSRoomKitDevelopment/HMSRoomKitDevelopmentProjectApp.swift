@@ -14,7 +14,7 @@ struct HMSRoomKitDevelopmentProjectApp: App {
 #if Development
             ContentView()
 #else
-            CustomMeetingView()
+            CustomMeetingTestView()
 #endif
         }
     }

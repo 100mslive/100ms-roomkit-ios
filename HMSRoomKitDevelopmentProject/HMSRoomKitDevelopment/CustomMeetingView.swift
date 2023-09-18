@@ -11,48 +11,49 @@ import HMSRoomKit
 import HMSRoomModels
 #endif
 
+import HMSRoomKit
+import HMSRoomModels
+
 struct CustomMeetingView: View {
     
-    let room = HMSRoomModel(roomCode: "qdw-mil-sev")
+    @ObservedObject var room = HMSRoomModel(roomCode: "qdw-mil-sev")
     
     var body: some View {
         
-        TabView {
-            
-            VStack {
-//                HMSPreviewScreen { screen in
-//                    screen.title = "title"
-//                    screen.subTitle = "subtitle"
-//                    screen.goLiveButtonLabel = "goLiveButtonLabel"
-//                    screen.joinButtonLabel = "joinButtonLabel"
-//                    screen.joinButtonType = .join
-//                }
-//                
+        Group {
+            switch room.roomState {
+            case .none:
                 HMSPreviewScreen()
-            }
-            .environment(\.previewParams, .init(title: "Hello Kitty"))
-            .tabItem { Text("Preview") }
-            
-            Group {
-                VStack {
-//                    HMSConferenceScreen { screen in
-//                        screen.brb = .default
-//                        screen.tileLayout = .init(grid: .default)
-//                        screen.onStageExperience = .none
-//                        screen.chat = .default
-//                        screen.participantList = .default
-//                    }
-                    
-                    HMSConferenceScreen()
-                }
-                .tabItem { Text("Conference") }
-                
+            case .meeting:
                 VStack {
                     HMSPeerLayout()
+                    
+                    HStack(spacing: 30) {
+                        Spacer()
+                        Image(systemName: room.isMicMute ? "mic.slash" : "mic")
+                            .onTapGesture {
+                                room.toggleMic()
+                            }
+                        
+                        Image(systemName: room.isCameraMute ? "video.slash" : "video")
+                            .onTapGesture {
+                                room.toggleCamera()
+                            }
+                        
+                        Image(systemName: "phone.down.fill")
+                            .onTapGesture {
+                                Task {
+                                    try await room.leave()
+                                }
+                            }
+                        Spacer()
+                    }
+                    .padding()
                 }
-                .tabItem { Text("Layout") }
+                .environment(\.conferenceParams, .init(tileLayout: .defaultGrid))
+            case .leave:
+                HMSEndCallScreen()
             }
-            .environment(\.conferenceParams, .init(chat: .none, tileLayout: .none, onStageExperience: .none, brb: .none, participantList: .none))
         }
         .environmentObject(room)
         .environmentObject(HMSUITheme())

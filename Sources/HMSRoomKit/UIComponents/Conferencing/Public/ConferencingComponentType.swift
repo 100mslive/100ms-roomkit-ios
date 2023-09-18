@@ -68,6 +68,8 @@ extension HMSConferenceScreen {
         
         public struct TileLayout: Codable {
             
+            public static let defaultGrid: Self = .init(grid: .default)
+            
             public let grid: Grid
             
             public init(grid: Grid) {
@@ -76,10 +78,10 @@ extension HMSConferenceScreen {
             
             public struct Grid: Codable {
                 
-                public static let `default`: Grid = .init()
+                public static let `default`: Self = .init()
                 internal init(){}
                 
-                public var isLocalTileInsetEnabled: Bool = true
+                public var isLocalTileInsetEnabled: Bool = false
                 public var prominentRoles: [String] = []
                 public var canSpotlightParticipant: Bool = true
                 

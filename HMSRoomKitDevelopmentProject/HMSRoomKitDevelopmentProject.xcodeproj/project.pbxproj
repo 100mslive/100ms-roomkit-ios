@@ -364,6 +364,8 @@
 		87952E3E2AB4E03600929A30 /* HMSPeerModel-Base-Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952E172AB4E03500929A30 /* HMSPeerModel-Base-Actions.swift */; };
 		87952E3F2AB4E03600929A30 /* HMSPeerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952E182AB4E03500929A30 /* HMSPeerModel.swift */; };
 		87952E402AB4E03600929A30 /* HMSPeerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952E182AB4E03500929A30 /* HMSPeerModel.swift */; };
+		87B1D4172AB81FD8001EBFA7 /* CustomMeetingTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B1D4162AB81FD8001EBFA7 /* CustomMeetingTestView.swift */; };
+		87B1D4182AB81FD8001EBFA7 /* CustomMeetingTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B1D4162AB81FD8001EBFA7 /* CustomMeetingTestView.swift */; };
 		87E669AC2AB4EEA800073016 /* HMSSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AB2AB4EEA800073016 /* HMSSDK */; };
 		87E669AE2AB4EEB000073016 /* HMSAnalyticsSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AD2AB4EEB000073016 /* HMSAnalyticsSDK */; };
 		87E669B02AB4EEB600073016 /* WebRTC in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AF2AB4EEB600073016 /* WebRTC */; };
@@ -603,6 +605,7 @@
 		87952E162AB4E03500929A30 /* HMSRoomModel-Internal-Callbacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HMSRoomModel-Internal-Callbacks.swift"; sourceTree = "<group>"; };
 		87952E172AB4E03500929A30 /* HMSPeerModel-Base-Actions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HMSPeerModel-Base-Actions.swift"; sourceTree = "<group>"; };
 		87952E182AB4E03500929A30 /* HMSPeerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSPeerModel.swift; sourceTree = "<group>"; };
+		87B1D4162AB81FD8001EBFA7 /* CustomMeetingTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMeetingTestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -682,6 +685,7 @@
 				875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */,
 				875F3A632AB19E7300904307 /* ContentView.swift */,
 				87952C132AB4DE5500929A30 /* CustomMeetingView.swift */,
+				87B1D4162AB81FD8001EBFA7 /* CustomMeetingTestView.swift */,
 				875F3BB72AB1A12E00904307 /* JoiningView.swift */,
 				875F3A652AB19E7500904307 /* Assets.xcassets */,
 				875F3A672AB19E7500904307 /* Preview Content */,
@@ -1332,6 +1336,7 @@
 				87952D0C2AB4E02B00929A30 /* HMSCameraToggleView.swift in Sources */,
 				87952DDA2AB4E02B00929A30 /* HMSStreamNotStartedView.swift in Sources */,
 				87952E272AB4E03600929A30 /* HMSRoomModels.swift in Sources */,
+				87B1D4172AB81FD8001EBFA7 /* CustomMeetingTestView.swift in Sources */,
 				87952DD02AB4E02B00929A30 /* HMSPaginatedBottomTilesView.swift in Sources */,
 				87952D662AB4E02B00929A30 /* HMSChatAvatarView.swift in Sources */,
 				87952DAC2AB4E02B00929A30 /* HMSChatOverlay.swift in Sources */,
@@ -1688,6 +1693,7 @@
 				87952C1E2AB4DEB600929A30 /* ContentView.swift in Sources */,
 				87952C1F2AB4DEB600929A30 /* JoiningView.swift in Sources */,
 				87952C202AB4DEB600929A30 /* HMSRoomKitDevelopmentProjectApp.swift in Sources */,
+				87B1D4182AB81FD8001EBFA7 /* CustomMeetingTestView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
