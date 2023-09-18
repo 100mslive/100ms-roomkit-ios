@@ -11,9 +11,6 @@ import HMSRoomKit
 import HMSRoomModels
 #endif
 
-import HMSRoomKit
-import HMSRoomModels
-
 struct CustomMeetingView: View {
     
     @ObservedObject var room = HMSRoomModel(roomCode: "qdw-mil-sev")
