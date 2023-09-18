@@ -21,8 +21,6 @@ struct HMSEndCallButton: View {
     @State var isLeaveSheetPresented = false
     @State var isEndCallSheetPresented = false
     
-    @State var leaveContext = EnvironmentValues.LeaveContext.none
-    
     var type: HMSEndCallButtonView.ButtonType
     
     var body: some View {

@@ -8,15 +8,14 @@
 
 import SwiftUI
 
-internal extension EnvironmentValues {
+public extension EnvironmentValues {
     
     struct HMSPreviewComponentParamKey: EnvironmentKey {
         
-        // Should never be used but it's required by EnvironmentKey protocol
-        static let defaultValue: HMSPreviewScreen.DefaultType = HMSPreviewScreen.DefaultType(title: "defaultValue", subTitle: "defaultValue", joinButtonType: .join, joinButtonLabel: "defaultValue", goLiveButtonLabel: "defaultGoLive")
+        public static let defaultValue: HMSPreviewScreen.DefaultType = .default
     }
     
-    var previewComponentParam: HMSPreviewScreen.DefaultType {
+    var previewParams: HMSPreviewScreen.DefaultType {
         get { self[HMSPreviewComponentParamKey.self] }
         set { self[HMSPreviewComponentParamKey.self] = newValue }
     }

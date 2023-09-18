@@ -12,18 +12,29 @@ import HMSRoomModels
 
 public struct HMSPreviewScreen: View {
     
+    @Environment(\.previewParams) var previewComponentParam
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
     
+    let isDefaultType: Bool
+    
     let type: InternalType
-    public init(_ type: `Type` = .default()) {
+    public init() {
+        isDefaultType = true
+        self.type = .default(.default)
+    }
+    public init(_ type: `Type`) {
+        isDefaultType = false
         self.type = type.process()
     }
     public init(_ type: ()->`Type`) {
+        isDefaultType = false
         let theType = type()
         self.type = theType.process()
     }
     public init(_ block: @escaping ((inout DefaultType) -> Void)) {
+        isDefaultType = false
         let theType = `Type`.default(block)
         self.type = theType.process()
     }
@@ -36,7 +47,7 @@ public struct HMSPreviewScreen: View {
             switch type {
             case .default(let previewParams):
                 HMSPreviewScreenLiveStreaming()
-                    .environment(\.previewComponentParam, previewParams)
+                    .environment(\.previewParams, isDefaultType ? previewComponentParam : previewParams)
             }
         }
         .checkAccessibility(interval: 1, denial: $isPermissionDenialScreenPresented)

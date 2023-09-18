@@ -12,7 +12,7 @@ import HMSRoomModels
 
 public struct HMSPeerVerticalListLayout: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.controlsState) private var controlsState
     

@@ -12,11 +12,11 @@ import HMSRoomModels
 
 public struct HMSDefaultConferenceScreen: View {
     
-    @Environment(\.conferenceComponentParam) var conferenceComponentParam
+    @Environment(\.conferenceParams) var conferenceComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
     
-    @State private var controlsState = EnvironmentValues.HMSControlsState.none
+    @State private var controlsState = EnvironmentValues.HMSControlsState.visible
     @State private var tabPageBarState = EnvironmentValues.HMSTabPageBarState.hidden
     @State private var menuContext = EnvironmentValues.MenuContext.none
     @State private var keyboardState = EnvironmentValues.HMSKeyboardState.hidden
@@ -32,7 +32,6 @@ public struct HMSDefaultConferenceScreen: View {
         
         let isChatOverlay = conferenceComponentParam.chat?.isOverlay ?? false
         let chatInitialState = conferenceComponentParam.chat?.initialState ?? .close
-        let onStageExperience = conferenceComponentParam.onStageExperience
         
         VStack(spacing: 0) {
             
@@ -110,6 +109,7 @@ public struct HMSDefaultConferenceScreen: View {
             // Remove notification for peers who have lowered their hands
             roomKitModel.removeNotification(for: peerIdsWhoHaveLoweredHands)
             
+            let onStageExperience = conferenceComponentParam.onStageExperience
             guard let rolesWhoCanComeOnStage = onStageExperience?.rolesWhoCanComeOnStage else {
                 return
             }
@@ -194,7 +194,7 @@ public struct HMSDefaultConferenceScreen: View {
         
         if menuContext == .none {
             withAnimation {
-                controlsState = controlsState == .hidden ? .none : .hidden
+                controlsState = controlsState == .hidden ? .visible : .hidden
             }
         }
         else {
@@ -224,7 +224,7 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
             .environmentObject(HMSPrebuiltOptions())
             .environmentObject(HMSRoomInfoModel())
             .environmentObject(roomKitModel)
-            .environment(\.conferenceComponentParam, .init(chat: .init(initialState: .open, isOverlay: true), tileLayout: .init(grid: .init(prominentRoles: ["stage"]))))
+            .environment(\.conferenceParams, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
 #endif
     }
 }

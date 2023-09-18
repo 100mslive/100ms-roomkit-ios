@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1430"
+   LastUpgradeVersion = "1500"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "HMSRoomKit"
-               BuildableName = "HMSRoomKit"
-               BlueprintName = "HMSRoomKit"
-               ReferencedContainer = "container:">
+               BlueprintIdentifier = "87952C152AB4DEB600929A30"
+               BuildableName = "HMSRoomKitPublicAPITest.app"
+               BlueprintName = "HMSRoomKitPublicAPITest"
+               ReferencedContainer = "container:HMSRoomKitDevelopmentProject.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -39,6 +39,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "87952C152AB4DEB600929A30"
+            BuildableName = "HMSRoomKitPublicAPITest.app"
+            BlueprintName = "HMSRoomKitPublicAPITest"
+            ReferencedContainer = "container:HMSRoomKitDevelopmentProject.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -46,15 +56,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "HMSRoomKit"
-            BuildableName = "HMSRoomKit"
-            BlueprintName = "HMSRoomKit"
-            ReferencedContainer = "container:">
+            BlueprintIdentifier = "87952C152AB4DEB600929A30"
+            BuildableName = "HMSRoomKitPublicAPITest.app"
+            BlueprintName = "HMSRoomKitPublicAPITest"
+            ReferencedContainer = "container:HMSRoomKitDevelopmentProject.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

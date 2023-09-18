@@ -11,7 +11,11 @@ import SwiftUI
 struct HMSRoomKitDevelopmentProjectApp: App {
     var body: some Scene {
         WindowGroup {
+#if Development
             ContentView()
+#else
+            CustomMeetingTestView()
+#endif
         }
     }
 }
