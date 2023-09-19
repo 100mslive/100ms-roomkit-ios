@@ -57,6 +57,8 @@ struct CustomMeetingView: View {
     }
 }
 
-#Preview {
-    CustomMeetingView()
+struct CustomMeetingView_Previews: PreviewProvider {
+    static var previews: some View {
+        CustomMeetingView()
+    }
 }
