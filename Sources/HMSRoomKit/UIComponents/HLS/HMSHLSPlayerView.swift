@@ -7,8 +7,8 @@
 //
 
 import SwiftUI
-#if !Preview
 import HMSSDK
+#if !Preview
 import HMSHLSPlayerSDK
 #endif
 import HMSRoomModels

@@ -10,9 +10,7 @@ import SwiftUI
 
 extension Image {
     init(assetName: String) {
-#if Development
-        self.init(assetName, bundle: .main)
-#elseif Preview
+#if Development || Preview
         self.init(assetName, bundle: .main)
 #else
         self.init(assetName, bundle: .module)
@@ -23,9 +21,7 @@ extension Image {
 
 extension Color {
     init(assetName: String) {
-#if Development
-        self.init(assetName, bundle: .main)
-#elseif Preview
+#if Development || Preview
         self.init(assetName, bundle: .main)
 #else
         self.init(assetName, bundle: .module)
