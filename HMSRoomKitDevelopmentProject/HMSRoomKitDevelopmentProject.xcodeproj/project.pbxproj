@@ -204,8 +204,8 @@
 		87952D872AB4E02B00929A30 /* HMSRecordingStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C8C2AB4E02A00929A30 /* HMSRecordingStatusView.swift */; };
 		87952D882AB4E02B00929A30 /* HMSDefaultTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C8D2AB4E02A00929A30 /* HMSDefaultTileView.swift */; };
 		87952D892AB4E02B00929A30 /* HMSDefaultTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C8D2AB4E02A00929A30 /* HMSDefaultTileView.swift */; };
-		87952D8A2AB4E02B00929A30 /* HMSScreenShareTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C8F2AB4E02A00929A30 /* HMSScreenShareTile.swift */; };
-		87952D8B2AB4E02B00929A30 /* HMSScreenShareTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C8F2AB4E02A00929A30 /* HMSScreenShareTile.swift */; };
+		87952D8A2AB4E02B00929A30 /* HMSScreenSharePaginatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C8F2AB4E02A00929A30 /* HMSScreenSharePaginatedView.swift */; };
+		87952D8B2AB4E02B00929A30 /* HMSScreenSharePaginatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C8F2AB4E02A00929A30 /* HMSScreenSharePaginatedView.swift */; };
 		87952D8C2AB4E02B00929A30 /* HMSPreviewTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C902AB4E02A00929A30 /* HMSPreviewTile.swift */; };
 		87952D8D2AB4E02B00929A30 /* HMSPreviewTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C902AB4E02A00929A30 /* HMSPreviewTile.swift */; };
 		87952D8E2AB4E02B00929A30 /* HMSChatParticipantToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C922AB4E02A00929A30 /* HMSChatParticipantToggleView.swift */; };
@@ -525,7 +525,7 @@
 		87952C8B2AB4E02A00929A30 /* HMSParticipantCountStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSParticipantCountStatusView.swift; sourceTree = "<group>"; };
 		87952C8C2AB4E02A00929A30 /* HMSRecordingStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSRecordingStatusView.swift; sourceTree = "<group>"; };
 		87952C8D2AB4E02A00929A30 /* HMSDefaultTileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSDefaultTileView.swift; sourceTree = "<group>"; };
-		87952C8F2AB4E02A00929A30 /* HMSScreenShareTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSScreenShareTile.swift; sourceTree = "<group>"; };
+		87952C8F2AB4E02A00929A30 /* HMSScreenSharePaginatedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSScreenSharePaginatedView.swift; sourceTree = "<group>"; };
 		87952C902AB4E02A00929A30 /* HMSPreviewTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSPreviewTile.swift; sourceTree = "<group>"; };
 		87952C922AB4E02A00929A30 /* HMSChatParticipantToggleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSChatParticipantToggleView.swift; sourceTree = "<group>"; };
 		87952C942AB4E02A00929A30 /* HMSBottomChatStrip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSBottomChatStrip.swift; sourceTree = "<group>"; };
@@ -738,6 +738,15 @@
 			path = Screenshare;
 			sourceTree = "<group>";
 		};
+		8781CF102AB9B5E2006FB9C7 /* HLS */ = {
+			isa = PBXGroup;
+			children = (
+				87952CA82AB4E02A00929A30 /* HMSHLSViewerScreen.swift */,
+				87952CD42AB4E02B00929A30 /* HMSHLSPlayerView.swift */,
+			);
+			path = HLS;
+			sourceTree = "<group>";
+		};
 		87952C2D2AB4E02A00929A30 /* HMSRoomKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -911,18 +920,18 @@
 		87952C8E2AB4E02A00929A30 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
-				87952C8F2AB4E02A00929A30 /* HMSScreenShareTile.swift */,
-				87952C902AB4E02A00929A30 /* HMSPreviewTile.swift */,
+				87952CC42AB4E02A00929A30 /* Preview */,
+				87952CA42AB4E02A00929A30 /* Conferencing */,
+				8781CF102AB9B5E2006FB9C7 /* HLS */,
 				87952C912AB4E02A00929A30 /* Chat */,
+				87952C8F2AB4E02A00929A30 /* HMSScreenSharePaginatedView.swift */,
+				87952C902AB4E02A00929A30 /* HMSPreviewTile.swift */,
 				87952CA22AB4E02A00929A30 /* HMSPeerScreenTile.swift */,
 				87952CA32AB4E02A00929A30 /* HMSPeerTile.swift */,
-				87952CA42AB4E02A00929A30 /* Conferencing */,
 				87952CC32AB4E02A00929A30 /* HMSStreamNotStartedView.swift */,
-				87952CC42AB4E02A00929A30 /* Preview */,
 				87952CD02AB4E02B00929A30 /* HMSInsetPeerTile.swift */,
 				87952CD12AB4E02B00929A30 /* HMSParticipantsPreviewLabel.swift */,
 				87952CD22AB4E02B00929A30 /* Leave */,
-				87952CD42AB4E02B00929A30 /* HMSHLSPlayerView.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -996,7 +1005,6 @@
 			children = (
 				87952CA62AB4E02A00929A30 /* HMSBottomControlStrip.swift */,
 				87952CA72AB4E02A00929A30 /* HMSChatOverlay.swift */,
-				87952CA82AB4E02A00929A30 /* HMSHLSViewerScreen.swift */,
 				87952CA92AB4E02A00929A30 /* HMSMainConferenceView.swift */,
 				87952CAA2AB4E02A00929A30 /* HMSDefaultConferenceScreen.swift */,
 				87952CAB2AB4E02A00929A30 /* HMSTopControlStrip.swift */,
@@ -1439,7 +1447,7 @@
 				87952CE22AB4E02B00929A30 /* HMSVideoViewRepresentable.swift in Sources */,
 				87952DEA2AB4E02B00929A30 /* HMSPreviewScreen.swift in Sources */,
 				87952DC82AB4E02B00929A30 /* HMSRoomKitNotification.swift in Sources */,
-				87952D8A2AB4E02B00929A30 /* HMSScreenShareTile.swift in Sources */,
+				87952D8A2AB4E02B00929A30 /* HMSScreenSharePaginatedView.swift in Sources */,
 				87952CEC2AB4E02B00929A30 /* HMSDivider.swift in Sources */,
 				87952DF02AB4E02B00929A30 /* HMSParticipantsPreviewLabel.swift in Sources */,
 				87952D982AB4E02B00929A30 /* HMSPinnedChatMessageView.swift in Sources */,
@@ -1542,7 +1550,7 @@
 				87952DB12AB4E02B00929A30 /* HMSMainConferenceView.swift in Sources */,
 				87952D5B2AB4E02B00929A30 /* HMSParticipantScreenNameLabel.swift in Sources */,
 				87952DD32AB4E02B00929A30 /* HMSPeerLayout.swift in Sources */,
-				87952D8B2AB4E02B00929A30 /* HMSScreenShareTile.swift in Sources */,
+				87952D8B2AB4E02B00929A30 /* HMSScreenSharePaginatedView.swift in Sources */,
 				87952DE92AB4E02B00929A30 /* HMSPermissionDenialScreen.swift in Sources */,
 				87952DFF2AB4E02B00929A30 /* HMSThemeModifiers.swift in Sources */,
 				87952D692AB4E02B00929A30 /* HMSScreenShareView.swift in Sources */,

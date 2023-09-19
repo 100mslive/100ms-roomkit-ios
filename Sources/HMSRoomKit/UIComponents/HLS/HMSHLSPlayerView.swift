@@ -88,8 +88,14 @@ public struct HMSHLSPlayerView<VideoOverlay> : View where VideoOverlay : View {
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @StateObject var coordinator = Coordinator()
-    
+
 #if !Preview
+    
+    var onCue: ((HMSHLSCue)->Void)?
+    var onPlaybackFailure: ((Error)->Void)?
+    var onPlaybackStateChanged: ((HMSHLSPlaybackState)->Void)?
+    var onResolutionChanged: ((CGSize)->Void)?
+    
     @ViewBuilder let videoOverlay: ((HMSHLSPlayer) -> VideoOverlay)?
     public init(@ViewBuilder videoOverlay: @escaping (HMSHLSPlayer) -> VideoOverlay) {
         self.videoOverlay = videoOverlay
@@ -97,21 +103,31 @@ public struct HMSHLSPlayerView<VideoOverlay> : View where VideoOverlay : View {
 #endif
     
     public var body: some View {
+        Group {
 #if !Preview
-        if let url = roomModel.hlsVariants.first?.url {
-            videoView(url: url)
-        }
-        else {
-            HMSStreamNotStartedView()
-        }
+            if let url = roomModel.hlsVariants.first?.url {
+                videoView(url: url)
+            }
+            else {
+                HMSStreamNotStartedView()
+            }
 #else
-        if let url = URL(string: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8") {
-            videoView(url: url)
-        }
-        else {
-            HMSStreamNotStartedView()
-        }
+            if let url = URL(string: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8") {
+                videoView(url: url)
+            }
+            else {
+                HMSStreamNotStartedView()
+            }
 #endif
+        }
+        .onAppear() {
+#if !Preview
+            coordinator.onCue = onCue
+            coordinator.onPlaybackFailure = onPlaybackFailure
+            coordinator.onPlaybackStateChanged = onPlaybackStateChanged
+            coordinator.onResolutionChanged = onResolutionChanged
+#endif
+        }
     }
     
     func videoView(url: URL) -> some View {
@@ -139,28 +155,44 @@ public struct HMSHLSPlayerView<VideoOverlay> : View where VideoOverlay : View {
     
 #if !Preview
     public func onCue(cue: @escaping (HMSHLSCue)->Void) -> HMSHLSPlayerView {
-        coordinator.onCue = { value in
+        var newView = HMSHLSPlayerView(videoOverlay: videoOverlay!)
+        setupNewView(newView: &newView)
+        newView.onCue = { value in
             cue(value)
         }
-        return self
+        return newView
     }
     public func onPlaybackFailure(error: @escaping (Error)->Void) -> HMSHLSPlayerView {
-        coordinator.onPlaybackFailure = { value in
+        var newView = HMSHLSPlayerView(videoOverlay: videoOverlay!)
+        setupNewView(newView: &newView)
+        newView.onPlaybackFailure = { value in
             error(value)
         }
-        return self
+        return newView
     }
     public func onPlaybackStateChanged(state: @escaping (HMSHLSPlaybackState)->Void) -> HMSHLSPlayerView {
-        coordinator.onPlaybackStateChanged = { value in
+        var newView = HMSHLSPlayerView(videoOverlay: videoOverlay!)
+        setupNewView(newView: &newView)
+        newView.onPlaybackStateChanged = { value in
             state(value)
         }
-        return self
+        return newView
     }
     public func onResolutionChanged(videoSize: @escaping (CGSize)->Void) -> HMSHLSPlayerView {
-        coordinator.onResolutionChanged = { value in
+        var newView = HMSHLSPlayerView(videoOverlay: videoOverlay!)
+        setupNewView(newView: &newView)
+        newView.onResolutionChanged = { value in
             videoSize(value)
         }
-        return self
+        return newView
+    }
+    
+    func setupNewView( newView: inout HMSHLSPlayerView) {
+        
+        newView.onCue = onCue
+        newView.onPlaybackFailure = onPlaybackFailure
+        newView.onPlaybackStateChanged = onPlaybackStateChanged
+        newView.onResolutionChanged = onResolutionChanged
     }
 #endif
 }
@@ -171,6 +203,41 @@ extension HMSHLSPlayerView where VideoOverlay == EmptyView {
         videoOverlay = nil
 #endif
     }
+    
+#if !Preview
+    public func onCue(cue: @escaping (HMSHLSCue)->Void) -> HMSHLSPlayerView {
+        var newView = HMSHLSPlayerView()
+        setupNewView(newView: &newView)
+        newView.onCue = { value in
+            cue(value)
+        }
+        return newView
+    }
+    public func onPlaybackFailure(error: @escaping (Error)->Void) -> HMSHLSPlayerView {
+        var newView = HMSHLSPlayerView()
+        setupNewView(newView: &newView)
+        newView.onPlaybackFailure = { value in
+            error(value)
+        }
+        return newView
+    }
+    public func onPlaybackStateChanged(state: @escaping (HMSHLSPlaybackState)->Void) -> HMSHLSPlayerView {
+        var newView = HMSHLSPlayerView()
+        setupNewView(newView: &newView)
+        newView.onPlaybackStateChanged = { value in
+            state(value)
+        }
+        return newView
+    }
+    public func onResolutionChanged(videoSize: @escaping (CGSize)->Void) -> HMSHLSPlayerView {
+        var newView = HMSHLSPlayerView()
+        setupNewView(newView: &newView)
+        newView.onResolutionChanged = { value in
+            videoSize(value)
+        }
+        return newView
+    }
+#endif
 }
 
 struct HMSHLSPlayerView_Previews: PreviewProvider {
