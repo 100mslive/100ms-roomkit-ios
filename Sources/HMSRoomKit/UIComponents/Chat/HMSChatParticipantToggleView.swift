@@ -16,7 +16,7 @@ struct HMSChatParticipantToggleView: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     enum Pane: String, CaseIterable {
         case chat
@@ -45,46 +45,47 @@ struct HMSChatParticipantToggleView: View {
         }
         
         if panesToShow.count > 0 {
-            
-            VStack(spacing: 0) {
-                HStack(spacing: 15) {
-                    HMSSegmentedControl( panesToShow,
-                                         selection: selectedPane
-                    ) { item in
-                        Button {
-                            withAnimation(.easeInOut(duration: 0.150)) {
-                                selectedPane = item
+            NavigationView {
+                VStack(spacing: 0) {
+                    HStack(spacing: 15) {
+                        HMSSegmentedControl( panesToShow,
+                                             selection: selectedPane
+                        ) { item in
+                            Button {
+                                withAnimation(.easeInOut(duration: 0.150)) {
+                                    selectedPane = item
+                                }
+                            } label: {
+                                Text(item.rawValue.capitalized + (item == .participants ? " (\(roomModel.peerModels.count))" : ""))
+                                    .font(.body2Semibold14)
+                                    .foreground(selectedPane == item ? .onSurfaceHigh : .onSurfaceLow)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 20)
+                                    .frame(maxWidth: .infinity)
+                                    .multilineTextAlignment(.center)
                             }
-                        } label: {
-                            Text(item.rawValue.capitalized + (item == .participants ? " (\(roomModel.peerModels.count))" : ""))
-                                .font(.body2Semibold14)
-                                .foreground(selectedPane == item ? .onSurfaceHigh : .onSurfaceLow)
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 20)
-                                .frame(maxWidth: .infinity)
-                                .multilineTextAlignment(.center)
                         }
-                    }
-                    .pickerBackgroundColor(currentTheme.colorTheme.surfaceDefault)
-                    .accentColor(currentTheme.colorTheme.surfaceBright)
-                    .onAppear {
-                        selectedPane = initialPane
-                    }
+                        .pickerBackgroundColor(currentTheme.colorTheme.surfaceDefault)
+                        .accentColor(currentTheme.colorTheme.surfaceBright)
+                        .onAppear {
+                            selectedPane = initialPane
+                        }
+                        
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark").foreground(.onSurfaceMedium)
+                        }
+                    }.padding(EdgeInsets(top: 24, leading: 16, bottom: 16, trailing: 16))
                     
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image(systemName: "xmark").foreground(.onSurfaceMedium)
+                    switch selectedPane {
+                    case .chat:
+                        HMSChatScreen()
+                    case .participants:
+                        HMSParticipantListView().environment(\.mainSheetDismiss, { dismiss() })
                     }
-                }.padding(EdgeInsets(top: 24, leading: 16, bottom: 16, trailing: 16))
-                
-                switch selectedPane {
-                case .chat:
-                    HMSChatScreen()
-                case .participants:
-                    HMSParticipantListView()
-                }
-            }.background(.surfaceDim, cornerRadius: 0)
+                }.background(.surfaceDim, cornerRadius: 0)
+            }
         }
     }
 }

@@ -15,13 +15,11 @@ struct HMSParticipantCountStatusView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     
     var body: some View {
-        
         if let peerCount = roomModel.peerCount, peerCount > 0 {
-            let remotePeerCount = peerCount - 1
             HStack(spacing: 4) {
                 Image(assetName: "eye-icon")
                     .foreground(.onSurfaceHigh)
-                Text("\(viewerCountString(count: remotePeerCount))")
+                Text(roomModel.viewerCountDisplayString)
                     .font(.overlineMedium)
                     .foreground(.onSurfaceHigh)
             }
@@ -29,6 +27,16 @@ struct HMSParticipantCountStatusView: View {
             .frame(height: 24)
             .background(.backgroundDim, cornerRadius: 4, opacity: 0.64, border: .borderBright)
         }
+    }
+}
+
+extension HMSRoomModel {
+    var viewerCountDisplayString: String {
+        viewerCountString(count: (peerCount ?? 1) - 1)
+    }
+    
+    var participantCountDisplayString: String {
+        viewerCountString(count: (peerCount ?? 1))
     }
     
     func viewerCountString(count: Int) -> String {

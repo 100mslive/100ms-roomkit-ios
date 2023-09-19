@@ -42,7 +42,7 @@ struct HMSOptionSheetView: View {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]) {
                     
                     if isParticipantListEnabled {
-                        HMSSessionMenuButton(text: "Participants", image: "group", highlighted: false, badgeText: "\(roomModel.peerModels.count)").onTapGesture {
+                        HMSSessionMenuButton(text: "Participants", image: "group", highlighted: false, badgeText: roomModel.participantCountDisplayString).onTapGesture {
                             internalSheet = .participants
                         }
                     }
