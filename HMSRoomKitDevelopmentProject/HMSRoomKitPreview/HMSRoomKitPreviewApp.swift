@@ -11,7 +11,7 @@ import SwiftUI
 struct HMSRoomKitPreviewApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            // This target is only for preview files under RoomKit
         }
     }
 }

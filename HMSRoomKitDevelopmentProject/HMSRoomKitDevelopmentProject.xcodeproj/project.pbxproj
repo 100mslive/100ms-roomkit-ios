@@ -14,7 +14,6 @@
 		875F3A712AB19EA800904307 /* HMSRoomKit in Frameworks */ = {isa = PBXBuildFile; productRef = 875F3A702AB19EA800904307 /* HMSRoomKit */; };
 		875F3BB82AB1A12E00904307 /* JoiningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F3BB72AB1A12E00904307 /* JoiningView.swift */; };
 		875F3BC02AB1A2CA00904307 /* HMSRoomKitPreviewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F3BBF2AB1A2CA00904307 /* HMSRoomKitPreviewApp.swift */; };
-		875F3BC22AB1A2CA00904307 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F3BC12AB1A2CA00904307 /* ContentView.swift */; };
 		875F3BC42AB1A2CB00904307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875F3BC32AB1A2CB00904307 /* Assets.xcassets */; };
 		875F3BC72AB1A2CB00904307 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875F3BC62AB1A2CB00904307 /* Preview Assets.xcassets */; };
 		875F40CC2AB1AA4D00904307 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 875F40CB2AB1AA4D00904307 /* ReplayKit.framework */; };
@@ -231,7 +230,6 @@
 		875F3BB72AB1A12E00904307 /* JoiningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoiningView.swift; sourceTree = "<group>"; };
 		875F3BBD2AB1A2CA00904307 /* HMSRoomKitPreview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HMSRoomKitPreview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875F3BBF2AB1A2CA00904307 /* HMSRoomKitPreviewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSRoomKitPreviewApp.swift; sourceTree = "<group>"; };
-		875F3BC12AB1A2CA00904307 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		875F3BC32AB1A2CB00904307 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		875F3BC62AB1A2CB00904307 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		875F40CA2AB1AA4D00904307 /* Screenshare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Screenshare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -499,7 +497,6 @@
 			isa = PBXGroup;
 			children = (
 				875F3BBF2AB1A2CA00904307 /* HMSRoomKitPreviewApp.swift */,
-				875F3BC12AB1A2CA00904307 /* ContentView.swift */,
 				875F3BC32AB1A2CB00904307 /* Assets.xcassets */,
 				875F3BC52AB1A2CB00904307 /* Preview Content */,
 			);
@@ -1204,7 +1201,6 @@
 				8781D0432AB9C95A006FB9C7 /* HMSPreviewRoleScreen.swift in Sources */,
 				8781CFFD2AB9C95A006FB9C7 /* HMSMicToggle.swift in Sources */,
 				8781D01C2AB9C95A006FB9C7 /* HMSBottomChatStrip.swift in Sources */,
-				875F3BC22AB1A2CA00904307 /* ContentView.swift in Sources */,
 				8781CFCE2AB9C95A006FB9C7 /* HMSPrebuiltMeetingView.swift in Sources */,
 				8781D0382AB9C95A006FB9C7 /* HMSInsetView.swift in Sources */,
 				8781D0082AB9C95A006FB9C7 /* HMSScreenShareView.swift in Sources */,
