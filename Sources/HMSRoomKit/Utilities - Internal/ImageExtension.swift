@@ -9,13 +9,13 @@
 import SwiftUI
 
 extension Image {
-    init(assetName: String) {
+    init(assetName: String, renderingMode: TemplateRenderingMode = .template) {
 #if Development || Preview
         self.init(assetName, bundle: .main)
 #else
         self.init(assetName, bundle: .module)
 #endif
-        self = self.renderingMode(.template)
+        self = self.renderingMode(renderingMode)
     }
 }
 

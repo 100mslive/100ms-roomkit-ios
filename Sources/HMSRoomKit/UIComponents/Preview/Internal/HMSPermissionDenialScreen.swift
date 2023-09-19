@@ -45,7 +45,7 @@ struct HMSPermissionDenialScreen: View {
             
             Spacer()
             
-            Image(assetName: "permission-lock-icon")
+            Image(assetName: "permission-lock-icon", renderingMode: .original)
             
             Text("Enable permissions")
                 .font(.heading5Semibold24)
