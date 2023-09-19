@@ -33,7 +33,7 @@ public struct HMSScreenSharePaginatedView: View {
     }
 }
 
-struct HMSScreenShareTile_Previews: PreviewProvider {
+struct HMSScreenSharePaginatedView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
         HMSScreenSharePaginatedView()
