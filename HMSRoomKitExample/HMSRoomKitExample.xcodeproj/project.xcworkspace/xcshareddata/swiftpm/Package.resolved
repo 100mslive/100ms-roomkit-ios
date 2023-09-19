@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/100ms-ios-broadcast-sdk.git",
       "state" : {
-        "revision" : "f4c834ec1f04eb647d8e5e554f6e85ee6c000307",
-        "version" : "0.0.9"
+        "revision" : "5a6c817292ff786ee08e44b31ee6e6a7b9a52631",
+        "version" : "1.0.0"
       }
     },
     {

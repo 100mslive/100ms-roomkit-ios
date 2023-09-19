@@ -10,10 +10,10 @@
 		870049232AA9E30F00A7850D /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 870049222AA9E30E00A7850D /* ReplayKit.framework */; };
 		870049262AA9E30F00A7850D /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870049252AA9E30F00A7850D /* SampleHandler.swift */; };
 		8700492A2AA9E30F00A7850D /* Screenshare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 870049202AA9E30E00A7850D /* Screenshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		870049312AA9E37100A7850D /* HMSBroadcastExtensionSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 870049302AA9E37100A7850D /* HMSBroadcastExtensionSDK */; };
-		870049332AA9E37A00A7850D /* HMSBroadcastExtensionSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 870049322AA9E37A00A7850D /* HMSBroadcastExtensionSDK */; };
 		870EC5BB2AA8D4DC005D6599 /* HMSRoomKit in Frameworks */ = {isa = PBXBuildFile; productRef = 870EC5BA2AA8D4DC005D6599 /* HMSRoomKit */; };
 		870EC5BD2AA8D517005D6599 /* JoiningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870EC5BC2AA8D517005D6599 /* JoiningView.swift */; };
+		8781CF0C2AB98AA1006FB9C7 /* HMSBroadcastExtensionSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8781CF0B2AB98AA1006FB9C7 /* HMSBroadcastExtensionSDK */; };
+		8781CF0E2AB98AA6006FB9C7 /* HMSBroadcastExtensionSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8781CF0D2AB98AA6006FB9C7 /* HMSBroadcastExtensionSDK */; };
 		879325682AA8D46B00A9F241 /* HMSRoomKitExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879325672AA8D46B00A9F241 /* HMSRoomKitExampleApp.swift */; };
 		8793256A2AA8D46B00A9F241 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879325692AA8D46B00A9F241 /* ContentView.swift */; };
 		8793256C2AA8D46C00A9F241 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8793256B2AA8D46C00A9F241 /* Assets.xcassets */; };
@@ -65,7 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				870049332AA9E37A00A7850D /* HMSBroadcastExtensionSDK in Frameworks */,
+				8781CF0E2AB98AA6006FB9C7 /* HMSBroadcastExtensionSDK in Frameworks */,
 				870049232AA9E30F00A7850D /* ReplayKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				870049312AA9E37100A7850D /* HMSBroadcastExtensionSDK in Frameworks */,
+				8781CF0C2AB98AA1006FB9C7 /* HMSBroadcastExtensionSDK in Frameworks */,
 				870EC5BB2AA8D4DC005D6599 /* HMSRoomKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,7 +158,7 @@
 			);
 			name = Screenshare;
 			packageProductDependencies = (
-				870049322AA9E37A00A7850D /* HMSBroadcastExtensionSDK */,
+				8781CF0D2AB98AA6006FB9C7 /* HMSBroadcastExtensionSDK */,
 			);
 			productName = Screenshare;
 			productReference = 870049202AA9E30E00A7850D /* Screenshare.appex */;
@@ -181,7 +181,7 @@
 			name = HMSRoomKitExample;
 			packageProductDependencies = (
 				870EC5BA2AA8D4DC005D6599 /* HMSRoomKit */,
-				870049302AA9E37100A7850D /* HMSBroadcastExtensionSDK */,
+				8781CF0B2AB98AA1006FB9C7 /* HMSBroadcastExtensionSDK */,
 			);
 			productName = HMSRoomKitExample;
 			productReference = 879325642AA8D46B00A9F241 /* HMSRoomKitExample.app */;
@@ -216,7 +216,7 @@
 			mainGroup = 8793255B2AA8D46B00A9F241;
 			packageReferences = (
 				870EC5B92AA8D4DC005D6599 /* XCRemoteSwiftPackageReference "100ms-roomkit-ios" */,
-				8700492F2AA9E37100A7850D /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */,
+				8781CF0A2AB98AA1006FB9C7 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */,
 			);
 			productRefGroup = 879325652AA8D46B00A9F241 /* Products */;
 			projectDirPath = "";
@@ -563,14 +563,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8700492F2AA9E37100A7850D /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/100mslive/100ms-ios-broadcast-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.9;
-			};
-		};
 		870EC5B92AA8D4DC005D6599 /* XCRemoteSwiftPackageReference "100ms-roomkit-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/100mslive/100ms-roomkit-ios";
@@ -579,23 +571,31 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		8781CF0A2AB98AA1006FB9C7 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/100mslive/100ms-ios-broadcast-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		870049302AA9E37100A7850D /* HMSBroadcastExtensionSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8700492F2AA9E37100A7850D /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */;
-			productName = HMSBroadcastExtensionSDK;
-		};
-		870049322AA9E37A00A7850D /* HMSBroadcastExtensionSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8700492F2AA9E37100A7850D /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */;
-			productName = HMSBroadcastExtensionSDK;
-		};
 		870EC5BA2AA8D4DC005D6599 /* HMSRoomKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 870EC5B92AA8D4DC005D6599 /* XCRemoteSwiftPackageReference "100ms-roomkit-ios" */;
 			productName = HMSRoomKit;
+		};
+		8781CF0B2AB98AA1006FB9C7 /* HMSBroadcastExtensionSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8781CF0A2AB98AA1006FB9C7 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */;
+			productName = HMSBroadcastExtensionSDK;
+		};
+		8781CF0D2AB98AA6006FB9C7 /* HMSBroadcastExtensionSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8781CF0A2AB98AA1006FB9C7 /* XCRemoteSwiftPackageReference "100ms-ios-broadcast-sdk" */;
+			productName = HMSBroadcastExtensionSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
