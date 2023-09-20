@@ -126,6 +126,16 @@ struct HMSPreviewScreenLiveStreaming: View {
         }
         //        .offset(y: keyboardOffset)
         .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
+        .alert(isPresented: Binding(get: {
+            guard let lastError = roomModel.lastError as? HMSError else { return false }
+            return lastError.isTerminal
+        }, set: { _ in
+            Task {
+                try await roomModel.leave()
+            }
+        }), content: {
+            Alert(title: Text("Error"), message: Text(roomModel.lastError?.localizedDescription ?? ""))
+        })
         //        .ignoresSafeArea(.keyboard)
 //        .onAppear {
 //            
