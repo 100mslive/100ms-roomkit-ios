@@ -8,16 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		875F3A622AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */; };
-		875F3A642AB19E7300904307 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F3A632AB19E7300904307 /* ContentView.swift */; };
 		875F3A662AB19E7500904307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875F3A652AB19E7500904307 /* Assets.xcassets */; };
 		875F3A692AB19E7500904307 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875F3A682AB19E7500904307 /* Preview Assets.xcassets */; };
 		875F3A712AB19EA800904307 /* HMSRoomKit in Frameworks */ = {isa = PBXBuildFile; productRef = 875F3A702AB19EA800904307 /* HMSRoomKit */; };
-		875F3BB82AB1A12E00904307 /* JoiningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F3BB72AB1A12E00904307 /* JoiningView.swift */; };
 		875F3BC02AB1A2CA00904307 /* HMSRoomKitPreviewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F3BBF2AB1A2CA00904307 /* HMSRoomKitPreviewApp.swift */; };
 		875F3BC42AB1A2CB00904307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875F3BC32AB1A2CB00904307 /* Assets.xcassets */; };
 		875F3BC72AB1A2CB00904307 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875F3BC62AB1A2CB00904307 /* Preview Assets.xcassets */; };
 		875F40CC2AB1AA4D00904307 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 875F40CB2AB1AA4D00904307 /* ReplayKit.framework */; };
-		875F40CF2AB1AA4D00904307 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F40CE2AB1AA4D00904307 /* SampleHandler.swift */; };
 		875F40D32AB1AA4D00904307 /* Screenshare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 875F40CA2AB1AA4D00904307 /* Screenshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8781CFC32AB9C95A006FB9C7 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8781CF132AB9C95A006FB9C7 /* Media.xcassets */; };
 		8781CFC42AB9C95A006FB9C7 /* HMSRoomKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8781CF152AB9C95A006FB9C7 /* HMSRoomKit.swift */; };
@@ -186,6 +183,9 @@
 		8781D07C2AB9C9F3006FB9C7 /* HMSPeerModel-Base-Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8781D0682AB9C9F3006FB9C7 /* HMSPeerModel-Base-Actions.swift */; };
 		8781D07D2AB9C9F3006FB9C7 /* HMSPeerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8781D0692AB9C9F3006FB9C7 /* HMSPeerModel.swift */; };
 		87952C142AB4DE5500929A30 /* CustomMeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C132AB4DE5500929A30 /* CustomMeetingView.swift */; };
+		87A408102ABB00C700FF8700 /* JoiningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A4080E2ABB00C700FF8700 /* JoiningView.swift */; };
+		87A408112ABB00C700FF8700 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A4080F2ABB00C700FF8700 /* ContentView.swift */; };
+		87A408132ABB012000FF8700 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A408122ABB012000FF8700 /* SampleHandler.swift */; };
 		87B1D4172AB81FD8001EBFA7 /* CustomMeetingTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B1D4162AB81FD8001EBFA7 /* CustomMeetingTestView.swift */; };
 		87E669AC2AB4EEA800073016 /* HMSSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AB2AB4EEA800073016 /* HMSSDK */; };
 		87E669AE2AB4EEB000073016 /* HMSAnalyticsSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AD2AB4EEB000073016 /* HMSAnalyticsSDK */; };
@@ -222,17 +222,14 @@
 /* Begin PBXFileReference section */
 		875F3A5E2AB19E7300904307 /* HMSRoomKitDevelopment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HMSRoomKitDevelopment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSRoomKitDevelopmentProjectApp.swift; sourceTree = "<group>"; };
-		875F3A632AB19E7300904307 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		875F3A652AB19E7500904307 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		875F3A682AB19E7500904307 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		875F3BB72AB1A12E00904307 /* JoiningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoiningView.swift; sourceTree = "<group>"; };
 		875F3BBD2AB1A2CA00904307 /* HMSRoomKitPreview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HMSRoomKitPreview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875F3BBF2AB1A2CA00904307 /* HMSRoomKitPreviewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSRoomKitPreviewApp.swift; sourceTree = "<group>"; };
 		875F3BC32AB1A2CB00904307 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		875F3BC62AB1A2CB00904307 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		875F40CA2AB1AA4D00904307 /* Screenshare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Screenshare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		875F40CB2AB1AA4D00904307 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
-		875F40CE2AB1AA4D00904307 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHandler.swift; sourceTree = "<group>"; };
 		875F40D02AB1AA4D00904307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HMSRoomKitDevelopment.entitlements; sourceTree = "<group>"; };
 		876B00012AB43C9C00F977F9 /* Screenshare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Screenshare.entitlements; sourceTree = "<group>"; };
@@ -406,6 +403,9 @@
 		8795293C2AB4D84E00929A30 /* 100ms-roomkit-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-ios"; path = ..; sourceTree = "<group>"; };
 		8795293D2AB4D85200929A30 /* 100ms-roomkit-models-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-models-ios"; path = "../../100ms-roomkit-models-ios"; sourceTree = "<group>"; };
 		87952C132AB4DE5500929A30 /* CustomMeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMeetingView.swift; sourceTree = "<group>"; };
+		87A4080E2ABB00C700FF8700 /* JoiningView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoiningView.swift; path = ../../HMSRoomKitExample/HMSRoomKitExample/JoiningView.swift; sourceTree = "<group>"; };
+		87A4080F2ABB00C700FF8700 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../HMSRoomKitExample/HMSRoomKitExample/ContentView.swift; sourceTree = "<group>"; };
+		87A408122ABB012000FF8700 /* SampleHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleHandler.swift; path = ../../HMSRoomKitExample/Screenshare/SampleHandler.swift; sourceTree = "<group>"; };
 		87B1D4162AB81FD8001EBFA7 /* CustomMeetingTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMeetingTestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -472,8 +472,8 @@
 			children = (
 				875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */,
 				875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */,
-				875F3A632AB19E7300904307 /* ContentView.swift */,
-				875F3BB72AB1A12E00904307 /* JoiningView.swift */,
+				87A4080F2ABB00C700FF8700 /* ContentView.swift */,
+				87A4080E2ABB00C700FF8700 /* JoiningView.swift */,
 				8781CF112AB9BCAC006FB9C7 /* Testing Custom Meeting View */,
 				875F3A652AB19E7500904307 /* Assets.xcassets */,
 				875F3A672AB19E7500904307 /* Preview Content */,
@@ -519,7 +519,7 @@
 			isa = PBXGroup;
 			children = (
 				876B00012AB43C9C00F977F9 /* Screenshare.entitlements */,
-				875F40CE2AB1AA4D00904307 /* SampleHandler.swift */,
+				87A408122ABB012000FF8700 /* SampleHandler.swift */,
 				875F40D02AB1AA4D00904307 /* Info.plist */,
 			);
 			path = Screenshare;
@@ -1036,6 +1036,7 @@
 					};
 					875F40C92AB1AA4D00904307 = {
 						CreatedOnToolsVersion = 15.0;
+						LastSwiftMigration = 1500;
 					};
 				};
 			};
@@ -1099,9 +1100,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				87B1D4172AB81FD8001EBFA7 /* CustomMeetingTestView.swift in Sources */,
+				87A408112ABB00C700FF8700 /* ContentView.swift in Sources */,
+				87A408102ABB00C700FF8700 /* JoiningView.swift in Sources */,
 				87952C142AB4DE5500929A30 /* CustomMeetingView.swift in Sources */,
-				875F3A642AB19E7300904307 /* ContentView.swift in Sources */,
-				875F3BB82AB1A12E00904307 /* JoiningView.swift in Sources */,
 				875F3A622AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1282,7 +1283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				875F40CF2AB1AA4D00904307 /* SampleHandler.swift in Sources */,
+				87A408132ABB012000FF8700 /* SampleHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1553,6 +1554,7 @@
 		875F40D52AB1AA4D00904307 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Screenshare/Screenshare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1572,6 +1574,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1580,6 +1583,7 @@
 		875F40D62AB1AA4D00904307 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Screenshare/Screenshare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
