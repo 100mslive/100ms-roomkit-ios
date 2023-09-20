@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "100ms-ios-broadcast-sdk",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/100mslive/100ms-ios-broadcast-sdk.git",
-      "state" : {
-        "revision" : "5a6c817292ff786ee08e44b31ee6e6a7b9a52631",
-        "version" : "1.0.0"
-      }
-    },
-    {
       "identity" : "lottie-spm",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/airbnb/lottie-spm.git",

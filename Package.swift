@@ -25,7 +25,7 @@ let package = Package(
         .target(
             name: "HMSRoomKit",
             dependencies: [
-                "HMSHLSPlayerSDK", "Popovers",
+                "HMSHLSPlayerSDK", "HMSBroadcastExtensionSDK", "Popovers",
                 .product(name: "HMSRoomModels", package: "100ms-roomkit-models-ios"),
                 .product(name: "HMSSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "HMSAnalyticsSDK", package: "100ms-roomkit-models-ios"),
@@ -38,6 +38,11 @@ let package = Package(
             name: "HMSHLSPlayerSDK",
             url: "https://github.com/100mslive/100ms-ios-hls-sdk/releases/download/0.0.2/HMSHLSPlayerSDK.xcframework.zip",
             checksum: "470932129c8dd358ebbe748bc1e05739f33c642779513fee17e42a117329dce2"
+        ),
+        .binaryTarget(
+            name: "HMSBroadcastExtensionSDK",
+            url: "https://github.com/100mslive/100ms-ios-broadcast-sdk/releases/download/1.0.0/HMSBroadcastExtensionSDK.xcframework.zip",
+            checksum: "589a000dfdc948f938482d8affb333644ccc74300e5c7df2ea1aa887a94ae0b9"
         ),
     ]
 )
