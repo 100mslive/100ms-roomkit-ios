@@ -1424,11 +1424,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = HMSRoomKitDevelopment/HMSRoomKitDevelopment.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopment/Preview Content\"";
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = 100ms;
 				INFOPLIST_KEY_NSCameraUsageDescription = "To use camera in meeting";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To use mic in meeting";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1443,7 +1444,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-D Development";
-				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.roomkit.development;
+				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.videoapp.roomkit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1459,11 +1460,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = HMSRoomKitDevelopment/HMSRoomKitDevelopment.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopment/Preview Content\"";
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = 100ms;
 				INFOPLIST_KEY_NSCameraUsageDescription = "To use camera in meeting";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To use mic in meeting";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1478,7 +1480,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-D Development";
-				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.roomkit.development;
+				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.videoapp.roomkit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1566,7 +1568,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.roomkit.development.Screenshare;
+				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.videoapp.roomkit.Screenshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1593,7 +1595,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.roomkit.development.Screenshare;
+				PRODUCT_BUNDLE_IDENTIFIER = live.100ms.videoapp.roomkit.Screenshare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
