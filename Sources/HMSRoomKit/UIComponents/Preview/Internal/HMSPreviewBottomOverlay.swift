@@ -70,7 +70,13 @@ struct HMSPreviewBottomOverlay: View {
                         Task {
                             
                             isJoining = true
-                            try await roomModel.join(userName: roomModel.userName)
+                            do {
+                                try await roomModel.join(userName: roomModel.userName)
+                            }
+                            catch {
+                                isJoining = false
+                                return
+                            }
                             isJoining = false
                             
                             if previewComponentParam.joinButtonType == .goLive && !roomModel.isBeingStreamed {
