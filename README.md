@@ -3,6 +3,7 @@
 RoomKit SDK for iOS enables you to integrate our production-ready conferencing and livestreaming UI into your own app effortlessly. This README will guide you through the integration process and provide examples of common use cases.
   
 ## Pre-requisites
+- 100ms account: You need to have a 100ms account to create a room and get a [room-code](https://www.100ms.live/docs/get-started/v2/get-started/prebuilt/room-codes/overview)/[auth-token](https://www.100ms.live/docs/get-started/v2/get-started/security-and-tokens#auth-token-for-client-sdks). You can create a 100ms account here.
 - Xcode 14 or higher
 - iOS 15 or higher
 - NSMicrophoneUsageDescription (ie. Privacy - Microphone Usage Description) in info.plist of your app
@@ -31,7 +32,7 @@ import HMSRoomKit
 ```
 
 ### Instantiate HMSPrebuiltView
-You use SwiftUI view called HMSPrebuiltView to instantiate a production-ready conferencing and livestreaming UI. You can either pass q room code or an auth token to HMSPrebuiltView.
+You use SwiftUI view called HMSPrebuiltView to instantiate a production-ready conferencing and livestreaming UI. You can either pass a [room-code](https://www.100ms.live/docs/get-started/v2/get-started/prebuilt/room-codes/overview) or an [auth-token](https://www.100ms.live/docs/get-started/v2/get-started/security-and-tokens#auth-token-for-client-sdks) to HMSPrebuiltView.
 
 #### Initialize HMSPrebuiltView with a room code
 
