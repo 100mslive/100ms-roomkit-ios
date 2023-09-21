@@ -31,7 +31,8 @@ struct HMSChatOverlay: View {
                     if isChatPresented {
                         
                         HMSTransparentChatScreen(isTransparentMode: true)
-                            .frame(height: 332)
+                            .frame(maxHeight: 332)
+                            .fixedSize(horizontal: false, vertical: true)
                             .padding(isHLSViewer ? [.horizontal, .top] : [.horizontal, .vertical], 8)
                             .padding(.bottom, keyboardState.wrappedValue == .hidden ? 0 : 8)
                     }
@@ -45,7 +46,7 @@ struct HMSChatOverlay: View {
             }
             // gradient for hls broadcasters
             .background ( !isHLSViewer ? overlayChatGradient : nil )
-            .padding(tabPageBarState.wrappedValue == .visible ? [.bottom] : [], 32)
+            .padding(tabPageBarState.wrappedValue == .visible ? [.bottom] : [], keyboardState.wrappedValue == .hidden ? 32 : 0)
             
             // Control panel
             if keyboardState.wrappedValue == .hidden {
