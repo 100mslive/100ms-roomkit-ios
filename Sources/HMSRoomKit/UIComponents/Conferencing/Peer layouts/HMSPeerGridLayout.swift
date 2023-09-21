@@ -34,7 +34,7 @@ struct HMSPeerGridLayout: View {
         
         let screenSharingPeers = roomModel.peersSharingScreen.filter{!$0.isLocal}
         let numberOfPeers = visiblePeers.count
-        let highlightedPeers: [HMSPeerModel] = (prominentPeers + roomModel.highlightedPeers).combinedWithoutDuplicates
+        let highlightedPeers: [HMSPeerModel] = (roomModel.highlightedPeers + prominentPeers).combinedWithoutDuplicates
         
         if screenSharingPeers.count > 0 {
             HMSScreenProminenceLayout()

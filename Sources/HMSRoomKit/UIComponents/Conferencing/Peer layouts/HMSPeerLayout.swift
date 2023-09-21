@@ -29,7 +29,7 @@ public struct HMSPeerLayout: View {
         let isInsetMode = conferenceComponentParam.tileLayout?.grid.isLocalTileInsetEnabled ?? false
         let prominentRoles = conferenceComponentParam.tileLayout?.grid.prominentRoles ?? []
 #if !Preview
-        let prominentPeers: [HMSPeerModel] = roomModel.peerModels(withRoles: prominentRoles)
+        let prominentPeers: [HMSPeerModel] = roomModel.visiblePeersInLayout(isUsingInset: isInsetMode).filter(withRoles: prominentRoles)
 #else
         let prominentPeers: [HMSPeerModel] = []
 #endif
