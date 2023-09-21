@@ -95,15 +95,10 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
                             try await roomModel.lowerHand(of: peerModel)
                         }
                         break
-                    case .pin(let peer):
-                        if roomModel.pinnedPeers.contains(peer) {
-                            roomModel.pinnedPeers.removeAll{$0 == peer}
-                        }
-                        else {
-                            roomModel.pinnedPeers.append(peer)
-                        }
-                    case .spotlight(let peer):
-                        roomModel.spotlightedPeer = roomModel.spotlightedPeer == peer ? nil : peerModel
+                    case .pin:
+                        break
+                    case .spotlight:
+                        break
                     default:
                         break
                     }
@@ -287,8 +282,12 @@ struct HMSPeerOptionsView: View {
                         .padding(.horizontal, 24)
                         .background(.white.opacity(0.0001))
                         .onTapGesture {
-                            context.action = .none
-                            context.action = action
+                            if roomModel.pinnedPeers.contains(peer) {
+                                roomModel.pinnedPeers.removeAll{$0 == peer}
+                            }
+                            else {
+                                roomModel.pinnedPeers.append(peer)
+                            }
                             context.isPresented = false
                         }
                     case .spotlight(let peer):
@@ -302,8 +301,7 @@ struct HMSPeerOptionsView: View {
                             .padding(.horizontal, 24)
                             .background(.white.opacity(0.0001))
                             .onTapGesture {
-                                context.action = .none
-                                context.action = action
+                                roomModel.spotlightedPeer = roomModel.spotlightedPeer == peer ? nil : peerModel
                                 context.isPresented = false
                             }
                         }
