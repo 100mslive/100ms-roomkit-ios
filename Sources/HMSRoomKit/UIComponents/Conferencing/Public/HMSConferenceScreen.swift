@@ -12,6 +12,8 @@ import HMSRoomModels
 
 public struct HMSConferenceScreen: View {
     
+    let userName: String?
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -21,23 +23,27 @@ public struct HMSConferenceScreen: View {
     let isDefaultType: Bool
     
     let type: InternalType
-    public init() {
+    public init(userName: String? = nil) {
         isDefaultType = true
         self.type = .default(.default)
+        self.userName = userName
     }
-    public init(_ type: `Type`) {
+    public init(userName: String? = nil, _ type: `Type`) {
         isDefaultType = false
         self.type = type.process()
+        self.userName = userName
     }
-    public init(_ type: ()->`Type`) {
+    public init(userName: String? = nil, _ type: ()->`Type`) {
         isDefaultType = false
         let theType = type()
         self.type = theType.process()
+        self.userName = userName
     }
-    public init(_ block: @escaping ((inout DefaultType) -> Void)) {
+    public init(userName: String? = nil, _ block: @escaping ((inout DefaultType) -> Void)) {
         isDefaultType = false
         let theType = `Type`.default(block)
         self.type = theType.process()
+        self.userName = userName
     }
     
     @State var isPermissionDenialScreenPresented = false
@@ -60,6 +66,17 @@ public struct HMSConferenceScreen: View {
             HMSPermissionDenialScreen()
         }
         .environmentObject(roomKitModel)
+        .onAppear() {
+            
+            guard !roomModel.isUserJoined else { return }
+            
+            Task {
+                if let userName = userName {
+                    roomModel.userName = userName
+                }
+                try await roomModel.join()
+            }
+        }
     }
 }
 

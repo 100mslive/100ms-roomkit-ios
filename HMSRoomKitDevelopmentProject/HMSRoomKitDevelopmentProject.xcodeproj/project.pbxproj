@@ -182,17 +182,18 @@
 		8781D07B2AB9C9F3006FB9C7 /* HMSRoomModel-Internal-Callbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8781D0672AB9C9F3006FB9C7 /* HMSRoomModel-Internal-Callbacks.swift */; };
 		8781D07C2AB9C9F3006FB9C7 /* HMSPeerModel-Base-Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8781D0682AB9C9F3006FB9C7 /* HMSPeerModel-Base-Actions.swift */; };
 		8781D07D2AB9C9F3006FB9C7 /* HMSPeerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8781D0692AB9C9F3006FB9C7 /* HMSPeerModel.swift */; };
-		87952C142AB4DE5500929A30 /* CustomMeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C132AB4DE5500929A30 /* CustomMeetingView.swift */; };
+		87952C142AB4DE5500929A30 /* CustomizationExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C132AB4DE5500929A30 /* CustomizationExample.swift */; };
 		87A408102ABB00C700FF8700 /* JoiningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A4080E2ABB00C700FF8700 /* JoiningView.swift */; };
 		87A408112ABB00C700FF8700 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A4080F2ABB00C700FF8700 /* ContentView.swift */; };
 		87A408132ABB012000FF8700 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A408122ABB012000FF8700 /* SampleHandler.swift */; };
-		87B1D4172AB81FD8001EBFA7 /* CustomMeetingTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B1D4162AB81FD8001EBFA7 /* CustomMeetingTestView.swift */; };
+		87B1D4172AB81FD8001EBFA7 /* DevelopmentPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B1D4162AB81FD8001EBFA7 /* DevelopmentPlayground.swift */; };
 		87E669AC2AB4EEA800073016 /* HMSSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AB2AB4EEA800073016 /* HMSSDK */; };
 		87E669AE2AB4EEB000073016 /* HMSAnalyticsSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AD2AB4EEB000073016 /* HMSAnalyticsSDK */; };
 		87E669B02AB4EEB600073016 /* WebRTC in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669AF2AB4EEB600073016 /* WebRTC */; };
 		87E669B22AB4EEBD00073016 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669B12AB4EEBD00073016 /* Lottie */; };
 		87E669B52AB4F02600073016 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669B42AB4F02600073016 /* Popovers */; };
 		87E669B72AB4F1CD00073016 /* HMSRoomModels in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669B62AB4F1CD00073016 /* HMSRoomModels */; };
+		87F2FEAB2ABD75FB00FB62C2 /* RoomStatesExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F2FEAA2ABD75FB00FB62C2 /* RoomStatesExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -402,11 +403,12 @@
 		8781D0692AB9C9F3006FB9C7 /* HMSPeerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSPeerModel.swift; sourceTree = "<group>"; };
 		8795293C2AB4D84E00929A30 /* 100ms-roomkit-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-ios"; path = ..; sourceTree = "<group>"; };
 		8795293D2AB4D85200929A30 /* 100ms-roomkit-models-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-models-ios"; path = "../../100ms-roomkit-models-ios"; sourceTree = "<group>"; };
-		87952C132AB4DE5500929A30 /* CustomMeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMeetingView.swift; sourceTree = "<group>"; };
+		87952C132AB4DE5500929A30 /* CustomizationExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationExample.swift; sourceTree = "<group>"; };
 		87A4080E2ABB00C700FF8700 /* JoiningView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoiningView.swift; path = ../../HMSRoomKitExample/HMSRoomKitExample/JoiningView.swift; sourceTree = "<group>"; };
 		87A4080F2ABB00C700FF8700 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../HMSRoomKitExample/HMSRoomKitExample/ContentView.swift; sourceTree = "<group>"; };
 		87A408122ABB012000FF8700 /* SampleHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleHandler.swift; path = ../../HMSRoomKitExample/Screenshare/SampleHandler.swift; sourceTree = "<group>"; };
-		87B1D4162AB81FD8001EBFA7 /* CustomMeetingTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMeetingTestView.swift; sourceTree = "<group>"; };
+		87B1D4162AB81FD8001EBFA7 /* DevelopmentPlayground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentPlayground.swift; sourceTree = "<group>"; };
+		87F2FEAA2ABD75FB00FB62C2 /* RoomStatesExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomStatesExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -474,7 +476,8 @@
 				875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */,
 				87A4080F2ABB00C700FF8700 /* ContentView.swift */,
 				87A4080E2ABB00C700FF8700 /* JoiningView.swift */,
-				8781CF112AB9BCAC006FB9C7 /* Testing Custom Meeting View */,
+				8781CF112AB9BCAC006FB9C7 /* Custom Meeting Examples */,
+				87F2FEAC2ABD7E3500FB62C2 /* Development Playground */,
 				875F3A652AB19E7500904307 /* Assets.xcassets */,
 				875F3A672AB19E7500904307 /* Preview Content */,
 			);
@@ -525,13 +528,13 @@
 			path = Screenshare;
 			sourceTree = "<group>";
 		};
-		8781CF112AB9BCAC006FB9C7 /* Testing Custom Meeting View */ = {
+		8781CF112AB9BCAC006FB9C7 /* Custom Meeting Examples */ = {
 			isa = PBXGroup;
 			children = (
-				87952C132AB4DE5500929A30 /* CustomMeetingView.swift */,
-				87B1D4162AB81FD8001EBFA7 /* CustomMeetingTestView.swift */,
+				87F2FEAA2ABD75FB00FB62C2 /* RoomStatesExample.swift */,
+				87952C132AB4DE5500929A30 /* CustomizationExample.swift */,
 			);
-			path = "Testing Custom Meeting View";
+			path = "Custom Meeting Examples";
 			sourceTree = "<group>";
 		};
 		8781CF122AB9C95A006FB9C7 /* HMSRoomKit */ = {
@@ -949,6 +952,14 @@
 			path = "../../100ms-roomkit-models-ios/Sources/HMSRoomModels";
 			sourceTree = "<group>";
 		};
+		87F2FEAC2ABD7E3500FB62C2 /* Development Playground */ = {
+			isa = PBXGroup;
+			children = (
+				87B1D4162AB81FD8001EBFA7 /* DevelopmentPlayground.swift */,
+			);
+			path = "Development Playground";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1099,10 +1110,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87B1D4172AB81FD8001EBFA7 /* CustomMeetingTestView.swift in Sources */,
+				87B1D4172AB81FD8001EBFA7 /* DevelopmentPlayground.swift in Sources */,
 				87A408112ABB00C700FF8700 /* ContentView.swift in Sources */,
 				87A408102ABB00C700FF8700 /* JoiningView.swift in Sources */,
-				87952C142AB4DE5500929A30 /* CustomMeetingView.swift in Sources */,
+				87F2FEAB2ABD75FB00FB62C2 /* RoomStatesExample.swift in Sources */,
+				87952C142AB4DE5500929A30 /* CustomizationExample.swift in Sources */,
 				875F3A622AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

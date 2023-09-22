@@ -9,7 +9,7 @@ import SwiftUI
 import HMSRoomKit
 import HMSRoomModels
 
-struct CustomMeetingView: View {
+struct CustomizationExample: View {
     
     @ObservedObject var room = HMSRoomModel(roomCode: "qdw-mil-sev")
     
@@ -18,7 +18,13 @@ struct CustomMeetingView: View {
         Group {
             switch room.roomState {
             case .none:
-                HMSPreviewScreen()
+                Button(action: {
+                    Task {
+                        try await room.join()
+                    }
+                }, label: {
+                    Text("Start")
+                })
             case .meeting:
                 VStack {
                     HMSPeerLayout()
@@ -45,7 +51,6 @@ struct CustomMeetingView: View {
                     }
                     .padding()
                 }
-                .environment(\.conferenceParams, .init(tileLayout: .defaultGrid))
             case .leave:
                 HMSEndCallScreen()
             }
@@ -55,8 +60,8 @@ struct CustomMeetingView: View {
     }
 }
 
-struct CustomMeetingView_Previews: PreviewProvider {
+struct CustomizationExample_Previews: PreviewProvider {
     static var previews: some View {
-        CustomMeetingView()
+        CustomizationExample()
     }
 }
