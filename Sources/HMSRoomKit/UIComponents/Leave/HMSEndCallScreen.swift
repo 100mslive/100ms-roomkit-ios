@@ -29,7 +29,11 @@ public struct HMSEndCallScreen: View {
                 HMSXMarkCircleView()
                     .padding()
                     .onTapGesture {
+                        // dismiss if we are running as sheet
                         onDismiss?()
+                        
+                        // reset room state if not dismissed
+                        roomModel.roomState = .none
                     }
             }
             

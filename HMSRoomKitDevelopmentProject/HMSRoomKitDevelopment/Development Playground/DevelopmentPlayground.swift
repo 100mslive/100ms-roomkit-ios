@@ -9,7 +9,7 @@ import SwiftUI
 import HMSRoomKit
 import HMSRoomModels
 
-struct CustomMeetingTestView: View {
+struct DevelopmentPlayground: View {
     
     let room = HMSRoomModel(roomCode: "qdw-mil-sev")
     
@@ -57,8 +57,8 @@ struct CustomMeetingTestView: View {
     }
 }
 
-struct CustomMeetingTestView_Previews: PreviewProvider {
+struct DevelopmentPlayground_Previews: PreviewProvider {
     static var previews: some View {
-        CustomMeetingTestView()
+        DevelopmentPlayground()
     }
 }

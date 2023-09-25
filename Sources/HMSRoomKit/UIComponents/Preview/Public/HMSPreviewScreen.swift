@@ -12,6 +12,8 @@ import HMSRoomModels
 
 public struct HMSPreviewScreen: View {
     
+    let userName: String?
+    
     @Environment(\.previewParams) var previewComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -20,23 +22,27 @@ public struct HMSPreviewScreen: View {
     let isDefaultType: Bool
     
     let type: InternalType
-    public init() {
+    public init(userName: String? = nil) {
         isDefaultType = true
         self.type = .default(.default)
+        self.userName = userName
     }
-    public init(_ type: `Type`) {
+    public init(userName: String? = nil, _ type: `Type`) {
         isDefaultType = false
         self.type = type.process()
+        self.userName = userName
     }
-    public init(_ type: ()->`Type`) {
+    public init(userName: String? = nil, _ type: ()->`Type`) {
         isDefaultType = false
         let theType = type()
         self.type = theType.process()
+        self.userName = userName
     }
-    public init(_ block: @escaping ((inout DefaultType) -> Void)) {
+    public init(userName: String? = nil, _ block: @escaping ((inout DefaultType) -> Void)) {
         isDefaultType = false
         let theType = `Type`.default(block)
         self.type = theType.process()
+        self.userName = userName
     }
     
     @State var isPermissionDenialScreenPresented = false
@@ -53,6 +59,17 @@ public struct HMSPreviewScreen: View {
         .checkAccessibility(interval: 1, denial: $isPermissionDenialScreenPresented)
         .fullScreenCover(isPresented: $isPermissionDenialScreenPresented) {
             HMSPermissionDenialScreen()
+        }
+        .onAppear() {
+            
+            guard !roomModel.isPreviewJoined else { return }
+            
+            Task {
+                if let userName = userName {
+                    roomModel.userName = userName
+                }
+                try await roomModel.preview()
+            }
         }
     }
 }

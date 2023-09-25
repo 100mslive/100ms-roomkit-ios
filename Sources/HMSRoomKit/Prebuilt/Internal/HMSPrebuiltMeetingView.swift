@@ -129,9 +129,6 @@ struct HMSPrebuiltMeetingView: View {
                     }
                     .onAppear() {
                         UIApplication.shared.isIdleTimerDisabled = true
-                        Task {
-                            try await roomModel.preview()
-                        }
                     }
                 }
                 
