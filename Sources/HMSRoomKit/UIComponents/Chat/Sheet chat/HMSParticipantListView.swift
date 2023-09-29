@@ -39,7 +39,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     
     @Published var peers: [PeerViewModel]
     @Published private(set) var hasNext: Bool = false
-    @Published private(set) var isLoading: Bool = false
+    @Published private(set) var isLoadingPeers: Bool = false
     
     let isInfiniteScrollEnabled: Bool
     
@@ -58,7 +58,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
         
 #if !Preview
         iterator.$hasNext.assign(to: \.hasNext, on: self).store(in: &cancallables)
-        iterator.$isLoading.assign(to: \.isLoading, on: self).store(in: &cancallables)
+        iterator.$isLoadingPeers.assign(to: \.isLoadingPeers, on: self).store(in: &cancallables)
         
         iterator.$peers.sink { newValue in
             self.peers = newValue.map { PeerViewModel(peerModel: $0, onDemandEntry: true) }
@@ -70,7 +70,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     }
     
     func loadNext() async throws {
-        guard isLoading == false && hasNext else { return }
+        guard isLoadingPeers == false && hasNext else { return }
         try await iterator?.loadNext()
     }
 
