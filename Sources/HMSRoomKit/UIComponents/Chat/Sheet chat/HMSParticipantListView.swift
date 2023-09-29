@@ -17,10 +17,10 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     static let initialFetchLimit = 5
     static let viewAllFetchLimit = 40
     
-    private var peerList: HMSPeerListModel?
+    private var peerListIterator: HMSPeerListIteratorModel?
     private var cancallables: Set<AnyCancellable> = []
     var isOnDemand: Bool {
-        peerList != nil
+        peerListIterator != nil
     }
      
     typealias ID = String
@@ -30,7 +30,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     
     nonisolated let name: String
     var count: Int {
-        peerList?.totalPeerCount ?? peers.count
+        peerListIterator?.totalPeerCount ?? peers.count
     }
     
     var shouldShowViewAll: Bool {
@@ -49,18 +49,18 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
         self.isInfiniteScrollEnabled = false
     }
     
-    internal init(name: String, peerList: HMSPeerListModel, isInfiniteScrollEnabled: Bool = false) {
+    internal init(name: String, peerListIterator: HMSPeerListIteratorModel, isInfiniteScrollEnabled: Bool = false) {
         self.name = name
-        self.peerList = peerList
+        self.peerListIterator = peerListIterator
         self.hasNext = true
         self.peers = []
         self.isInfiniteScrollEnabled = isInfiniteScrollEnabled
         
 #if !Preview
-        peerList.$hasMorePeers.assign(to: \.hasNext, on: self).store(in: &cancallables)
-        peerList.$isLoadingPeers.assign(to: \.isLoading, on: self).store(in: &cancallables)
+        peerListIterator.$hasMorePeers.assign(to: \.hasNext, on: self).store(in: &cancallables)
+        peerListIterator.$isLoadingPeers.assign(to: \.isLoading, on: self).store(in: &cancallables)
         
-        peerList.$peers.sink { newValue in
+        peerListIterator.$peers.sink { newValue in
             self.peers = newValue.map { PeerViewModel(peerModel: $0, onDemandEntry: true) }
             if !self.shouldShowViewAll {
                 self.peers.last?.isLast = true
@@ -71,7 +71,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     
     func loadNext() async throws {
         guard isLoading == false && hasNext else { return }
-        try await peerList?.loadNextSetOfPeers()
+        try await peerListIterator?.loadNextSetOfPeers()
     }
 
 }
@@ -128,7 +128,7 @@ class HMSParticipantListViewModel {
         return Array(roleSectionMap.values).filter { $0.count > 0 }
     }
     
-    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, peerLists: [HMSPeerListModel], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, peerLists: [HMSPeerListIteratorModel], searchQuery: String) -> [PeerSectionViewModel] {
         let dynamicSections = makeDynamicSectionedPeers(from: roomModel.remotePeersWithRaisedHand, searchQuery: searchQuery)
         
         let regularSections = makeSectionedPeers(from: roomModel.peerModels, roles: roomModel.roles, offStageRoles: roomModel.isLarge ? infoModel.offStageRoles : [], searchQuery: searchQuery)
@@ -138,7 +138,7 @@ class HMSParticipantListViewModel {
         return dynamicSections + regularSections + iteratorSections
     }
     
-    static func makeIteratorSections(peerLists: [HMSPeerListModel], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeIteratorSections(peerLists: [HMSPeerListIteratorModel], searchQuery: String) -> [PeerSectionViewModel] {
         #if !Preview
         if !searchQuery.isEmpty {
             var sections = [PeerSectionViewModel]()
@@ -151,7 +151,7 @@ class HMSParticipantListViewModel {
             }
             return sections
         } else {
-            return peerLists.map { PeerSectionViewModel(name: $0.options.filterByRoleName ?? "", peerList: $0) }
+            return peerLists.map { PeerSectionViewModel(name: $0.options.filterByRoleName ?? "", peerListIterator: $0) }
         }
         #else
         return []
@@ -203,9 +203,9 @@ struct HMSParticipantRoleListView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.mainSheetDismiss) var sheetDismiss
     
-    var roleName: String
+    let roleName: String
+    let peerListIterator: HMSPeerListIteratorModel
     
-    @State var peerList: HMSPeerListModel
     @State var searchText: String = ""
     
     var body: some View {
@@ -219,8 +219,8 @@ struct HMSParticipantRoleListView: View {
             Spacer(minLength: 16)
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    let roleName = peerList.options.filterByRoleName ?? ""
-                    let model = PeerSectionViewModel(name: roleName, peerList: peerList, isInfiniteScrollEnabled: true)
+                    let roleName = peerListIterator.options.filterByRoleName ?? ""
+                    let model = PeerSectionViewModel(name: roleName, peerListIterator: peerListIterator, isInfiniteScrollEnabled: true)
                     ParticipantSectionView(model: model, searchText: $searchText, isExpanded: true) {}
                     Spacer().frame(height: 16)
                 }
@@ -230,7 +230,7 @@ struct HMSParticipantRoleListView: View {
         .navigationBarHidden(true)
         .onAppear() {
             Task {
-                try await peerList.loadNextSetOfPeers()
+                try await peerListIterator.loadNextSetOfPeers()
             }
         }
     }
@@ -254,7 +254,7 @@ struct HMSParticipantListView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     @State private var searchText: String = ""
-    @State private var peerLists = [HMSPeerListModel]()
+    @State private var peerLists = [HMSPeerListIteratorModel]()
     @State private var expandedRoleName = ""
     
     private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
@@ -262,7 +262,7 @@ struct HMSParticipantListView: View {
     private func refreshIterators() async throws {
         #if !Preview
         guard roomModel.isLarge else { return }
-        let newPeerLists = roomInfoModel.offStageRoles.map { roomModel.getIterator(for: $0, limit: PeerSectionViewModel.initialFetchLimit) }
+        let newPeerLists = roomInfoModel.offStageRoles.map { roomModel.getPeerListIterator(for: $0, limit: PeerSectionViewModel.initialFetchLimit) }
         await withThrowingTaskGroup(of: Void.self) { group in
             for peerList in newPeerLists {
                 group.addTask { try await peerList.loadNextSetOfPeers() }
@@ -355,7 +355,7 @@ struct ParticipantSectionView: View {
                 HStack {
                     Spacer()
                     NavigationLink {
-                        HMSParticipantRoleListView(roleName: model.name, peerList: roomModel.getIterator(for: model.name, limit: PeerSectionViewModel.viewAllFetchLimit)).environment(\.mainSheetDismiss, sheetDismiss)
+                        HMSParticipantRoleListView(roleName: model.name, peerListIterator: roomModel.getPeerListIterator(for: model.name, limit: PeerSectionViewModel.viewAllFetchLimit)).environment(\.mainSheetDismiss, sheetDismiss)
                     } label: {
                         HStack {
                             Text("View All").font(.body2Regular14).foreground(.onSurfaceHigh)
