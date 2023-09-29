@@ -30,7 +30,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     
     nonisolated let name: String
     var count: Int {
-        iterator?.totalCount ?? peers.count
+        iterator?.totalPeerCount ?? peers.count
     }
     
     var shouldShowViewAll: Bool {
