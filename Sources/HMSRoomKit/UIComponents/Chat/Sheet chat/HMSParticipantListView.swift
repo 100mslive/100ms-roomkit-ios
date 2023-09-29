@@ -38,7 +38,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     }
     
     @Published var peers: [PeerViewModel]
-    @Published private(set) var hasNext: Bool = false
+    @Published private(set) var hasMorePeers: Bool = false
     @Published private(set) var isLoadingPeers: Bool = false
     
     let isInfiniteScrollEnabled: Bool
@@ -52,12 +52,12 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     internal init(name: String, iterator: HMSPeerListLoader, isInfiniteScrollEnabled: Bool = false) {
         self.name = name
         self.iterator = iterator
-        self.hasNext = true
+        self.hasMorePeers = true
         self.peers = []
         self.isInfiniteScrollEnabled = isInfiniteScrollEnabled
         
 #if !Preview
-        iterator.$hasNext.assign(to: \.hasNext, on: self).store(in: &cancallables)
+        iterator.$hasMorePeers.assign(to: \.hasMorePeers, on: self).store(in: &cancallables)
         iterator.$isLoadingPeers.assign(to: \.isLoadingPeers, on: self).store(in: &cancallables)
         
         iterator.$peers.sink { newValue in
@@ -70,7 +70,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     }
     
     func loadNext() async throws {
-        guard isLoadingPeers == false && hasNext else { return }
+        guard isLoadingPeers == false && hasMorePeers else { return }
         try await iterator?.loadNext()
     }
 
@@ -338,7 +338,7 @@ struct ParticipantSectionView: View {
     var body: some View {
         ParticipantItemHeader(name: "\(model.name.capitalized) (\(model.count))", isExpanded: isExpanded, toggleExpanded: toggleExpanded, isExpandEnabled: !model.isInfiniteScrollEnabled)
         if isExpanded {
-            let shouldShowLoader = model.hasNext && searchText.isEmpty
+            let shouldShowLoader = model.hasMorePeers && searchText.isEmpty
             let peers = searchText.isEmpty ? model.peers : model.peers.filter({  $0.peerModel.name.localizedCaseInsensitiveContains(searchText)})
             ForEach(peers) { peer in
                 let isLast = peer === peers.last && !shouldShowLoader
@@ -368,7 +368,7 @@ struct ParticipantSectionView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(currentTheme.colorTheme.borderBright, lineWidth: 1).padding(EdgeInsets(top: -8, leading: 0, bottom: 0, trailing: 0))
                     ).clipped()
-            } else if model.hasNext && searchText.isEmpty {
+            } else if model.hasMorePeers && searchText.isEmpty {
                 HStack {
                     Spacer()
                     ProgressView()
