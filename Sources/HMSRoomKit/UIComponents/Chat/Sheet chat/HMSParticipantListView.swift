@@ -12,64 +12,104 @@ import HMSSDK
 import Combine
 import HMSRoomModels
 
+@MainActor
 class PeerSectionViewModel: ObservableObject, Identifiable {
-    internal init(name: String) {
-        self.name = name
-        self.peers = []
-        self.expanded = true
-    }
+    static let initialFetchLimit = 5
+    static let viewAllFetchLimit = 40
     
+    private var iterator: HMSObservablePeerListIterator?
+    private var cancallables: Set<AnyCancellable> = []
+    var isOnDemand: Bool {
+        iterator != nil
+    }
+     
     typealias ID = String
-    var id: String {
+    nonisolated var id: String {
         name
     }
     
-    @Published var expanded: Bool {
-        didSet {
-            HMSParticipantListViewModel.expandStateCache[name] = expanded
-        }
-    }
-    var name: String
+    nonisolated let name: String
     var count: Int {
-        peers.count
+        iterator?.totalCount ?? peers.count
     }
+    
+    var shouldShowViewAll: Bool {
+        count > PeerSectionViewModel.initialFetchLimit && isOnDemand && !isInfiniteScrollEnabled
+    }
+    
     @Published var peers: [PeerViewModel]
+    @Published private(set) var hasNext: Bool = false
+    @Published private(set) var isLoading: Bool = false
+    
+    let isInfiniteScrollEnabled: Bool
+    
+    internal init(name: String) {
+        self.name = name
+        self.peers = []
+        self.isInfiniteScrollEnabled = false
+    }
+    
+    internal init(name: String, iterator: HMSObservablePeerListIterator, isInfiniteScrollEnabled: Bool = false) {
+        self.name = name
+        self.iterator = iterator
+        self.hasNext = true
+        self.peers = []
+        self.isInfiniteScrollEnabled = isInfiniteScrollEnabled
+        
+#if !Preview
+        iterator.$hasNext.assign(to: \.hasNext, on: self).store(in: &cancallables)
+        iterator.$isLoading.assign(to: \.isLoading, on: self).store(in: &cancallables)
+        
+        iterator.$peers.sink { newValue in
+            self.peers = newValue.map { PeerViewModel(peerModel: $0, onDemandEntry: true) }
+            if !self.shouldShowViewAll {
+                self.peers.last?.isLast = true
+            }
+        }.store(in: &cancallables)
+#endif
+    }
+    
+    func loadNext() async throws {
+        guard isLoading == false && hasNext else { return }
+        try await iterator?.loadNext()
+    }
+
 }
 
 class PeerViewModel: ObservableObject, Identifiable {
-    internal init(peerModel: HMSPeerModel) {
+    internal init(peerModel: HMSPeerModel, onDemandEntry: Bool = false) {
         self.peerModel = peerModel
     }
     
     typealias ID = String
     var id: String {
-        peerModel.id + (raisedHandEntry ? "raised" : "")
+        peerModel.id + (raisedHandEntry ? "raised" : "") + (onDemandEntry ? "onDemand" : "")
     }
     
     var raisedHandEntry = false
+    var onDemandEntry = false
     var peerModel: HMSPeerModel
     var isLast = false
     var justJoined = false
 }
 
+@MainActor
 class HMSParticipantListViewModel {
     static let commonSortOrderMap = [handRaisedSectionName.lowercased(), "host", "guest", "teacher", "student", "viewer"].enumerated().reduce(into: [String: Int]()) {
         $0[$1.1] = $1.0
     }
     
-    static var expandStateCache = [String: Bool]()
     static let handRaisedSectionName = "Hand Raised"
     
     static func makeDynamicSectionedPeers(from peers: [HMSPeerModel], searchQuery: String) -> [PeerSectionViewModel] {
 
         let handRaisedSection = PeerSectionViewModel(name: handRaisedSectionName)
         let roleSectionMap = [handRaisedSectionName: handRaisedSection]
-        handRaisedSection.expanded = expandStateCache[handRaisedSectionName] ?? true
         
         var peerMap = [handRaisedSectionName : [PeerViewModel]()]
         
         peers.forEach { peer in
-            if !searchQuery.isEmpty, !peer.name.lowercased().contains(searchQuery.lowercased()) {
+            if !searchQuery.isEmpty, !peer.name.localizedCaseInsensitiveContains(searchQuery) {
                 return
             }
                 
@@ -88,12 +128,42 @@ class HMSParticipantListViewModel {
         return Array(roleSectionMap.values).filter { $0.count > 0 }
     }
     
-    static func makeSectionedPeers(from peers: [HMSPeerModel], roles: [RoleType], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, iterators: [HMSObservablePeerListIterator], searchQuery: String) -> [PeerSectionViewModel] {
+        let dynamicSections = makeDynamicSectionedPeers(from: roomModel.remotePeersWithRaisedHand, searchQuery: searchQuery)
+        
+        let regularSections = makeSectionedPeers(from: roomModel.peerModels, roles: roomModel.roles, offStageRoles: roomModel.isLarge ? infoModel.offStageRoles : [], searchQuery: searchQuery)
+        
+        let iteratorSections = makeIteratorSections(iterators: iterators, searchQuery: searchQuery)
+        
+        return dynamicSections + regularSections + iteratorSections
+    }
+    
+    static func makeIteratorSections(iterators: [HMSObservablePeerListIterator], searchQuery: String) -> [PeerSectionViewModel] {
+        #if !Preview
+        if !searchQuery.isEmpty {
+            var sections = [PeerSectionViewModel]()
+            iterators.forEach { iterator in
+                let peers = iterator.peers.filter { $0.name.localizedCaseInsensitiveContains(searchQuery) }
+                guard !peers.isEmpty else { return}
+                let model = PeerSectionViewModel(name: iterator.options.filterByRoleName ?? "")
+                model.peers = peers.map { PeerViewModel(peerModel: $0, onDemandEntry: true) }
+                sections.append(model)
+            }
+            return sections
+        } else {
+            return iterators.map { PeerSectionViewModel(name: $0.options.filterByRoleName ?? "", iterator: $0) }
+        }
+        #else
+        return []
+        #endif
+    }
+    
+    
+    static func makeSectionedPeers(from peers: [HMSPeerModel], roles: [RoleType], offStageRoles: [String], searchQuery: String) -> [PeerSectionViewModel] {
         
         let roleSectionMap = roles.reduce(into: [String: PeerSectionViewModel]()) {
             let newSection = PeerSectionViewModel(name: $1.name)
             $0[$1.name] = newSection
-            newSection.expanded = expandStateCache[$1.name] ?? true
         }
         
         var peerMap = roles.reduce(into: [String: [PeerViewModel]]()) {
@@ -101,7 +171,7 @@ class HMSParticipantListViewModel {
         }
         
         peers.forEach { peer in
-            if !searchQuery.isEmpty, !peer.name.lowercased().contains(searchQuery.lowercased()) {
+            if !searchQuery.isEmpty, !peer.name.localizedCaseInsensitiveContains(searchQuery) {
                 return
             }
             
@@ -114,7 +184,7 @@ class HMSParticipantListViewModel {
             value.peers.last?.isLast = true
         }
         
-        return Array(roleSectionMap.values).filter { $0.count > 0 }
+        return Array(roleSectionMap.values).filter { $0.count > 0 && !offStageRoles.contains($0.name) }
             .sorted {
                 let firstOrder = commonSortOrderMap[$0.name.lowercased()] ?? Int.max
                 let secondOrder = commonSortOrderMap[$1.name.lowercased()] ?? Int.max
@@ -127,74 +197,223 @@ class HMSParticipantListViewModel {
     }
 }
 
+struct HMSParticipantRoleListView: View {
+    @EnvironmentObject var roomModel: HMSRoomModel
+    @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.mainSheetDismiss) var sheetDismiss
+    
+    var roleName: String
+    
+    @State var iterator: HMSObservablePeerListIterator
+    @State var searchText: String = ""
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            HMSOptionsHeaderView(title: "Participant List", showsBackButton: true, showsDivider: false, onClose: {
+                sheetDismiss()
+            }, onBack: {
+                dismiss()
+            })
+            HMSSearchField(searchText: $searchText, placeholder: "Search for participants").padding(.horizontal, 16)
+            Spacer(minLength: 16)
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    let roleName = iterator.options.filterByRoleName ?? ""
+                    let model = PeerSectionViewModel(name: roleName, iterator: iterator, isInfiniteScrollEnabled: true)
+                    ParticipantSectionView(model: model, searchText: $searchText, isExpanded: true) {}
+                    Spacer().frame(height: 16)
+                }
+            }.padding(.horizontal, 16)
+        }
+        .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
+        .navigationBarHidden(true)
+        .onAppear() {
+            Task {
+                try await iterator.loadNext()
+            }
+        }
+    }
+    
+
+}
+
+struct MainSheetDismissKey: EnvironmentKey {
+    static var defaultValue: (() -> Void) = {}
+}
+
+extension EnvironmentValues {
+    var mainSheetDismiss: (() -> Void) {
+        get { self[MainSheetDismissKey.self] }
+        set { self[MainSheetDismissKey.self] = newValue }
+    }
+}
+
+
 struct HMSParticipantListView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
-    @State var searchText: String = ""
+    @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
+    @State private var searchText: String = ""
+    @State private var iterators = [HMSObservablePeerListIterator]()
+    @State private var expandedRoleName = ""
+    
+    private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    
+    private func refreshIterators() async throws {
+        #if !Preview
+        guard roomModel.isLarge else { return }
+        let newIterators = roomInfoModel.offStageRoles.map { roomModel.getIterator(for: $0, limit: PeerSectionViewModel.initialFetchLimit) }
+        await withThrowingTaskGroup(of: Void.self) { group in
+            for iterator in newIterators {
+                group.addTask { try await iterator.loadNext() }
+            }
+        }
+             
+        iterators = newIterators.filter { !$0.peers.isEmpty }
+        #endif
+    }
+    
+    private func toggleExpanded(_ name: String) {
+        expandedRoleName = expandedRoleName == name ? "" : name
+    }
     
     var body: some View {
         VStack(spacing: 16) {
             HStack(spacing: 8) {
                 HMSSearchField(searchText: $searchText, placeholder: "Search for participants")
             }
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    let dynamicSections = HMSParticipantListViewModel.makeDynamicSectionedPeers(from: roomModel.remotePeersWithRaisedHand, searchQuery: searchText)
-                    ForEach(dynamicSections) { peerSectionModel in
-                        ParticipantSectionView(model: peerSectionModel)
-                        Spacer().frame(height: 16)
-                    }
-                    
-                    let sections = HMSParticipantListViewModel.makeSectionedPeers(from: roomModel.peerModels, roles: roomModel.roles, searchQuery: searchText)
-                    ForEach(sections) { peerSectionModel in
-                        ParticipantSectionView(model: peerSectionModel)
-                        Spacer().frame(height: 16)
+            let sections = HMSParticipantListViewModel.makeSections(from: roomModel, infoModel: roomInfoModel, iterators: iterators, searchQuery: searchText)
+            ZStack {
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        
+                        ForEach(sections) { peerSectionModel in
+                            ParticipantSectionView(model: peerSectionModel, searchText: .constant(""), isExpanded: expandedRoleName == peerSectionModel.name) {
+                                toggleExpanded(peerSectionModel.name)
+                            }
+                            Spacer().frame(height: 16)
+                        }
                     }
                 }
+                if sections.isEmpty && !searchText.isEmpty {
+                    VStack(alignment: .center) {
+                        Spacer()
+                        VStack(spacing: 0) {
+                            Image(assetName: "search", renderingMode: .original).padding(.bottom, 24)
+                            Text("Too many participants").font(.heading6Semibold20).foreground(.onSurfaceHigh).padding(.bottom, 8)
+                            Text("With so many participants, our search can't pinpoint the name you're looking for.").font(.body2Regular14).foreground(.onSurfaceMedium)
+                        }
+                        Spacer()
+                    }.padding(.horizontal, 22)
+                }
             }
-            
         }
         .padding(.horizontal, 16)
         .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
+        .onReceive(timer) { timer in
+            guard searchText.isEmpty else { return }
+            Task {
+                try await refreshIterators()
+            }
+        }
+        .onAppear() {
+            Task {
+                try await refreshIterators()
+            }
+        }
     }
 }
 
 struct ParticipantSectionView: View {
     @ObservedObject var model: PeerSectionViewModel
+    @EnvironmentObject var currentTheme: HMSUITheme
+    @EnvironmentObject var roomModel: HMSRoomModel
+    @Environment(\.mainSheetDismiss) var sheetDismiss
+    
+    @Binding var searchText: String
+    
+    var isExpanded: Bool
+    var toggleExpanded: (()->Void)
     
     var body: some View {
-        ParticipantItemHeader(name: "\(model.name.capitalized) (\(model.count))", expanded: $model.expanded)
-        if model.expanded {
-            ForEach(model.peers) { peer in
-                ParticipantItem(model: peer, wrappedModel: peer.peerModel)
+        ParticipantItemHeader(name: "\(model.name.capitalized) (\(model.count))", isExpanded: isExpanded, toggleExpanded: toggleExpanded, isExpandEnabled: !model.isInfiniteScrollEnabled)
+        if isExpanded {
+            let shouldShowLoader = model.hasNext && searchText.isEmpty
+            let peers = searchText.isEmpty ? model.peers : model.peers.filter({  $0.peerModel.name.localizedCaseInsensitiveContains(searchText)})
+            ForEach(peers) { peer in
+                let isLast = peer === peers.last && !shouldShowLoader
+                ParticipantItem(model: peer, wrappedModel: peer.peerModel, isLast: isLast).onAppear {
+                    guard searchText.isEmpty, peer.isLast && model.isInfiniteScrollEnabled else { return }
+                    Task {
+                        try await model.loadNext()
+                    }
+                }
             }
+#if !Preview
+            if model.shouldShowViewAll {
+                HMSDivider(color: currentTheme.colorTheme.borderDefault)
+                HStack {
+                    Spacer()
+                    NavigationLink {
+                        HMSParticipantRoleListView(roleName: model.name, iterator: roomModel.getIterator(for: model.name, limit: PeerSectionViewModel.viewAllFetchLimit)).environment(\.mainSheetDismiss, sheetDismiss)
+                    } label: {
+                        HStack {
+                            Text("View All").font(.body2Regular14).foreground(.onSurfaceHigh)
+                            Image(assetName: "back").foreground(.onSurfaceHigh)
+                                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                        }
+                    }
+                }.padding(EdgeInsets(top: 17, leading: 16, bottom: 17, trailing: 16))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(currentTheme.colorTheme.borderBright, lineWidth: 1).padding(EdgeInsets(top: -8, leading: 0, bottom: 0, trailing: 0))
+                    ).clipped()
+            } else if model.hasNext && searchText.isEmpty {
+                HStack {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }.padding(EdgeInsets(top: 17, leading: 16, bottom: 17, trailing: 16))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(currentTheme.colorTheme.borderBright, lineWidth: 1).padding(EdgeInsets(top: -8, leading: 0, bottom: 0, trailing: 0))
+                    ).clipped()
+            }
+#endif
         }
+            
     }
 }
 
 struct ParticipantItemHeader: View {
     @EnvironmentObject var currentTheme: HMSUITheme
     var name: String
-    @Binding var expanded: Bool
+    var isExpanded: Bool
+    var toggleExpanded: (()->Void)
+    var isExpandEnabled: Bool
     
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 16) {
                 Text(name).font(.subtitle2Semibold14).foreground(.onSurfaceMedium).padding(.vertical, 14)
-                Spacer()                
-                Image(assetName: "chevron-up")
-                    .foreground(.onSurfaceHigh)
-                    .rotation3DEffect(.degrees(180), axis: (x: !expanded ? 1 : 0, y: 0, z: 0))
-                    .padding(.horizontal, 5)
-                    .padding(.vertical, 8)
+                Spacer()
+                if isExpandEnabled {
+                    Image(assetName: "chevron-up")
+                        .foreground(.onSurfaceHigh)
+                        .rotation3DEffect(.degrees(180), axis: (x: !isExpanded ? 1 : 0, y: 0, z: 0))
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 8)
+                }
             }
             .padding(.horizontal, 16)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(currentTheme.colorTheme.borderBright, lineWidth: 1).padding(EdgeInsets(top: 0, leading: 0, bottom: expanded ? -8 : 0, trailing: 0))
+                    .stroke(currentTheme.colorTheme.borderBright, lineWidth: 1).padding(EdgeInsets(top: 0, leading: 0, bottom: isExpanded ? -8 : 0, trailing: 0))
             )
-            HMSDivider(color: currentTheme.colorTheme.borderDefault).opacity(expanded ? 1 : 0)
+            HMSDivider(color: currentTheme.colorTheme.borderDefault).opacity(isExpanded ? 1 : 0)
         }.clipped().onTapGesture {
-            expanded = !expanded
+            guard isExpandEnabled else { return }
+            toggleExpanded()
         }
     }
 }
@@ -205,7 +424,9 @@ struct ParticipantItem: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @ObservedObject var model: PeerViewModel
     @ObservedObject var wrappedModel: HMSPeerModel
-     
+    
+    var isLast: Bool
+    
     @State var isPresented = false
     @State var menuAction: HMSPeerOptionsViewContext.Action = .none
     
@@ -240,7 +461,7 @@ struct ParticipantItem: View {
         .padding(EdgeInsets(top: 17, leading: 16, bottom: 17, trailing: 16))
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(currentTheme.colorTheme.borderBright, lineWidth: 1).padding(EdgeInsets(top: -8, leading: 0, bottom: model.isLast ? 0 : -8, trailing: 0))
+                .stroke(currentTheme.colorTheme.borderBright, lineWidth: 1).padding(EdgeInsets(top: -8, leading: 0, bottom: isLast ? 0 : -8, trailing: 0))
         ).clipped()
     }
 }

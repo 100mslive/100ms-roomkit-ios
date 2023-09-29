@@ -409,6 +409,7 @@
 		87A408122ABB012000FF8700 /* SampleHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleHandler.swift; path = ../../HMSRoomKitExample/Screenshare/SampleHandler.swift; sourceTree = "<group>"; };
 		87B1D4162AB81FD8001EBFA7 /* DevelopmentPlayground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentPlayground.swift; sourceTree = "<group>"; };
 		87F2FEAA2ABD75FB00FB62C2 /* RoomStatesExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomStatesExample.swift; sourceTree = "<group>"; };
+		91DDC1142ABDBCA000727F7D /* HMSObservablePeerListIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSObservablePeerListIterator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -947,6 +948,7 @@
 				8781D0672AB9C9F3006FB9C7 /* HMSRoomModel-Internal-Callbacks.swift */,
 				8781D0682AB9C9F3006FB9C7 /* HMSPeerModel-Base-Actions.swift */,
 				8781D0692AB9C9F3006FB9C7 /* HMSPeerModel.swift */,
+				91DDC1142ABDBCA000727F7D /* HMSObservablePeerListIterator.swift */,
 			);
 			name = HMSRoomModels;
 			path = "../../100ms-roomkit-models-ios/Sources/HMSRoomModels";
@@ -1437,7 +1439,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = HMSRoomKitDevelopment/HMSRoomKitDevelopment.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopment/Preview Content\"";
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;
@@ -1473,7 +1475,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = HMSRoomKitDevelopment/HMSRoomKitDevelopment.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HMSRoomKitDevelopment/Preview Content\"";
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;

@@ -24,15 +24,12 @@ extension HMSPeerModel {
             if metadata[Status.beRightBack.rawValue] as? Bool ?? false {
                 return .beRightBack
             }
-            else if metadata[Status.handRaised.rawValue] as? Bool ?? false {
+            else if isHandRaised {
                 return .handRaised
             }
             else {
                 return .none
             }
-        }
-        set {
-            metadata.edit(keysToAdd: newValue == .none ? [:] : [newValue.rawValue : true], keysToRemove: Status.allCases.filter{$0 != newValue}.map{$0.rawValue})
         }
     }
     

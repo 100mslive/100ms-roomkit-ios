@@ -92,7 +92,7 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
                         break
                     case .lowerHand:
                         Task {
-                            try await roomModel.lowerHand(of: peerModel)
+                            try await roomModel.lowerRemotePeerHand(for: peerModel)
                         }
                         break
                     case .pin:
@@ -112,6 +112,7 @@ struct HMSOptionsHeaderView: View {
     var title: String
     var subtitle: String?
     var showsBackButton: Bool = false
+    var showsDivider: Bool = true
     var onClose: (() -> Void)?
     var onBack: (() -> Void)?
     
@@ -143,10 +144,11 @@ struct HMSOptionsHeaderView: View {
             }
             .padding(.horizontal, showsBackButton ? 16 : 24)
             .padding(.vertical, 16)
-            
-            Divider()
-                .background(.borderDefault, cornerRadius: 0)
-                .padding(.bottom, 16)
+            if showsDivider {
+                Divider()
+                    .background(.borderDefault, cornerRadius: 0)
+                    .padding(.bottom, 16)
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ struct HMSOptionSheetView: View {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]) {
                     
                     if isParticipantListEnabled {
-                        HMSSessionMenuButton(text: "Participants", image: "group", highlighted: false, badgeText: "\(roomModel.peerModels.count)").onTapGesture {
+                        HMSSessionMenuButton(text: "Participants", image: "group", highlighted: false, badgeText: roomModel.participantCountDisplayString).onTapGesture {
                             internalSheet = .participants
                         }
                     }
@@ -58,7 +58,10 @@ struct HMSOptionSheetView: View {
                     if isBrbEnabled {
                         HMSSessionMenuButton(text: localPeerModel.status == .beRightBack ? "Cancel Be Right Back" : "Be Right Back", image: "brb-icon", highlighted: localPeerModel.status == .beRightBack)
                             .onTapGesture {
-                                roomModel.setUserStatus(localPeerModel.status == .beRightBack ? .none : .beRightBack)
+                                Task {
+                                    try await
+                                    roomModel.setUserStatus(localPeerModel.status == .beRightBack ? .none : .beRightBack)
+                                }
                                 presentationMode.wrappedValue.dismiss()
                             }
                     }
@@ -66,7 +69,9 @@ struct HMSOptionSheetView: View {
                     if isHandRaiseEnabled {
                         HMSSessionMenuButton(text: localPeerModel.status == .handRaised ? "Lower Hand" : "Raise Hand", image: "hand-raise-icon", highlighted: localPeerModel.status == .handRaised)
                             .onTapGesture {
-                                roomModel.setUserStatus(localPeerModel.status == .handRaised ? .none : .handRaised)
+                                Task {
+                                    try await roomModel.setUserStatus(localPeerModel.status == .handRaised ? .none : .handRaised)
+                                }
                                 presentationMode.wrappedValue.dismiss()
                             }
                     }

@@ -57,8 +57,25 @@ extension HMSRoomModel {
         (spotlightedPeer != nil ? [spotlightedPeer!] : []) + pinnedPeers
     }
     
-    public func setUserStatus(_ status: HMSPeerModel.Status) {
-        localPeerModel?.status = status
+    func setUserStatus(_ status: HMSPeerModel.Status) async throws {
+        guard let localPeerModel = localPeerModel, localPeerModel.status != status else { return }
+        
+        var brbOn = false
+        var raiseHandOn = false
+        
+        switch (status) {
+        case .beRightBack:
+            brbOn = true
+            break
+        case .handRaised:
+            raiseHandOn = true
+            break
+        case .none:
+            break
+        }
+        
+        localPeerModel.metadata[HMSPeerModel.Status.beRightBack.rawValue] = brbOn
+        raiseHandOn ? try await raiseHand() : try await lowerHand()
     }
     
     var remotePeersWithRaisedHand: [HMSPeerModel] {
@@ -95,12 +112,6 @@ extension HMSRoomModel {
 
         try await declineChangeRoleRequest()
         try await send(message: "", type: HMSRoomModel.roleChangeDeclinedNotificationType, recipient: .peer(sender))
-#endif
-    }
-    
-    func lowerHand(of peer: HMSPeerModel) async throws {
-#if !Preview
-        try await send(message: "", type: "lower_hand", recipient: .peer(peer.peer))
 #endif
     }
 }
