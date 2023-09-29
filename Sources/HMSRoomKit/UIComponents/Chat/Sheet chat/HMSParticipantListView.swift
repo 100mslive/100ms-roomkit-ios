@@ -128,21 +128,21 @@ class HMSParticipantListViewModel {
         return Array(roleSectionMap.values).filter { $0.count > 0 }
     }
     
-    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, peerLists: [HMSPeerListIteratorModel], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, peerListIterators: [HMSPeerListIteratorModel], searchQuery: String) -> [PeerSectionViewModel] {
         let dynamicSections = makeDynamicSectionedPeers(from: roomModel.remotePeersWithRaisedHand, searchQuery: searchQuery)
         
         let regularSections = makeSectionedPeers(from: roomModel.peerModels, roles: roomModel.roles, offStageRoles: roomModel.isLarge ? infoModel.offStageRoles : [], searchQuery: searchQuery)
         
-        let iteratorSections = makeIteratorSections(peerLists: peerLists, searchQuery: searchQuery)
+        let iteratorSections = makeIteratorSections(peerListIterators: peerListIterators, searchQuery: searchQuery)
         
         return dynamicSections + regularSections + iteratorSections
     }
     
-    static func makeIteratorSections(peerLists: [HMSPeerListIteratorModel], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeIteratorSections(peerListIterators: [HMSPeerListIteratorModel], searchQuery: String) -> [PeerSectionViewModel] {
         #if !Preview
         if !searchQuery.isEmpty {
             var sections = [PeerSectionViewModel]()
-            peerLists.forEach { iterator in
+            peerListIterators.forEach { iterator in
                 let peers = iterator.peers.filter { $0.name.localizedCaseInsensitiveContains(searchQuery) }
                 guard !peers.isEmpty else { return}
                 let model = PeerSectionViewModel(name: iterator.options.filterByRoleName ?? "")
@@ -151,7 +151,7 @@ class HMSParticipantListViewModel {
             }
             return sections
         } else {
-            return peerLists.map { PeerSectionViewModel(name: $0.options.filterByRoleName ?? "", peerListIterator: $0) }
+            return peerListIterators.map { PeerSectionViewModel(name: $0.options.filterByRoleName ?? "", peerListIterator: $0) }
         }
         #else
         return []
@@ -254,7 +254,7 @@ struct HMSParticipantListView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     @State private var searchText: String = ""
-    @State private var peerLists = [HMSPeerListIteratorModel]()
+    @State private var peerListIterators = [HMSPeerListIteratorModel]()
     @State private var expandedRoleName = ""
     
     private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
@@ -262,14 +262,14 @@ struct HMSParticipantListView: View {
     private func refreshIterators() async throws {
         #if !Preview
         guard roomModel.isLarge else { return }
-        let newPeerLists = roomInfoModel.offStageRoles.map { roomModel.getPeerListIterator(for: $0, limit: PeerSectionViewModel.initialFetchLimit) }
+        let newPeerListIterators = roomInfoModel.offStageRoles.map { roomModel.getPeerListIterator(for: $0, limit: PeerSectionViewModel.initialFetchLimit) }
         await withThrowingTaskGroup(of: Void.self) { group in
-            for peerList in newPeerLists {
-                group.addTask { try await peerList.loadNextSetOfPeers() }
+            for peerListIterator in newPeerListIterators {
+                group.addTask { try await peerListIterator.loadNextSetOfPeers() }
             }
         }
              
-        peerLists = newPeerLists.filter { !$0.peers.isEmpty }
+        peerListIterators = newPeerListIterators.filter { !$0.peers.isEmpty }
         #endif
     }
     
@@ -282,7 +282,7 @@ struct HMSParticipantListView: View {
             HStack(spacing: 8) {
                 HMSSearchField(searchText: $searchText, placeholder: "Search for participants")
             }
-            let sections = HMSParticipantListViewModel.makeSections(from: roomModel, infoModel: roomInfoModel, peerLists: peerLists, searchQuery: searchText)
+            let sections = HMSParticipantListViewModel.makeSections(from: roomModel, infoModel: roomInfoModel, peerListIterators: peerListIterators, searchQuery: searchText)
             ZStack {
                 ScrollView {
                     LazyVStack(spacing: 0) {
