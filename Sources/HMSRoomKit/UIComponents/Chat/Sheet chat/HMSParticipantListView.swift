@@ -17,7 +17,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     static let initialFetchLimit = 5
     static let viewAllFetchLimit = 40
     
-    private var iterator: HMSObservablePeerListIterator?
+    private var iterator: HMSPeerListLoader?
     private var cancallables: Set<AnyCancellable> = []
     var isOnDemand: Bool {
         iterator != nil
@@ -49,7 +49,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
         self.isInfiniteScrollEnabled = false
     }
     
-    internal init(name: String, iterator: HMSObservablePeerListIterator, isInfiniteScrollEnabled: Bool = false) {
+    internal init(name: String, iterator: HMSPeerListLoader, isInfiniteScrollEnabled: Bool = false) {
         self.name = name
         self.iterator = iterator
         self.hasNext = true
@@ -128,7 +128,7 @@ class HMSParticipantListViewModel {
         return Array(roleSectionMap.values).filter { $0.count > 0 }
     }
     
-    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, iterators: [HMSObservablePeerListIterator], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, iterators: [HMSPeerListLoader], searchQuery: String) -> [PeerSectionViewModel] {
         let dynamicSections = makeDynamicSectionedPeers(from: roomModel.remotePeersWithRaisedHand, searchQuery: searchQuery)
         
         let regularSections = makeSectionedPeers(from: roomModel.peerModels, roles: roomModel.roles, offStageRoles: roomModel.isLarge ? infoModel.offStageRoles : [], searchQuery: searchQuery)
@@ -138,7 +138,7 @@ class HMSParticipantListViewModel {
         return dynamicSections + regularSections + iteratorSections
     }
     
-    static func makeIteratorSections(iterators: [HMSObservablePeerListIterator], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeIteratorSections(iterators: [HMSPeerListLoader], searchQuery: String) -> [PeerSectionViewModel] {
         #if !Preview
         if !searchQuery.isEmpty {
             var sections = [PeerSectionViewModel]()
@@ -205,7 +205,7 @@ struct HMSParticipantRoleListView: View {
     
     var roleName: String
     
-    @State var iterator: HMSObservablePeerListIterator
+    @State var iterator: HMSPeerListLoader
     @State var searchText: String = ""
     
     var body: some View {
@@ -254,7 +254,7 @@ struct HMSParticipantListView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     @State private var searchText: String = ""
-    @State private var iterators = [HMSObservablePeerListIterator]()
+    @State private var iterators = [HMSPeerListLoader]()
     @State private var expandedRoleName = ""
     
     private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
