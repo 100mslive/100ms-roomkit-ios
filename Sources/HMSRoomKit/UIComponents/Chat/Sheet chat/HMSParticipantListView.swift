@@ -17,10 +17,10 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     static let initialFetchLimit = 5
     static let viewAllFetchLimit = 40
     
-    private var iterator: HMSObservablePeerListIterator?
+    private var peerListIterator: HMSPeerListIteratorModel?
     private var cancallables: Set<AnyCancellable> = []
     var isOnDemand: Bool {
-        iterator != nil
+        peerListIterator != nil
     }
      
     typealias ID = String
@@ -30,7 +30,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     
     nonisolated let name: String
     var count: Int {
-        iterator?.totalCount ?? peers.count
+        peerListIterator?.totalPeerCount ?? peers.count
     }
     
     var shouldShowViewAll: Bool {
@@ -49,18 +49,18 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
         self.isInfiniteScrollEnabled = false
     }
     
-    internal init(name: String, iterator: HMSObservablePeerListIterator, isInfiniteScrollEnabled: Bool = false) {
+    internal init(name: String, peerListIterator: HMSPeerListIteratorModel, isInfiniteScrollEnabled: Bool = false) {
         self.name = name
-        self.iterator = iterator
+        self.peerListIterator = peerListIterator
         self.hasNext = true
         self.peers = []
         self.isInfiniteScrollEnabled = isInfiniteScrollEnabled
         
 #if !Preview
-        iterator.$hasNext.assign(to: \.hasNext, on: self).store(in: &cancallables)
-        iterator.$isLoading.assign(to: \.isLoading, on: self).store(in: &cancallables)
+        peerListIterator.$hasMorePeers.assign(to: \.hasNext, on: self).store(in: &cancallables)
+        peerListIterator.$isLoadingPeers.assign(to: \.isLoading, on: self).store(in: &cancallables)
         
-        iterator.$peers.sink { newValue in
+        peerListIterator.$peers.sink { newValue in
             self.peers = newValue.map { PeerViewModel(peerModel: $0, onDemandEntry: true) }
             if !self.shouldShowViewAll {
                 self.peers.last?.isLast = true
@@ -71,7 +71,7 @@ class PeerSectionViewModel: ObservableObject, Identifiable {
     
     func loadNext() async throws {
         guard isLoading == false && hasNext else { return }
-        try await iterator?.loadNext()
+        try await peerListIterator?.loadNextSetOfPeers()
     }
 
 }
@@ -128,21 +128,21 @@ class HMSParticipantListViewModel {
         return Array(roleSectionMap.values).filter { $0.count > 0 }
     }
     
-    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, iterators: [HMSObservablePeerListIterator], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, peerListIterators: [HMSPeerListIteratorModel], searchQuery: String) -> [PeerSectionViewModel] {
         let dynamicSections = makeDynamicSectionedPeers(from: roomModel.remotePeersWithRaisedHand, searchQuery: searchQuery)
         
         let regularSections = makeSectionedPeers(from: roomModel.peerModels, roles: roomModel.roles, offStageRoles: roomModel.isLarge ? infoModel.offStageRoles : [], searchQuery: searchQuery)
         
-        let iteratorSections = makeIteratorSections(iterators: iterators, searchQuery: searchQuery)
+        let iteratorSections = makeIteratorSections(peerListIterators: peerListIterators, searchQuery: searchQuery)
         
         return dynamicSections + regularSections + iteratorSections
     }
     
-    static func makeIteratorSections(iterators: [HMSObservablePeerListIterator], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeIteratorSections(peerListIterators: [HMSPeerListIteratorModel], searchQuery: String) -> [PeerSectionViewModel] {
         #if !Preview
         if !searchQuery.isEmpty {
             var sections = [PeerSectionViewModel]()
-            iterators.forEach { iterator in
+            peerListIterators.forEach { iterator in
                 let peers = iterator.peers.filter { $0.name.localizedCaseInsensitiveContains(searchQuery) }
                 guard !peers.isEmpty else { return}
                 let model = PeerSectionViewModel(name: iterator.options.filterByRoleName ?? "")
@@ -151,7 +151,7 @@ class HMSParticipantListViewModel {
             }
             return sections
         } else {
-            return iterators.map { PeerSectionViewModel(name: $0.options.filterByRoleName ?? "", iterator: $0) }
+            return peerListIterators.map { PeerSectionViewModel(name: $0.options.filterByRoleName ?? "", peerListIterator: $0) }
         }
         #else
         return []
@@ -203,9 +203,9 @@ struct HMSParticipantRoleListView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.mainSheetDismiss) var sheetDismiss
     
-    var roleName: String
+    let roleName: String
+    let peerListIterator: HMSPeerListIteratorModel
     
-    @State var iterator: HMSObservablePeerListIterator
     @State var searchText: String = ""
     
     var body: some View {
@@ -219,8 +219,8 @@ struct HMSParticipantRoleListView: View {
             Spacer(minLength: 16)
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    let roleName = iterator.options.filterByRoleName ?? ""
-                    let model = PeerSectionViewModel(name: roleName, iterator: iterator, isInfiniteScrollEnabled: true)
+                    let roleName = peerListIterator.options.filterByRoleName ?? ""
+                    let model = PeerSectionViewModel(name: roleName, peerListIterator: peerListIterator, isInfiniteScrollEnabled: true)
                     ParticipantSectionView(model: model, searchText: $searchText, isExpanded: true) {}
                     Spacer().frame(height: 16)
                 }
@@ -230,7 +230,7 @@ struct HMSParticipantRoleListView: View {
         .navigationBarHidden(true)
         .onAppear() {
             Task {
-                try await iterator.loadNext()
+                try await peerListIterator.loadNextSetOfPeers()
             }
         }
     }
@@ -254,7 +254,7 @@ struct HMSParticipantListView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     @State private var searchText: String = ""
-    @State private var iterators = [HMSObservablePeerListIterator]()
+    @State private var peerListIterators = [HMSPeerListIteratorModel]()
     @State private var expandedRoleName = ""
     
     private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
@@ -262,14 +262,14 @@ struct HMSParticipantListView: View {
     private func refreshIterators() async throws {
         #if !Preview
         guard roomModel.isLarge else { return }
-        let newIterators = roomInfoModel.offStageRoles.map { roomModel.getIterator(for: $0, limit: PeerSectionViewModel.initialFetchLimit) }
+        let newPeerListIterators = roomInfoModel.offStageRoles.map { roomModel.getPeerListIterator(for: $0, limit: PeerSectionViewModel.initialFetchLimit) }
         await withThrowingTaskGroup(of: Void.self) { group in
-            for iterator in newIterators {
-                group.addTask { try await iterator.loadNext() }
+            for peerListIterator in newPeerListIterators {
+                group.addTask { try await peerListIterator.loadNextSetOfPeers() }
             }
         }
              
-        iterators = newIterators.filter { !$0.peers.isEmpty }
+        peerListIterators = newPeerListIterators.filter { !$0.peers.isEmpty }
         #endif
     }
     
@@ -282,7 +282,7 @@ struct HMSParticipantListView: View {
             HStack(spacing: 8) {
                 HMSSearchField(searchText: $searchText, placeholder: "Search for participants")
             }
-            let sections = HMSParticipantListViewModel.makeSections(from: roomModel, infoModel: roomInfoModel, iterators: iterators, searchQuery: searchText)
+            let sections = HMSParticipantListViewModel.makeSections(from: roomModel, infoModel: roomInfoModel, peerListIterators: peerListIterators, searchQuery: searchText)
             ZStack {
                 ScrollView {
                     LazyVStack(spacing: 0) {
@@ -355,7 +355,7 @@ struct ParticipantSectionView: View {
                 HStack {
                     Spacer()
                     NavigationLink {
-                        HMSParticipantRoleListView(roleName: model.name, iterator: roomModel.getIterator(for: model.name, limit: PeerSectionViewModel.viewAllFetchLimit)).environment(\.mainSheetDismiss, sheetDismiss)
+                        HMSParticipantRoleListView(roleName: model.name, peerListIterator: roomModel.getPeerListIterator(for: model.name, limit: PeerSectionViewModel.viewAllFetchLimit)).environment(\.mainSheetDismiss, sheetDismiss)
                     } label: {
                         HStack {
                             Text("View All").font(.body2Regular14).foreground(.onSurfaceHigh)
