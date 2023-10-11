@@ -65,4 +65,17 @@ extension EnvironmentValues {
         get { self[HMSKeyboardState.Key.self] }
         set { self[HMSKeyboardState.Key.self] = newValue }
     }
+    
+    enum HMSUserStreamingState {
+        case starting, none
+        
+        struct Key: EnvironmentKey {
+            static let defaultValue: Binding<HMSUserStreamingState> = .constant(.none)
+        }
+    }
+    
+    var userStreamingState: Binding<HMSUserStreamingState> {
+        get { self[HMSUserStreamingState.Key.self] }
+        set { self[HMSUserStreamingState.Key.self] = newValue }
+    }
 }

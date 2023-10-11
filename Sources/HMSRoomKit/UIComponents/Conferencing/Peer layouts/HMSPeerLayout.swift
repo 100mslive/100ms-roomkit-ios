@@ -42,7 +42,7 @@ public struct HMSPeerLayout: View {
             }
             else {
                 if let localPeerModel = roomModel.localPeerModel, localPeerModel.role?.canPublish ?? false {
-                    HMSPeerTile(peerModel: localPeerModel, isOverlayHidden: controlsState.wrappedValue == .hidden)
+                    HMSPeerTile(peerModel: localPeerModel)
                         .background(.backgroundDefault, cornerRadius: 0)
                 }
                 else {

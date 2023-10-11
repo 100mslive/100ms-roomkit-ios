@@ -16,6 +16,9 @@ struct HMSPrebuiltMeetingView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     
+    @State var userStreamingState = EnvironmentValues.HMSUserStreamingState.none
+    @State private var controlsState = EnvironmentValues.HMSControlsState.visible
+    
     var onDismiss: (() -> Void)?
     init(onDismiss: (() -> Void)?) {
         self.onDismiss = onDismiss
@@ -139,6 +142,9 @@ struct HMSPrebuiltMeetingView: View {
                     }
             }
         }
+        .environment(\.controlsState, $controlsState)
+        .environment(\.peerTileAppearance, .constant(.init(userStreamingState == .starting ? .compact : .full, isOverlayHidden: (userStreamingState == .starting || controlsState == .hidden))))
+        .environment(\.userStreamingState, $userStreamingState)
 #if !Preview
         .onChange(of: roomModel.userRole) { role in
             if let role = role {

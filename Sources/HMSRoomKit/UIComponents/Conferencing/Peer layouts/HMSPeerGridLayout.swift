@@ -56,7 +56,7 @@ struct HMSPeerGridLayout: View {
                         ForEach(chunks.indices, id:\.self) { index in
                             let chunk = chunks[index]
                             TallVGrid(items: Array(chunk), idKeyPath: \.self, numOfColumns: 2, vhSpacing: 8, isTrailing: numberOfPeers > peersInOnePage, maxItemInOnePage: 6, content: { peer in
-                                HMSPeerTile(peerModel: peer, isOverlayHidden: controlsState.wrappedValue == .hidden)
+                                HMSPeerTile(peerModel: peer)
                                     .background(.backgroundDefault, cornerRadius: 0)
                             })
                             .onAppear() {

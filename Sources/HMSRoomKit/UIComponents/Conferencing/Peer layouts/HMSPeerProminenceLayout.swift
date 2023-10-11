@@ -34,7 +34,7 @@ struct HMSPeerProminenceLayout: View {
                 TabView {
                     ForEach(prominentPeers, id: \.self) { peer in
                         
-                        HMSPeerTile(peerModel: peer, isOverlayHidden: controlsState.wrappedValue == .hidden)
+                        HMSPeerTile(peerModel: peer)
                             .background(.backgroundDefault, cornerRadius: 0)
                     }
                     .padding(.bottom, 35)

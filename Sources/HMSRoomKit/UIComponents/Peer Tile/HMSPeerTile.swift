@@ -10,10 +10,11 @@ import SwiftUI
 import HMSSDK
 import HMSRoomModels
 
-struct HMSPeerTile: View {
+public struct HMSPeerTile: View {
     
     // Environment keys
     @Environment(\.menuContext) private var menuContext
+    @Environment(\.peerTileAppearance) var peerTileAppearance
     
     // Environment objects
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -21,10 +22,12 @@ struct HMSPeerTile: View {
     
     // Param
     @ObservedObject var peerModel: HMSPeerModel
-    var compactMode: Bool = false
-    var isOverlayHidden: Bool = false
     
-    var body: some View {
+    public init(peerModel: HMSPeerModel) {
+        self.peerModel = peerModel
+    }
+    
+    public var body: some View {
         
         // Transitory states
         let audioTrackModel = peerModel.regularAudioTrackModel
@@ -33,7 +36,7 @@ struct HMSPeerTile: View {
         
         GeometryReader { proxy in
             ZStack {
-                HMSDefaultTileView(peerModel: peerModel, compactMode: compactMode)
+                HMSDefaultTileView(peerModel: peerModel, compactMode: peerTileAppearance.mode.wrappedValue == .compact)
                 
                 if let regularVideoTrackModel = regularVideoTrackModel {
                     HMSVideoTrackView(trackModel: regularVideoTrackModel, isDegraded: isVideoDegraded)
@@ -43,7 +46,7 @@ struct HMSPeerTile: View {
             
             .overlay(alignment: .bottom) {
                 HStack {
-                    if !compactMode {
+                    if peerTileAppearance.mode.wrappedValue == .full {
                         HMSParticipantNameLabel(peerModel: peerModel)
                     }
                     
@@ -58,10 +61,10 @@ struct HMSPeerTile: View {
                             .foreground(.onSurfaceHigh)
                             .frame(width: 28, height: 28)
                             .background(.backgroundDim, cornerRadius: 8, opacity: 0.6)
-                            .frame(height: !isOverlayHidden ? nil : 0)
-                            .opacity(!isOverlayHidden ? 1 : 0)
+                            .frame(height: !peerTileAppearance.isOverlayHidden.wrappedValue ? nil : 0)
+                            .opacity(!peerTileAppearance.isOverlayHidden.wrappedValue ? 1 : 0)
                     }
-                    .animation(nil, value: isOverlayHidden)
+                    .animation(nil, value: peerTileAppearance.isOverlayHidden.wrappedValue)
                 }
                 .padding(8)
             }

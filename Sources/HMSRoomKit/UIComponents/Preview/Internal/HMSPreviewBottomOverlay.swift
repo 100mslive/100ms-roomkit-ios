@@ -22,9 +22,9 @@ struct HMSPreviewBottomOverlay: View {
     @State var showDeviceSettings = false
     @State private var cancellable: AnyCancellable?
     
-    @Binding var isStartingStream: Bool
-    
     @State var isJoining = false
+    
+    @Environment(\.userStreamingState) var userStreamingState
     
     var body: some View {
         VStack(spacing: 16) {
@@ -81,11 +81,11 @@ struct HMSPreviewBottomOverlay: View {
                             
                             if previewComponentParam.joinButtonType == .goLive && !roomModel.isBeingStreamed {
                                 
-                                isStartingStream = true
+                                userStreamingState.wrappedValue = .starting
                                 
                                 cancellable = roomModel.$isBeingStreamed.dropFirst().sink { isBeingStreamed in
                                     if isBeingStreamed {
-                                        isStartingStream = false
+                                        userStreamingState.wrappedValue = .none
                                         roomModel.roomState = .meeting
                                     }
                                     cancellable = nil
@@ -96,7 +96,7 @@ struct HMSPreviewBottomOverlay: View {
                                         roomModel.roomState = .meeting
                                     }
                                 } catch {
-                                    isStartingStream = false
+                                    userStreamingState.wrappedValue = .none
                                     cancellable = nil
                                     try await roomModel.leaveSession()
                                 }
@@ -120,7 +120,7 @@ struct HMSPreviewBottomOverlay_Previews: PreviewProvider {
 #if Preview
         @State var isStartingStream = false
         
-        HMSPreviewBottomOverlay(isStartingStream: $isStartingStream)
+        HMSPreviewBottomOverlay()
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2))
 #endif

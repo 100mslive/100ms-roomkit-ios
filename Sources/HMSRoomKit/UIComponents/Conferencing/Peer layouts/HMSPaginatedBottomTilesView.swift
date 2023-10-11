@@ -26,7 +26,7 @@ struct HMSPaginatedBottomTilesView: View {
                 ForEach(chunks, id:\.self) { chunk in
                     TallVGrid(items: Array(chunk), idKeyPath: \.self, numOfColumns: 2, vhSpacing: 8, isTrailing: peers.count > 2, maxItemInOnePage: 2, content: { peer in
                         
-                        HMSPeerTile(peerModel: peer, isOverlayHidden: controlsState.wrappedValue == .hidden)
+                        HMSPeerTile(peerModel: peer)
                             .background(.backgroundDefault, cornerRadius: 0)
                     })
                 }
