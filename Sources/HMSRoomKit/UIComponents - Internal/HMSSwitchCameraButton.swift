@@ -24,7 +24,9 @@ struct HMSSwitchCameraButton: View {
                 .onTapGesture {
                     guard isEnabled else { return }
 #if !Preview
-                    roomModel.switchCamera()
+                    Task {
+                        try await roomModel.switchCamera()
+                    }
 #endif
                 }
         }

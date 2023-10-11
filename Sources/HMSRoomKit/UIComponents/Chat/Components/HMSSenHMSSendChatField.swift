@@ -43,7 +43,7 @@ struct HMSSendChatField: View {
                 .onTapGesture {
                     guard inputValid else { return }
                     Task {
-                        try await roomModel.send(message: message, recipient: recipient)
+                        try await roomModel.send(message: message, to: recipient)
                         message = ""
                     }
                 }

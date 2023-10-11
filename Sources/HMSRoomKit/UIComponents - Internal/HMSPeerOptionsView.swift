@@ -92,7 +92,7 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
                         break
                     case .lowerHand:
                         Task {
-                            try await roomModel.lowerRemotePeerHand(for: peerModel)
+                            try await roomModel.lowerHand(of: peerModel)
                         }
                         break
                     case .pin:

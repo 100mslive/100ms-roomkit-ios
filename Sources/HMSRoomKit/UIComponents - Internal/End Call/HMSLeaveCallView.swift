@@ -62,7 +62,7 @@ struct HMSLeaveCallView: View {
                                 try await roomModel.stopStreaming()
                             }
                         }
-                        try await roomModel.leave()
+                        try await roomModel.leaveSession()
                     }
                 }
         }
