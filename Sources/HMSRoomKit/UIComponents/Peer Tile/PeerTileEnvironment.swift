@@ -10,14 +10,14 @@ import SwiftUI
 public extension HMSPeerTile {
     
     struct Appearance {
-        enum Mode {
+        public enum Mode {
             case compact, full
         }
         
         var mode: Mode
         var isOverlayHidden: Bool
         
-        init(_ mode: Mode, isOverlayHidden: Bool) {
+        public init(_ mode: Mode, isOverlayHidden: Bool) {
             self.mode = mode
             self.isOverlayHidden = isOverlayHidden
         }
