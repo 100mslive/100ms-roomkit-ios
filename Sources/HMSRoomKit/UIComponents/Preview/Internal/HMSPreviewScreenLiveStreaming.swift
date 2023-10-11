@@ -22,8 +22,6 @@ struct HMSPreviewScreenLiveStreaming: View {
     @State var name: String = ""
 //    @State private var keyboardOffset: CGFloat = 0.0
     
-    @State var isStartingStream = false
-    
     var body: some View {
         
         VStack(spacing: 16) {
@@ -31,30 +29,19 @@ struct HMSPreviewScreenLiveStreaming: View {
             if roomModel.localVideoTrackModel != nil {
                 
                 HMSPreviewTile()
-                    .overlay {
-                        if isStartingStream {
-                            LinearGradient(
-                                gradient: Gradient(colors: [currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(1.0), currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.0)]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        }
-                    }
                     .ignoresSafeArea(.keyboard)
                     .edgesIgnoringSafeArea([.top, .bottom])
                     .overlay(alignment: .top) {
-                        if !isStartingStream {
-                            HMSPreviewTopOverlay()
-                                .padding(.vertical, 8)
-                                .matchedGeometryEffect(id: "HMSPreviewTopOverlay", in: animation)
-                                .background (
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(1.0), currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.0)]),
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
+                        HMSPreviewTopOverlay()
+                            .padding(.vertical, 8)
+                            .matchedGeometryEffect(id: "HMSPreviewTopOverlay", in: animation)
+                            .background (
+                                LinearGradient(
+                                    gradient: Gradient(colors: [currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(1.0), currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.0)]),
+                                    startPoint: .top,
+                                    endPoint: .bottom
                                 )
-                        }
+                            )
                     }
             }
             else {
@@ -67,19 +54,17 @@ struct HMSPreviewScreenLiveStreaming: View {
             }
         }
         .overlay(alignment: .top) {
-            if !isStartingStream {
-                HStack {
-                    HMSBackButtonView()
-                        .padding(.leading)
-                        .onTapGesture {
-                            Task {
-    #if !Preview
-                                try await roomModel.leaveSession()
-    #endif
-                            }
+            HStack {
+                HMSBackButtonView()
+                    .padding(.leading)
+                    .onTapGesture {
+                        Task {
+#if !Preview
+                            try await roomModel.leaveSession()
+#endif
                         }
-                    Spacer()
-                }
+                    }
+                Spacer()
             }
         }
         .overlay(alignment: .bottom) {
@@ -95,31 +80,11 @@ struct HMSPreviewScreenLiveStreaming: View {
                     }
                 }
                 
-                if !isStartingStream {
-                    HMSPreviewBottomOverlay(isStartingStream: $isStartingStream)
+                HMSPreviewBottomOverlay()
                         .matchedGeometryEffect(id: "HMSPreviewBottomOverlay", in: animation)
-                }
-            }
-        }
-        .overlay(alignment: .center) {
-            if isStartingStream {
-                HStack {
-                    Spacer(minLength: 0)
-                    VStack(spacing: 29) {
-                        Spacer(minLength: 0)
-                        HMSLoadingScreen()
-                        Text("Starting live stream...")
-                            .font(.body1Regular16)
-                            .foreground(.onSurfaceHigh)
-                        Spacer(minLength: 0)
-                    }
-                    Spacer(minLength: 0)
-                }
-                .background(roomModel.isCameraMute ? .backgroundDim : nil, cornerRadius: 0, ignoringEdges: .all)
             }
         }
         .animation(.default, value: roomModel.localVideoTrackModel)
-        .animation(.default, value: isStartingStream)
         .background(.white.opacity(0.0001))
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -163,7 +128,7 @@ struct HMSPreviewScreenLiveStreaming: View {
 struct HMSPreviewScreenLiveStreaming_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSPreviewScreenLiveStreaming(isStartingStream: false)
+        HMSPreviewScreenLiveStreaming()
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2))
 #endif

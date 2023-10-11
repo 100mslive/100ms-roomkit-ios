@@ -16,7 +16,7 @@ public struct HMSDefaultConferenceScreen: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     
-    @State private var controlsState = EnvironmentValues.HMSControlsState.visible
+    @Environment(\.controlsState) var controlsState
     @State private var tabPageBarState = EnvironmentValues.HMSTabPageBarState.hidden
     @State private var menuContext = EnvironmentValues.MenuContext.none
     @State private var keyboardState = EnvironmentValues.HMSKeyboardState.hidden
@@ -28,6 +28,10 @@ public struct HMSDefaultConferenceScreen: View {
     
     let isHLSViewer: Bool
     
+    @Environment(\.userStreamingState) var userStreamingState
+    
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     public var body: some View {
         
         let isChatOverlay = conferenceComponentParam.chat?.isOverlay ?? false
@@ -38,11 +42,13 @@ public struct HMSDefaultConferenceScreen: View {
             VStack(spacing: 0) {
                 
                 if !isHLSViewer {
-                    HMSTopControlStrip()
-                        .padding([.bottom,.horizontal], 16)
-                        .transition(.move(edge: .top))
-                        .frame(height: controlsState == .hidden ? 0 : nil)
-                        .opacity(controlsState == .hidden ? 0 : 1)
+                    if userStreamingState.wrappedValue == .none {
+                        HMSTopControlStrip()
+                            .padding([.bottom,.horizontal], 16)
+                            .transition(.move(edge: .top))
+                            .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
+                            .opacity(controlsState.wrappedValue == .hidden ? 0 : 1)
+                    }
                 }
                 
                 if isChatOverlay {
@@ -60,15 +66,18 @@ public struct HMSDefaultConferenceScreen: View {
                 }
                 
                 if !isHLSViewer {
-                    HMSBottomControlStrip(isChatPresented: $isChatPresented)
-                        .padding(tabPageBarState == .hidden ? [.horizontal, .top] : [.horizontal], 16)
-                        .transition(.move(edge: .bottom))
-                        .frame(height: controlsState == .hidden ? 0 : nil)
-                        .opacity(controlsState == .hidden ? 0 : 1)
-                        .zIndex(-1)
+                    if userStreamingState.wrappedValue == .none {
+                        HMSBottomControlStrip(isChatPresented: $isChatPresented)
+                            .padding(tabPageBarState == .hidden ? [.horizontal, .top] : [.horizontal], 16)
+                            .transition(.move(edge: .bottom))
+                            .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
+                            .opacity(controlsState.wrappedValue == .hidden ? 0 : 1)
+                            .zIndex(-1)
+                    }
                 }
             }
         }
+        .edgesIgnoringSafeArea(userStreamingState.wrappedValue == .starting ? [.all] : [])
         .onAppear() {
             isChatPresented = chatInitialState == .open
         }
@@ -88,6 +97,36 @@ public struct HMSDefaultConferenceScreen: View {
                 }
             }
         }
+        .overlay {
+            if userStreamingState.wrappedValue == .starting {
+                LinearGradient(
+                    gradient: Gradient(colors: [currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(1.0), currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.0)]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    // block tap gesture from propagating
+                }
+            }
+        }
+        .overlay(alignment: .center) {
+            if !isHLSViewer && userStreamingState.wrappedValue == .starting {
+                HStack {
+                    Spacer(minLength: 0)
+                    VStack(spacing: 29) {
+                        Spacer(minLength: 0)
+                        HMSLoadingScreen()
+                        Text("Starting live stream...")
+                            .font(.body1Regular16)
+                            .foreground(.onSurfaceHigh)
+                        Spacer(minLength: 0)
+                    }
+                    Spacer(minLength: 0)
+                }
+                .background(roomModel.isCameraMute ? .backgroundDim : nil, cornerRadius: 0, ignoringEdges: .all)
+            }
+        }
         .ignoresSafeArea(.keyboard)
         // chat overlay
         .overlay(alignment: .bottom) {
@@ -99,6 +138,7 @@ public struct HMSDefaultConferenceScreen: View {
         .onAppear() {
             roomModel.sharedSessionStore.beginObserving(keys: [HMSRoomModel.spotlightKey, HMSRoomModel.pinnedMessageKey])
         }
+        .animation(.default, value: userStreamingState.wrappedValue)
 #if !Preview
         .onChange(of: roomModel.remotePeersWithRaisedHand) { currentlyRaisedHandsPeers in
             let previouslyRaisedHandsPeerIds = roomKitModel.raisedHandNotifications.map{$0.id}
@@ -179,7 +219,6 @@ public struct HMSDefaultConferenceScreen: View {
 #endif
         .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
         .environment(\.menuContext, $menuContext)
-        .environment(\.controlsState, $controlsState)
         .environment(\.tabPageBarState, $tabPageBarState)
         .environment(\.keyboardState, $keyboardState)
         .environment(\.chatBadgeState, $chatBadgeState)
@@ -194,7 +233,7 @@ public struct HMSDefaultConferenceScreen: View {
         
         if menuContext == .none {
             withAnimation {
-                controlsState = controlsState == .hidden ? .visible : .hidden
+                controlsState.wrappedValue = controlsState.wrappedValue == .hidden ? .visible : .hidden
             }
         }
         else {

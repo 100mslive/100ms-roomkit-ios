@@ -16,7 +16,8 @@ struct HMSInsetTile: View {
     @State var isOverlayHidden = false
     
     var body: some View {
-        HMSPeerTile(peerModel: peerModel, compactMode: true, isOverlayHidden: isOverlayHidden)
+        HMSPeerTile(peerModel: peerModel)
+            .environment(\.peerTileAppearance, .constant(.init(.compact, isOverlayHidden: isOverlayHidden)))
             .onAppear() {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     isOverlayHidden = true

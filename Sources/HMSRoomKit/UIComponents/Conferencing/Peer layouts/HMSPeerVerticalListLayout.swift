@@ -27,7 +27,7 @@ public struct HMSPeerVerticalListLayout: View {
         
         VStack {
             ForEach(visiblePeers, id: \.self) { peer in
-                HMSPeerTile(peerModel: peer, isOverlayHidden: controlsState.wrappedValue == .hidden)
+                HMSPeerTile(peerModel: peer)
                     .background(.backgroundDefault, cornerRadius: 0)
             }
         }
