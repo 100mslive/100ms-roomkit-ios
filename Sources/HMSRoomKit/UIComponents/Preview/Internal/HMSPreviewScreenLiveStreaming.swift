@@ -74,7 +74,7 @@ struct HMSPreviewScreenLiveStreaming: View {
                         .onTapGesture {
                             Task {
     #if !Preview
-                                try await roomModel.leave()
+                                try await roomModel.leaveSession()
     #endif
                             }
                         }
@@ -131,7 +131,7 @@ struct HMSPreviewScreenLiveStreaming: View {
             return lastError.isTerminal
         }, set: { _ in
             Task {
-                try await roomModel.leave()
+                try await roomModel.leaveSession()
             }
         }), content: {
             Alert(title: Text("Error"), message: Text(roomModel.lastError?.localizedDescription ?? ""))

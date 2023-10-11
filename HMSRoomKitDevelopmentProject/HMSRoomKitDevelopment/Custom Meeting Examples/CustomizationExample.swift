@@ -44,7 +44,7 @@ struct CustomizationExample: View {
                         Image(systemName: "phone.down.fill")
                             .onTapGesture {
                                 Task {
-                                    try await room.leave()
+                                    try await room.leaveSession()
                                 }
                             }
                         Spacer()

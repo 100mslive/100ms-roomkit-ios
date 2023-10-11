@@ -98,7 +98,7 @@ struct HMSPreviewBottomOverlay: View {
                                 } catch {
                                     isStartingStream = false
                                     cancellable = nil
-                                    try await roomModel.leave()
+                                    try await roomModel.leaveSession()
                                 }
                             }
                             else {

@@ -97,7 +97,7 @@ struct HMSNotificationStackView: View {
                             break
                         case .endCall:
                             Task {
-                                try await roomModel.leave()
+                                try await roomModel.leaveSession()
                             }
                         }
                     }

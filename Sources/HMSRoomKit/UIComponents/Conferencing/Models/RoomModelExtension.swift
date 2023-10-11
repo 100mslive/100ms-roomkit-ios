@@ -111,7 +111,7 @@ extension HMSRoomModel {
         guard let request = roleChangeRequests.first, let sender = request.requestedBy else { return }
 
         try await declineChangeRoleRequest()
-        try await send(message: "", type: HMSRoomModel.roleChangeDeclinedNotificationType, recipient: .peer(sender))
+        try await send(message: "", to: .peer(sender), type: HMSRoomModel.roleChangeDeclinedNotificationType)
 #endif
     }
 }
