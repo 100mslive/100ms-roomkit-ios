@@ -97,6 +97,11 @@ public struct HMSDefaultConferenceScreen: View {
                 }
             }
         }
+        .ignoresSafeArea(.keyboard)
+        // chat overlay
+        .overlay(alignment: .bottom) {
+            HMSChatOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+        }
         .overlay {
             if userStreamingState.wrappedValue == .starting {
                 LinearGradient(
@@ -126,11 +131,6 @@ public struct HMSDefaultConferenceScreen: View {
                 }
                 .background(roomModel.isCameraMute ? .backgroundDim : nil, cornerRadius: 0, ignoringEdges: .all)
             }
-        }
-        .ignoresSafeArea(.keyboard)
-        // chat overlay
-        .overlay(alignment: .bottom) {
-            HMSChatOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
         }
         .onTapGesture {
             checkAndHideControls()
