@@ -74,7 +74,7 @@ public struct HMSConferenceScreen: View {
                 if let userName = userName {
                     roomModel.userName = userName
                 }
-                try await roomModel.join()
+                try await roomModel.joinSession()
             }
         }
     }
