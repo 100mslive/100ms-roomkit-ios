@@ -26,7 +26,7 @@ public struct HMSPeerScreenTile: View {
         GeometryReader { proxy in
             Group {
                 if let screenTrack = peerModel.screenTrackModels.first {
-                    HMSVideoTrackView(trackModel: screenTrack, contentMode: .scaleAspectFit, isZoomAndPanEnabled: isZoomAndPanEnabled)
+                    HMSPeerVideoTrackView(trackModel: screenTrack, contentMode: .scaleAspectFit, isZoomAndPanEnabled: isZoomAndPanEnabled)
                 }
             }
             .frame(width: proxy.size.width, height: proxy.size.height)

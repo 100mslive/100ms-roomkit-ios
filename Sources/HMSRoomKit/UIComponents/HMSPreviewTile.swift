@@ -22,7 +22,7 @@ struct HMSPreviewTile: View {
                 HMSDefaultPreviewTileView(peerName: roomModel.userName)
                 
                 if let videoTrack = roomModel.localVideoTrackModel {
-                    HMSVideoTrackView(trackModel: videoTrack)
+                    HMSPeerVideoTrackView(trackModel: videoTrack)
                 }
                 
 //                Color.white

@@ -10,7 +10,7 @@ import SwiftUI
 import HMSSDK
 import HMSRoomModels
 
-public struct HMSVideoTrackView: View {
+public struct HMSPeerVideoTrackView: View {
     
     @ObservedObject public var trackModel: HMSTrackModel
     
@@ -28,8 +28,8 @@ public struct HMSVideoTrackView: View {
     public var body: some View {
         Group {
 #if !Preview
-            if let videoTrack = trackModel.track as? HMSVideoTrack, !trackModel.isMute {
-                HMSVideoViewRepresentable(track: videoTrack, contentMode: contentMode, isZoomAndPanEnabled: isZoomAndPanEnabled)
+            if !trackModel.isMute {
+                HMSTrackView(track: trackModel, contentMode: contentMode, isZoomAndPanEnabled: isZoomAndPanEnabled)
             }
 #else
             Rectangle().foregroundStyle(.red)
@@ -58,10 +58,10 @@ public struct HMSVideoTrackView: View {
     }
 }
 
-struct HMSVideoTrackView_Previews: PreviewProvider {
+struct HMSPeerVideoTrackView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSVideoTrackView(trackModel: HMSTrackModel(), isDegraded: true)
+        HMSPeerVideoTrackView(trackModel: HMSTrackModel(), isDegraded: true)
             .environmentObject(HMSUITheme())
 #endif
     }

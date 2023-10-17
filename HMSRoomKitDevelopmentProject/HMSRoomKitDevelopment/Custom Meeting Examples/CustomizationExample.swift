@@ -20,7 +20,7 @@ struct CustomizationExample: View {
             case .none:
                 Button(action: {
                     Task {
-                        try await room.join()
+                        try await room.joinSession()
                     }
                 }, label: {
                     Text("Start")

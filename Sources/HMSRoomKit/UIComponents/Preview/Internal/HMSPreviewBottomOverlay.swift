@@ -71,7 +71,7 @@ struct HMSPreviewBottomOverlay: View {
                             
                             isJoining = true
                             do {
-                                try await roomModel.join()
+                                try await roomModel.joinSession()
                             }
                             catch {
                                 isJoining = false

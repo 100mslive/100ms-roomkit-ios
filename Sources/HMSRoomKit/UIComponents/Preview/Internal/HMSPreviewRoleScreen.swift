@@ -33,7 +33,7 @@ struct HMSPreviewRoleScreen: View {
                     HMSDefaultPreviewTileView(peerName: roomModel.userName)
                     
                     if let videoTrack = roomModel.localVideoTrackModel {
-                        HMSVideoTrackView(trackModel: videoTrack)
+                        HMSPeerVideoTrackView(trackModel: videoTrack)
                     }
                 }
                 .frame(width: proxy.size.width, height: proxy.size.height)

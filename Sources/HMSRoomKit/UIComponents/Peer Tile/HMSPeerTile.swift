@@ -39,7 +39,7 @@ public struct HMSPeerTile: View {
                 HMSDefaultTileView(peerModel: peerModel, compactMode: peerTileAppearance.mode.wrappedValue == .compact)
                 
                 if let regularVideoTrackModel = regularVideoTrackModel {
-                    HMSVideoTrackView(trackModel: regularVideoTrackModel, isDegraded: isVideoDegraded)
+                    HMSPeerVideoTrackView(trackModel: regularVideoTrackModel, isDegraded: isVideoDegraded)
                 }
             }
             .frame(width: proxy.size.width, height: proxy.size.height)
