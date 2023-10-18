@@ -136,7 +136,7 @@ public struct HMSDefaultConferenceScreen: View {
             checkAndHideControls()
         }
         .onAppear() {
-            roomModel.sharedSessionStore.beginObserving(keys: [HMSRoomModel.spotlightKey, HMSRoomModel.pinnedMessageKey])
+            roomModel.beginObserving(keys: [HMSRoomModel.spotlightKey, HMSRoomModel.pinnedMessageKey])
         }
         .animation(.default, value: userStreamingState.wrappedValue)
 #if !Preview

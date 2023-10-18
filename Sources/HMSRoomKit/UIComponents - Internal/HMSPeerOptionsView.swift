@@ -224,7 +224,9 @@ struct HMSPeerOptionsView: View {
                         .padding(.horizontal, 24)
                         .background(.white.opacity(0.0001))
                         .onTapGesture {
-                            roomModel.remove(peer: peerModel)
+                            Task {
+                                try await roomModel.remove(peer: peerModel)
+                            }
                             context.isPresented = false
                         }
                     case .minimizeTile:
