@@ -66,7 +66,7 @@ struct HMSRolePickerOptionsView: View {
                     ForEach(roomModel.peerModels.filter({ searchQuery.isEmpty ? true : $0.name.contains(searchQuery) })) { peer in
                         Button {
 #if !Preview
-                            selectedOption = .peer(peer.peer)
+                            selectedOption = .peer(peer)
 #else
                             selectedOption = .peer(peer)
 #endif

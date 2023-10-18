@@ -17,7 +17,7 @@ struct CustomizationExample: View {
         
         Group {
             switch room.roomState {
-            case .none:
+            case .notJoined:
                 Button(action: {
                     Task {
                         try await room.joinSession()
@@ -25,7 +25,7 @@ struct CustomizationExample: View {
                 }, label: {
                     Text("Start")
                 })
-            case .meeting:
+            case .inMeeting:
                 VStack {
                     HMSPeerLayout()
                     
@@ -51,7 +51,7 @@ struct CustomizationExample: View {
                     }
                     .padding()
                 }
-            case .leave:
+            case .leftMeeting:
                 HMSEndCallScreen()
             }
         }

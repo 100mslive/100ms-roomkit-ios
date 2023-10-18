@@ -33,7 +33,7 @@ public struct HMSEndCallScreen: View {
                         onDismiss?()
                         
                         // reset room state if not dismissed
-                        roomModel.roomState = .none
+                        roomModel.roomState = .notJoined
                     }
             }
             
@@ -58,7 +58,7 @@ public struct HMSEndCallScreen: View {
                     }
                 }
                 
-                if case .leave(let reason) = roomModel.roomState {
+                if case .leftMeeting(let reason) = roomModel.roomState {
                     switch reason {
                     case .userLeft, .userKickedOut:
                         VStack(spacing: 16) {
@@ -76,7 +76,7 @@ public struct HMSEndCallScreen: View {
                             .padding(16)
                             .background(.primaryDefault, cornerRadius: 8)
                             .onTapGesture {
-                                roomModel.roomState = .none
+                                roomModel.roomState = .notJoined
                             }
                         }
                     case .roomEnded:
