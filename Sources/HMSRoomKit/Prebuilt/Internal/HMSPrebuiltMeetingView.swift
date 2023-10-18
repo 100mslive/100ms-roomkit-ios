@@ -28,7 +28,7 @@ struct HMSPrebuiltMeetingView: View {
         
         Group {
             switch roomModel.roomState {
-            case .meeting:
+            case .inMeeting:
                 ZStack {
                     HMSConferenceScreen {
                         switch roomInfoModel.conferencingType {
@@ -121,7 +121,7 @@ struct HMSPrebuiltMeetingView: View {
                         HMSPreviewRoleScreen()
                     }
                 }
-            case .none:
+            case .notJoined:
                 
                 switch roomInfoModel.previewType {
                 case .default, .none:
@@ -135,7 +135,7 @@ struct HMSPrebuiltMeetingView: View {
                     }
                 }
                 
-            case .leave:
+            case .leftMeeting:
                 HMSEndCallScreen(onDismiss: onDismiss)
                     .onAppear() {
                         UIApplication.shared.isIdleTimerDisabled = false

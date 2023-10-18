@@ -17,11 +17,11 @@ struct RoomStatesExample: View {
         
         Group {
             switch room.roomState {
-            case .none:
+            case .notJoined:
                 HMSPreviewScreen()
-            case .meeting:
+            case .inMeeting:
                 HMSConferenceScreen()
-            case .leave:
+            case .leftMeeting:
                 HMSEndCallScreen()
             }
         }

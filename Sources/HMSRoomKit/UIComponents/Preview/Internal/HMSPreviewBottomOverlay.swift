@@ -86,14 +86,14 @@ struct HMSPreviewBottomOverlay: View {
                                 cancellable = roomModel.$isBeingStreamed.dropFirst().sink { isBeingStreamed in
                                     if isBeingStreamed {
                                         userStreamingState.wrappedValue = .none
-                                        roomModel.roomState = .meeting
+                                        roomModel.roomState = .inMeeting
                                     }
                                     cancellable = nil
                                 }
                                 do {
                                     try await roomModel.startStreaming()
                                     if roomModel.isBeingStreamed {
-                                        roomModel.roomState = .meeting
+                                        roomModel.roomState = .inMeeting
                                     }
                                 } catch {
                                     userStreamingState.wrappedValue = .none
@@ -102,7 +102,7 @@ struct HMSPreviewBottomOverlay: View {
                                 }
                             }
                             else {
-                                roomModel.roomState = .meeting
+                                roomModel.roomState = .inMeeting
                             }
                         }
 #endif
