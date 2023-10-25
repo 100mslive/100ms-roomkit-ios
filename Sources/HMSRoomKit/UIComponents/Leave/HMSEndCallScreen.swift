@@ -60,7 +60,7 @@ public struct HMSEndCallScreen: View {
                 
                 if case .leftMeeting(let reason) = roomModel.roomState {
                     switch reason {
-                    case .userLeft, .userKickedOut:
+                    case .userLeft, .removedFromRoom:
                         VStack(spacing: 16) {
                             Text("Left by mistake?")
                                 .font(.body2Regular14)
