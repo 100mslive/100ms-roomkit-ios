@@ -272,7 +272,7 @@ struct HMSPeerOptionsView: View {
                                 return
                             }
                             Task {
-                                try await roomModel.changeRole(of: peerModel, to: peerModel.previousRole, force: true)
+                                try await roomModel.changeRole(of: peerModel, to: peerModel.previousRole, shouldAskForApproval: false)
                             }
                             context.isPresented = false
                         }

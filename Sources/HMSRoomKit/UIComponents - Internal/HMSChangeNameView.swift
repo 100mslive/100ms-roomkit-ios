@@ -43,7 +43,7 @@ struct HMSChangeNameView: View {
                         guard isValid else { return }
                         let newName = name
                         Task {
-                            try await roomModel.changeUserName(newName)
+                            try await roomModel.changeUserName(to: newName)
                         }
                         presentationMode.wrappedValue.dismiss()
                     }
