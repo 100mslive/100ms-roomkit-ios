@@ -7,18 +7,27 @@
 //
 
 import SwiftUI
+import HMSRoomModels
 
 struct HMSHLSViewerScreen: View {
+    
+    @EnvironmentObject var roomModel: HMSRoomModel
+    
     var body: some View {
-        HMSHLSPlayerView()
+        if roomModel.hlsVariants.first?.url != nil {
+            HMSHLSPlayerView()
 #if !Preview
-            .onResolutionChanged { size in
-                print("pawan: resolution: \(size)")
-            }
-            .onPlaybackFailure { error in
-                print("pawan: hlsError: \(error.localizedDescription)")
-            }
+                .onResolutionChanged { size in
+                    print("resolution: \(size)")
+                }
+                .onPlaybackFailure { error in
+                    print("hlsError: \(error.localizedDescription)")
+                }
 #endif
+        }
+        else {
+            HMSStreamNotStartedView()
+        }
     }
 }
 
