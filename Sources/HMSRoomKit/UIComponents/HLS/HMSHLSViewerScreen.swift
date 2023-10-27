@@ -18,10 +18,10 @@ struct HMSHLSViewerScreen: View {
             HMSHLSPlayerView()
 #if !Preview
                 .onResolutionChanged { size in
-                    print("pawan: resolution: \(size)")
+                    print("resolution: \(size)")
                 }
                 .onPlaybackFailure { error in
-                    print("pawan: hlsError: \(error.localizedDescription)")
+                    print("hlsError: \(error.localizedDescription)")
                 }
 #endif
         }
