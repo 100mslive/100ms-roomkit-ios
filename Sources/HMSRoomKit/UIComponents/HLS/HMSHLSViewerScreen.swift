@@ -35,6 +35,8 @@ struct HMSHLSViewerScreen_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
         HMSHLSViewerScreen()
+            .environmentObject(HMSRoomModel.dummyRoom(1))
+            .environmentObject(HMSUITheme())
 #endif
     }
 }
