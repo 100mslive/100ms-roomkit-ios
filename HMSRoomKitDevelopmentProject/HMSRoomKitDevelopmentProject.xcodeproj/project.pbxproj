@@ -1717,8 +1717,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/100mslive/100ms-roomkit-ios";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		87E669B32AB4F02600073016 /* XCRemoteSwiftPackageReference "Popovers" */ = {
