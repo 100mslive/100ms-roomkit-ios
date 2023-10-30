@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "100ms-roomkit-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/100ms-roomkit-ios",
+      "state" : {
+        "branch" : "main",
+        "revision" : "bbda0a87d1834c03b9ca02e0854db27e78671e2d"
+      }
+    },
+    {
       "identity" : "lottie-spm",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/airbnb/lottie-spm.git",
