@@ -24,20 +24,16 @@ let package = Package(
         .target(
             name: "HMSRoomKit",
             dependencies: [
-                "HMSBroadcastExtensionSDK", "Popovers",
+                "Popovers",
                 .product(name: "HMSRoomModels", package: "100ms-roomkit-models-ios"),
                 .product(name: "HMSSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "HMSAnalyticsSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "HMSHLSPlayerSDK", package: "100ms-roomkit-models-ios"),
+                .product(name: "HMSBroadcastExtensionSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "WebRTC", package: "100ms-roomkit-models-ios"),
                 .product(name: "Lottie", package: "lottie-spm")
                 ],
             resources: [.process("audio-level-white.json")]
-        ),
-        .binaryTarget(
-            name: "HMSBroadcastExtensionSDK",
-            url: "https://github.com/100mslive/100ms-ios-broadcast-sdk/releases/download/1.0.0/HMSBroadcastExtensionSDK.xcframework.zip",
-            checksum: "589a000dfdc948f938482d8affb333644ccc74300e5c7df2ea1aa887a94ae0b9"
         ),
     ]
 )
