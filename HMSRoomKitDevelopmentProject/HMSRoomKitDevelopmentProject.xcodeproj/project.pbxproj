@@ -238,6 +238,7 @@
 		875F40D02AB1AA4D00904307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HMSRoomKitDevelopment.entitlements; sourceTree = "<group>"; };
 		876B00012AB43C9C00F977F9 /* Screenshare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Screenshare.entitlements; sourceTree = "<group>"; };
+		878983FB2AEF920A00082848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8795293C2AB4D84E00929A30 /* 100ms-roomkit-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-ios"; path = ..; sourceTree = "<group>"; };
 		8795293D2AB4D85200929A30 /* 100ms-roomkit-models-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-models-ios"; path = "../../100ms-roomkit-models-ios"; sourceTree = "<group>"; };
 		87952C132AB4DE5500929A30 /* CustomizationExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationExample.swift; sourceTree = "<group>"; };
@@ -480,6 +481,7 @@
 		875F3A602AB19E7300904307 /* HMSRoomKitDevelopment */ = {
 			isa = PBXGroup;
 			children = (
+				878983FB2AEF920A00082848 /* Info.plist */,
 				875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */,
 				875F3A612AB19E7300904307 /* HMSRoomKitDevelopmentProjectApp.swift */,
 				87A4080F2ABB00C700FF8700 /* ContentView.swift */,
@@ -1489,6 +1491,7 @@
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HMSRoomKitDevelopment/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = 100ms;
 				INFOPLIST_KEY_NSCameraUsageDescription = "To use camera in meeting";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To use mic in meeting";
@@ -1525,6 +1528,7 @@
 				DEVELOPMENT_TEAM = 5N85PP82A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HMSRoomKitDevelopment/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = 100ms;
 				INFOPLIST_KEY_NSCameraUsageDescription = "To use camera in meeting";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To use mic in meeting";
