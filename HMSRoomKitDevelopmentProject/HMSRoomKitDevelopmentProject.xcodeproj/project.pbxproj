@@ -413,7 +413,6 @@
 		87B53FCC2AEFBD5D0061DE1A /* HMSThemeModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HMSThemeModifiers.swift; sourceTree = "<group>"; };
 		87B53FCD2AEFBD5D0061DE1A /* HMSUIColorTheme-extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HMSUIColorTheme-extension.swift"; sourceTree = "<group>"; };
 		87B53FCE2AEFBD5D0061DE1A /* HMSRoomKit.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = HMSRoomKit.docc; sourceTree = "<group>"; };
-		87B540602AEFBD8B0061DE1A /* 100ms-roomkit-models-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-models-ios"; path = "../../100ms-roomkit-models-ios"; sourceTree = "<group>"; };
 		87F2FEAA2ABD75FB00FB62C2 /* RoomStatesExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomStatesExample.swift; sourceTree = "<group>"; };
 		87FC805C2AD95990001DAED9 /* RoomModelStandaloneExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomModelStandaloneExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -455,7 +454,6 @@
 		875F3A552AB19E7300904307 = {
 			isa = PBXGroup;
 			children = (
-				87B540602AEFBD8B0061DE1A /* 100ms-roomkit-models-ios */,
 				87B53F1E2AEFBD5D0061DE1A /* HMSRoomKit */,
 				87B53EEC2AEFBD520061DE1A /* HMSRoomModels */,
 				875F3A602AB19E7300904307 /* HMSRoomKitDevelopment */,
