@@ -31,7 +31,7 @@ struct HMSNotificationStackView: View {
         let groupedNotifications: [HMSRoomKitNotification] = {
             
             if handRaisedNotifications.count > 1 {
-                let combinedHandRaisedNotification = HMSRoomKitNotification(id: handRaisedNotifications.map{$0.id}.joined(separator: "+"), type: .groupedRaiseHand(ids: handRaisedNotifications.map{$0.id}), actorName: handRaisedNotifications.map{$0.actorName}.joined(separator: ", "), title: "\(handRaisedNotifications.first?.actorName ?? "") and \(handRaisedNotifications.count - 1) other\(handRaisedNotifications.count > 2 ? "s" : "") raised hand", isDismissable: true)
+                let combinedHandRaisedNotification = HMSRoomKitNotification(id: handRaisedNotifications.map{$0.id}.joined(separator: "+"), type: .groupedRaiseHand(ids: handRaisedNotifications.map{$0.id}), actor: handRaisedNotifications.map{$0.actor}.joined(separator: ", "), isDismissible: true, title: "\(handRaisedNotifications.first?.actor ?? "") and \(handRaisedNotifications.count - 1) other\(handRaisedNotifications.count > 2 ? "s" : "") raised hand")
                 
                 if let lastRaisedHandIndex = roomKitModel.activeNotifications.lastIndex(where: {$0.type == .raiseHand}) {
                     return (roomKitModel.activeNotifications[0..<lastRaisedHandIndex] +  [combinedHandRaisedNotification] + roomKitModel.activeNotifications[(lastRaisedHandIndex + 1)..<roomKitModel.activeNotifications.count]).filter{$0.type != .raiseHand}
@@ -39,7 +39,7 @@ struct HMSNotificationStackView: View {
             }
             
             if declineRoleChangeNotifications.count > 1 {
-                let combinedDeclineRoleChangeNotification = HMSRoomKitNotification(id: declineRoleChangeNotifications.map{$0.id}.joined(separator: "+"), type: .groupedDeclineRoleChange(ids: declineRoleChangeNotifications.map{$0.id}), actorName: declineRoleChangeNotifications.map{$0.actorName}.joined(separator: ", "), title: "\(declineRoleChangeNotifications.first?.actorName ?? "") and \(declineRoleChangeNotifications.count - 1) other\(declineRoleChangeNotifications.count > 2 ? "s" : "") declined the request to join the stage", isDismissable: true)
+                let combinedDeclineRoleChangeNotification = HMSRoomKitNotification(id: declineRoleChangeNotifications.map{$0.id}.joined(separator: "+"), type: .groupedDeclineRoleChange(ids: declineRoleChangeNotifications.map{$0.id}), actor: declineRoleChangeNotifications.map{$0.actor}.joined(separator: ", "), isDismissible: true, title: "\(declineRoleChangeNotifications.first?.actor ?? "") and \(declineRoleChangeNotifications.count - 1) other\(declineRoleChangeNotifications.count > 2 ? "s" : "") declined the request to join the stage")
                 
                 if let lastDeclineRoleChangeNotificationIndex = roomKitModel.activeNotifications.lastIndex(where: {$0.type == .declineRoleChange}) {
                     return (roomKitModel.activeNotifications[0..<lastDeclineRoleChangeNotificationIndex] +  [combinedDeclineRoleChangeNotification] + roomKitModel.activeNotifications[(lastDeclineRoleChangeNotificationIndex + 1)..<roomKitModel.activeNotifications.count]).filter{$0.type != .declineRoleChange}
@@ -123,11 +123,11 @@ struct HMSNotificationStackView_Previews: PreviewProvider {
 #if Preview
         let model: HMSRoomKitModel = {
             let model = HMSRoomKitModel()
-            model.notifications.append(.init(id: "id1", type: .raiseHand, actorName: "Pawan", title: "Peer1 raised hands Peer1 raised hands", isDismissable: true))
-            model.notifications.append(.init(id: "id2", type: .raiseHand, actorName: "Dmitry", isDismissed: true, title: "Peer2", isDismissable: true))
-            model.notifications.append(.init(id: "id3", type: .raiseHand, actorName: "Praveen", title: "Peer3 raised hands", isDismissable: true))
-            model.notifications.append(.init(id: "id4", type: .raiseHand, actorName: "Bajaj", title: "Peer4 raised hands", isDismissable: true))
-            model.notifications.append(.init(id: "id5", type: .declineRoleChange, actorName: "Bajaj", title: "Peer5 declined request", isDismissable: true))
+            model.notifications.append(.init(id: "id1", type: .raiseHand, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
+            model.notifications.append(.init(id: "id2", type: .raiseHand, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
+            model.notifications.append(.init(id: "id3", type: .raiseHand, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
+            model.notifications.append(.init(id: "id4", type: .raiseHand, actor: "Bajaj", isDismissible: true, title: "Peer4 raised hands"))
+            model.notifications.append(.init(id: "id5", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer5 declined request"))
             return model
         }()
         

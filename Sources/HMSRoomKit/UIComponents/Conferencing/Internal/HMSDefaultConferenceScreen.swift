@@ -159,13 +159,13 @@ public struct HMSDefaultConferenceScreen: View {
                 guard let role = newPeer.role?.name,
                       rolesWhoCanComeOnStage.contains(role)
                     else { continue }
-                let notification = HMSRoomKitNotification(id: newPeer.id, type: .raiseHand, actorName: newPeer.name, title: "\(newPeer.name) raised hand", isDismissable: true)
+                let notification = HMSRoomKitNotification(id: newPeer.id, type: .raiseHand, actor: newPeer.name, isDismissible: true, title: "\(newPeer.name) raised hand")
                 roomKitModel.addNotification(notification)
             }
         }
         .onChange(of: roomModel.peersSharingScreen.filter{$0.isLocal}) { peers in
             if let localPeer = peers.first {
-                let notification = HMSRoomKitNotification(id: localPeer.id, type: .screenShare, actorName: localPeer.name, title: "You are sharing your screen", isDismissable: false)
+                let notification = HMSRoomKitNotification(id: localPeer.id, type: .screenShare, actor: localPeer.name, isDismissible: false, title: "You are sharing your screen")
                 roomKitModel.addNotification(notification)
             }
             else {
@@ -174,7 +174,7 @@ public struct HMSDefaultConferenceScreen: View {
         }
         .onChange(of: roomModel.isReconnecting) { isReconnecting in
             if isReconnecting {
-                let notification = HMSRoomKitNotification(id: "isReconnecting", type: .info(icon: "loading-record"), actorName: "isReconnecting", title: "You have lost your network connection. Trying to reconnect.", isDismissable: false)
+                let notification = HMSRoomKitNotification(id: "isReconnecting", type: .info(icon: "loading-record"), actor: "isReconnecting", isDismissible: false, title: "You have lost your network connection. Trying to reconnect.")
                 roomKitModel.addNotification(notification)
             }
             else {
@@ -183,7 +183,7 @@ public struct HMSDefaultConferenceScreen: View {
         }
         .onChange(of: roomModel.recordingState) { recordingState in
             if recordingState == .failed {
-                let notification = HMSRoomKitNotification(id: "RecordingFailed", type: .error(icon: "recording-failed-icon", retry: true, isTerminal: false), actorName: "RecordingFailed", title: "Recording failed to start", isDismissable: true)
+                let notification = HMSRoomKitNotification(id: "RecordingFailed", type: .error(icon: "recording-failed-icon", retry: true, isTerminal: false), actor: "RecordingFailed", isDismissible: true, title: "Recording failed to start")
                 roomKitModel.addNotification(notification)
             }
             else {
@@ -196,7 +196,7 @@ public struct HMSDefaultConferenceScreen: View {
             let newErrors = hmsErrors.filter{!previousErrorIds.contains("\($0.hashValue)")}
             
             for error in newErrors {
-                let notification = HMSRoomKitNotification(id: String(error.hashValue), type: .error(icon: "warning-icon", retry: error.canRetry, isTerminal: error.isTerminal), actorName: String(error.hashValue), title: "An error occurred \(error.localizedDescription)", isDismissable: false)
+                let notification = HMSRoomKitNotification(id: String(error.hashValue), type: .error(icon: "warning-icon", retry: error.canRetry, isTerminal: error.isTerminal), actor: String(error.hashValue), isDismissible: false, title: "An error occurred \(error.localizedDescription)")
                 roomKitModel.addNotification(notification)
             }
         }
@@ -204,7 +204,7 @@ public struct HMSDefaultConferenceScreen: View {
             let existingIDs = Set(roomKitModel.notifications.filter { $0.type == .declineRoleChange }.map { $0.id } )
             roomModel.serviceMessages.filter { !existingIDs.contains($0.messageID) && $0.type == HMSRoomModel.roleChangeDeclinedNotificationType }
                 .forEach {
-                    let notification = HMSRoomKitNotification(id: $0.messageID, type: .declineRoleChange, actorName: $0.sender?.name ?? "Someone", title: "\($0.sender?.name ?? "Someone") declined the request to join the stage", isDismissable: true)
+                    let notification = HMSRoomKitNotification(id: $0.messageID, type: .declineRoleChange, actor: $0.sender?.name ?? "Someone", isDismissible: true, title: "\($0.sender?.name ?? "Someone") declined the request to join the stage")
                     roomKitModel.addNotification(notification)
                 }
         }
@@ -247,13 +247,13 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
 #if Preview
         let roomKitModel: HMSRoomKitModel = {
             let model = HMSRoomKitModel()
-            model.notifications.append(.init(id: "id1", type: .raiseHand, actorName: "Pawan", title: "Peer1 raised hands Peer1 raised hands", isDismissable: true))
-            model.notifications.append(.init(id: "id2", type: .raiseHand, actorName: "Dmitry", isDismissed: true, title: "Peer2", isDismissable: true))
-            model.notifications.append(.init(id: "id3", type: .raiseHand, actorName: "Praveen", title: "Peer3 raised hands", isDismissable: true))
-            model.notifications.append(.init(id: "id4", type: .raiseHand, actorName: "Bajaj", title: "Peer4 raised hands", isDismissable: true))
-            model.notifications.append(.init(id: "id5", type: .declineRoleChange, actorName: "Bajaj", title: "Peer5 declined request", isDismissable: true))
-            model.notifications.append(.init(id: "id6", type: .declineRoleChange, actorName: "Bajaj", title: "Peer6 declined request2", isDismissable: true))
-            model.notifications.append(.init(id: "id7", type: .declineRoleChange, actorName: "Bajaj", title: "Peer7 declined request3", isDismissable: true))
+            model.notifications.append(.init(id: "id1", type: .raiseHand, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
+            model.notifications.append(.init(id: "id2", type: .raiseHand, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
+            model.notifications.append(.init(id: "id3", type: .raiseHand, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
+            model.notifications.append(.init(id: "id4", type: .raiseHand, actor: "Bajaj", isDismissible: true, title: "Peer4 raised hands"))
+            model.notifications.append(.init(id: "id5", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer5 declined request"))
+            model.notifications.append(.init(id: "id6", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer6 declined request2"))
+            model.notifications.append(.init(id: "id7", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer7 declined request3"))
             return model
         }()
         

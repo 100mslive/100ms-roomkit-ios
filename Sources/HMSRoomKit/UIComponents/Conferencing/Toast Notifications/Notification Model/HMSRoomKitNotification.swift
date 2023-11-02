@@ -9,32 +9,13 @@
 import Foundation
 
 struct HMSRoomKitNotification: Identifiable, Hashable {
-    
-    enum `Type`: Hashable, Equatable {
-        case raiseHand
-        case declineRoleChange
-        case groupedDeclineRoleChange(ids: [String])
-        case groupedRaiseHand(ids: [String])
-        case error(icon: String, retry: Bool, isTerminal: Bool)
-        case info(icon: String)
-        case screenShare
-    }
-    
-    enum Action: Hashable {
-        case none
-        case bringOnStage
-        case viewBringOnStageParticipants
-        case retry
-        case endCall
-        case stopScreenShare
-    }
-    
+
     let id: String
     let type: `Type`
-    let actorName: String
-    var isDismissed = false
+    let actor: String
+    let isDismissible: Bool
     var title: String
-    let isDismissable: Bool
+    var isDismissed = false
     
     var action: Action {
         switch type {
@@ -53,5 +34,24 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
         case .groupedDeclineRoleChange(_):
             return .none
         }
+    }
+    
+    enum `Type`: Hashable, Equatable {
+        case raiseHand
+        case declineRoleChange
+        case groupedDeclineRoleChange(ids: [String])
+        case groupedRaiseHand(ids: [String])
+        case error(icon: String, retry: Bool, isTerminal: Bool)
+        case info(icon: String)
+        case screenShare
+    }
+    
+    enum Action: Hashable {
+        case none
+        case bringOnStage
+        case viewBringOnStageParticipants
+        case retry
+        case endCall
+        case stopScreenShare
     }
 }
