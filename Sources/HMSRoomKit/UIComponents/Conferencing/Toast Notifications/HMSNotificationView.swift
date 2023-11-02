@@ -144,11 +144,11 @@ struct HMSNotificationView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
         VStack {
-            HMSNotificationView(notification: .init(identity: "id1", type: .error(icon: "record-on", retry: true, isTerminal: false), actorName: "Pawan", title: "Recording failed to start", isDismissable: true), onDismiss: {}, onAction: {})
+            HMSNotificationView(notification: .init(id: "id1", type: .error(icon: "record-on", retry: true, isTerminal: false), actorName: "Pawan", title: "Recording failed to start", isDismissable: true), onDismiss: {}, onAction: {})
             
-            HMSNotificationView(notification: .init(identity: "id2", type: .raiseHand, actorName: "Pawan", title: "Peer raised hands Peer raised hands Peer raised hands", isDismissable: true), onDismiss: {}, onAction: {})
+            HMSNotificationView(notification: .init(id: "id2", type: .raiseHand, actorName: "Pawan", title: "Peer raised hands Peer raised hands Peer raised hands", isDismissable: true), onDismiss: {}, onAction: {})
             
-            HMSNotificationView(notification: .init(identity: "id3", type: .error(icon: "warning-icon", retry: false, isTerminal: true), actorName: "Pawan", title: "Recording failed to start", isDismissable: false), onDismiss: {}, onAction: {})
+            HMSNotificationView(notification: .init(id: "id3", type: .error(icon: "warning-icon", retry: false, isTerminal: true), actorName: "Pawan", title: "Recording failed to start", isDismissable: false), onDismiss: {}, onAction: {})
         }
         .environmentObject(HMSUITheme())
         .environmentObject(HMSRoomInfoModel())

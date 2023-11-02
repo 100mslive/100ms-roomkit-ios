@@ -43,6 +43,7 @@
 		878BD6582AF25FC800581F88 /* PollSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD63B2AF25FC800581F88 /* PollSummaryViewModel.swift */; };
 		878BD6592AF25FC800581F88 /* PollSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD63C2AF25FC800581F88 /* PollSummaryView.swift */; };
 		878BD65B2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD65A2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift */; };
+		878BD65F2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD65E2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift */; };
 		87952C142AB4DE5500929A30 /* CustomizationExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C132AB4DE5500929A30 /* CustomizationExample.swift */; };
 		87A408102ABB00C700FF8700 /* JoiningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A4080E2ABB00C700FF8700 /* JoiningView.swift */; };
 		87A408112ABB00C700FF8700 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A4080F2ABB00C700FF8700 /* ContentView.swift */; };
@@ -294,6 +295,7 @@
 		878BD63C2AF25FC800581F88 /* PollSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollSummaryView.swift; sourceTree = "<group>"; };
 		878BD65A2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSPrebuiltConferenceView.swift; sourceTree = "<group>"; };
 		878BD65C2AF27D5000581F88 /* 100ms-roomkit-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-ios"; path = ..; sourceTree = "<group>"; };
+		878BD65E2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HMSRoomKitNotification-Actions.swift"; sourceTree = "<group>"; };
 		87952C132AB4DE5500929A30 /* CustomizationExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationExample.swift; sourceTree = "<group>"; };
 		87A4080E2ABB00C700FF8700 /* JoiningView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoiningView.swift; path = ../../HMSRoomKitExample/HMSRoomKitExample/JoiningView.swift; sourceTree = "<group>"; };
 		87A4080F2ABB00C700FF8700 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../HMSRoomKitExample/HMSRoomKitExample/ContentView.swift; sourceTree = "<group>"; };
@@ -672,6 +674,15 @@
 			path = Summary;
 			sourceTree = "<group>";
 		};
+		878BD65D2AF38B7F00581F88 /* Notification Model */ = {
+			isa = PBXGroup;
+			children = (
+				87B53FA82AEFBD5D0061DE1A /* HMSRoomKitNotification.swift */,
+				878BD65E2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift */,
+			);
+			path = "Notification Model";
+			sourceTree = "<group>";
+		};
 		87B53EEC2AEFBD520061DE1A /* HMSRoomModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -1027,7 +1038,7 @@
 			children = (
 				87B53FA62AEFBD5D0061DE1A /* HMSNotificationStackView.swift */,
 				87B53FA72AEFBD5D0061DE1A /* HMSNotificationView.swift */,
-				87B53FA82AEFBD5D0061DE1A /* HMSRoomKitNotification.swift */,
+				878BD65D2AF38B7F00581F88 /* Notification Model */,
 			);
 			path = "Toast Notifications";
 			sourceTree = "<group>";
@@ -1307,6 +1318,7 @@
 				87B540562AEFBD5D0061DE1A /* HMSInsetPeerTile.swift in Sources */,
 				87B5405C2AEFBD5D0061DE1A /* HMSUIFontTheme.swift in Sources */,
 				87B53FE92AEFBD5D0061DE1A /* HMSMicToggleView.swift in Sources */,
+				878BD65F2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift in Sources */,
 				87B540372AEFBD5D0061DE1A /* HMSMainConferenceView.swift in Sources */,
 				87B53FDF2AEFBD5D0061DE1A /* ErrorWarningAlertView.swift in Sources */,
 				87B53FFE2AEFBD5D0061DE1A /* HMSStreamingStatusView.swift in Sources */,
