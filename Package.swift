@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "HMSRoomKit",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v14)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/100mslive/100ms-roomkit-models-ios", branch: "main"),
+        .package(url: "https://github.com/100mslive/100ms-roomkit-models-ios", branch: "ios-14-support"),
         .package(url: "https://github.com/100mslive/Popovers", from: "1.0.0"),
         .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.3.0"),
     ],

@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/100ms-roomkit-models-ios",
       "state" : {
-        "branch" : "main",
-        "revision" : "494b46d8e4399ac5a15618d92f63ebdc567278bf"
+        "branch" : "ios-14-support",
+        "revision" : "c3aefe048cec8d65513e7070f66da89081aeaacb"
       }
     },
     {
