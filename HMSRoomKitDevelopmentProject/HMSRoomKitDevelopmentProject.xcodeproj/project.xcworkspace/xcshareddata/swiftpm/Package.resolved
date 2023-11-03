@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "100ms-roomkit-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/100mslive/100ms-roomkit-ios",
+      "state" : {
+        "branch" : "main",
+        "revision" : "32ac9e837cba3559dddf4b3e50867f82aaf70426"
+      }
+    },
+    {
       "identity" : "100ms-roomkit-models-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/100ms-roomkit-models-ios",

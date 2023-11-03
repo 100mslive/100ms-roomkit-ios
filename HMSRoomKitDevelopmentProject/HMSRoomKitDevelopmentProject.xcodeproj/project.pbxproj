@@ -294,7 +294,6 @@
 		878BD63B2AF25FC800581F88 /* PollSummaryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollSummaryViewModel.swift; sourceTree = "<group>"; };
 		878BD63C2AF25FC800581F88 /* PollSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollSummaryView.swift; sourceTree = "<group>"; };
 		878BD65A2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSPrebuiltConferenceView.swift; sourceTree = "<group>"; };
-		878BD65C2AF27D5000581F88 /* 100ms-roomkit-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "100ms-roomkit-ios"; path = ..; sourceTree = "<group>"; };
 		878BD65E2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HMSRoomKitNotification-Actions.swift"; sourceTree = "<group>"; };
 		87952C132AB4DE5500929A30 /* CustomizationExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationExample.swift; sourceTree = "<group>"; };
 		87A4080E2ABB00C700FF8700 /* JoiningView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoiningView.swift; path = ../../HMSRoomKitExample/HMSRoomKitExample/JoiningView.swift; sourceTree = "<group>"; };
@@ -511,7 +510,6 @@
 		875F3A552AB19E7300904307 = {
 			isa = PBXGroup;
 			children = (
-				878BD65C2AF27D5000581F88 /* 100ms-roomkit-ios */,
 				87B53F1E2AEFBD5D0061DE1A /* HMSRoomKit */,
 				87B53EEC2AEFBD520061DE1A /* HMSRoomModels */,
 				875F3A602AB19E7300904307 /* HMSRoomKitDevelopment */,
