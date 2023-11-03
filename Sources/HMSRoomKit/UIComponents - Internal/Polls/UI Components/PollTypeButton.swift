@@ -24,7 +24,7 @@ struct PollTypeButton: View {
                 Text(text).font(HMSUIFontTheme().subtitle1).foregroundColor(HMSUIColorTheme().onPrimaryHigh).frame(maxWidth: .infinity, alignment: .leading).padding([.leading], 8)
             }.padding(8).overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(selected ? HMSUIColorTheme().borderBright : HMSUIColorTheme().surfaceBright, lineWidth: 1)
+                    .stroke(selected ? HMSUIColorTheme().primaryBright : HMSUIColorTheme().borderDefault, lineWidth: 1)
             )
         }
     }

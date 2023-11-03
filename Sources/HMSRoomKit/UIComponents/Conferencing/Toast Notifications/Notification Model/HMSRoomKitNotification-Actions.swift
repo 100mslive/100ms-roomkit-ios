@@ -9,9 +9,6 @@ import Foundation
 
 @MainActor
 extension HMSRoomKitModel {
-    var raisedHandNotifications: [HMSRoomKitNotification] {
-        notifications.filter{$0.type == .raiseHand}
-    }
     
     var activeNotifications: [HMSRoomKitNotification] {
         notifications.filter{!$0.isDismissed}

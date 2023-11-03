@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HMSSDK
 
 struct HMSRoomKitNotification: Identifiable, Hashable {
 
@@ -19,11 +20,11 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
     
     var action: Action {
         switch type {
-        case .raiseHand:
+        case .handRaised:
             return Action.bringOnStage
         case .declineRoleChange:
             return  Action.none
-        case .groupedRaiseHand(_):
+        case .handRaisedGrouped(_):
             return  Action.viewBringOnStageParticipants
         case .error(icon: _, retry: let retry, isTerminal: let isTerminal):
             return isTerminal ? .endCall : retry ? Action.retry : Action.none
@@ -33,17 +34,30 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
             return .stopScreenShare
         case .groupedDeclineRoleChange(_):
             return .none
+        case .poll:
+            return .vote
         }
     }
     
     enum `Type`: Hashable, Equatable {
-        case raiseHand
+        
+        // Hand Raised
+        case handRaised
+        case handRaisedGrouped(ids: [String])
+        
+        // Role change declined
         case declineRoleChange
         case groupedDeclineRoleChange(ids: [String])
-        case groupedRaiseHand(ids: [String])
+        
+        // Errors
         case error(icon: String, retry: Bool, isTerminal: Bool)
         case info(icon: String)
+        
+        // Screen share
         case screenShare
+        
+        // Poll, quiz
+        case poll(type: HMSPollCategory)
     }
     
     enum Action: Hashable {
@@ -53,5 +67,6 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
         case retry
         case endCall
         case stopScreenShare
+        case vote
     }
 }

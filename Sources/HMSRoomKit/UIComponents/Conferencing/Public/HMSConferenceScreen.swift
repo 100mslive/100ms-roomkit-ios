@@ -18,7 +18,7 @@ public struct HMSConferenceScreen: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
-    @StateObject var roomKitModel = HMSRoomKitModel()
+    @EnvironmentObject var roomKitModel: HMSRoomKitModel
     
     let isDefaultType: Bool
     

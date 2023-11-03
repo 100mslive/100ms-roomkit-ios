@@ -7,16 +7,18 @@
 
 import SwiftUI
 import HMSRoomModels
+import HMSSDK
 
 struct HMSPrebuiltConferenceView: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
+    @StateObject var roomKitModel = HMSRoomKitModel()
     
     @StateObject var pollModel = HMSRoomKitPollModel()
     
-    @State var isPollViewPresented = false
-    @State var isPollCreationViewPresented = false
+    @State var pollVoteViewModel: PollVoteViewModel? = nil
+    @State var pollCreateModel: PollCreateModel? = nil
     
     var body: some View {
         ZStack {
@@ -104,6 +106,7 @@ struct HMSPrebuiltConferenceView: View {
                     }
                 }
             }
+            .environmentObject(roomKitModel)
             .onAppear() {
                 UIApplication.shared.isIdleTimerDisabled = true
             }
@@ -112,41 +115,49 @@ struct HMSPrebuiltConferenceView: View {
                 pollModel.roomModel = roomModel
                 pollModel.beginListeningForPolls()
             }
-            .overlay(alignment: .bottom) {
-                
-                HStack {
-                    if !pollModel.isPollViewHidden {
-                        Text("View Poll")
-                            .foregroundStyle(.white)
-                            .onTapGesture {
-                                guard let _ = roomModel.interactivityCenter.polls.last(where: { $0.state == .started }),
-                                      let _ = roomModel.localPeerModel?.peer.role else { return }
-                                isPollViewPresented.toggle()
-                            }
+            .onChange(of: pollModel.currentPolls) { currentPolls in
+                let existingPollNotificationIds = roomKitModel.notifications.filter {
+                    if case .poll(_) = $0.type {
+                        true
                     }
-                    
-                    Text("Create Poll")
-                        .foregroundStyle(.white)
-                        .onTapGesture {
-                            guard let _ = roomModel.localPeerModel?.role else { return }
-                            isPollCreationViewPresented.toggle()
-                        }
+                    else {
+                        false
+                    }
+                }.map{$0.id}
+                
+                let newPolls = currentPolls.filter{!existingPollNotificationIds.contains($0.pollID)}
+                let pollsThatAreStopped = existingPollNotificationIds.filter{!currentPolls.map{$0.pollID}.contains($0)}
+                
+                // Remove notification for peers who have lowered their hands
+                roomKitModel.removeNotification(for: pollsThatAreStopped)
+                
+                guard roomModel.userRole?.permissions.pollRead ?? false else { return }
+                
+                // add notification for each new peer
+                for newPoll in newPolls {
+                    let notification = HMSRoomKitNotification(id: newPoll.pollID, type: .poll(type: newPoll.category), actor: newPoll.createdBy?.name ?? "", isDismissible: true, title: "\(newPoll.createdBy?.name ?? "") started a new poll")
+                    roomKitModel.addNotification(notification)
                 }
             }
-            .sheet(isPresented: $isPollViewPresented, content: {
+            .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-vote"))) { notification in
                 let center = roomModel.interactivityCenter
-                if let poll = center.polls.last(where: { $0.state == .started }), let role = roomModel.localPeerModel?.peer.role {
-                    let model = PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
-                    PollVoteView(model: model)
+                guard let pollIdOfInterest: String = notification.object as? String else { return }
+                if let poll = center.polls.first(where: { $0.pollID == pollIdOfInterest }), let role = roomModel.localPeerModel?.peer.role {
+                    
+                    pollVoteViewModel = PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
                 }
-            })
-            .sheet(isPresented: $isPollCreationViewPresented, content: {
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-create"))) { _ in
                 let center = roomModel.interactivityCenter
                 if let role = roomModel.localPeerModel?.role {
-                    let pollAdminRoles = roomModel.roles.filter({ $0.name == "host" || $0.name == "teacher" })
-                    let model = PollCreateModel(interactivityCenter: center, limitViewResultsToRoles: pollAdminRoles, currentRole: role)
-                    PollCreateView(model: model)
+                    pollCreateModel = PollCreateModel(interactivityCenter: center, limitViewResultsToRoles: [role], currentRole: role)
                 }
+            }
+            .sheet(item: $pollVoteViewModel, content: { model in
+                PollVoteView(model: model)
+            })
+            .sheet(item: $pollCreateModel, content: { model in
+                PollCreateView(model: model)
             })
 #endif
             if !roomModel.roleChangeRequests.isEmpty {

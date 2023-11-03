@@ -141,7 +141,7 @@ public struct HMSDefaultConferenceScreen: View {
         .animation(.default, value: userStreamingState.wrappedValue)
 #if !Preview
         .onChange(of: roomModel.remotePeersWithRaisedHand) { currentlyRaisedHandsPeers in
-            let previouslyRaisedHandsPeerIds = roomKitModel.raisedHandNotifications.map{$0.id}
+            let previouslyRaisedHandsPeerIds = roomKitModel.notifications.filter{$0.type == .handRaised}.map{$0.id}
             
             let newPeersWhoHaveRaisedHands = currentlyRaisedHandsPeers.filter{!previouslyRaisedHandsPeerIds.contains($0.id)}
             let peerIdsWhoHaveLoweredHands = previouslyRaisedHandsPeerIds.filter{!currentlyRaisedHandsPeers.map{$0.id}.contains($0)}
@@ -159,7 +159,7 @@ public struct HMSDefaultConferenceScreen: View {
                 guard let role = newPeer.role?.name,
                       rolesWhoCanComeOnStage.contains(role)
                     else { continue }
-                let notification = HMSRoomKitNotification(id: newPeer.id, type: .raiseHand, actor: newPeer.name, isDismissible: true, title: "\(newPeer.name) raised hand")
+                let notification = HMSRoomKitNotification(id: newPeer.id, type: .handRaised, actor: newPeer.name, isDismissible: true, title: "\(newPeer.name) raised hand")
                 roomKitModel.addNotification(notification)
             }
         }
@@ -192,7 +192,15 @@ public struct HMSDefaultConferenceScreen: View {
         }
         .onChange(of: roomModel.errors.compactMap{$0 as? HMSError}) { hmsErrors in
             
-            let previousErrorIds = roomKitModel.raisedHandNotifications.map{$0.id}
+            let previousErrorIds = roomKitModel.notifications.filter {
+                if case .error(icon: _, retry: _, isTerminal: _) = $0.type {
+                    true
+                }
+                else {
+                    false
+                }
+            }.map{$0.id}
+            
             let newErrors = hmsErrors.filter{!previousErrorIds.contains("\($0.hashValue)")}
             
             for error in newErrors {
@@ -247,10 +255,10 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
 #if Preview
         let roomKitModel: HMSRoomKitModel = {
             let model = HMSRoomKitModel()
-            model.notifications.append(.init(id: "id1", type: .raiseHand, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
-            model.notifications.append(.init(id: "id2", type: .raiseHand, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
-            model.notifications.append(.init(id: "id3", type: .raiseHand, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
-            model.notifications.append(.init(id: "id4", type: .raiseHand, actor: "Bajaj", isDismissible: true, title: "Peer4 raised hands"))
+            model.notifications.append(.init(id: "id1", type: .handRaised, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
+            model.notifications.append(.init(id: "id2", type: .handRaised, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
+            model.notifications.append(.init(id: "id3", type: .handRaised, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
+            model.notifications.append(.init(id: "id4", type: .handRaised, actor: "Bajaj", isDismissible: true, title: "Peer4 raised hands"))
             model.notifications.append(.init(id: "id5", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer5 declined request"))
             model.notifications.append(.init(id: "id6", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer6 declined request2"))
             model.notifications.append(.init(id: "id7", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer7 declined request3"))

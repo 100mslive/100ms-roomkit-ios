@@ -9,7 +9,7 @@
 import Foundation
 import HMSSDK
 
-class PollCreateModel: ObservableObject {
+class PollCreateModel: ObservableObject, Identifiable {
     let interactivityCenter: HMSInteractivityCenter
     
     @Published var selectedCategory: HMSPollCategory = .poll

@@ -7,26 +7,24 @@
 
 import SwiftUI
 import HMSRoomModels
+import HMSSDK
 
 class HMSRoomKitPollModel: ObservableObject {
     
-    @Published var isPollViewHidden = true
+    @Published var currentPolls = [HMSPoll]()
     
     weak var roomModel: HMSRoomModel?
     
     func beginListeningForPolls() {
         roomModel?.interactivityCenter.addPollUpdateListner { [weak self] poll, update in
-            
+            guard let self else { return }
             switch update {
             case .started:
-                let hasLivePolls = self?.roomModel?.interactivityCenter.polls.first(where: { $0.state == .started }) != nil
-                self?.isPollViewHidden = !hasLivePolls
+                self.currentPolls.append(poll)
             case .resultsUpdated:
-//                                    self?.onPollResults?(poll)
                 break
             case .stopped:
-                let hasLivePolls = self?.roomModel?.interactivityCenter.polls.first(where: { $0.state == .started }) != nil
-                self?.isPollViewHidden = !hasLivePolls
+                self.currentPolls.removeAll{$0.pollID == poll.pollID}
             @unknown default:
                 break
             }
