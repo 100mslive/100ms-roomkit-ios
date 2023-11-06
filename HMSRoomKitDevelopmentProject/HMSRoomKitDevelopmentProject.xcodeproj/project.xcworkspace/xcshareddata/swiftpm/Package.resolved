@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/100ms-roomkit-ios",
       "state" : {
-        "branch" : "integrate-polls",
-        "revision" : "3262761fe5436ef37f1f38445141d71c0e17051f"
+        "branch" : "main",
+        "revision" : "32ac9e837cba3559dddf4b3e50867f82aaf70426"
       }
     },
     {
