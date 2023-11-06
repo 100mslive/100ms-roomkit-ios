@@ -1881,7 +1881,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/100mslive/100ms-roomkit-ios";
 			requirement = {
-				branch = main;
+				branch = "integrate-polls";
 				kind = branch;
 			};
 		};
