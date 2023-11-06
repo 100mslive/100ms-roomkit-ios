@@ -16,11 +16,13 @@ struct HMSRecordingStatusView: View {
     
     var body: some View {
         
-        if roomModel.recordingState == .recording {
+        if roomModel.recordingState == .started || roomModel.recordingState == .resumed {
             Image(assetName:"record-on")
                 .foreground(.errorDefault)
+        } else if roomModel.recordingState == .paused {
+            Image(assetName:"record-paused")
         }
-        else if roomModel.recordingState == .initializing {
+        else if roomModel.recordingState == .starting {
             HMSLoadingView {
                 Image(assetName: "loading-record")
                     .foreground(.onSurfaceHigh)

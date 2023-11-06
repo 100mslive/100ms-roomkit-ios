@@ -79,9 +79,9 @@ struct HMSOptionSheetView: View {
                     }
                     
                     if roomModel.userCanStartStopRecording {
-                        HMSSessionMenuButton(text: roomModel.recordingState != .stopped ? "Recording On" : "Start Recording", image: "record-on", highlighted: roomModel.recordingState != .stopped, isDisabled: roomModel.isUserHLSViewer)
+                        HMSRecordSessionMenuButton()
                             .onTapGesture {
-                                guard roomModel.recordingState == .stopped else {
+                                guard roomModel.recordingState == .stopped || roomModel.recordingState == .none else {
                                     internalSheet = .stopRecording
                                     return
                                 }
