@@ -118,10 +118,10 @@ struct HMSPrebuiltConferenceView: View {
             .onChange(of: pollModel.currentPolls) { currentPolls in
                 let existingPollNotificationIds = roomKitModel.notifications.filter {
                     if case .poll(_) = $0.type {
-                        true
+                        return true
                     }
                     else {
-                        false
+                        return false
                     }
                 }.map{$0.id}
                 
