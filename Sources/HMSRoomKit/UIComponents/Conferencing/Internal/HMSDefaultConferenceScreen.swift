@@ -194,10 +194,10 @@ public struct HMSDefaultConferenceScreen: View {
             
             let previousErrorIds = roomKitModel.notifications.filter {
                 if case .error(icon: _, retry: _, isTerminal: _) = $0.type {
-                    true
+                    return true
                 }
                 else {
-                    false
+                    return false
                 }
             }.map{$0.id}
             
