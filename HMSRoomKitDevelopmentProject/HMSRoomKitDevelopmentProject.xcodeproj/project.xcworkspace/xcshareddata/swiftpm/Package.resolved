@@ -6,7 +6,7 @@
       "location" : "https://github.com/100mslive/100ms-roomkit-ios",
       "state" : {
         "branch" : "main",
-        "revision" : "bbda0a87d1834c03b9ca02e0854db27e78671e2d"
+        "revision" : "32ac9e837cba3559dddf4b3e50867f82aaf70426"
       }
     },
     {
@@ -15,7 +15,7 @@
       "location" : "https://github.com/100mslive/100ms-roomkit-models-ios",
       "state" : {
         "branch" : "main",
-        "revision" : "7fa63de8db5968531fd3a9f4a6f79488f0b3e868"
+        "revision" : "5c495f8a607a3565d6fdd89b14e61b094eabf8aa"
       }
     },
     {

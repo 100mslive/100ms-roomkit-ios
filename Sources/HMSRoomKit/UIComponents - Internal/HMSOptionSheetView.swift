@@ -24,7 +24,7 @@ struct HMSOptionSheetView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var localPeerModel: HMSPeerModel
     @State var internalSheet: Sheet?
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         
@@ -34,7 +34,7 @@ struct HMSOptionSheetView: View {
         
         VStack(spacing: 0) {
             HMSOptionsHeaderView(title: "Options", onClose: {
-                presentationMode.wrappedValue.dismiss()
+                dismiss()
             })
             HStack {
                 Spacer(minLength: 0)
@@ -49,7 +49,7 @@ struct HMSOptionSheetView: View {
                     
                     if roomModel.userCanShareScreen {
                         HMSShareScreenButton(onTap: {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }) {
                             HMSSessionMenuButton(text: localPeerModel.isSharingScreen ? "Stop Sharing Screen" : "Share Screen", image: "screenshare-icon", highlighted: localPeerModel.isSharingScreen)
                         }
@@ -62,7 +62,7 @@ struct HMSOptionSheetView: View {
                                     try await
                                     roomModel.setUserStatus(localPeerModel.status == .beRightBack ? .none : .beRightBack)
                                 }
-                                presentationMode.wrappedValue.dismiss()
+                                dismiss()
                             }
                     }
                     
@@ -72,7 +72,7 @@ struct HMSOptionSheetView: View {
                                 Task {
                                     try await roomModel.setUserStatus(localPeerModel.status == .handRaised ? .none : .handRaised)
                                 }
-                                presentationMode.wrappedValue.dismiss()
+                                dismiss()
                             }
                     }
                     
@@ -87,7 +87,15 @@ struct HMSOptionSheetView: View {
                                 Task {
                                     try await roomModel.startRecording()
                                 }
-                                presentationMode.wrappedValue.dismiss()
+                                dismiss()
+                            }
+                    }
+                    
+                    if roomModel.userRole?.permissions.pollWrite ?? false {
+                        HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: false, isDisabled: false)
+                            .onTapGesture {
+                                NotificationCenter.default.post(name: .init(rawValue: "poll-create"), object: nil)
+                                dismiss()
                             }
                     }
                 }

@@ -16,6 +16,34 @@
 		875F3BC72AB1A2CB00904307 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875F3BC62AB1A2CB00904307 /* Preview Assets.xcassets */; };
 		875F40CC2AB1AA4D00904307 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 875F40CB2AB1AA4D00904307 /* ReplayKit.framework */; };
 		875F40D32AB1AA4D00904307 /* Screenshare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 875F40CA2AB1AA4D00904307 /* Screenshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		878BD6182AF25D8D00581F88 /* HMSRoomKitPollModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6172AF25D8D00581F88 /* HMSRoomKitPollModel.swift */; };
+		878BD63D2AF25FC800581F88 /* PollCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD61B2AF25FC800581F88 /* PollCreateViewModel.swift */; };
+		878BD63E2AF25FC800581F88 /* PollListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD61C2AF25FC800581F88 /* PollListEntryView.swift */; };
+		878BD63F2AF25FC800581F88 /* PollOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD61E2AF25FC800581F88 /* PollOptionView.swift */; };
+		878BD6402AF25FC800581F88 /* PollQuestionsCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD61F2AF25FC800581F88 /* PollQuestionsCreateView.swift */; };
+		878BD6412AF25FC800581F88 /* PollQuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6202AF25FC800581F88 /* PollQuestionsView.swift */; };
+		878BD6422AF25FC800581F88 /* QuestionCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6212AF25FC800581F88 /* QuestionCreateViewModel.swift */; };
+		878BD6432AF25FC800581F88 /* QuestionOptionCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6222AF25FC800581F88 /* QuestionOptionCreateModel.swift */; };
+		878BD6442AF25FC800581F88 /* QuestionCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6232AF25FC800581F88 /* QuestionCreateModel.swift */; };
+		878BD6452AF25FC800581F88 /* PollCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6242AF25FC800581F88 /* PollCreateView.swift */; };
+		878BD64A2AF25FC800581F88 /* PickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD62B2AF25FC800581F88 /* PickerField.swift */; };
+		878BD64B2AF25FC800581F88 /* PollStateBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD62C2AF25FC800581F88 /* PollStateBadgeView.swift */; };
+		878BD64C2AF25FC800581F88 /* PollTypeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD62D2AF25FC800581F88 /* PollTypeButton.swift */; };
+		878BD64D2AF25FC800581F88 /* PollStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD62E2AF25FC800581F88 /* PollStyles.swift */; };
+		878BD64E2AF25FC800581F88 /* PollDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD62F2AF25FC800581F88 /* PollDivider.swift */; };
+		878BD64F2AF25FC800581F88 /* SwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6302AF25FC800581F88 /* SwitchView.swift */; };
+		878BD6502AF25FC800581F88 /* PollTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6312AF25FC800581F88 /* PollTextField.swift */; };
+		878BD6512AF25FC800581F88 /* PollVoteQuestionOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6332AF25FC800581F88 /* PollVoteQuestionOptionViewModel.swift */; };
+		878BD6522AF25FC800581F88 /* PollVoteQuestionOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6342AF25FC800581F88 /* PollVoteQuestionOptionView.swift */; };
+		878BD6532AF25FC800581F88 /* QuizVoteQuestionOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6352AF25FC800581F88 /* QuizVoteQuestionOptionView.swift */; };
+		878BD6542AF25FC800581F88 /* PollVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6362AF25FC800581F88 /* PollVoteView.swift */; };
+		878BD6552AF25FC800581F88 /* PollVoteQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6372AF25FC800581F88 /* PollVoteQuestionViewModel.swift */; };
+		878BD6562AF25FC800581F88 /* PollVoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6382AF25FC800581F88 /* PollVoteViewModel.swift */; };
+		878BD6572AF25FC800581F88 /* PollVoteQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD6392AF25FC800581F88 /* PollVoteQuestionView.swift */; };
+		878BD6582AF25FC800581F88 /* PollSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD63B2AF25FC800581F88 /* PollSummaryViewModel.swift */; };
+		878BD6592AF25FC800581F88 /* PollSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD63C2AF25FC800581F88 /* PollSummaryView.swift */; };
+		878BD65B2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD65A2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift */; };
+		878BD65F2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878BD65E2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift */; };
 		87952C142AB4DE5500929A30 /* CustomizationExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87952C132AB4DE5500929A30 /* CustomizationExample.swift */; };
 		87A408102ABB00C700FF8700 /* JoiningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A4080E2ABB00C700FF8700 /* JoiningView.swift */; };
 		87A408112ABB00C700FF8700 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A4080F2ABB00C700FF8700 /* ContentView.swift */; };
@@ -239,6 +267,34 @@
 		875F40DD2AB1AA9B00904307 /* HMSRoomKitDevelopment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HMSRoomKitDevelopment.entitlements; sourceTree = "<group>"; };
 		876B00012AB43C9C00F977F9 /* Screenshare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Screenshare.entitlements; sourceTree = "<group>"; };
 		878983FB2AEF920A00082848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		878BD6172AF25D8D00581F88 /* HMSRoomKitPollModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSRoomKitPollModel.swift; sourceTree = "<group>"; };
+		878BD61B2AF25FC800581F88 /* PollCreateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollCreateViewModel.swift; sourceTree = "<group>"; };
+		878BD61C2AF25FC800581F88 /* PollListEntryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollListEntryView.swift; sourceTree = "<group>"; };
+		878BD61E2AF25FC800581F88 /* PollOptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollOptionView.swift; sourceTree = "<group>"; };
+		878BD61F2AF25FC800581F88 /* PollQuestionsCreateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollQuestionsCreateView.swift; sourceTree = "<group>"; };
+		878BD6202AF25FC800581F88 /* PollQuestionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollQuestionsView.swift; sourceTree = "<group>"; };
+		878BD6212AF25FC800581F88 /* QuestionCreateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCreateViewModel.swift; sourceTree = "<group>"; };
+		878BD6222AF25FC800581F88 /* QuestionOptionCreateModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionOptionCreateModel.swift; sourceTree = "<group>"; };
+		878BD6232AF25FC800581F88 /* QuestionCreateModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCreateModel.swift; sourceTree = "<group>"; };
+		878BD6242AF25FC800581F88 /* PollCreateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollCreateView.swift; sourceTree = "<group>"; };
+		878BD62B2AF25FC800581F88 /* PickerField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerField.swift; sourceTree = "<group>"; };
+		878BD62C2AF25FC800581F88 /* PollStateBadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollStateBadgeView.swift; sourceTree = "<group>"; };
+		878BD62D2AF25FC800581F88 /* PollTypeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollTypeButton.swift; sourceTree = "<group>"; };
+		878BD62E2AF25FC800581F88 /* PollStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollStyles.swift; sourceTree = "<group>"; };
+		878BD62F2AF25FC800581F88 /* PollDivider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollDivider.swift; sourceTree = "<group>"; };
+		878BD6302AF25FC800581F88 /* SwitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchView.swift; sourceTree = "<group>"; };
+		878BD6312AF25FC800581F88 /* PollTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollTextField.swift; sourceTree = "<group>"; };
+		878BD6332AF25FC800581F88 /* PollVoteQuestionOptionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollVoteQuestionOptionViewModel.swift; sourceTree = "<group>"; };
+		878BD6342AF25FC800581F88 /* PollVoteQuestionOptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollVoteQuestionOptionView.swift; sourceTree = "<group>"; };
+		878BD6352AF25FC800581F88 /* QuizVoteQuestionOptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuizVoteQuestionOptionView.swift; sourceTree = "<group>"; };
+		878BD6362AF25FC800581F88 /* PollVoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollVoteView.swift; sourceTree = "<group>"; };
+		878BD6372AF25FC800581F88 /* PollVoteQuestionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollVoteQuestionViewModel.swift; sourceTree = "<group>"; };
+		878BD6382AF25FC800581F88 /* PollVoteViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollVoteViewModel.swift; sourceTree = "<group>"; };
+		878BD6392AF25FC800581F88 /* PollVoteQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollVoteQuestionView.swift; sourceTree = "<group>"; };
+		878BD63B2AF25FC800581F88 /* PollSummaryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollSummaryViewModel.swift; sourceTree = "<group>"; };
+		878BD63C2AF25FC800581F88 /* PollSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollSummaryView.swift; sourceTree = "<group>"; };
+		878BD65A2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSPrebuiltConferenceView.swift; sourceTree = "<group>"; };
+		878BD65E2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HMSRoomKitNotification-Actions.swift"; sourceTree = "<group>"; };
 		87952C132AB4DE5500929A30 /* CustomizationExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationExample.swift; sourceTree = "<group>"; };
 		87A4080E2ABB00C700FF8700 /* JoiningView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoiningView.swift; path = ../../HMSRoomKitExample/HMSRoomKitExample/JoiningView.swift; sourceTree = "<group>"; };
 		87A4080F2ABB00C700FF8700 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../HMSRoomKitExample/HMSRoomKitExample/ContentView.swift; sourceTree = "<group>"; };
@@ -544,6 +600,87 @@
 			path = "Custom Meeting Examples";
 			sourceTree = "<group>";
 		};
+		878BD6192AF25FC800581F88 /* Polls */ = {
+			isa = PBXGroup;
+			children = (
+				878BD61A2AF25FC800581F88 /* Poll Create */,
+				878BD62A2AF25FC800581F88 /* UI Components */,
+				878BD6322AF25FC800581F88 /* Vote And Results */,
+			);
+			path = Polls;
+			sourceTree = "<group>";
+		};
+		878BD61A2AF25FC800581F88 /* Poll Create */ = {
+			isa = PBXGroup;
+			children = (
+				878BD61B2AF25FC800581F88 /* PollCreateViewModel.swift */,
+				878BD61C2AF25FC800581F88 /* PollListEntryView.swift */,
+				878BD61D2AF25FC800581F88 /* Questions Create */,
+				878BD6242AF25FC800581F88 /* PollCreateView.swift */,
+			);
+			path = "Poll Create";
+			sourceTree = "<group>";
+		};
+		878BD61D2AF25FC800581F88 /* Questions Create */ = {
+			isa = PBXGroup;
+			children = (
+				878BD61E2AF25FC800581F88 /* PollOptionView.swift */,
+				878BD61F2AF25FC800581F88 /* PollQuestionsCreateView.swift */,
+				878BD6202AF25FC800581F88 /* PollQuestionsView.swift */,
+				878BD6212AF25FC800581F88 /* QuestionCreateViewModel.swift */,
+				878BD6222AF25FC800581F88 /* QuestionOptionCreateModel.swift */,
+				878BD6232AF25FC800581F88 /* QuestionCreateModel.swift */,
+			);
+			path = "Questions Create";
+			sourceTree = "<group>";
+		};
+		878BD62A2AF25FC800581F88 /* UI Components */ = {
+			isa = PBXGroup;
+			children = (
+				878BD62B2AF25FC800581F88 /* PickerField.swift */,
+				878BD62C2AF25FC800581F88 /* PollStateBadgeView.swift */,
+				878BD62D2AF25FC800581F88 /* PollTypeButton.swift */,
+				878BD62E2AF25FC800581F88 /* PollStyles.swift */,
+				878BD62F2AF25FC800581F88 /* PollDivider.swift */,
+				878BD6302AF25FC800581F88 /* SwitchView.swift */,
+				878BD6312AF25FC800581F88 /* PollTextField.swift */,
+			);
+			path = "UI Components";
+			sourceTree = "<group>";
+		};
+		878BD6322AF25FC800581F88 /* Vote And Results */ = {
+			isa = PBXGroup;
+			children = (
+				878BD6332AF25FC800581F88 /* PollVoteQuestionOptionViewModel.swift */,
+				878BD6342AF25FC800581F88 /* PollVoteQuestionOptionView.swift */,
+				878BD6352AF25FC800581F88 /* QuizVoteQuestionOptionView.swift */,
+				878BD6362AF25FC800581F88 /* PollVoteView.swift */,
+				878BD6372AF25FC800581F88 /* PollVoteQuestionViewModel.swift */,
+				878BD6382AF25FC800581F88 /* PollVoteViewModel.swift */,
+				878BD6392AF25FC800581F88 /* PollVoteQuestionView.swift */,
+				878BD63A2AF25FC800581F88 /* Summary */,
+			);
+			path = "Vote And Results";
+			sourceTree = "<group>";
+		};
+		878BD63A2AF25FC800581F88 /* Summary */ = {
+			isa = PBXGroup;
+			children = (
+				878BD63B2AF25FC800581F88 /* PollSummaryViewModel.swift */,
+				878BD63C2AF25FC800581F88 /* PollSummaryView.swift */,
+			);
+			path = Summary;
+			sourceTree = "<group>";
+		};
+		878BD65D2AF38B7F00581F88 /* Notification Model */ = {
+			isa = PBXGroup;
+			children = (
+				87B53FA82AEFBD5D0061DE1A /* HMSRoomKitNotification.swift */,
+				878BD65E2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift */,
+			);
+			path = "Notification Model";
+			sourceTree = "<group>";
+		};
 		87B53EEC2AEFBD520061DE1A /* HMSRoomModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -646,6 +783,7 @@
 				87B53F2B2AEFBD5D0061DE1A /* Environment.swift */,
 				87B53F2C2AEFBD5D0061DE1A /* HMSRoomInfoModel.swift */,
 				87B53F2D2AEFBD5D0061DE1A /* HMSPrebuiltMeetingView.swift */,
+				878BD65A2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift */,
 				87B53F2E2AEFBD5D0061DE1A /* HMSLoadingScreen.swift */,
 			);
 			path = Internal;
@@ -718,6 +856,7 @@
 		87B53F562AEFBD5D0061DE1A /* UIComponents - Internal */ = {
 			isa = PBXGroup;
 			children = (
+				878BD6192AF25FC800581F88 /* Polls */,
 				87B53F572AEFBD5D0061DE1A /* HMSStreamingStatusView.swift */,
 				87B53F582AEFBD5D0061DE1A /* HMSSegmentedControl.swift */,
 				87B53F592AEFBD5D0061DE1A /* HMSHandRaisedToggleView.swift */,
@@ -897,7 +1036,7 @@
 			children = (
 				87B53FA62AEFBD5D0061DE1A /* HMSNotificationStackView.swift */,
 				87B53FA72AEFBD5D0061DE1A /* HMSNotificationView.swift */,
-				87B53FA82AEFBD5D0061DE1A /* HMSRoomKitNotification.swift */,
+				878BD65D2AF38B7F00581F88 /* Notification Model */,
 			);
 			path = "Toast Notifications";
 			sourceTree = "<group>";
@@ -945,6 +1084,7 @@
 			isa = PBXGroup;
 			children = (
 				87B53FB82AEFBD5D0061DE1A /* HMSPreviewBottomOverlay.swift */,
+				878BD6172AF25D8D00581F88 /* HMSRoomKitPollModel.swift */,
 				87B53FB92AEFBD5D0061DE1A /* HMSPreviewRoleScreen.swift */,
 				87B53FBA2AEFBD5D0061DE1A /* HMSPreviewTopOverlay.swift */,
 				87B53FBB2AEFBD5D0061DE1A /* HMSPreviewRoleBottomOverlay.swift */,
@@ -1170,11 +1310,13 @@
 				87B5400E2AEFBD5D0061DE1A /* HMSPeerVolumeOptionView.swift in Sources */,
 				87B540532AEFBD5D0061DE1A /* HMSPermissionDenialScreen.swift in Sources */,
 				87B540262AEFBD5D0061DE1A /* HMSChatParticipantToggleView.swift in Sources */,
+				878BD6592AF25FC800581F88 /* PollSummaryView.swift in Sources */,
 				87B53FF92AEFBD5D0061DE1A /* HMSJoinNameView.swift in Sources */,
 				87B53F112AEFBD520061DE1A /* HMSRoomOptions.swift in Sources */,
 				87B540562AEFBD5D0061DE1A /* HMSInsetPeerTile.swift in Sources */,
 				87B5405C2AEFBD5D0061DE1A /* HMSUIFontTheme.swift in Sources */,
 				87B53FE92AEFBD5D0061DE1A /* HMSMicToggleView.swift in Sources */,
+				878BD65F2AF38B9300581F88 /* HMSRoomKitNotification-Actions.swift in Sources */,
 				87B540372AEFBD5D0061DE1A /* HMSMainConferenceView.swift in Sources */,
 				87B53FDF2AEFBD5D0061DE1A /* ErrorWarningAlertView.swift in Sources */,
 				87B53FFE2AEFBD5D0061DE1A /* HMSStreamingStatusView.swift in Sources */,
@@ -1199,6 +1341,7 @@
 				87B53F0E2AEFBD520061DE1A /* HMSVideoViewRepresentable.swift in Sources */,
 				87B53F1A2AEFBD520061DE1A /* HMSRoomModel-Internal-Callbacks.swift in Sources */,
 				87B5401C2AEFBD5D0061DE1A /* HMSLeaveCallView.swift in Sources */,
+				878BD6552AF25FC800581F88 /* PollVoteQuestionViewModel.swift in Sources */,
 				87B540362AEFBD5D0061DE1A /* HMSChatOverlay.swift in Sources */,
 				87B5404A2AEFBD5D0061DE1A /* HMSPeerVerticalListLayout.swift in Sources */,
 				87B53FE22AEFBD5D0061DE1A /* HMSExpandIconView.swift in Sources */,
@@ -1212,6 +1355,7 @@
 				87B53FFA2AEFBD5D0061DE1A /* HMSLocalScreenShareView.swift in Sources */,
 				87B53F142AEFBD520061DE1A /* HMSRoomModel-Higher.swift in Sources */,
 				87B5404D2AEFBD5D0061DE1A /* HMSPreviewBottomOverlay.swift in Sources */,
+				878BD6512AF25FC800581F88 /* PollVoteQuestionOptionViewModel.swift in Sources */,
 				87B53F102AEFBD520061DE1A /* HMSRoomModels.swift in Sources */,
 				87B53F092AEFBD520061DE1A /* HMSPeerModel-Preview.swift in Sources */,
 				87B540132AEFBD5D0061DE1A /* HMSScreenShareView.swift in Sources */,
@@ -1223,9 +1367,11 @@
 				87B540312AEFBD5D0061DE1A /* HMSSenHMSSendChatField.swift in Sources */,
 				87B5404B2AEFBD5D0061DE1A /* HMSHLSViewerScreen.swift in Sources */,
 				87B53FEF2AEFBD5D0061DE1A /* HMSWifiSignalView0.swift in Sources */,
+				878BD6582AF25FC800581F88 /* PollSummaryViewModel.swift in Sources */,
 				87B53FF72AEFBD5D0061DE1A /* HMSPreviewParticipantsLabelView.swift in Sources */,
 				87B540072AEFBD5D0061DE1A /* HMSPeerOptionsView.swift in Sources */,
 				87B540152AEFBD5D0061DE1A /* HMSAirplayButton.swift in Sources */,
+				878BD63E2AF25FC800581F88 /* PollListEntryView.swift in Sources */,
 				87B540522AEFBD5D0061DE1A /* HMSPreviewScreenLiveStreaming.swift in Sources */,
 				87B540192AEFBD5D0061DE1A /* EndSessionAlertView.swift in Sources */,
 				87B5400C2AEFBD5D0061DE1A /* HMSParticipantScreenNameLabel.swift in Sources */,
@@ -1239,7 +1385,9 @@
 				87B53FF42AEFBD5D0061DE1A /* HMSWifiSignalView1.swift in Sources */,
 				87B53FD82AEFBD5D0061DE1A /* HMSRoomInfoModel.swift in Sources */,
 				87B5402E2AEFBD5D0061DE1A /* HMSParticipantListView.swift in Sources */,
+				878BD6502AF25FC800581F88 /* PollTextField.swift in Sources */,
 				87B53FF12AEFBD5D0061DE1A /* HMSWifiSignalView2.swift in Sources */,
+				878BD6412AF25FC800581F88 /* PollQuestionsView.swift in Sources */,
 				87B53F182AEFBD520061DE1A /* HMSRoomModel-Internal-updates.swift in Sources */,
 				87B540112AEFBD5D0061DE1A /* HMSJoinButton.swift in Sources */,
 				87B5402A2AEFBD5D0061DE1A /* HMSRolePickerOptions.swift in Sources */,
@@ -1247,9 +1395,11 @@
 				87B53FD42AEFBD5D0061DE1A /* ImageExtension.swift in Sources */,
 				87B540582AEFBD5D0061DE1A /* HMSEndCallScreen.swift in Sources */,
 				87B5405E2AEFBD5D0061DE1A /* HMSUIColorTheme-extension.swift in Sources */,
+				878BD6432AF25FC800581F88 /* QuestionOptionCreateModel.swift in Sources */,
 				87B53FFC2AEFBD5D0061DE1A /* HMSParticipantScreenNameLabelView.swift in Sources */,
 				87B540462AEFBD5D0061DE1A /* HMSPaginatedBottomTilesView.swift in Sources */,
 				87B53F0F2AEFBD520061DE1A /* HMSPeerListIteratorModel.swift in Sources */,
+				878BD64E2AF25FC800581F88 /* PollDivider.swift in Sources */,
 				87B53FEA2AEFBD5D0061DE1A /* HMSBRBIconView.swift in Sources */,
 				87B540352AEFBD5D0061DE1A /* HMSBottomControlStrip.swift in Sources */,
 				87B5402C2AEFBD5D0061DE1A /* HMSRolePicker.swift in Sources */,
@@ -1257,6 +1407,8 @@
 				87B540512AEFBD5D0061DE1A /* PreviewEnvironment.swift in Sources */,
 				87B5400F2AEFBD5D0061DE1A /* HMSOptionSheetView.swift in Sources */,
 				87B540592AEFBD5D0061DE1A /* HMSUIFontTheme-extension.swift in Sources */,
+				878BD64D2AF25FC800581F88 /* PollStyles.swift in Sources */,
+				878BD6532AF25FC800581F88 /* QuizVoteQuestionOptionView.swift in Sources */,
 				87B540162AEFBD5D0061DE1A /* HMSCancelButton.swift in Sources */,
 				87B540122AEFBD5D0061DE1A /* HMSChatAvatarView.swift in Sources */,
 				87B540552AEFBD5D0061DE1A /* PreviewComponentType.swift in Sources */,
@@ -1282,9 +1434,15 @@
 				87B53FF62AEFBD5D0061DE1A /* HMSParticipantNameLabelView.swift in Sources */,
 				87B540392AEFBD5D0061DE1A /* HMSTopControlStrip.swift in Sources */,
 				87B5401F2AEFBD5D0061DE1A /* HMSChangeNameView.swift in Sources */,
+				878BD6422AF25FC800581F88 /* QuestionCreateViewModel.swift in Sources */,
 				87B540292AEFBD5D0061DE1A /* HMSChatPlaceholderView.swift in Sources */,
 				87B540242AEFBD5D0061DE1A /* HMSScreenSharePaginatedView.swift in Sources */,
+				878BD6452AF25FC800581F88 /* PollCreateView.swift in Sources */,
+				878BD6562AF25FC800581F88 /* PollVoteViewModel.swift in Sources */,
+				878BD6402AF25FC800581F88 /* PollQuestionsCreateView.swift in Sources */,
 				87B53FD52AEFBD5D0061DE1A /* HMSDivider.swift in Sources */,
+				878BD64B2AF25FC800581F88 /* PollStateBadgeView.swift in Sources */,
+				878BD6542AF25FC800581F88 /* PollVoteView.swift in Sources */,
 				87B540442AEFBD5D0061DE1A /* HMSInsetView.swift in Sources */,
 				87B540572AEFBD5D0061DE1A /* HMSParticipantsPreviewLabel.swift in Sources */,
 				87B53FE52AEFBD5D0061DE1A /* HMSCameraToggleView.swift in Sources */,
@@ -1296,13 +1454,16 @@
 				87B53FDA2AEFBD5D0061DE1A /* HMSLoadingScreen.swift in Sources */,
 				87B53FDD2AEFBD5D0061DE1A /* HMSVideoTrackView.swift in Sources */,
 				87B53F0C2AEFBD520061DE1A /* HMSPeerModel.swift in Sources */,
+				878BD6572AF25FC800581F88 /* PollVoteQuestionView.swift in Sources */,
 				87B53FEC2AEFBD5D0061DE1A /* HMSGearButtonView.swift in Sources */,
 				87B53FE72AEFBD5D0061DE1A /* HMSHandRaisedIconView.swift in Sources */,
+				878BD64F2AF25FC800581F88 /* SwitchView.swift in Sources */,
 				87B5404F2AEFBD5D0061DE1A /* HMSPreviewTopOverlay.swift in Sources */,
 				87B53FF52AEFBD5D0061DE1A /* HMSSwitchCameraButtonView.swift in Sources */,
 				87B540022AEFBD5D0061DE1A /* HMSCameraToggle.swift in Sources */,
 				87B540142AEFBD5D0061DE1A /* HMSPreviewNameLabel.swift in Sources */,
 				87B540492AEFBD5D0061DE1A /* HMSPeerProminenceLayout.swift in Sources */,
+				878BD6182AF25D8D00581F88 /* HMSRoomKitPollModel.swift in Sources */,
 				87B540332AEFBD5D0061DE1A /* HMSPeerTile.swift in Sources */,
 				87B53F1C2AEFBD520061DE1A /* PeerMetadata.swift in Sources */,
 				87B53F132AEFBD520061DE1A /* HMSTrackModel.swift in Sources */,
@@ -1311,10 +1472,14 @@
 				87B5401A2AEFBD5D0061DE1A /* HMSEndCallView.swift in Sources */,
 				87B53FE12AEFBD5D0061DE1A /* HMSXMarkCircleView.swift in Sources */,
 				87B540102AEFBD5D0061DE1A /* HMSSwitchCameraButton.swift in Sources */,
+				878BD63D2AF25FC800581F88 /* PollCreateViewModel.swift in Sources */,
+				878BD63F2AF25FC800581F88 /* PollOptionView.swift in Sources */,
 				87B53FEB2AEFBD5D0061DE1A /* HMSScreenToggleView.swift in Sources */,
+				878BD64C2AF25FC800581F88 /* PollTypeButton.swift in Sources */,
 				87B5403F2AEFBD5D0061DE1A /* ConferencingComponentType.swift in Sources */,
 				87B5404C2AEFBD5D0061DE1A /* HMSStreamNotStartedView.swift in Sources */,
 				87B5403B2AEFBD5D0061DE1A /* PeerModelExtension.swift in Sources */,
+				878BD6442AF25FC800581F88 /* QuestionCreateModel.swift in Sources */,
 				87B540422AEFBD5D0061DE1A /* HMSRoomKitNotification.swift in Sources */,
 				87B53FE02AEFBD5D0061DE1A /* HMSLiveLabel.swift in Sources */,
 				87B53F192AEFBD520061DE1A /* HMSRoomModel-Preview.swift in Sources */,
@@ -1322,6 +1487,7 @@
 				87B53F0A2AEFBD520061DE1A /* HMSPeerModel-Internal-updates.swift in Sources */,
 				87B5403D2AEFBD5D0061DE1A /* HMSRoomKitModel.swift in Sources */,
 				87B5405F2AEFBD5D0061DE1A /* HMSRoomKit.docc in Sources */,
+				878BD64A2AF25FC800581F88 /* PickerField.swift in Sources */,
 				87B53FDE2AEFBD5D0061DE1A /* HMSJoinLabelView.swift in Sources */,
 				87B540222AEFBD5D0061DE1A /* HMSRecordingStatusView.swift in Sources */,
 				87B540032AEFBD5D0061DE1A /* HMSJoinNameLabel.swift in Sources */,
@@ -1330,8 +1496,10 @@
 				87B53FDB2AEFBD5D0061DE1A /* HMSPrebuiltView.swift in Sources */,
 				87B5401D2AEFBD5D0061DE1A /* EndSessionOptionView.swift in Sources */,
 				87B540502AEFBD5D0061DE1A /* HMSPreviewRoleBottomOverlay.swift in Sources */,
+				878BD6522AF25FC800581F88 /* PollVoteQuestionOptionView.swift in Sources */,
 				87B53FD12AEFBD5D0061DE1A /* HMSTallVGridView.swift in Sources */,
 				87B53FFF2AEFBD5D0061DE1A /* HMSSegmentedControl.swift in Sources */,
+				878BD65B2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift in Sources */,
 				87B5405B2AEFBD5D0061DE1A /* HMSUIColorTheme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

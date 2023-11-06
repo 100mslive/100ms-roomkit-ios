@@ -88,10 +88,10 @@ struct HMSChatOverlay_Previews: PreviewProvider {
 #if Preview
         let roomKitModel: HMSRoomKitModel = {
             let model = HMSRoomKitModel()
-            model.notifications.append(.init(identity: "id1", type: .raiseHand, actorName: "Pawan", title: "Peer1 raised hands Peer1 raised hands", isDismissable: true))
-            model.notifications.append(.init(identity: "id2", type: .raiseHand, actorName: "Dmitry", isDismissed: true, title: "Peer2", isDismissable: true))
-            model.notifications.append(.init(identity: "id3", type: .raiseHand, actorName: "Praveen", title: "Peer3 raised hands", isDismissable: true))
-            model.notifications.append(.init(identity: "id4", type: .raiseHand, actorName: "Bajaj", title: "Peer4 raised hands", isDismissable: true))
+            model.notifications.append(.init(id: "id1", type: .handRaised, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
+            model.notifications.append(.init(id: "id2", type: .handRaised, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
+            model.notifications.append(.init(id: "id3", type: .handRaised, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
+            model.notifications.append(.init(id: "id4", type: .handRaised, actor: "Bajaj", isDismissible: true, title: "Peer4 raised hands"))
             return model
         }()
         

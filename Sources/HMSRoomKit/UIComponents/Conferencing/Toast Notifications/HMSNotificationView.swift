@@ -32,30 +32,35 @@ struct HMSNotificationView: View {
         HStack(spacing: 0) {
             
             HStack(spacing: 12) {
-                switch notification.type {
-                case .raiseHand, .groupedRaiseHand:
-                    Image(assetName: "hand-raise-icon")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foreground(.onSurfaceHigh)
-                case .declineRoleChange, .groupedDeclineRoleChange(_):
-                    Image(assetName: "peer-xmark")
-                        .foreground(.onSurfaceHigh)
-                case .error(icon: let icon, _, _), .info(icon: let icon):
-                    if notification.id == "isReconnecting" {
-                        HMSLoadingView {
+                Group {
+                    switch notification.type {
+                    case .handRaised, .handRaisedGrouped:
+                        Image(assetName: "hand-raise-icon")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foreground(.onSurfaceHigh)
+                    case .declineRoleChange, .groupedDeclineRoleChange(_):
+                        Image(assetName: "peer-xmark")
+                            .foreground(.onSurfaceHigh)
+                    case .error(icon: let icon, _, _), .info(icon: let icon):
+                        if notification.id == "isReconnecting" {
+                            HMSLoadingView {
+                                Image(assetName: icon)
+                                    .foreground(.onSurfaceHigh)
+                            }
+                        }
+                        else {
                             Image(assetName: icon)
                                 .foreground(.onSurfaceHigh)
                         }
+                    case .screenShare:
+                        Image(assetName: "screenshare-icon")
+                            
+                    case .poll:
+                        Image(assetName: "poll-vote")
                     }
-                    else {
-                        Image(assetName: icon)
-                            .foreground(.onSurfaceHigh)
-                    }
-                case .screenShare:
-                    Image(assetName: "screenshare-icon")
-                        .foreground(.onSurfaceHigh)
                 }
+                .foreground(.onSurfaceHigh)
                 
                 Text(notification.title)
                     .lineLimit(2)
@@ -110,13 +115,21 @@ struct HMSNotificationView: View {
                             .padding(.vertical, 8)
                             .padding(.horizontal, 16)
                             .background(.errorDefault, cornerRadius: 8)
+                    case .vote:
+                        Text("Vote")
+                            .fixedSize(horizontal: true, vertical: false)
+                            .font(.body2Semibold14)
+                            .foreground(.onSecondaryHigh)
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 16)
+                            .background(.secondaryDefault, cornerRadius: 8)
                     }
                 }
                 .onTapGesture() {
                     onAction()
                 }
                 
-                if notification.isDismissable {
+                if notification.isDismissible {
                     Image(assetName: "xmark")
                         .resizable()
                         .frame(width: 14, height: 14)
@@ -144,11 +157,11 @@ struct HMSNotificationView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
         VStack {
-            HMSNotificationView(notification: .init(identity: "id1", type: .error(icon: "record-on", retry: true, isTerminal: false), actorName: "Pawan", title: "Recording failed to start", isDismissable: true), onDismiss: {}, onAction: {})
+            HMSNotificationView(notification: .init(id: "id1", type: .error(icon: "record-on", retry: true, isTerminal: false), actor: "Pawan", isDismissible: true, title: "Recording failed to start"), onDismiss: {}, onAction: {})
             
-            HMSNotificationView(notification: .init(identity: "id2", type: .raiseHand, actorName: "Pawan", title: "Peer raised hands Peer raised hands Peer raised hands", isDismissable: true), onDismiss: {}, onAction: {})
+            HMSNotificationView(notification: .init(id: "id2", type: .handRaised, actor: "Pawan", isDismissible: true, title: "Peer raised hands Peer raised hands Peer raised hands"), onDismiss: {}, onAction: {})
             
-            HMSNotificationView(notification: .init(identity: "id3", type: .error(icon: "warning-icon", retry: false, isTerminal: true), actorName: "Pawan", title: "Recording failed to start", isDismissable: false), onDismiss: {}, onAction: {})
+            HMSNotificationView(notification: .init(id: "id3", type: .error(icon: "warning-icon", retry: false, isTerminal: true), actor: "Pawan", isDismissible: false, title: "Recording failed to start"), onDismiss: {}, onAction: {})
         }
         .environmentObject(HMSUITheme())
         .environmentObject(HMSRoomInfoModel())
