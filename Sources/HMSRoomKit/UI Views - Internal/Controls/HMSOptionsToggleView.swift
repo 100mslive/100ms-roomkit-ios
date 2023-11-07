@@ -10,10 +10,21 @@ import SwiftUI
 
 struct HMSOptionsToggleView: View {
     
+    @Environment(\.pollsBadgeState) var pollsBadgeState
+    
     var body: some View {
         Image(assetName: "hamburger")
             .frame(width: 40, height: 40)
             .controlAppearance(isEnabled: true)
+            .overlay(alignment: .topTrailing, content: {
+                if pollsBadgeState.wrappedValue == .badged {
+                    Image(assetName: "chat-badge-icon")
+                        .resizable()
+                        .frame(width: 8, height: 8)
+                        .foreground(.primaryDefault)
+                        .padding(-2)
+                }
+            })
     }
 }
 

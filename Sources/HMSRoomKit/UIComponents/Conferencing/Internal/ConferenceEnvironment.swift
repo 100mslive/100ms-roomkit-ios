@@ -35,4 +35,17 @@ internal extension EnvironmentValues {
         get { self[HMSChatBadgeState.Key.self] }
         set { self[HMSChatBadgeState.Key.self] = newValue }
     }
+    
+    enum HMSPollsBadgeState {
+        case badged, none
+        
+        struct Key: EnvironmentKey {
+            static let defaultValue: Binding<HMSPollsBadgeState> = .constant(.none)
+        }
+    }
+    
+    var pollsBadgeState: Binding<HMSPollsBadgeState> {
+        get { self[HMSPollsBadgeState.Key.self] }
+        set { self[HMSPollsBadgeState.Key.self] = newValue }
+    }
 }
