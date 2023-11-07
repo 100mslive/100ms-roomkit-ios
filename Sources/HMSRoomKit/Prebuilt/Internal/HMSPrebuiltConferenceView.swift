@@ -145,6 +145,8 @@ struct HMSPrebuiltConferenceView: View {
                 if let poll = center.polls.first(where: { $0.pollID == pollIdOfInterest }), let role = roomModel.localPeerModel?.peer.role {
                     
                     pollVoteViewModel = PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
+                    
+                    roomKitModel.removeNotification(for: [pollIdOfInterest])
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-create"))) { _ in
