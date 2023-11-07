@@ -11,6 +11,8 @@ import HMSSDK
 
 struct HMSPrebuiltConferenceView: View {
     
+    @Environment(\.pollsBadgeState) var pollsBadgeState
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     @StateObject var roomKitModel = HMSRoomKitModel()
@@ -116,6 +118,9 @@ struct HMSPrebuiltConferenceView: View {
                 pollModel.beginListeningForPolls()
             }
             .onChange(of: pollModel.currentPolls) { currentPolls in
+                
+                pollsBadgeState.wrappedValue = currentPolls.count > 0 ? .badged : .none
+                
                 let existingPollNotificationIds = roomKitModel.notifications.filter {
                     if case .poll(_) = $0.type {
                         return true
@@ -135,7 +140,11 @@ struct HMSPrebuiltConferenceView: View {
                 
                 // add notification for each new peer
                 for newPoll in newPolls {
-                    let notification = HMSRoomKitNotification(id: newPoll.pollID, type: .poll(type: newPoll.category), actor: newPoll.createdBy?.name ?? "", isDismissible: true, title: "\(newPoll.createdBy?.name ?? "") started a new poll")
+                    
+                    // let's not show notification for self created poll. if poll doesn't have a createdBy field that means it was created by local peer.
+                    guard newPoll.createdBy != nil else { continue }
+                    
+                    let notification = HMSRoomKitNotification(id: newPoll.pollID, type: .poll(type: newPoll.category), actor: newPoll.createdBy?.name ?? "", isDismissible: true, title: "\(newPoll.createdBy?.name ?? "") started a new \(newPoll.category == .poll ? "poll": "quiz")")
                     roomKitModel.addNotification(notification)
                 }
             }
@@ -146,7 +155,7 @@ struct HMSPrebuiltConferenceView: View {
                     
                     pollVoteViewModel = PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
                     
-                    roomKitModel.removeNotification(for: [pollIdOfInterest])
+                    roomKitModel.dismissNotification(for: pollIdOfInterest)
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-create"))) { _ in

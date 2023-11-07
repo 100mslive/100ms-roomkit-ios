@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSOptionSheetView: View {
     
+    @Environment(\.pollsBadgeState) var pollsBadgeState
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     enum Sheet: String, Identifiable {
@@ -92,7 +94,7 @@ struct HMSOptionSheetView: View {
                     }
                     
                     if roomModel.userRole?.permissions.pollWrite ?? false {
-                        HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: false, isDisabled: false)
+                        HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: pollsBadgeState.wrappedValue == .badged, isDisabled: false)
                             .onTapGesture {
                                 NotificationCenter.default.post(name: .init(rawValue: "poll-create"), object: nil)
                                 dismiss()

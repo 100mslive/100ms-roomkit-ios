@@ -18,6 +18,7 @@ struct HMSPrebuiltMeetingView: View {
     
     @State var userStreamingState = EnvironmentValues.HMSUserStreamingState.none
     @State private var controlsState = EnvironmentValues.HMSControlsState.visible
+    @State private var pollsBadgeState = EnvironmentValues.HMSPollsBadgeState.none
     
     var onDismiss: (() -> Void)?
     init(onDismiss: (() -> Void)?) {
@@ -52,6 +53,7 @@ struct HMSPrebuiltMeetingView: View {
             }
         }
         .environment(\.controlsState, $controlsState)
+        .environment(\.pollsBadgeState, $pollsBadgeState)
         .environment(\.peerTileAppearance, .constant(.init(userStreamingState == .starting ? .compact : .full, isOverlayHidden: (userStreamingState == .starting || controlsState == .hidden))))
         .environment(\.userStreamingState, $userStreamingState)
 #if !Preview
