@@ -23,6 +23,7 @@ struct HMSRecordingStatusView: View {
         else if roomModel.recordingState == .initializing {
             HMSLoadingView {
                 Image(assetName: "loading-record")
+                    .foreground(.onSurfaceHigh)
             }
         }
     }
