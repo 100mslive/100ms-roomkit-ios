@@ -14,13 +14,22 @@ struct HMSSessionMenuButton: View {
     var highlighted: Bool
     var badgeText: String?
     var isDisabled: Bool = false
+    var imageForeground: HMSThemeColor?
+    
+    private var imageForegroundComputed: HMSThemeColor {
+        if let imageForeground = imageForeground {
+            return imageForeground
+        }
+        
+        return isDisabled ? .onSurfaceLow : .onSurfaceHigh
+    }
     
     var body: some View {
         VStack {
             Image(assetName: image)
                 .resizable()
                 .frame(width: 21, height: 20)
-                .foreground(isDisabled ? .onSurfaceLow : .onSurfaceHigh)
+                .foreground(imageForegroundComputed)
             Text(text).font(.captionSemibold)
                 .multilineTextAlignment(.center)
                 .foreground(isDisabled ? .onSurfaceLow : .onSurfaceHigh)

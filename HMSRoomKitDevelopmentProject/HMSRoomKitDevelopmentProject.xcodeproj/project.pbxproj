@@ -226,6 +226,7 @@
 		87E669B52AB4F02600073016 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = 87E669B42AB4F02600073016 /* Popovers */; };
 		87F2FEAB2ABD75FB00FB62C2 /* RoomStatesExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F2FEAA2ABD75FB00FB62C2 /* RoomStatesExample.swift */; };
 		87FC805D2AD95990001DAED9 /* RoomModelStandaloneExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FC805C2AD95990001DAED9 /* RoomModelStandaloneExample.swift */; };
+		9143E28E2AF948BA00E447C9 /* HMSRecordSessionMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9143E28D2AF948BA00E447C9 /* HMSRecordSessionMenuButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -471,6 +472,7 @@
 		87B53FCE2AEFBD5D0061DE1A /* HMSRoomKit.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = HMSRoomKit.docc; sourceTree = "<group>"; };
 		87F2FEAA2ABD75FB00FB62C2 /* RoomStatesExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomStatesExample.swift; sourceTree = "<group>"; };
 		87FC805C2AD95990001DAED9 /* RoomModelStandaloneExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomModelStandaloneExample.swift; sourceTree = "<group>"; };
+		9143E28D2AF948BA00E447C9 /* HMSRecordSessionMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMSRecordSessionMenuButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -889,6 +891,7 @@
 				87B53F7B2AEFBD5D0061DE1A /* HMSParticipantCountStatusView.swift */,
 				87B53F7C2AEFBD5D0061DE1A /* HMSRecordingStatusView.swift */,
 				87B53F7D2AEFBD5D0061DE1A /* HMSDefaultTileView.swift */,
+				9143E28D2AF948BA00E447C9 /* HMSRecordSessionMenuButton.swift */,
 			);
 			path = "UIComponents - Internal";
 			sourceTree = "<group>";
@@ -1322,6 +1325,7 @@
 				87B53FFE2AEFBD5D0061DE1A /* HMSStreamingStatusView.swift in Sources */,
 				87B53FD72AEFBD5D0061DE1A /* Environment.swift in Sources */,
 				87B540062AEFBD5D0061DE1A /* HMSShareScreenButton.swift in Sources */,
+				9143E28E2AF948BA00E447C9 /* HMSRecordSessionMenuButton.swift in Sources */,
 				87B540182AEFBD5D0061DE1A /* HMSEndCallButton.swift in Sources */,
 				87B540472AEFBD5D0061DE1A /* HMSPeerLayout.swift in Sources */,
 				87B53F122AEFBD520061DE1A /* HMSTrackModel-Base-Actions.swift in Sources */,
