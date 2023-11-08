@@ -115,14 +115,14 @@ struct HMSNotificationView: View {
                             .padding(.vertical, 8)
                             .padding(.horizontal, 16)
                             .background(.errorDefault, cornerRadius: 8)
-                    case .vote:
-                        Text("Vote")
-                            .fixedSize(horizontal: true, vertical: false)
-                            .font(.body2Semibold14)
-                            .foreground(.onSecondaryHigh)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
-                            .background(.secondaryDefault, cornerRadius: 8)
+                    case .vote(let type):
+                        Text(type == .poll ? "Vote" : "Answer")
+                        .fixedSize(horizontal: true, vertical: false)
+                        .font(.body2Semibold14)
+                        .foreground(.onSecondaryHigh)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.secondaryDefault, cornerRadius: 8)
                     }
                 }
                 .onTapGesture() {

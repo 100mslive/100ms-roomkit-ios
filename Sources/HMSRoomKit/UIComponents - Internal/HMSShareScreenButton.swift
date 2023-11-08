@@ -34,6 +34,7 @@ struct HMSSessionMenuButton: View {
                      .background(.surfaceBright, cornerRadius: 40)
              }
         }
+        .padding(.horizontal, 5)
         .background((isDisabled || !highlighted) ? nil : .surfaceBright, cornerRadius: 4)
     }
 }

@@ -52,6 +52,7 @@ struct PollQuestionsCreateView: View {
                     Spacer()
                     Button("Launch \(model.pollModel.selectedCategory == .poll ? "Poll" : "Quiz")") {
                         model.startPoll()
+                        presentationMode.wrappedValue.dismiss()
                     }.buttonStyle(ActionButtonStyle(isWide: false)).alert(isPresented: $model.showingAlert) {
                         Alert(title: Text("Error"), message: Text(model.alertText), dismissButton: .default(Text("OK")))
                     }
