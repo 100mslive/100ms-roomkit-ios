@@ -34,8 +34,8 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
             return .stopScreenShare
         case .groupedDeclineRoleChange(_):
             return .none
-        case .poll:
-            return .vote
+        case .poll(type: let type):
+            return .vote(type: type)
         }
     }
     
@@ -67,6 +67,6 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
         case retry
         case endCall
         case stopScreenShare
-        case vote
+        case vote(type: HMSPollCategory)
     }
 }
