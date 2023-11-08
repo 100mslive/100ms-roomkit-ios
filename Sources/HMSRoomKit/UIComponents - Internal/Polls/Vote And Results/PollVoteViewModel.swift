@@ -103,34 +103,14 @@ class PollVoteViewModel: ObservableObject, Identifiable {
             incorrectAnswers += question.totalVotes - question.correctVotes - question.skippedVotes
         }
         
-        let noAnswers = pollResult.maxUserCount - pollResult.userCount
         
-        var participationPercentage = 0
-        if pollResult.maxUserCount > 0 {
-            participationPercentage = (pollResult.userCount * 100) / pollResult.maxUserCount
-        }
-        
-        let model = PollSummaryViewModel(items: [PollSummaryItemRowViewModel(items: [PollSummaryItemViewModel(title: "NO. OF CORRECT\nANSWERS".uppercased(), subtitle: "\(correctAnswers)"), PollSummaryItemViewModel(title: "NO. OF INCORRECT\nANSWERS".uppercased(), subtitle: "\(incorrectAnswers)")]), PollSummaryItemRowViewModel(items: [PollSummaryItemViewModel(title: "peers who didn’t\nAnswer".uppercased(), subtitle: "\(noAnswers)"), PollSummaryItemViewModel(title: "PARTICIPATION\nPERCENTAGE", subtitle: "\(participationPercentage)%")])])
+        let model = PollSummaryViewModel(items: [PollSummaryItemRowViewModel(items: [PollSummaryItemViewModel(title: "NO. OF CORRECT\nANSWERS".uppercased(), subtitle: "\(correctAnswers)"), PollSummaryItemViewModel(title: "NO. OF INCORRECT\nANSWERS".uppercased(), subtitle: "\(incorrectAnswers)")])])
         summary = model
     }
-    
-    func setupPollAdminSummary() {
-        guard poll.state == .stopped, let pollResult = poll.result else { return }
-        let noAnswers = pollResult.maxUserCount - pollResult.userCount
-        
-        var participationPercentage = 0
-        if pollResult.maxUserCount > 0 {
-            participationPercentage = (pollResult.userCount * 100) / pollResult.maxUserCount
-        }
 
-        let model = PollSummaryViewModel(items: [ PollSummaryItemRowViewModel(items: [PollSummaryItemViewModel(title: "peers who didn’t\nAnswer".uppercased(), subtitle: "\(noAnswers)"), PollSummaryItemViewModel(title: "PARTICIPATION\nPERCENTAGE", subtitle: "\(participationPercentage)%")])])
-        summary = model
-    }
     
     func setupSummaryIfNeeded() {
         switch (poll.category, isAdmin) {
-        case (.poll, true):
-            setupPollAdminSummary()
         case (.quiz, true):
             setupQuizAdminSummary()
         case (.quiz, false):
