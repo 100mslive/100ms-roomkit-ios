@@ -93,16 +93,25 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    if ((roomModel.userRole?.permissions.pollWrite ?? false) || (roomModel.userRole?.permissions.pollRead ?? false)) {
+                    if ((roomModel.userRole?.permissions.pollWrite ?? false)) {
+                        
+                        HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: true, isDisabled: false)
+                            .onTapGesture {
+                                NotificationCenter.default.post(name: .init(rawValue: "poll-create"), object: nil)
+                                
+                                pollsOptionAppearance.badgeState.wrappedValue = .none
+                                
+                                dismiss()
+                            }
+                        
+                    }
+                    else if (roomModel.userRole?.permissions.pollRead ?? false) {
+                        
                         if !pollsOptionAppearance.isHidden.wrappedValue {
+                            
                             HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: true, isDisabled: false)
                                 .onTapGesture {
-                                    if roomModel.userRole?.permissions.pollWrite ?? false {
-                                        NotificationCenter.default.post(name: .init(rawValue: "poll-create"), object: nil)
-                                    }
-                                    else if roomModel.userRole?.permissions.pollRead ?? false {
-                                        NotificationCenter.default.post(name: .init(rawValue: "poll-view"), object: nil)
-                                    }
+                                    NotificationCenter.default.post(name: .init(rawValue: "poll-view"), object: nil)
                                     
                                     pollsOptionAppearance.badgeState.wrappedValue = .none
                                     
