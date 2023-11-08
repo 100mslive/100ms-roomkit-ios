@@ -16,6 +16,7 @@ class HMSRoomKitPollModel: ObservableObject {
     weak var roomModel: HMSRoomModel?
     
     func beginListeningForPolls() {
+        self.currentPolls.append(contentsOf: roomModel?.interactivityCenter.polls ?? [])
         roomModel?.interactivityCenter.addPollUpdateListner { [weak self] poll, update in
             guard let self else { return }
             switch update {

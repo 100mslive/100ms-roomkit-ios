@@ -35,17 +35,33 @@ internal extension EnvironmentValues {
         get { self[HMSChatBadgeState.Key.self] }
         set { self[HMSChatBadgeState.Key.self] = newValue }
     }
+}
+
+internal extension HMSOptionSheetView {
     
-    enum HMSPollsBadgeState {
-        case badged, none
+    struct PollsOptionAppearance {
+        public enum HMSPollsBadgeState {
+            case badged, none
+        }
+        
+        var badgeState: HMSPollsBadgeState
+        var isHidden: Bool
+        
+        public init(_ badgeState: HMSPollsBadgeState, isHidden: Bool) {
+            self.badgeState = badgeState
+            self.isHidden = isHidden
+        }
         
         struct Key: EnvironmentKey {
-            static let defaultValue: Binding<HMSPollsBadgeState> = .constant(.none)
+            static let defaultValue: Binding<PollsOptionAppearance> = .constant(.init(.none, isHidden: false))
         }
     }
-    
-    var pollsBadgeState: Binding<HMSPollsBadgeState> {
-        get { self[HMSPollsBadgeState.Key.self] }
-        set { self[HMSPollsBadgeState.Key.self] = newValue }
+}
+
+internal extension EnvironmentValues {
+
+    var pollsOptionAppearance: Binding<HMSOptionSheetView.PollsOptionAppearance> {
+        get { self[HMSOptionSheetView.PollsOptionAppearance.Key.self] }
+        set { self[HMSOptionSheetView.PollsOptionAppearance.Key.self] = newValue }
     }
 }

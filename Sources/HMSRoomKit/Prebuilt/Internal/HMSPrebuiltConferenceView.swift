@@ -9,18 +9,26 @@ import SwiftUI
 import HMSRoomModels
 import HMSSDK
 
+extension [PollVoteViewModel]: Identifiable {
+    public var id: Int {
+        self.count
+    }
+}
+
 struct HMSPrebuiltConferenceView: View {
     
-    @Environment(\.pollsBadgeState) var pollsBadgeState
+    @Environment(\.pollsOptionAppearance) var pollsOptionAppearance
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     @StateObject var roomKitModel = HMSRoomKitModel()
     
-    @StateObject var pollModel = HMSRoomKitPollModel()
+    @EnvironmentObject var pollModel: HMSRoomKitPollModel
     
     @State var pollVoteViewModel: PollVoteViewModel? = nil
     @State var pollCreateModel: PollCreateModel? = nil
+    
+    @State var pollVoteViewModels: [PollVoteViewModel]? = nil
     
     var body: some View {
         ZStack {
@@ -113,13 +121,7 @@ struct HMSPrebuiltConferenceView: View {
                 UIApplication.shared.isIdleTimerDisabled = true
             }
 #if !Preview
-            .onAppear() {
-                pollModel.roomModel = roomModel
-                pollModel.beginListeningForPolls()
-            }
             .onChange(of: pollModel.currentPolls) { currentPolls in
-                
-                pollsBadgeState.wrappedValue = currentPolls.count > 0 ? .badged : .none
                 
                 let existingPollNotificationIds = roomKitModel.notifications.filter {
                     if case .poll(_) = $0.type {
@@ -136,16 +138,16 @@ struct HMSPrebuiltConferenceView: View {
                 // Remove notification for peers who have lowered their hands
                 roomKitModel.removeNotification(for: pollsThatAreStopped)
                 
-                guard roomModel.userRole?.permissions.pollRead ?? false else { return }
+                guard (roomModel.userRole?.permissions.pollRead ?? false) || (roomModel.userRole?.permissions.pollWrite ?? false) else { return }
+                
+                pollsOptionAppearance.isHidden.wrappedValue = currentPolls.count < 1
                 
                 // add notification for each new peer
                 for newPoll in newPolls {
-                    
-                    // let's not show notification for self created poll. if poll doesn't have a createdBy field that means it was created by local peer.
-                    guard newPoll.createdBy != nil else { continue }
-                    
                     let notification = HMSRoomKitNotification(id: newPoll.pollID, type: .poll(type: newPoll.category), actor: newPoll.createdBy?.name ?? "", isDismissible: true, title: "\(newPoll.createdBy?.name ?? "") started a new \(newPoll.category == .poll ? "poll": "quiz")")
                     roomKitModel.addNotification(notification)
+                    
+                    pollsOptionAppearance.badgeState.wrappedValue = .badged
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-vote"))) { notification in
@@ -164,11 +166,33 @@ struct HMSPrebuiltConferenceView: View {
                     pollCreateModel = PollCreateModel(interactivityCenter: center, limitViewResultsToRoles: [role], currentRole: role)
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-view"))) { _ in
+                let center = roomModel.interactivityCenter
+//                guard let pollIdOfInterest: String = pollModel.currentPolls as? String else { return }
+                if let role = roomModel.localPeerModel?.peer.role {
+                    
+                    pollVoteViewModels = nil
+                    
+                    pollVoteViewModels = pollModel.currentPolls.map { poll in
+                        PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
+                    }
+                }
+            }
             .sheet(item: $pollVoteViewModel, content: { model in
                 PollVoteView(model: model)
             })
             .sheet(item: $pollCreateModel, content: { model in
                 PollCreateView(model: model)
+            })
+            .sheet(item: $pollVoteViewModels, content: { models in
+                ScrollView {
+                    ForEach(models) { model in
+                        PollVoteView(model: model)
+                    }
+                    .padding(.bottom, 30)
+                }
+                .background(HMSUIColorTheme().surfaceDefault)
+                .ignoresSafeArea()
             })
 #endif
             if !roomModel.roleChangeRequests.isEmpty {

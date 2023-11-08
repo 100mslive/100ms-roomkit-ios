@@ -61,6 +61,11 @@ struct PollVoteView: View {
                     }
                 }
             }.background(HMSUIColorTheme().surfaceDefault)
-        }.padding(.horizontal, 24).background(HMSUIColorTheme().surfaceDefault).onAppear(perform: model.load).ignoresSafeArea().navigationBarHidden(true)
+        }
+        .padding(.horizontal, 24)
+        .background(HMSUIColorTheme().surfaceDefault)
+        .onAppear(perform: model.load)
+        .ignoresSafeArea()
+        .navigationBarHidden(true)
     }
 }
