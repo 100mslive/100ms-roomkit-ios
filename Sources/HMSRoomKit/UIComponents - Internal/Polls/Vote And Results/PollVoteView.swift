@@ -47,7 +47,7 @@ struct PollVoteView: View {
                         PollVoteQuestionView(model: question)
                     }
                     
-                    if model.canEndPoll {
+                    if model.canEndPoll && model.poll.state != .stopped {
                         HStack {
                             Spacer()
                             Button {
