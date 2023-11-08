@@ -45,15 +45,15 @@ internal extension HMSOptionSheetView {
         }
         
         var badgeState: HMSPollsBadgeState
-        var isHidden: Bool
+        var containsItems: Bool
         
-        public init(_ badgeState: HMSPollsBadgeState, isHidden: Bool) {
+        public init(_ badgeState: HMSPollsBadgeState, containsItems: Bool) {
             self.badgeState = badgeState
-            self.isHidden = isHidden
+            self.containsItems = containsItems
         }
         
         struct Key: EnvironmentKey {
-            static let defaultValue: Binding<PollsOptionAppearance> = .constant(.init(.none, isHidden: false))
+            static let defaultValue: Binding<PollsOptionAppearance> = .constant(.init(.none, containsItems: false))
         }
     }
 }

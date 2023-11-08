@@ -95,7 +95,7 @@ struct HMSOptionSheetView: View {
                     
                     if ((roomModel.userRole?.permissions.pollWrite ?? false)) {
                         
-                        HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: true, isDisabled: false)
+                        HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: pollsOptionAppearance.containsItems.wrappedValue, isDisabled: false)
                             .onTapGesture {
                                 NotificationCenter.default.post(name: .init(rawValue: "poll-create"), object: nil)
                                 
@@ -107,7 +107,7 @@ struct HMSOptionSheetView: View {
                     }
                     else if (roomModel.userRole?.permissions.pollRead ?? false) {
                         
-                        if !pollsOptionAppearance.isHidden.wrappedValue {
+                        if pollsOptionAppearance.containsItems.wrappedValue {
                             
                             HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: true, isDisabled: false)
                                 .onTapGesture {

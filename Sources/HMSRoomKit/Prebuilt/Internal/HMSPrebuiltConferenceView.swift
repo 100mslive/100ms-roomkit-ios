@@ -140,7 +140,7 @@ struct HMSPrebuiltConferenceView: View {
                 
                 guard (roomModel.userRole?.permissions.pollRead ?? false) || (roomModel.userRole?.permissions.pollWrite ?? false) else { return }
                 
-                pollsOptionAppearance.isHidden.wrappedValue = currentPolls.count < 1
+                pollsOptionAppearance.containsItems.wrappedValue = currentPolls.count > 0
                 
                 // add notification for each new peer
                 for newPoll in newPolls {
