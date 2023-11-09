@@ -47,6 +47,7 @@ struct HMSRolePicker_Previews: PreviewProvider {
 #if Preview
         HMSRolePicker(roles: [.init(name: "Viewer"), .init(name: "Host")], recipient: .constant(.everyone))
             .environmentObject(HMSUITheme())
+            .environmentObject(HMSRoomModel.dummyRoom(2))
 #endif
     }
 }

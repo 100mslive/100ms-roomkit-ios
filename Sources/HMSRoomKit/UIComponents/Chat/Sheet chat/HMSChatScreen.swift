@@ -11,12 +11,17 @@ import HMSSDK
 import HMSRoomModels
 
 struct HMSChatScreen: View {
+    
+    @Environment(\.conferenceParams) var conferenceParams
+    
     @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @State var recipient: HMSRecipient = .everyone
     
     var body: some View {
+        
+        let chatScopes = conferenceParams.chat?.chatScopes
         
         let messages =  roomModel.messages
         
@@ -35,6 +40,7 @@ struct HMSChatScreen: View {
             }
             
             VStack(alignment: .leading, spacing: 8) {
+                HMSRolePicker(roles: [], recipient: $recipient)
                 HMSSendChatField(recipient: recipient)
                     .background(.surfaceDefault, cornerRadius: 8)
             }
@@ -43,6 +49,16 @@ struct HMSChatScreen: View {
         }
         .padding(.horizontal, 16)
         .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
+        .onAppear() {
+            if let chatScopes = chatScopes {
+                if chatScopes.contains(.public) {
+                    recipient = .everyone
+                }
+                else if chatScopes.contains(.roles(whiteList: nil)) {
+                    
+                }
+            }
+        }
     }
 }
 
