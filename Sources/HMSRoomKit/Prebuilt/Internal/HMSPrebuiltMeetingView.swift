@@ -33,6 +33,9 @@ struct HMSPrebuiltMeetingView: View {
             switch roomModel.roomState {
             case .inMeeting:
                 HMSPrebuiltConferenceView()
+                    .onDisappear() {
+                        pollModel.currentPolls.removeAll()
+                    }
             case .notJoined:
                 
                 switch roomInfoModel.previewType {
