@@ -782,6 +782,7 @@
 			children = (
 				87B53F2B2AEFBD5D0061DE1A /* Environment.swift */,
 				87B53F2C2AEFBD5D0061DE1A /* HMSRoomInfoModel.swift */,
+				878BD6172AF25D8D00581F88 /* HMSRoomKitPollModel.swift */,
 				87B53F2D2AEFBD5D0061DE1A /* HMSPrebuiltMeetingView.swift */,
 				878BD65A2AF2669A00581F88 /* HMSPrebuiltConferenceView.swift */,
 				87B53F2E2AEFBD5D0061DE1A /* HMSLoadingScreen.swift */,
@@ -1084,7 +1085,6 @@
 			isa = PBXGroup;
 			children = (
 				87B53FB82AEFBD5D0061DE1A /* HMSPreviewBottomOverlay.swift */,
-				878BD6172AF25D8D00581F88 /* HMSRoomKitPollModel.swift */,
 				87B53FB92AEFBD5D0061DE1A /* HMSPreviewRoleScreen.swift */,
 				87B53FBA2AEFBD5D0061DE1A /* HMSPreviewTopOverlay.swift */,
 				87B53FBB2AEFBD5D0061DE1A /* HMSPreviewRoleBottomOverlay.swift */,
