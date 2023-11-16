@@ -27,7 +27,7 @@ public struct HMSPrebuiltView: View {
             sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
         }
         
-        if let userName = options?.userName {
+        if let userName = options?.roomOptions?.userName {
             roomModel.userName = userName
         }
         
@@ -43,7 +43,7 @@ public struct HMSPrebuiltView: View {
             sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
         }
         
-        if let userName = options?.userName {
+        if let userName = options?.roomOptions?.userName {
             roomModel.userName = userName
         }
         
