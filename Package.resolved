@@ -5,8 +5,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/100mslive/100ms-roomkit-models-ios",
       "state" : {
-        "branch" : "main",
-        "revision" : "494b46d8e4399ac5a15618d92f63ebdc567278bf"
+        "revision" : "dc8701bf130c0ae787709342eb388836fa7c07cc",
+        "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "jwtdecode.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/auth0/JWTDecode.swift",
+      "state" : {
+        "revision" : "58af7278797871e460d79496621b3e5366b865b2",
+        "version" : "3.1.0"
       }
     },
     {
