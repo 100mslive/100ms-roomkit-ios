@@ -22,6 +22,7 @@ struct HMSChatScreen: View {
     var body: some View {
         
         let chatScopes = conferenceParams.chat?.chatScopes
+        let defaultScope = "everyone"
         
         let messages =  roomModel.messages
         
@@ -50,13 +51,12 @@ struct HMSChatScreen: View {
         .padding(.horizontal, 16)
         .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
         .onAppear() {
-            if let chatScopes = chatScopes {
-                if chatScopes.contains(.public) {
-                    recipient = .everyone
-                }
-                else if chatScopes.contains(.roles(whiteList: nil)) {
-                    
-                }
+            if defaultScope == "everyone" || defaultScope.isEmpty {
+                recipient = .everyone
+            }
+            else {
+                let defaultRole = roomModel.roles.filter{$0.name == defaultScope}
+                recipient = .role(defaultRole)
             }
         }
     }

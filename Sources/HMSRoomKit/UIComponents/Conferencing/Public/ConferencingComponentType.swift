@@ -72,14 +72,16 @@ extension HMSConferenceScreen {
             public struct Controls {
                 public let canDisableChat: Bool
                 public let canBlockUser: Bool
+                public let canHideMessage: Bool
                 
-                public init(canDisableChat: Bool, canBlockUser: Bool) {
+                public init(canDisableChat: Bool, canBlockUser: Bool, canHideMessage: Bool) {
                     self.canDisableChat = canDisableChat
                     self.canBlockUser = canBlockUser
+                    self.canHideMessage = canHideMessage
                 }
             }
             
-            public var controls: Controls = .init(canDisableChat: false, canBlockUser: false)
+            public var controls: Controls = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)
             
             public init(initialState: InitialState = .close,
                         isOverlay: Bool = false,
@@ -87,7 +89,7 @@ extension HMSConferenceScreen {
                         title: String = "Live chat",
                         messagePlaceholder: String = "Send a message",
                         chatScopes: [Scope] = [.public, .private, .roles(whiteList: nil)],
-                        controls: Controls = .init(canDisableChat: false, canBlockUser: false)) {
+                        controls: Controls = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)) {
                 self.initialState = initialState
                 self.isOverlay = isOverlay
                 self.allowsPinningMessages = allowsPinningMessages
