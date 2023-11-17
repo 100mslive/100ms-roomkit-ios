@@ -28,15 +28,21 @@ struct HMSRolePicker: View {
                     .frame(width: 16, height: 16)
                     .foreground(.onSurfaceMedium)
             }
+            else {
+                Image(assetName: "person-icon")
+                    .resizable()
+                    .frame(width: 16, height: 16)
+                    .foreground(.onSurfaceMedium)
+            }
             Text(recipient.toString())
                 .font(.captionRegular12)
                 .foreground(.onSurfaceHigh)
-            Image(assetName: "chevron-up")
-                .resizable()
-                .frame(width: 9, height: 5)
-                .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
-                .foreground(.onSurfaceHigh)
-                .padding(EdgeInsets(top: 5, leading: 3, bottom: 5, trailing: 3))
+//            Image(assetName: "chevron-up")
+//                .resizable()
+//                .frame(width: 9, height: 5)
+//                .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+//                .foreground(.onSurfaceHigh)
+//                .padding(EdgeInsets(top: 5, leading: 3, bottom: 5, trailing: 3))
         }
         .padding(4)
         .background(.surfaceBright, cornerRadius: 4, opacity: 0.64, border: .borderBright)

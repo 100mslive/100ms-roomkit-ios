@@ -481,7 +481,7 @@ struct HMSSearchField: View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foreground(.onSurfaceMedium)
-            TextField("", text: $searchText, prompt: Text(placeholder))
+            TextField("", text: $searchText, prompt: Text(placeholder).foregroundColor(currentTheme.colorTheme.onSurfaceLow))
                 .foreground(.onSurfaceMedium)
                 .font(.body2Regular14)
         }
