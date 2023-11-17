@@ -11,14 +11,43 @@ import HMSSDK
 import HMSRoomModels
 
 struct HMSRolePickerOptionsView: View {
+    
+    @Environment(\.conferenceParams) var conferenceParams
+    
     @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
     @Binding var selectedOption: HMSRecipient
     
     @State var searchQuery: String = ""
     @Environment(\.presentationMode) var presentationMode
-    
+
     var body: some View {
+        
+        let chatScopes = conferenceParams.chat?.chatScopes
+        
+        #if Preview
+        let whiteListedRoles: [PreviewRoleModel]? = nil
+        #else
+        var whiteListedRoles: [HMSRole]? {
+            
+            if let chatScopes = chatScopes {
+                if let roleScope = chatScopes.first(where: { scope in
+                    switch scope {
+                    case .roles(_):
+                        return true
+                    default:
+                        return false
+                    }
+                }) {
+                    if case let .roles(whiteList: whiteListedRoles) = roleScope {
+                        return whiteListedRoles
+                    }
+                }
+            }
+            return nil
+        }
+        #endif
+        
         VStack(spacing: 0) {
             HMSOptionsHeaderView(title: "Send Message To") {
                 presentationMode.wrappedValue.dismiss()
@@ -42,23 +71,32 @@ struct HMSRolePickerOptionsView: View {
                         .padding(EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 0))
                     }
                     HMSDivider(color: currentTheme.colorTheme.borderBright)
-                    Text("Roles")
-                        .font(.overlineMedium)
-                        .foreground(.onSurfaceMedium)
-                        .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
-                    ForEach(roomModel.roles, id: \.name) { role in
-                        Button {
-                            selectedOption = .role(role)
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Text(role.name.capitalized)
-                                .font(.subtitle2Semibold14)
-                                .foreground(.onSurfaceHigh)
-                                .padding(.vertical, 14)
-                                .padding(.horizontal, 24)
-                        }
+                    
+                    if let whiteListedRoles = whiteListedRoles, whiteListedRoles.count < 1 {
                     }
-                    HMSDivider(color: currentTheme.colorTheme.borderBright)
+                    else {
+                        
+                        Text("Roles")
+                            .font(.overlineMedium)
+                            .foreground(.onSurfaceMedium)
+                            .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
+                        
+                        ForEach((whiteListedRoles != nil && whiteListedRoles!.count > 0) ? whiteListedRoles! : roomModel.roles, id: \.name) { role in
+                            Button {
+                                selectedOption = .role(role)
+                                presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                Text(role.name.capitalized)
+                                    .font(.subtitle2Semibold14)
+                                    .foreground(.onSurfaceHigh)
+                                    .padding(.vertical, 14)
+                                    .padding(.horizontal, 24)
+                            }
+                        }
+                        
+                        HMSDivider(color: currentTheme.colorTheme.borderBright)
+                    }
+                    
                     Text("Participants")
                         .font(.overlineMedium)
                         .foreground(.onSurfaceMedium)
@@ -81,7 +119,7 @@ struct HMSRolePickerOptionsView: View {
                     }
                 }
             }
-            
+            .fixedSize(horizontal: false, vertical: true)
         }
         .background(.surfaceDefault, cornerRadius: 8, ignoringEdges: .all)
     }
@@ -91,7 +129,7 @@ struct HMSRolePickerOptionsView: View {
 struct HMSRolePickerOptionsView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSRolePickerOptionsView(selectedOption: .constant(.everyone)).environmentObject(HMSUITheme()).environmentObject(HMSRoomModel.dummyRoom(20))
+        HMSRolePickerOptionsView(selectedOption: .constant(.everyone)).environmentObject(HMSUITheme()).environmentObject(HMSRoomModel.dummyRoom(3))
 #endif
     }
 }

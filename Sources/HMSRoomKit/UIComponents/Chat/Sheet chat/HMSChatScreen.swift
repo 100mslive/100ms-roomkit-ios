@@ -12,17 +12,14 @@ import HMSRoomModels
 
 struct HMSChatScreen: View {
     
-    @Environment(\.conferenceParams) var conferenceParams
-    
     @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @State var recipient: HMSRecipient = .everyone
     
+    @State private var isPopoverPresented: Bool = false
+    
     var body: some View {
-        
-        let chatScopes = conferenceParams.chat?.chatScopes
-        let defaultScope = "everyone"
         
         let messages =  roomModel.messages
         
@@ -41,7 +38,26 @@ struct HMSChatScreen: View {
             }
             
             VStack(alignment: .leading, spacing: 8) {
-                HMSRolePicker(roles: [], recipient: $recipient)
+                HStack {
+                    Text("To")
+                        .foreground(.onSurfaceMedium)
+                        .font(.captionRegular12)
+                    HMSRolePicker(recipient: $recipient)
+                    
+                    Image(systemName: "magnifyingglass")
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                        .foreground(.onSurfaceMedium)
+                        .onTapGesture {
+                            isPopoverPresented = true
+                        }
+                        .sheet(isPresented: $isPopoverPresented) {
+                            HMSSheet {
+                                HMSRolePickerOptionsView(selectedOption: $recipient)
+                            }
+                            .edgesIgnoringSafeArea(.all)
+                        }
+                }
                 HMSSendChatField(recipient: recipient)
                     .background(.surfaceDefault, cornerRadius: 8)
             }
@@ -50,15 +66,6 @@ struct HMSChatScreen: View {
         }
         .padding(.horizontal, 16)
         .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
-        .onAppear() {
-            if defaultScope == "everyone" || defaultScope.isEmpty {
-                recipient = .everyone
-            }
-            else {
-                let defaultRole = roomModel.roles.filter{$0.name == defaultScope}
-                recipient = .role(defaultRole)
-            }
-        }
     }
 }
 
