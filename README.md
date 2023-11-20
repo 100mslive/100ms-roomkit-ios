@@ -9,7 +9,7 @@ RoomKit SDK for iOS enables you to integrate our production-ready conferencing a
 - NSMicrophoneUsageDescription (ie. Privacy - Microphone Usage Description) in info.plist of your app
 - NSCameraUsageDescription (ie. Privacy - Camera Usage Description) in info.plist of your app
 
-👀 To see an example app implementation of a conferencing/livestreaming app using 100ms RoomKit SDK, checkout the [example folder](https://github.com/100mslive/100ms-roomkit-ios/tree/main/HMSRoomKitExample).
+👀 To see an example app implementation of a conferencing/livestreaming app using 100ms RoomKit SDK, checkout the [example repository](https://github.com/100mslive/100ms-roomkit-example).
 
 To experience the example app made using RoomKit, you can download the app from **TestFlight** to your iOS device here: https://testflight.apple.com/join/Pb4aTS0t
 
@@ -143,8 +143,8 @@ This code allows you to conditionally display the Prebuilt Screen based on user 
 
 # How to make changes, debug, preview and contribute to RoomKit
 
-1. Clone https://github.com/100mslive/100ms-roomkit-ios and https://github.com/100mslive/100ms-roomkit-models-ios in same folder.
-2. Open **HMSRoomKitDevelopmentProject** Xcode project inside **100ms-roomkit-ios** repo.
+1. Clone https://github.com/100mslive/100ms-roomkit-ios, https://github.com/100mslive/100ms-roomkit-models-ios and https://github.com/100mslive/100ms-roomkit-example in same folder.
+2. Open **HMSRoomKitDevelopmentProject** Xcode project inside **100ms-roomkit-example** repo.
 
 <img width="864" alt="Screenshot 2023-09-13 at 5 37 57 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/4a10c272-a986-44ce-a1e4-2bdecd388a47">
 
