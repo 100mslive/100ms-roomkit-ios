@@ -9,7 +9,7 @@ RoomKit SDK for iOS enables you to integrate our production-ready conferencing a
 - NSMicrophoneUsageDescription (ie. Privacy - Microphone Usage Description) in info.plist of your app
 - NSCameraUsageDescription (ie. Privacy - Camera Usage Description) in info.plist of your app
 
-👀 To see an example app implementation of a conferencing/livestreaming app using 100ms RoomKit SDK, checkout the [example folder](https://github.com/100mslive/100ms-roomkit-ios/tree/main/HMSRoomKitExample).
+👀 To see an example app implementation of a conferencing/livestreaming app using 100ms RoomKit SDK, checkout the [example repository](https://github.com/100mslive/100ms-roomkit-example).
 
 To experience the example app made using RoomKit, you can download the app from **TestFlight** to your iOS device here: https://testflight.apple.com/join/Pb4aTS0t
 
@@ -143,24 +143,19 @@ This code allows you to conditionally display the Prebuilt Screen based on user 
 
 # How to make changes, debug, preview and contribute to RoomKit
 
-1. Clone https://github.com/100mslive/100ms-roomkit-ios and https://github.com/100mslive/100ms-roomkit-models-ios in same folder.
-2. Open **HMSRoomKitDevelopmentProject** Xcode project inside **100ms-roomkit-ios** repo.
+1. Clone https://github.com/100mslive/100ms-roomkit-ios, https://github.com/100mslive/100ms-roomkit-models-ios and https://github.com/100mslive/100ms-roomkit-example in same folder.
+2. Open **HMSRoomKitDevelopmentProject** Xcode project inside **100ms-roomkit-example** repo.
 
-<img width="864" alt="Screenshot 2023-09-13 at 5 37 57 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/4a10c272-a986-44ce-a1e4-2bdecd388a47">
+<img width="906" alt="Screenshot 2023-11-20 at 2 15 02 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/ab54a8e5-8884-44d6-80b5-b844a91eded8">
 
 3. In HMSRoomKitDevelopmentProject Xcode project, use **HMSRoomKitDevelopment** target scheme to run the app in simulator or device. Use **HMSRoomKitPreview** target to see SwiftUI preview of files under **HMSRoomKit folder** (HMSRoomKit source files).
 
 <img width="348" alt="Screenshot 2023-09-13 at 5 44 58 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/dff9264c-966f-4487-bb1c-a7d3d0f22b0b">
 
-5. You can make changes to files in HMSRoomKit folder (**HMSRoomKit source files**) or HMSRoomModels folder (**HMSRoomModels source files**) to add a feature/improvement or fix any issue.
+5. Before making changes, drag and drop local instances of 100ms-roomkit-ios and 100ms-roomkit-models-ios repo to Xcode so that development project uses editable version of the local SPM repo. You can make changes to files in HMSRoomKit folder (**HMSRoomKit source files**) or HMSRoomModels folder (**HMSRoomModels source files**) to add a feature/improvement or fix any issue.
 
-<img width="380" alt="Screenshot 2023-09-13 at 5 40 07 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/779aad71-9bee-4d42-bb2b-c7a875f37f31">
+<img width="317" alt="Screenshot 2023-11-20 at 2 16 21 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/41415b08-1093-4372-b47a-8a6225350cab">
 
 7. Once you are done, create PRs with your changes to **main branch** of **respective repos**.
 
 <img width="993" alt="Screenshot 2023-09-13 at 5 51 01 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/d1102bde-e081-4857-af2b-4bb969feeffb">
-
-
-Following demo video shows you how to setup RoomKit in your Mac and use HMSRoomKitDevelopment project to contribute to RoomKit:
-
-![Demo Video](https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/72f2279e-f6bd-4b54-ad97-271f37ca5faf)
