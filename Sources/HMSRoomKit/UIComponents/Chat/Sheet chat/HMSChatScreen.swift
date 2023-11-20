@@ -17,8 +17,6 @@ struct HMSChatScreen: View {
     
     @State var recipient: HMSRecipient = .everyone
     
-    @State private var isPopoverPresented: Bool = false
-    
     var body: some View {
         
         let messages =  roomModel.messages
@@ -44,19 +42,10 @@ struct HMSChatScreen: View {
                         .font(.captionRegular12)
                     HMSRolePicker(recipient: $recipient)
                     
-                    Image(systemName: "magnifyingglass")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                        .foreground(.onSurfaceMedium)
-                        .onTapGesture {
-                            isPopoverPresented = true
-                        }
-                        .sheet(isPresented: $isPopoverPresented) {
-                            HMSSheet {
-                                HMSRolePickerOptionsView(selectedOption: $recipient)
-                            }
-                            .edgesIgnoringSafeArea(.all)
-                        }
+//                    Image(systemName: "magnifyingglass")
+//                        .resizable()
+//                        .frame(width: 16, height: 16)
+//                        .foreground(.onSurfaceMedium)
                 }
                 HMSSendChatField(recipient: recipient)
                     .background(.surfaceDefault, cornerRadius: 8)

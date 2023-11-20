@@ -64,7 +64,7 @@ extension HMSConferenceScreen {
             public enum Scope: Equatable {
                 case `public`
                 case `private`
-                case roles(whiteList: [HMSRole]?)
+                case roles(whiteList: [String]?)
             }
             
             public var chatScopes: [Scope] = [.public, .private, .roles(whiteList: nil)]
