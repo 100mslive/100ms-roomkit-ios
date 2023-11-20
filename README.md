@@ -152,7 +152,7 @@ This code allows you to conditionally display the Prebuilt Screen based on user 
 
 <img width="348" alt="Screenshot 2023-09-13 at 5 44 58 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/dff9264c-966f-4487-bb1c-a7d3d0f22b0b">
 
-5. You can make changes to files in HMSRoomKit folder (**HMSRoomKit source files**) or HMSRoomModels folder (**HMSRoomModels source files**) to add a feature/improvement or fix any issue.
+5. Before making changes, drag and drop local instances of 100ms-roomkit-ios and 100ms-roomkit-models-ios repo to Xcode so that development project uses editable version of the local SPM repo. You can make changes to files in HMSRoomKit folder (**HMSRoomKit source files**) or HMSRoomModels folder (**HMSRoomModels source files**) to add a feature/improvement or fix any issue.
 
 <img width="380" alt="Screenshot 2023-09-13 at 5 40 07 PM" src="https://github.com/100mslive/100ms-roomkit-ios/assets/103245157/779aad71-9bee-4d42-bb2b-c7a875f37f31">
 
