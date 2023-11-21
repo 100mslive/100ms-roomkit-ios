@@ -16,14 +16,12 @@ struct HMSChatListView: View {
     private let messageCoordinateSpace = "messageCoordinateSpace"
     @State private var showNewMessageButton: Bool = false
     
+    @Binding var recipient: HMSRecipient
     var isTransparentMode = false
 
     var body: some View {
-        #if !Preview
-        let messages = roomModel.messages.reversed().map { HMSMessageModel(message: $0) }
-        #else
+        
         let messages = roomModel.messages
-        #endif
         
         ScrollViewReader { scrollView in
             ScrollView(showsIndicators: false) {
@@ -33,15 +31,32 @@ struct HMSChatListView: View {
                     Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: offset)
                 }
                 LazyVStack(spacing: 0) {
-                    ForEach(messages) { message in
-                        HMSChatMessageView(messageModel: message, isPartOfTransparentChat: isTransparentMode).id(message.id).mirrorV()
+                    ForEach(messages.filter({ message in
+                        #if !Preview
+                        switch recipient {
+                        case .everyone:
+                            return true
+                        case .peer(let peer):
+                            guard let peer, message.recipient.type == .peer else { return false }
+                            return message.recipient.peerRecipient == peer.peer
+                        case .role(let role):
+                            guard message.recipient.type == .roles else { return false }
+                            return message.recipient.rolesRecipient?.contains(role) ?? false
+                        }
+                        #else
+                        return true
+                        #endif
+                    }), id:\.messageID) { message in
+                        HMSChatMessageView(messageModel: message, isPartOfTransparentChat: isTransparentMode)
+                            .id(message.messageID)
+                            .mirrorV()
                     }
                 }
             }
             .overlay(alignment: .top) {
                 if showNewMessageButton {
                     HMSNewMessagesButton().onTapGesture {
-                        if let lastId = messages.first?.id {
+                        if let lastId = messages.first?.messageID {
                             withAnimation {
                                 scrollView.scrollTo(lastId, anchor: nil)
                             }
@@ -58,13 +73,13 @@ struct HMSChatListView: View {
                 }
             }
             .onChange(of: messages) { messages in
-                if let lastId = messages.first?.id {
+                if let lastId = messages.first?.messageID {
                     withAnimation {
                         scrollView.scrollTo(lastId, anchor: nil)
                     }
                 }
             }.onAppear() {
-                if let lastId = messages.first?.id {
+                if let lastId = messages.first?.messageID {
                     withAnimation {
                         scrollView.scrollTo(lastId, anchor: nil)
                     }
@@ -86,7 +101,7 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
 struct HMSChatListView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSChatListView()
+        HMSChatListView(recipient: .constant(.everyone))
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(4))
 #endif

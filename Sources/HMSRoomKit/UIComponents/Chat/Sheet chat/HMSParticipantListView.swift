@@ -159,7 +159,7 @@ class HMSParticipantListViewModel {
     }
     
     
-    static func makeSectionedPeers(from peers: [HMSPeerModel], roles: [RoleType], offStageRoles: [String], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeSectionedPeers(from peers: [HMSPeerModel], roles: [HMSRole], offStageRoles: [String], searchQuery: String) -> [PeerSectionViewModel] {
         
         let roleSectionMap = roles.reduce(into: [String: PeerSectionViewModel]()) {
             let newSection = PeerSectionViewModel(name: $1.name)

@@ -26,7 +26,7 @@ struct HMSChatScreen: View {
                 if messages.isEmpty {
                     HMSChatPlaceholderView()
                 }
-                HMSChatListView()
+                HMSChatListView(recipient: $recipient)
             }
             
             if let pinnedMessage = roomModel.pinnedMessage, !pinnedMessage.isEmpty {

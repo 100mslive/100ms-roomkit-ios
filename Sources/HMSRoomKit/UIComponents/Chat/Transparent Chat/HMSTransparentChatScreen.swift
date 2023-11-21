@@ -19,7 +19,7 @@ struct HMSTransparentChatScreen: View {
     
     var body: some View {
         VStack {
-            HMSChatListView(isTransparentMode: isTransparentMode)
+            HMSChatListView(recipient: $recipient, isTransparentMode: isTransparentMode)
             
             if let pinnedMessage = roomModel.pinnedMessage, !pinnedMessage.isEmpty {
                 HMSPinnedChatMessageView(text: pinnedMessage, isPartOfTransparentChat: true) {
