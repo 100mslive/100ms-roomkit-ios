@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSSendChatField: View {
     
+    @Environment(\.conferenceParams) var conferenceParams
+    
     @Environment(\.keyboardState) private var keyboardState
     
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -25,35 +27,37 @@ struct HMSSendChatField: View {
     @FocusState private var isFocused: Bool
     
     var body: some View {
-        HStack(spacing: 16) {
-            TextField("Send a message...", text: $message, prompt: Text("Send a message...")
-                .foregroundColor(currentTheme.colorTheme.onSurfaceLow))
-            .textInputAutocapitalization(.sentences)
-            .focused($isFocused)
-            .onChange(of: isFocused, perform: { newValue in
-                keyboardState.wrappedValue = isFocused ? .visible : .hidden
-            })
-            .foreground(.onSurfaceHigh)
-            .font(.body1Regular16)
-            .onChange(of: message) { messsage in
-                inputValid = !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            }
-            Image(assetName: "send")
-                .foreground(inputValid ? .onSurfaceHigh : .onSurfaceLow)
-                .onTapGesture {
-                    guard inputValid else { return }
-                    Task {
-                        try await roomModel.send(message: message, to: recipient)
-                        message = ""
-                    }
+        if let chat = conferenceParams.chat {
+            HStack(spacing: 16) {
+                TextField("Send a message...", text: $message, prompt: Text(chat.messagePlaceholder)
+                    .foregroundColor(currentTheme.colorTheme.onSurfaceLow))
+                .textInputAutocapitalization(.sentences)
+                .focused($isFocused)
+                .onChange(of: isFocused, perform: { newValue in
+                    keyboardState.wrappedValue = isFocused ? .visible : .hidden
+                })
+                .foreground(.onSurfaceHigh)
+                .font(.body1Regular16)
+                .onChange(of: message) { messsage in
+                    inputValid = !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                 }
+                Image(assetName: "send")
+                    .foreground(inputValid ? .onSurfaceHigh : .onSurfaceLow)
+                    .onTapGesture {
+                        guard inputValid else { return }
+                        Task {
+                            try await roomModel.send(message: message, to: recipient)
+                            message = ""
+                        }
+                    }
+            }
+            .padding(.horizontal)
+            .frame(height: 40)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(currentTheme.colorTheme.primaryDefault, lineWidth: isFocused ? 1 : 0)
+            )
         }
-        .padding(.horizontal)
-        .frame(height: 40)
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(currentTheme.colorTheme.primaryDefault, lineWidth: isFocused ? 1 : 0)
-        )
     }
 }
 
