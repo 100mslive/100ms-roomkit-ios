@@ -11,7 +11,7 @@ import HMSSDK
 import SwiftUI
 import HMSRoomModels
 
-// Objects share in the room, available to all peer to read and write
+// Objects shared in the room, available to all peer to read and write
 extension HMSRoomModel {
     static let spotlightKey = "spotlight"
     var spotlightedPeer: HMSPeerModel? {
@@ -24,15 +24,26 @@ extension HMSRoomModel {
         }
     }
     
-    static let pinnedMessageKey = "pinnedMessage"
-    var pinnedMessage: String? {
+    static let pinnedMessageKey = "pinnedMessages"
+    var pinnedMessages: [String] {
         get {
-            sharedStore?[HMSRoomModel.pinnedMessageKey] as? String
+            sharedStore?[HMSRoomModel.pinnedMessageKey] as? [String] ?? []
         }
         set {
             sharedStore?[HMSRoomModel.pinnedMessageKey] = newValue
         }
     }
+    
+    static let chatPeerBlacklistKey = "chatPeerBlacklist"
+    var chatPeerBlacklist: [String] {
+        get {
+            sharedStore?[HMSRoomModel.chatPeerBlacklistKey] as? [String] ?? []
+        }
+        set {
+            sharedStore?[HMSRoomModel.chatPeerBlacklistKey] = newValue
+        }
+    }
+    
 }
 
 // Data in in-memory reactive store

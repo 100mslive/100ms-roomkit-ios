@@ -20,7 +20,6 @@ struct HMSChatMessageView: View {
     var isPartOfTransparentChat: Bool
     
     @State var isPopoverPresented = false
-    @State var action: HMSMessageOptionsView.Action = .none
     
     var formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -59,10 +58,13 @@ struct HMSChatMessageView: View {
                                 .padding(.horizontal, 9)
                         }
                         .foreground(.onSurfaceMedium)
-                        .popover(present: $isPopoverPresented) {
-                            HMSMessageOptionsView(action: $action, isPresented: $isPopoverPresented)
-                                .environmentObject(theme)
-                        }
+                        .sheet(isPresented: $isPopoverPresented, content: {
+                            HMSSheet {
+                                HMSMessageOptionsView(messageModel: messageModel)
+                            }
+                            .edgesIgnoringSafeArea(.all)
+                            .environmentObject(theme)
+                        })
                     }
                 }
                 .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
@@ -78,24 +80,13 @@ struct HMSChatMessageView: View {
         }
         .padding(12)
         .cornerRadius(8)
-        .onChange(of: action) { value in
-            switch value {
-            case .pin:
-                roomModel.pinnedMessage = "\(String(describing: messageModel.sender)): \(messageModel.message)"
-            case .copy:
-                UIPasteboard.general.string = messageModel.message
-            case .none:
-                break
-                
-            }
-        }
     }
 }
 
 struct HMSChatMessageView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSChatMessageView(messageModel: .init(message: "hello"), isPartOfTransparentChat: true)
+        HMSChatMessageView(messageModel: .init(message: "hello"), isPartOfTransparentChat: false)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(3))
 #endif

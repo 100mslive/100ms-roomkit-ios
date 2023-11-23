@@ -51,7 +51,7 @@ struct HMSRolePickerOptionsView: View {
         
         if let chatScopes {
             VStack(spacing: 0) {
-                HMSOptionsHeaderView(title: "Send Message To") {
+                HMSOptionsHeaderView(title: "Send message to") {
                     presentationMode.wrappedValue.dismiss()
                 } onBack: {}
                 HStack {

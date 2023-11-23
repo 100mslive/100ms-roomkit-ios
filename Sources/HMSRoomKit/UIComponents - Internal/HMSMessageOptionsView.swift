@@ -8,56 +8,89 @@
 
 import SwiftUI
 import HMSRoomModels
+import HMSSDK
 
 struct HMSMessageOptionsView: View {
-    enum Action: Equatable {
-    case pin
-    case copy
-    case none
-    }
     
-    @Binding var action: Action
-    @Binding var isPresented: Bool
+    @EnvironmentObject var roomModel: HMSRoomModel
+    let messageModel: HMSMessage
+    
     @EnvironmentObject var currentTheme: HMSUITheme
+    
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         
         VStack(alignment: .leading, spacing: 0) {
+            
             HStack {
-                Image(assetName: "pin").frame(width: 20, height: 20)
-                Text("Pin Message").font(.subtitle2Semibold14)
+                Text("Message Options")
+                    .foreground(.onSurfaceHigh)
+                    .font(.subtitle2Semibold16)
+                
+                Spacer()
+                
+                HMSXMarkView()
+                    .onTapGesture {
+                        dismiss()
+                    }
             }
-            .padding(.vertical, 16)
-            .padding(.horizontal, 12)
-            .onTapGesture {
-                action = .none
-                action = .pin
-                isPresented = false
-            }
+            .padding(.horizontal, 24)
+            
             HMSDivider(color: currentTheme.colorTheme.borderBright).frame(width: 172)
+            
+            HStack {
+                Image(assetName: "pin")
+                    .frame(width: 20, height: 20)
+                Text("Pin")
+                    .font(.subtitle2Semibold14)
+                
+                Spacer()
+            }
+            .padding(16)
+            .onTapGesture {
+                roomModel.pinnedMessages.append("\(String(describing: messageModel.sender)): \(messageModel.message)")
+                dismiss()
+            }
+
             HStack {
                 Image(assetName: "copy").frame(width: 20, height: 20)
-                Text("Copy Message").font(.subtitle2Semibold14)
+                Text("Copy Text").font(.subtitle2Semibold14)
+                
+                Spacer()
             }
-            .padding(.vertical, 16)
-            .padding(.horizontal, 12)
+            .padding(16)
             .onTapGesture {
-                action = .none
-                action = .copy
-                isPresented = false
+                UIPasteboard.general.string = messageModel.message
+                dismiss()
             }
             
-             
+            HStack {
+                Image(assetName: "circle-minus")
+                    .frame(width: 20, height: 20)
+                Text("Block from Chat")
+                    .font(.subtitle2Semibold14)
+                
+                Spacer()
+            }
+            .foreground(.errorDefault)
+            .padding(16)
+            .onTapGesture {
+                if let sender = messageModel.sender, let customerUserID = sender.customerUserID {
+                    roomModel.chatPeerBlacklist.append(customerUserID)
+                }
+                dismiss()
+            }
         }
         .foreground(.onSurfaceHigh)
-        .background(.surfaceDefault, cornerRadius: 8, border: .borderBright)
+        .background(.surfaceDefault, cornerRadius: 8, border: .borderBright, ignoringEdges: .all)
     }
 }
 
 struct HMSMessageOptionsView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSMessageOptionsView(action: .constant(.copy), isPresented: .constant(true))
+        HMSMessageOptionsView(messageModel: HMSMessage(message: "hey"))
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(3))
 #endif

@@ -28,6 +28,8 @@ extension HMSUIFontTheme {
              return subtitle1
          case .subtitle2Semibold14:
              return subtitle2Semibold14
+         case .subtitle2Semibold16:
+             return subtitle2Semibold16
          case .buttonSemibold16:
              return buttonSemibold16
          case .overlineMedium:
@@ -51,6 +53,7 @@ public enum HMSThemeFont {
     case body2Semibold14
     case subtitle1
     case subtitle2Semibold14
+    case subtitle2Semibold16
     case buttonSemibold16
     case overlineMedium
     case heading6Semibold20

@@ -32,6 +32,12 @@ struct HMSChatListView: View {
                 }
                 LazyVStack(spacing: 0) {
                     ForEach(messages.filter({ message in
+                        
+                        // Don't show messages from blacklisted user ids
+                        if let customerUserID = message.sender?.customerUserID, roomModel.chatPeerBlacklist.contains(customerUserID) {
+                            return false
+                        }
+                        
                         #if !Preview
                         switch recipient {
                         case .everyone:
