@@ -16,64 +16,94 @@ struct HMSChatListView: View {
     private let messageCoordinateSpace = "messageCoordinateSpace"
     @State private var showNewMessageButton: Bool = false
     
-    @Binding var recipient: HMSRecipient
+    @Binding var recipient: HMSRecipient?
     var isTransparentMode = false
 
     var body: some View {
         
-        let messages = roomModel.messages
-        
-        VStack {
+        if isTransparentMode {
+            VStack {
+                messageListView
+                pinnedMessageView
+            }
+        }
+        else {
+            VStack {
+                pinnedMessageView
+                messageListView
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var pinnedMessageView: some View {
+        if roomModel.pinnedMessages.count > 0 {
             
-            if roomModel.pinnedMessages.count > 0 {
-                GeometryReader { proxy in
-                    TabView {
-                        ForEach(roomModel.pinnedMessages.suffix(3).reversed(), id:\.self) { message in
-                            HMSPinnedChatMessageView(pinnedMessage: message, isPartOfTransparentChat: true) {
-                                roomModel.pinnedMessages.removeAll{$0 == message}
+            VStack {
+                if roomModel.pinnedMessages.count < 2, let firstMessage = roomModel.pinnedMessages.first {
+                    HMSPinnedChatMessageView(pinnedMessage:firstMessage, isPartOfTransparentChat: true) {
+                        roomModel.pinnedMessages.removeAll{$0 == firstMessage}
+                    }
+                }
+                else {
+                    GeometryReader { proxy in
+                        TabView {
+                            ForEach(roomModel.pinnedMessages.suffix(3).reversed(), id:\.self) { message in
+                                HMSPinnedChatMessageView(pinnedMessage: message, isPartOfTransparentChat: true) {
+                                    roomModel.pinnedMessages.removeAll{$0 == message}
+                                }
+                                .padding(.leading, 30)
                             }
-                            .padding(.leading, 30)
+                            .rotationEffect(.degrees(-90)) // Rotate content
+                            .frame(
+                                width: proxy.size.width,
+                                height: proxy.size.height
+                            )
                         }
-                        .rotationEffect(.degrees(-90)) // Rotate content
                         .frame(
-                            width: proxy.size.width,
-                            height: proxy.size.height
+                            width: 60, // Height & width swap
+                            height: proxy.size.width
+                        )
+                        .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
+                        .offset(x: proxy.size.width) // Offset back into screens bounds
+                        .tabViewStyle(
+                            PageTabViewStyle(indexDisplayMode: .always)
                         )
                     }
-                    .frame(
-                        width: 60, // Height & width swap
-                        height: proxy.size.width
-                    )
-                    .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
-                    .offset(x: proxy.size.width) // Offset back into screens bounds
-                    .tabViewStyle(
-                        PageTabViewStyle(indexDisplayMode: .always)
-                    )
+                    .frame(height: 60)
                 }
-                .frame(height: 60)
-                .background(.surfaceDefault, cornerRadius: 8)
             }
-            
-            ScrollViewReader { scrollView in
-                ScrollView(showsIndicators: false) {
-                    GeometryReader { proxy in
-                        let frame = proxy.frame(in: .named(messageCoordinateSpace))
-                        let offset = frame.minY
-                        Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: offset)
-                    }
-                    LazyVStack(spacing: 0) {
-                        
-                        let filteredMessages = messages.filter({ message in
+            .background(.surfaceDefault, cornerRadius: 8)
+        }
+    }
+    
+    @ViewBuilder
+    var messageListView: some View {
+        
+        let messages = roomModel.messages
+        
+        ScrollViewReader { scrollView in
+            ScrollView(showsIndicators: false) {
+                GeometryReader { proxy in
+                    let frame = proxy.frame(in: .named(messageCoordinateSpace))
+                    let offset = frame.minY
+                    Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: offset)
+                }
+                LazyVStack(spacing: 0) {
+                    
+                    let filteredMessages = messages.filter({ message in
 #if Preview
-                            return true
+                        return true
 #else
-                            // Don't show service messages
-                            guard let sender = message.sender else { return false }
-                            
-                            // Don't show messages from blacklisted user ids
-                            if let customerUserID = sender.customerUserID, roomModel.chatPeerBlacklist.contains(customerUserID) {
-                                return false
-                            }
+                        // Don't show service messages
+                        guard let sender = message.sender else { return false }
+                        
+                        // Don't show messages from blacklisted user ids
+                        if let customerUserID = sender.customerUserID, roomModel.chatPeerBlacklist.contains(customerUserID) {
+                            return false
+                        }
+                        
+                        if let recipient {
                             switch recipient {
                             case .everyone:
                                 return message.recipient.type == .broadcast
@@ -86,46 +116,50 @@ struct HMSChatListView: View {
                                 guard message.recipient.type == .roles else { return false }
                                 return message.recipient.rolesRecipient?.contains(role) ?? false
                             }
+                        }
+                        else {
+                            // if we don't have recipient then show public messages
+                            return message.recipient.type == .broadcast
+                        }
 #endif
-                        })
-                        
-                        ForEach(filteredMessages, id:\.self) { message in
-                            HMSChatMessageView(messageModel: message, isPartOfTransparentChat: isTransparentMode)
-                                .id(message.messageID)
-                                .mirrorV()
-                        }
+                    })
+                    
+                    ForEach(filteredMessages, id:\.self) { message in
+                        HMSChatMessageView(messageModel: message, isPartOfTransparentChat: isTransparentMode)
+                            .id(message.messageID)
+                            .mirrorV()
                     }
                 }
-                .overlay(alignment: .top) {
-                    if showNewMessageButton {
-                        HMSNewMessagesButton().onTapGesture {
-                            if let lastId = messages.first?.messageID {
-                                withAnimation {
-                                    scrollView.scrollTo(lastId, anchor: nil)
-                                }
+            }
+            .overlay(alignment: .top) {
+                if showNewMessageButton {
+                    HMSNewMessagesButton().onTapGesture {
+                        if let lastId = messages.first?.messageID {
+                            withAnimation {
+                                scrollView.scrollTo(lastId, anchor: nil)
                             }
-                        }.mirrorV()
+                        }
+                    }.mirrorV()
+                }
+            }
+            .coordinateSpace(name: messageCoordinateSpace)
+            .mirrorV()
+            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { offset in
+                DispatchQueue.main.async {
+                    let newOffset = offset ?? 0
+                    showNewMessageButton = newOffset < -20
+                }
+            }
+            .onChange(of: messages) { messages in
+                if let lastId = messages.first?.messageID {
+                    withAnimation {
+                        scrollView.scrollTo(lastId, anchor: nil)
                     }
                 }
-                .coordinateSpace(name: messageCoordinateSpace)
-                .mirrorV()
-                .onPreferenceChange(ScrollOffsetPreferenceKey.self) { offset in
-                    DispatchQueue.main.async {
-                        let newOffset = offset ?? 0
-                        showNewMessageButton = newOffset < -20
-                    }
-                }
-                .onChange(of: messages) { messages in
-                    if let lastId = messages.first?.messageID {
-                        withAnimation {
-                            scrollView.scrollTo(lastId, anchor: nil)
-                        }
-                    }
-                }.onAppear() {
-                    if let lastId = messages.first?.messageID {
-                        withAnimation {
-                            scrollView.scrollTo(lastId, anchor: nil)
-                        }
+            }.onAppear() {
+                if let lastId = messages.first?.messageID {
+                    withAnimation {
+                        scrollView.scrollTo(lastId, anchor: nil)
                     }
                 }
             }

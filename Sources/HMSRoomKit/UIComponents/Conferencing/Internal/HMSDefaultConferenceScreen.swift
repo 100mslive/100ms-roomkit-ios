@@ -265,7 +265,7 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
             return model
         }()
         
-        HMSDefaultConferenceScreen(isHLSViewer: false)
+        HMSDefaultConferenceScreen(isHLSViewer: true)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(HMSPrebuiltOptions())

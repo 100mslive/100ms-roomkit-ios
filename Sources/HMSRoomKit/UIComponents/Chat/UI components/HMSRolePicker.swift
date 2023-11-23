@@ -37,82 +37,45 @@ struct HMSRolePicker: View {
             })
         }
         
-        var allowedRoles: [HMSRole] {
-            
-            if let chatScopes = chatScopes {
-                if let roleScope = chatScopes.first(where: { scope in
-                    switch scope {
-                    case .roles(_):
-                        return true
-                    default:
-                        return false
-                    }
-                }) {
-                    if case let .roles(whiteList: whiteListedRoles) = roleScope {
-                        
-                        
-                        if whiteListedRoles != nil { return roomModel.roles.filter{whiteListedRoles!.contains($0.name)}
-                        }
-                    }
-                }
+        HStack {
+            if recipient.toString() == "Everyone" {
+                Image(assetName: "people-icon")
+                    .resizable()
+                    .frame(width: 16, height: 16)
+                    .foreground(.onSurfaceMedium)
             }
+            else {
+                Image(assetName: "person-icon")
+                    .resizable()
+                    .frame(width: 16, height: 16)
+                    .foreground(.onSurfaceMedium)
+            }
+            Text(recipient.toString())
+                .font(.captionRegular12)
+                .foreground(.onSurfaceHigh)
             
-            // by default all available roles are allowed
-            return roomModel.roles
+            if multipleRecipientsAvailable {
+                Image(assetName: "chevron-up")
+                    .resizable()
+                    .frame(width: 9, height: 5)
+                    .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+                    .foreground(.onSurfaceHigh)
+                    .padding(EdgeInsets(top: 5, leading: 3, bottom: 5, trailing: 3))
+            }
+        }
+        .padding(4)
+        .background(.surfaceBright, cornerRadius: 4, opacity: 0.64, border: .borderBright)
+        .onTapGesture {
+            guard multipleRecipientsAvailable else { return }
+            isPopoverPresented = true
+        }
+        .sheet(isPresented: $isPopoverPresented) {
+            HMSSheet {
+                HMSRolePickerOptionsView(selectedOption: $recipient)
+            }
+            .edgesIgnoringSafeArea(.all)
         }
         
-        if let chatScopes {
-            
-            HStack {
-                if recipient.toString() == "Everyone" {
-                    Image(assetName: "people-icon")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                        .foreground(.onSurfaceMedium)
-                }
-                else {
-                    Image(assetName: "person-icon")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                        .foreground(.onSurfaceMedium)
-                }
-                Text(recipient.toString())
-                    .font(.captionRegular12)
-                    .foreground(.onSurfaceHigh)
-                
-                if multipleRecipientsAvailable {
-                    Image(assetName: "chevron-up")
-                        .resizable()
-                        .frame(width: 9, height: 5)
-                        .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
-                        .foreground(.onSurfaceHigh)
-                        .padding(EdgeInsets(top: 5, leading: 3, bottom: 5, trailing: 3))
-                }
-            }
-            .padding(4)
-            .background(.surfaceBright, cornerRadius: 4, opacity: 0.64, border: .borderBright)
-            .onTapGesture {
-                guard multipleRecipientsAvailable else { return }
-                isPopoverPresented = true
-            }
-            .sheet(isPresented: $isPopoverPresented) {
-                HMSSheet {
-                    HMSRolePickerOptionsView(selectedOption: $recipient)
-                }
-                .edgesIgnoringSafeArea(.all)
-            }
-            .onAppear() {
-                if chatScopes.contains(.public) {
-                    recipient = .everyone
-                }
-                else if let firstWhiteListedRole = allowedRoles.first {
-                    recipient = .role(firstWhiteListedRole)
-                }
-                else {
-                    recipient = .peer(nil)
-                }
-            }
-        }
     }
 }
 

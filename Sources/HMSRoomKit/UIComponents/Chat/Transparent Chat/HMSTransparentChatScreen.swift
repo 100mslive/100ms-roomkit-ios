@@ -13,20 +13,23 @@ import HMSRoomModels
 struct HMSTransparentChatScreen: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
-    @State var recipient: HMSRecipient = .everyone
+    @State var recipient: HMSRecipient?
     
-    var isTransparentMode = false
+    var isTransparentMode = true
     
     var body: some View {
-        VStack {
-            
-            HMSChatListView(recipient: $recipient, isTransparentMode: isTransparentMode)
-                        
-            HMSBottomChatStrip()
-                .onTapGesture {
-                    // to make sure it does not trigger controls hide action
-                }
-        }
+        
+        HMSChatScreen(isTransparentMode: true)
+        
+//        VStack {
+//            
+//            HMSChatListView(recipient: $recipient, isTransparentMode: isTransparentMode)
+//                        
+//            HMSBottomChatStrip()
+//                .onTapGesture {
+//                    // to make sure it does not trigger controls hide action
+//                }
+//        }
     }
 }
 

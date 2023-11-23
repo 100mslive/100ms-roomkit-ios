@@ -85,6 +85,8 @@ struct HMSPrebuiltMeetingView_Previews: PreviewProvider {
 #if Preview
         HMSPrebuiltMeetingView(){}
             .environmentObject(HMSRoomModel.dummyRoom(3))
+            .environmentObject(HMSRoomInfoModel())
+            .environmentObject(HMSUITheme())
 #endif
     }
 }
