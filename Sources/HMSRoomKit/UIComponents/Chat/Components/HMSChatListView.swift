@@ -23,71 +23,109 @@ struct HMSChatListView: View {
         
         let messages = roomModel.messages
         
-        ScrollViewReader { scrollView in
-            ScrollView(showsIndicators: false) {
+        VStack {
+            
+            if roomModel.pinnedMessages.count > 0 {
                 GeometryReader { proxy in
-                    let frame = proxy.frame(in: .named(messageCoordinateSpace))
-                    let offset = frame.minY
-                    Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: offset)
-                }
-                LazyVStack(spacing: 0) {
-                    ForEach(messages.filter({ message in
-                        
-                        // Don't show messages from blacklisted user ids
-                        if let customerUserID = message.sender?.customerUserID, roomModel.chatPeerBlacklist.contains(customerUserID) {
-                            return false
-                        }
-                        
-                        #if !Preview
-                        switch recipient {
-                        case .everyone:
-                            return message.recipient.type == .broadcast
-                        case .peer(let peer):
-                            guard let peer, message.recipient.type == .peer else { return false }
-                            return message.recipient.peerRecipient == peer.peer
-                        case .role(let role):
-                            guard message.recipient.type == .roles else { return false }
-                            return message.recipient.rolesRecipient?.contains(role) ?? false
-                        }
-                        #else
-                        return true
-                        #endif
-                    }), id:\.messageID) { message in
-                        HMSChatMessageView(messageModel: message, isPartOfTransparentChat: isTransparentMode)
-                            .id(message.messageID)
-                            .mirrorV()
-                    }
-                }
-            }
-            .overlay(alignment: .top) {
-                if showNewMessageButton {
-                    HMSNewMessagesButton().onTapGesture {
-                        if let lastId = messages.first?.messageID {
-                            withAnimation {
-                                scrollView.scrollTo(lastId, anchor: nil)
+                    TabView {
+                        ForEach(roomModel.pinnedMessages.suffix(3), id:\.self) { message in
+                            HMSPinnedChatMessageView(text: message, isPartOfTransparentChat: true) {
+                                roomModel.pinnedMessages.removeAll{$0 == message}
                             }
+                            .padding(.leading, 30)
                         }
-                    }.mirrorV()
+                        .rotationEffect(.degrees(-90)) // Rotate content
+                        .frame(
+                            width: proxy.size.width,
+                            height: proxy.size.height
+                        )
+                    }
+                    .frame(
+                        width: 60, // Height & width swap
+                        height: proxy.size.width
+                    )
+                    .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
+                    .offset(x: proxy.size.width) // Offset back into screens bounds
+                    .tabViewStyle(
+                        PageTabViewStyle(indexDisplayMode: .always)
+                    )
                 }
+                .frame(height: 60)
+                .background(.surfaceDefault, cornerRadius: 8)
             }
-            .coordinateSpace(name: messageCoordinateSpace)
-            .mirrorV()
-            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { offset in
-                DispatchQueue.main.async {
-                    let newOffset = offset ?? 0
-                    showNewMessageButton = newOffset < -20
-                }
-            }
-            .onChange(of: messages) { messages in
-                if let lastId = messages.first?.messageID {
-                    withAnimation {
-                        scrollView.scrollTo(lastId, anchor: nil)
+            
+            ScrollViewReader { scrollView in
+                ScrollView(showsIndicators: false) {
+                    GeometryReader { proxy in
+                        let frame = proxy.frame(in: .named(messageCoordinateSpace))
+                        let offset = frame.minY
+                        Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: offset)
+                    }
+                    LazyVStack(spacing: 0) {
+                        
+                        let filteredMessages = messages.filter({ message in
+#if Preview
+                            return true
+#else
+                            // Don't show service messages
+                            guard let sender = message.sender else { return false }
+                            
+                            // Don't show messages from blacklisted user ids
+                            if let customerUserID = sender.customerUserID, roomModel.chatPeerBlacklist.contains(customerUserID) {
+                                return false
+                            }
+                            switch recipient {
+                            case .everyone:
+                                return message.recipient.type == .broadcast
+                            case .peer(let peer):
+                                
+                                guard let peer, message.recipient.type == .peer else { return false }
+                                return message.recipient.peerRecipient == peer.peer
+                                
+                            case .role(let role):
+                                guard message.recipient.type == .roles else { return false }
+                                return message.recipient.rolesRecipient?.contains(role) ?? false
+                            }
+#endif
+                        })
+                        
+                        ForEach(filteredMessages, id:\.self) { message in
+                            HMSChatMessageView(messageModel: message, isPartOfTransparentChat: isTransparentMode)
+                                .id(message.messageID)
+                                .mirrorV()
+                        }
                     }
                 }
-            }.onAppear() {
-                if let lastId = messages.first?.messageID {
-                    withAnimation {
-                        scrollView.scrollTo(lastId, anchor: nil)
+                .overlay(alignment: .top) {
+                    if showNewMessageButton {
+                        HMSNewMessagesButton().onTapGesture {
+                            if let lastId = messages.first?.messageID {
+                                withAnimation {
+                                    scrollView.scrollTo(lastId, anchor: nil)
+                                }
+                            }
+                        }.mirrorV()
+                    }
+                }
+                .coordinateSpace(name: messageCoordinateSpace)
+                .mirrorV()
+                .onPreferenceChange(ScrollOffsetPreferenceKey.self) { offset in
+                    DispatchQueue.main.async {
+                        let newOffset = offset ?? 0
+                        showNewMessageButton = newOffset < -20
+                    }
+                }
+                .onChange(of: messages) { messages in
+                    if let lastId = messages.first?.messageID {
+                        withAnimation {
+                            scrollView.scrollTo(lastId, anchor: nil)
+                        }
+                    }
+                }.onAppear() {
+                    if let lastId = messages.first?.messageID {
+                        withAnimation {
+                            scrollView.scrollTo(lastId, anchor: nil)
+                        }
                     }
                 }
             }

@@ -82,7 +82,8 @@ struct HMSChatParticipantToggleView: View {
                     case .chat:
                         HMSChatScreen()
                     case .participants:
-                        HMSParticipantListView().environment(\.mainSheetDismiss, { dismiss() })
+                        HMSParticipantListView()
+                            .environment(\.mainSheetDismiss, { dismiss() })
                     }
                 }.background(.surfaceDim, cornerRadius: 0)
             }
@@ -93,7 +94,8 @@ struct HMSChatParticipantToggleView: View {
 struct HMSChatParticipantToggleView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSChatParticipantToggleView().environmentObject(HMSUITheme())
+        HMSChatParticipantToggleView()
+            .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(5))
 #endif
     }

@@ -15,27 +15,34 @@ struct HMSPinnedChatMessageView: View {
     var onUnpin: (() -> Void)
     
     var body: some View {
-        HStack(alignment: .center, spacing: 12) {
-            Image(systemName: "pin").foreground(.onSurfaceMedium)
+        HStack(alignment: .center, spacing: 8) {
+            
+            Image(systemName: "pin")
+                .foreground(.onSurfaceMedium)
+            
             Text(text)
-                .font(.captionRegular12)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(2)
+                .font(.captionSemibold12)
                 .foreground(isPartOfTransparentChat ? .white : .onSurfaceHigh)
                 .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
                 .frame(maxWidth: .infinity, alignment: .leading)
+            
             Button {
                 onUnpin()
             } label: {
                 Image(systemName: "xmark")
-            }.foreground(.onSurfaceMedium)
+            }
+            .foreground(.onSurfaceMedium)
         }
-        .padding(12)
+        .padding(8)
         .cornerRadius(8)
     }
 }
 
 struct HMSPinnedChatMessageView_Previews: PreviewProvider {
     static var previews: some View {
-        HMSPinnedChatMessageView(text: "This is pinned message", isPartOfTransparentChat: true) {}
+        HMSPinnedChatMessageView(text: "This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message", isPartOfTransparentChat: true) {}
             .environmentObject(HMSUITheme())
     }
 }

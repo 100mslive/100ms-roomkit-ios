@@ -12,7 +12,7 @@ struct HMSNewMessagesButton: View {
     var body: some View {
         HStack(spacing: 0) {
             Text("New messages")
-                .font(.captionSemibold)
+                .font(.captionSemibold12)
                 .foreground(.onSecondaryHigh)
                 .padding(.horizontal, 8)
             Image(assetName: "chevron-down-large")

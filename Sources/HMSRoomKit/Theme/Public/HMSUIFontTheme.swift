@@ -11,7 +11,7 @@ import Combine
 
 public class HMSUIFontTheme: ObservableObject {
     public var captionRegular = Font(UIFont(name: "Inter-Regular", size: 12) ?? .systemFont(ofSize: 12))
-    public var captionSemibold = Font(UIFont(name: "Inter-SemiBold", size: 12) ?? .systemFont(ofSize: 12, weight: .semibold))
+    public var captionSemibold12 = Font(UIFont(name: "Inter-SemiBold", size: 12) ?? .systemFont(ofSize: 12, weight: .semibold))
     public var body2Regular14 =  Font(UIFont(name: "Inter-Regular", size: 14) ?? .systemFont(ofSize: 14))
     public var body1Regular16 =  Font(UIFont(name: "Inter-Regular", size: 16) ?? .systemFont(ofSize: 16))
     public var body1Semibold16 =  Font(UIFont(name: "Inter-SemiBold", size: 16) ?? .systemFont(ofSize: 16, weight: .semibold))
