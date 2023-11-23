@@ -84,7 +84,7 @@ struct HMSRolePickerOptionsView: View {
                                 .foreground(.onSurfaceMedium)
                                 .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
                             
-                            ForEach(allowedRoles, id: \.name) { role in
+                            ForEach(allowedRoles.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}, id: \.name) { role in
                                 Button {
                                     selectedOption = .role(role)
                                     presentationMode.wrappedValue.dismiss()
@@ -105,7 +105,7 @@ struct HMSRolePickerOptionsView: View {
                                 .font(.overlineMedium)
                                 .foreground(.onSurfaceMedium)
                                 .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
-                            ForEach(roomModel.remotePeerModels.filter({ searchQuery.isEmpty ? true : $0.name.contains(searchQuery) })) { peer in
+                            ForEach(roomModel.remotePeerModels.filter({ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery) })) { peer in
                                 Button {
                                     selectedOption = .peer(peer)
                                     presentationMode.wrappedValue.dismiss()
