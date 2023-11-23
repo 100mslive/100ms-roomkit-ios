@@ -49,7 +49,7 @@ struct HMSMessageOptionsView: View {
             }
             .padding(16)
             .onTapGesture {
-                roomModel.pinnedMessages.append("\(String(describing: messageModel.sender)): \(messageModel.message)")
+                roomModel.pinnedMessages.append(.init(text: messageModel.message, id: messageModel.messageID, pinnedBy: roomModel.userName))
                 dismiss()
             }
 

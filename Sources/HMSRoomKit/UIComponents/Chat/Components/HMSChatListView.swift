@@ -28,8 +28,8 @@ struct HMSChatListView: View {
             if roomModel.pinnedMessages.count > 0 {
                 GeometryReader { proxy in
                     TabView {
-                        ForEach(roomModel.pinnedMessages.suffix(3), id:\.self) { message in
-                            HMSPinnedChatMessageView(text: message, isPartOfTransparentChat: true) {
+                        ForEach(roomModel.pinnedMessages.suffix(3).reversed(), id:\.self) { message in
+                            HMSPinnedChatMessageView(pinnedMessage: message, isPartOfTransparentChat: true) {
                                 roomModel.pinnedMessages.removeAll{$0 == message}
                             }
                             .padding(.leading, 30)

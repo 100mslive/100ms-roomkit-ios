@@ -7,10 +7,11 @@
 //
 
 import SwiftUI
+import HMSRoomModels
 
 struct HMSPinnedChatMessageView: View {
     
-    let text: String
+    let pinnedMessage: HMSRoomModel.PinnedMessage
     var isPartOfTransparentChat: Bool
     var onUnpin: (() -> Void)
     
@@ -20,7 +21,7 @@ struct HMSPinnedChatMessageView: View {
             Image(systemName: "pin")
                 .foreground(.onSurfaceMedium)
             
-            Text(text)
+            Text(pinnedMessage.text)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(2)
                 .font(.captionSemibold12)
@@ -42,7 +43,7 @@ struct HMSPinnedChatMessageView: View {
 
 struct HMSPinnedChatMessageView_Previews: PreviewProvider {
     static var previews: some View {
-        HMSPinnedChatMessageView(text: "This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message", isPartOfTransparentChat: true) {}
+        HMSPinnedChatMessageView(pinnedMessage: .init(text: "This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message", id: "1", pinnedBy: "dummy user"), isPartOfTransparentChat: true) {}
             .environmentObject(HMSUITheme())
     }
 }

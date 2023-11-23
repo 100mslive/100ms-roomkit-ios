@@ -24,10 +24,20 @@ extension HMSRoomModel {
         }
     }
     
+    struct PinnedMessage: Codable, Equatable, Hashable {
+        var text: String
+        var id: String
+        var pinnedBy: String
+    }
     static let pinnedMessageKey = "pinnedMessages"
-    var pinnedMessages: [String] {
+    var pinnedMessages: [PinnedMessage] {
         get {
-            sharedStore?[HMSRoomModel.pinnedMessageKey] as? [String] ?? []
+            if let array = sharedStore?[HMSRoomModel.pinnedMessageKey] as? [[String: Any]] {
+                return array.map{PinnedMessage(text: $0["text"] as? String ?? "", id: $0["id"] as? String ?? "", pinnedBy: $0["pinned_by"] as? String ?? "")}
+            }
+            else {
+                return []
+            }
         }
         set {
             sharedStore?[HMSRoomModel.pinnedMessageKey] = newValue
