@@ -35,7 +35,7 @@ struct HMSChatListView: View {
                         #if !Preview
                         switch recipient {
                         case .everyone:
-                            return true
+                            return message.recipient.type == .broadcast
                         case .peer(let peer):
                             guard let peer, message.recipient.type == .peer else { return false }
                             return message.recipient.peerRecipient == peer.peer
