@@ -84,7 +84,19 @@ struct HMSRolePickerOptionsView: View {
                                 .foreground(.onSurfaceMedium)
                                 .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
                             
-                            ForEach(allowedRoles.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}, id: \.name) { role in
+                            ForEach(allowedRoles.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}.sorted(by: {
+#if Preview
+                                return true
+#else
+                                
+                                let peerRecipients = roomModel.messages.compactMap{$0.recipient.rolesRecipient}.flatMap{$0}.reversed()
+                                guard let index1 = peerRecipients.firstIndex(of: $0),
+                                      let index2 = peerRecipients.firstIndex(of: $1) else {
+                                    return false
+                                }
+                                return index1 < index2
+#endif
+                            }), id: \.name) { role in
                                 Button {
                                     selectedOption = .role(role)
                                     presentationMode.wrappedValue.dismiss()
@@ -105,7 +117,21 @@ struct HMSRolePickerOptionsView: View {
                                 .font(.overlineMedium)
                                 .foreground(.onSurfaceMedium)
                                 .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
-                            ForEach(roomModel.remotePeerModels.filter({ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery) })) { peer in
+                            ForEach(roomModel.remotePeerModels.filter({ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery) }).sorted(by: {
+                                
+#if Preview
+                                return true
+#else
+                                
+                                let peerRecipients = roomModel.messages.compactMap{$0.recipient.peerRecipient}.reversed()
+                                guard let index1 = peerRecipients.firstIndex(of: $0.peer),
+                                      let index2 = peerRecipients.firstIndex(of: $1.peer) else {
+                                    return false
+                                }
+                                return index1 < index2
+#endif
+                                
+                            })) { peer in
                                 Button {
                                     selectedOption = .peer(peer)
                                     presentationMode.wrappedValue.dismiss()
