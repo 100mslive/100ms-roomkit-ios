@@ -113,9 +113,16 @@ struct HMSChatScreen: View {
 struct HMSChatView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSChatScreen()
-            .environmentObject(HMSUITheme())
-            .environmentObject(HMSRoomModel.dummyRoom(3))
+        VStack {
+            HMSChatScreen()
+                .environmentObject(HMSUITheme())
+                .environmentObject(HMSRoomModel.dummyRoom(3))
+            
+            HMSChatScreen(isTransparentMode: true)
+                .environmentObject(HMSUITheme())
+                .environmentObject(HMSRoomModel.dummyRoom(3))
+            
+        }
 #endif
     }
 }

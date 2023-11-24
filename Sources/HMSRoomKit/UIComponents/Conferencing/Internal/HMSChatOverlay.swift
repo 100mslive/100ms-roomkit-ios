@@ -30,7 +30,7 @@ struct HMSChatOverlay: View {
                     // transparent chat
                     if isChatPresented {
                         
-                        HMSTransparentChatScreen()
+                        HMSChatScreen(isTransparentMode: true)
                             .frame(maxHeight: 332)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(isHLSViewer ? [.horizontal, .top] : [.horizontal, .vertical], 8)
