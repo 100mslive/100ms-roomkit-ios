@@ -18,7 +18,7 @@ public struct HMSConferenceScreen: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
-    @EnvironmentObject var roomKitModel: HMSRoomKitModel
+    @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
     
     let isDefaultType: Bool
     
@@ -86,7 +86,7 @@ struct HMSConferenceScreen_Previews: PreviewProvider {
         HMSConferenceScreen(.default())
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
-            .environmentObject(HMSRoomKitModel())
+            .environmentObject(HMSRoomNotificationModel())
             .environmentObject(HMSRoomInfoModel())
             .environment(\.conferenceParams, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
 #endif

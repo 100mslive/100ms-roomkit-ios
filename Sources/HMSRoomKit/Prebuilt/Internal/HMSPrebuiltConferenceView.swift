@@ -21,7 +21,7 @@ struct HMSPrebuiltConferenceView: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
-    @StateObject var roomKitModel = HMSRoomKitModel()
+    @StateObject var roomKitModel = HMSRoomNotificationModel()
     
     @EnvironmentObject var pollModel: HMSRoomKitPollModel
     

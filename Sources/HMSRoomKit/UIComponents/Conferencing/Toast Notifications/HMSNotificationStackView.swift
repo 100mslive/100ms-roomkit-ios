@@ -15,7 +15,7 @@ struct HMSNotificationStackView: View {
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
-    @EnvironmentObject var roomKitModel: HMSRoomKitModel
+    @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
     @EnvironmentObject var currentTheme: HMSUITheme
     
     @State var isHandRaisedSheetPresented = false
@@ -123,8 +123,8 @@ struct HMSNotificationStackView: View {
 struct HMSNotificationStackView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        let model: HMSRoomKitModel = {
-            let model = HMSRoomKitModel()
+        let model: HMSRoomNotificationModel = {
+            let model = HMSRoomNotificationModel()
             model.notifications.append(.init(id: "id1", type: .handRaised, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
             model.notifications.append(.init(id: "id2", type: .handRaised, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
             model.notifications.append(.init(id: "id3", type: .handRaised, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))

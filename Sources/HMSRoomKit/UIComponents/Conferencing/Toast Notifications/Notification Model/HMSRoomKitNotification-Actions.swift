@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-extension HMSRoomKitModel {
+extension HMSRoomNotificationModel {
     
     var activeNotifications: [HMSRoomKitNotification] {
         notifications.filter{!$0.isDismissed}
