@@ -12,6 +12,8 @@ import HMSSDK
 
 struct HMSMessageOptionsView: View {
     
+    @Environment(\.conferenceParams) var conferenceParams
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     let messageModel: HMSMessage
     
@@ -19,7 +21,11 @@ struct HMSMessageOptionsView: View {
     
     @Environment(\.dismiss) var dismiss
     
+    @Binding var recipient: HMSRecipient?
+    
     var body: some View {
+        
+        let isPrivateChatScopeAvailable = conferenceParams.chat?.chatScopes.contains(.private) ?? false
         
         VStack(alignment: .leading, spacing: 0) {
             
@@ -38,6 +44,28 @@ struct HMSMessageOptionsView: View {
             .padding(.horizontal, 24)
             
             HMSDivider(color: currentTheme.colorTheme.borderBright).frame(width: 172)
+            
+            
+            if isPrivateChatScopeAvailable, let sender = messageModel.sender {
+                HStack {
+                    Image(assetName: "person-plus")
+                        .frame(width: 20, height: 20)
+                    Text("Message privately")
+                        .font(.subtitle2Semibold14)
+                    
+                    Spacer()
+                }
+                .foreground(.onSurfaceHigh)
+                .padding(16)
+                .onTapGesture {
+                    #if !Preview
+                    if let peer = roomModel.peerModels.first(where: {$0.peer == sender}) {
+                        recipient = .peer(peer)
+                    }
+                    #endif
+                    dismiss()
+                }
+            }
             
             HStack {
                 Image(assetName: "pin")
@@ -105,7 +133,7 @@ struct HMSMessageOptionsView: View {
 struct HMSMessageOptionsView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSMessageOptionsView(messageModel: HMSMessage(message: "hey"))
+        HMSMessageOptionsView(messageModel: HMSMessage(message: "hey"), recipient: .constant(.everyone))
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(3))
 #endif

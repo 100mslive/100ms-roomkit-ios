@@ -271,7 +271,7 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
             .environmentObject(HMSPrebuiltOptions())
             .environmentObject(HMSRoomInfoModel())
             .environmentObject(roomKitModel)
-            .environment(\.conferenceParams, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
+            .environment(\.conferenceParams, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true, chatScopes: [.private, .public]), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
 #endif
     }
 }

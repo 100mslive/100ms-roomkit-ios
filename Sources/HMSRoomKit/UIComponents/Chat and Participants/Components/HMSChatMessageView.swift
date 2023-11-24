@@ -18,6 +18,7 @@ struct HMSChatMessageView: View {
     
     let messageModel: HMSMessage
     var isPartOfTransparentChat: Bool
+    @Binding var recipient: HMSRecipient?
     
     @State var isPopoverPresented = false
     
@@ -60,7 +61,7 @@ struct HMSChatMessageView: View {
                         .foreground(.onSurfaceLow)
                         .sheet(isPresented: $isPopoverPresented, content: {
                             HMSSheet {
-                                HMSMessageOptionsView(messageModel: messageModel)
+                                HMSMessageOptionsView(messageModel: messageModel, recipient: $recipient)
                             }
                             .edgesIgnoringSafeArea(.all)
                             .environmentObject(theme)
@@ -86,7 +87,7 @@ struct HMSChatMessageView: View {
 struct HMSChatMessageView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSChatMessageView(messageModel: .init(message: "hello"), isPartOfTransparentChat: false)
+        HMSChatMessageView(messageModel: .init(message: "hello"), isPartOfTransparentChat: false, recipient: .constant(.everyone))
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(3))
 #endif
