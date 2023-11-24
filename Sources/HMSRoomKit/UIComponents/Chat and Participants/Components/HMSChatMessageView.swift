@@ -44,7 +44,7 @@ struct HMSChatMessageView: View {
                     
                     Spacer()
                     
-                    if !isPartOfTransparentChat {
+//                    if !isPartOfTransparentChat {
                         Button() {
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
@@ -57,7 +57,7 @@ struct HMSChatMessageView: View {
                                 .frame(width: 3.33, height: 15)
                                 .padding(.horizontal, 9)
                         }
-                        .foreground(.onSurfaceMedium)
+                        .foreground(.onSurfaceLow)
                         .sheet(isPresented: $isPopoverPresented, content: {
                             HMSSheet {
                                 HMSMessageOptionsView(messageModel: messageModel)
@@ -65,7 +65,7 @@ struct HMSChatMessageView: View {
                             .edgesIgnoringSafeArea(.all)
                             .environmentObject(theme)
                         })
-                    }
+//                    }
                 }
                 .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
                 .frame(maxWidth: .infinity)

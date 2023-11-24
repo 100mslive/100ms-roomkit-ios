@@ -33,12 +33,7 @@ extension HMSRoomModel {
     var pinnedMessages: [PinnedMessage] {
         get {
 #if Preview
-            if let array = sharedStore?[HMSRoomModel.pinnedMessageKey] as? [PinnedMessage] {
-                return array
-            }
-            else {
-                return []
-            }
+            sharedStore?[HMSRoomModel.pinnedMessageKey] as? [PinnedMessage] ?? []
 #else
             if let array = sharedStore?[HMSRoomModel.pinnedMessageKey] as? [[String: Any]] {
                 return array.map{PinnedMessage(text: $0["text"] as? String ?? "", id: $0["id"] as? String ?? "", pinnedBy: $0["pinned_by"] as? String ?? "")}
@@ -63,6 +58,15 @@ extension HMSRoomModel {
         }
     }
     
+    static let chatMessageBlacklistKey = "chatMessageBlacklist"
+    var chatMessageBlacklist: [String] {
+        get {
+            sharedStore?[HMSRoomModel.chatMessageBlacklistKey] as? [String] ?? []
+        }
+        set {
+            sharedStore?[HMSRoomModel.chatMessageBlacklistKey] = newValue
+        }
+    }
 }
 
 // Data in in-memory reactive store

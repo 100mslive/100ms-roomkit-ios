@@ -103,6 +103,9 @@ struct HMSChatListView: View {
                             return false
                         }
                         
+                        // Don't show hidden messages
+                        guard !roomModel.chatMessageBlacklist.contains(message.messageID) else { return false }
+                        
                         if let recipient {
                             switch recipient {
                             case .everyone:
