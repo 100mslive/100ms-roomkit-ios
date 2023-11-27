@@ -68,9 +68,19 @@ struct HMSRolePickerOptionsView: View {
                                     Text(HMSRecipient.everyone.toString())
                                         .font(.subtitle2Semibold14)
                                         .foreground(.onSurfaceHigh)
+                                    
+                                    Spacer()
+                                    
+                                    if selectedOption == .everyone {
+                                        Image(assetName: "checkmark")
+                                            .resizable()
+                                            .foreground(.onSurfaceHigh)
+                                            .frame(width: 20, height: 20)
+                                    }
                                 }
-                                .padding(EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 0))
+                                .padding(EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24))
                             }
+                            .buttonStyle(.plain)
                             HMSDivider(color: currentTheme.colorTheme.borderBright)
                         }
                         
@@ -98,12 +108,25 @@ struct HMSRolePickerOptionsView: View {
                                     selectedOption = .role(role)
                                     presentationMode.wrappedValue.dismiss()
                                 } label: {
-                                    Text(role.name.capitalized)
-                                        .font(.subtitle2Semibold14)
-                                        .foreground(.onSurfaceHigh)
-                                        .padding(.vertical, 14)
-                                        .padding(.horizontal, 24)
+                                    HStack {
+                                        Text(role.name.capitalized)
+                                            .font(.subtitle2Semibold14)
+                                            .foreground(.onSurfaceHigh)
+                                            .padding(.vertical, 14)
+                                            .padding(.horizontal, 24)
+                                        
+                                        Spacer()
+                                        
+                                        if selectedOption == .role(role) {
+                                            Image(assetName: "checkmark")
+                                                .resizable()
+                                                .foreground(.onSurfaceHigh)
+                                                .frame(width: 20, height: 20)
+                                        }
+                                    }
+                                    .padding(.trailing, 24)
                                 }
+                                .buttonStyle(.plain)
                             }
                             
                             HMSDivider(color: currentTheme.colorTheme.borderBright)
@@ -133,12 +156,25 @@ struct HMSRolePickerOptionsView: View {
                                     selectedOption = .peer(peer)
                                     presentationMode.wrappedValue.dismiss()
                                 } label: {
-                                    Text(peer.name)
-                                        .font(.subtitle2Semibold14)
-                                        .foreground(.onSurfaceHigh)
-                                        .padding(.vertical, 14)
-                                        .padding(.horizontal, 24)
+                                    HStack {
+                                        Text(peer.name)
+                                            .font(.subtitle2Semibold14)
+                                            .foreground(.onSurfaceHigh)
+                                            .padding(.vertical, 14)
+                                            .padding(.horizontal, 24)
+                                        
+                                        Spacer()
+                                        
+                                        if selectedOption == .peer(peer) {
+                                            Image(assetName: "checkmark")
+                                                .resizable()
+                                                .foreground(.onSurfaceHigh)
+                                                .frame(width: 20, height: 20)
+                                        }
+                                    }
+                                    .padding(.trailing, 24)
                                 }
+                                .buttonStyle(.plain)
                             }
                         }
                     }
