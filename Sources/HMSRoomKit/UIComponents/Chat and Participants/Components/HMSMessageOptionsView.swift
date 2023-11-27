@@ -27,6 +27,10 @@ struct HMSMessageOptionsView: View {
         
         let isPrivateChatScopeAvailable = conferenceParams.chat?.chatScopes.contains(.private) ?? false
         
+        let canPinMessages =  conferenceParams.chat?.allowsPinningMessages ?? false
+        let canBlockPeers =  conferenceParams.chat?.controls.canBlockUser ?? false
+        let canHideMessages =  conferenceParams.chat?.controls.canHideMessage ?? false
+        
         VStack(alignment: .leading, spacing: 0) {
             
             HStack {
@@ -67,18 +71,20 @@ struct HMSMessageOptionsView: View {
                 }
             }
             
-            HStack {
-                Image(assetName: "pin")
-                    .frame(width: 20, height: 20)
-                Text("Pin")
-                    .font(.subtitle2Semibold14)
-                
-                Spacer()
-            }
-            .padding(16)
-            .onTapGesture {
-                roomModel.pinnedMessages.append(.init(text: messageModel.message, id: messageModel.messageID, pinnedBy: roomModel.userName))
-                dismiss()
+            if canPinMessages {
+                HStack {
+                    Image(assetName: "pin")
+                        .frame(width: 20, height: 20)
+                    Text("Pin")
+                        .font(.subtitle2Semibold14)
+                    
+                    Spacer()
+                }
+                .padding(16)
+                .onTapGesture {
+                    roomModel.pinnedMessages.append(.init(text: messageModel.message, id: messageModel.messageID, pinnedBy: roomModel.userName))
+                    dismiss()
+                }
             }
 
             HStack {
@@ -93,36 +99,40 @@ struct HMSMessageOptionsView: View {
                 dismiss()
             }
             
-            HStack {
-                Image(assetName: "eye-crossed")
-                    .frame(width: 20, height: 20)
-                Text("Hide of everyone")
-                    .font(.subtitle2Semibold14)
-                
-                Spacer()
-            }
-            .foreground(.onSurfaceHigh)
-            .padding(16)
-            .onTapGesture {
-                roomModel.chatMessageBlacklist.append(messageModel.messageID)
-                dismiss()
+            if canHideMessages {
+                HStack {
+                    Image(assetName: "eye-crossed")
+                        .frame(width: 20, height: 20)
+                    Text("Hide of everyone")
+                        .font(.subtitle2Semibold14)
+                    
+                    Spacer()
+                }
+                .foreground(.onSurfaceHigh)
+                .padding(16)
+                .onTapGesture {
+                    roomModel.chatMessageBlacklist.append(messageModel.messageID)
+                    dismiss()
+                }
             }
             
-            HStack {
-                Image(assetName: "circle-minus")
-                    .frame(width: 20, height: 20)
-                Text("Block from Chat")
-                    .font(.subtitle2Semibold14)
-                
-                Spacer()
-            }
-            .foreground(.errorDefault)
-            .padding(16)
-            .onTapGesture {
-                if let sender = messageModel.sender, let customerUserID = sender.customerUserID {
-                    roomModel.chatPeerBlacklist.append(customerUserID)
+            if canBlockPeers {
+                HStack {
+                    Image(assetName: "circle-minus")
+                        .frame(width: 20, height: 20)
+                    Text("Block from Chat")
+                        .font(.subtitle2Semibold14)
+                    
+                    Spacer()
                 }
-                dismiss()
+                .foreground(.errorDefault)
+                .padding(16)
+                .onTapGesture {
+                    if let sender = messageModel.sender, let customerUserID = sender.customerUserID {
+                        roomModel.chatPeerBlacklist.append(customerUserID)
+                    }
+                    dismiss()
+                }
             }
         }
         .foreground(.onSurfaceHigh)
