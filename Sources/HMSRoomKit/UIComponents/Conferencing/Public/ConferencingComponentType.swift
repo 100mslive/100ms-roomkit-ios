@@ -81,7 +81,7 @@ extension HMSConferenceScreen {
                 }
             }
             
-            public var controls: Controls = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)
+            public var controls: Controls? = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)
             
             public init(initialState: InitialState = .close,
                         isOverlay: Bool = false,
@@ -89,14 +89,14 @@ extension HMSConferenceScreen {
                         title: String = "Live chat",
                         messagePlaceholder: String = "Send a message",
                         chatScopes: [Scope] = [.public, .private],
-                        controls: Controls = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)) {
+                        controls: Controls? = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)) {
                 self.initialState = initialState
                 self.isOverlay = isOverlay
                 self.allowsPinningMessages = allowsPinningMessages
                 self.title = title
                 self.messagePlaceholder = messagePlaceholder
                 self.chatScopes = chatScopes
-                self.controls = controls
+                self.controls = controls ?? .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)
             }
         }
         

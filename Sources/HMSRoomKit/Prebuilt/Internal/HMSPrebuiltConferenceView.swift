@@ -52,7 +52,7 @@ struct HMSPrebuiltConferenceView: View {
                                     chatScopes.append(.private)
                                 }
                                 
-                                screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay, allowsPinningMessages: chat.allow_pinning_messages, title: chat.chat_title, messagePlaceholder: chat.message_placeholder, chatScopes: chatScopes, controls: .init(canDisableChat: chat.real_time_controls.can_disable_chat, canBlockUser: chat.real_time_controls.can_block_user, canHideMessage: chat.real_time_controls.can_hide_message))
+                                screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay, allowsPinningMessages: chat.allow_pinning_messages, title: chat.chat_title, messagePlaceholder: chat.message_placeholder, chatScopes: chatScopes, controls: .init(canDisableChat: chat.real_time_controls?.can_disable_chat ?? false, canBlockUser: chat.real_time_controls?.can_block_user ?? false, canHideMessage: chat.real_time_controls?.can_hide_message ?? false))
                             }
                             else {
                                 screen.chat = nil
@@ -105,7 +105,7 @@ struct HMSPrebuiltConferenceView: View {
                                     chatScopes.append(.private)
                                 }
                                 
-                                screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay, allowsPinningMessages: chat.allow_pinning_messages, title: chat.chat_title, messagePlaceholder: chat.message_placeholder, chatScopes: chatScopes, controls: .init(canDisableChat: chat.real_time_controls.can_disable_chat, canBlockUser: chat.real_time_controls.can_block_user, canHideMessage: chat.real_time_controls.can_hide_message))
+                                screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay, allowsPinningMessages: chat.allow_pinning_messages, title: chat.chat_title, messagePlaceholder: chat.message_placeholder, chatScopes: chatScopes, controls: .init(canDisableChat: chat.real_time_controls?.can_disable_chat ?? false, canBlockUser: chat.real_time_controls?.can_block_user ?? false, canHideMessage: chat.real_time_controls?.can_hide_message ?? false))
                             }
                             else {
                                 screen.chat = nil

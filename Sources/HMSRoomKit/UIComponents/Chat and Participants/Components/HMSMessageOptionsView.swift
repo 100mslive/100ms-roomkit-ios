@@ -28,8 +28,8 @@ struct HMSMessageOptionsView: View {
         let isPrivateChatScopeAvailable = conferenceParams.chat?.chatScopes.contains(.private) ?? false
         
         let canPinMessages =  conferenceParams.chat?.allowsPinningMessages ?? false
-        let canBlockPeers =  conferenceParams.chat?.controls.canBlockUser ?? false
-        let canHideMessages =  conferenceParams.chat?.controls.canHideMessage ?? false
+        let canBlockPeers =  conferenceParams.chat?.controls?.canBlockUser ?? false
+        let canHideMessages =  conferenceParams.chat?.controls?.canHideMessage ?? false
         
         VStack(alignment: .leading, spacing: 0) {
             
