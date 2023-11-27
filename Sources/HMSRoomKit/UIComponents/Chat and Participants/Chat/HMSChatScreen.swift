@@ -107,8 +107,13 @@ struct HMSChatScreen: View {
                         }))
                     }
                     
-                    HMSSendChatField(recipient: recipient)
-                        .background(.surfaceDefault, cornerRadius: 8)
+                    if case let .peer(peerModel) = recipient, peerModel == nil {
+                        // don't show send field
+                    }
+                    else {
+                        HMSSendChatField(recipient: recipient)
+                            .background(.surfaceDefault, cornerRadius: 8)
+                    }
                 }
                 .padding(.bottom, 16)
             }
