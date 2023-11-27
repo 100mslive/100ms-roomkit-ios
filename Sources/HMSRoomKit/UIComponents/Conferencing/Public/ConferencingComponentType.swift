@@ -64,10 +64,10 @@ extension HMSConferenceScreen {
             public enum Scope: Equatable {
                 case `public`
                 case `private`
-                case roles(whiteList: [String]?)
+                case roles(whiteList: [String])
             }
             
-            public var chatScopes: [Scope] = [.public, .private, .roles(whiteList: nil)]
+            public var chatScopes: [Scope] = [.public, .private]
             
             public struct Controls {
                 public let canDisableChat: Bool
@@ -88,7 +88,7 @@ extension HMSConferenceScreen {
                         allowsPinningMessages: Bool = true,
                         title: String = "Live chat",
                         messagePlaceholder: String = "Send a message",
-                        chatScopes: [Scope] = [.public, .private, .roles(whiteList: nil)],
+                        chatScopes: [Scope] = [.public, .private],
                         controls: Controls = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)) {
                 self.initialState = initialState
                 self.isOverlay = isOverlay

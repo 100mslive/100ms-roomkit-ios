@@ -48,16 +48,13 @@ struct HMSChatScreen: View {
                     }
                 }) {
                     if case let .roles(whiteList: whiteListedRoles) = roleScope {
-                        
-                        
-                        if whiteListedRoles != nil { return roomModel.roles.filter{whiteListedRoles!.contains($0.name)}
-                        }
+                        return roomModel.roles.filter{whiteListedRoles.contains($0.name)}
                     }
                 }
             }
             
-            // by default all available roles are allowed
-            return roomModel.roles
+            // by default no roles are allowed
+            return []
         }
         
         return VStack(alignment: .leading, spacing: 16) {
