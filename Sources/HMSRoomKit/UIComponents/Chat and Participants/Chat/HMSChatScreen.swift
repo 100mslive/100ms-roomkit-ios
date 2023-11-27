@@ -21,7 +21,7 @@ struct HMSChatScreen: View {
     var isTransparentMode: Bool = false
     
     var body: some View {
-
+        
         if isTransparentMode {
             chatView
         }
@@ -60,51 +60,60 @@ struct HMSChatScreen: View {
             return roomModel.roles
         }
         
-        let messages =  roomModel.messages
-        
         return VStack(alignment: .leading, spacing: 16) {
             
-            ZStack {
-                if messages.isEmpty {
-                    HMSChatPlaceholderView()
-                }
-                HMSChatListView(recipient: $recipient, isTransparentMode: isTransparentMode)
-            }
+            chatListView
             
             if let chatScopes {
-                VStack {
-                    if let recipient {
-                        
-                        VStack(alignment: .leading, spacing: 8) {
-                            
-                            HStack {
-                                Text("To")
-                                    .foreground(.onSurfaceMedium)
-                                    .font(.captionRegular12)
-                                HMSRolePicker(recipient: Binding(get: {
-                                    recipient
-                                }, set: {
-                                    self.recipient = $0
-                                }))
-                            }
-                            
-                            HMSSendChatField(recipient: recipient)
-                                .background(.surfaceDefault, cornerRadius: 8)
+                sendMessageView
+                    .onAppear() {
+                        if chatScopes.contains(.public) {
+                            recipient = .everyone
                         }
-                        .padding(.bottom, 16)
+                        else if let firstWhiteListedRole = allowedRoles.first {
+                            recipient = .role(firstWhiteListedRole)
+                        }
+                        else {
+                            recipient = .peer(nil)
+                        }
                     }
+            }
+        }
+    }
+    
+    var chatListView: some View {
+        
+        let messages =  roomModel.messages
+        
+        return ZStack {
+            if messages.isEmpty {
+                HMSChatPlaceholderView()
+            }
+            HMSChatListView(recipient: $recipient, isTransparentMode: isTransparentMode)
+        }
+    }
+    
+    var sendMessageView: some View {
+        VStack {
+            if let recipient {
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    
+                    HStack {
+                        Text("To")
+                            .foreground(.onSurfaceMedium)
+                            .font(.captionRegular12)
+                        HMSRolePicker(recipient: Binding(get: {
+                            recipient
+                        }, set: {
+                            self.recipient = $0
+                        }))
+                    }
+                    
+                    HMSSendChatField(recipient: recipient)
+                        .background(.surfaceDefault, cornerRadius: 8)
                 }
-                .onAppear() {
-                    if chatScopes.contains(.public) {
-                        recipient = .everyone
-                    }
-                    else if let firstWhiteListedRole = allowedRoles.first {
-                        recipient = .role(firstWhiteListedRole)
-                    }
-                    else {
-                        recipient = .peer(nil)
-                    }
-                }
+                .padding(.bottom, 16)
             }
         }
     }
