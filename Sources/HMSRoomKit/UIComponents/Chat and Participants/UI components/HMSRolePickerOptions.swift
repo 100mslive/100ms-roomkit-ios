@@ -79,6 +79,7 @@ struct HMSRolePickerOptionsView: View {
                                     }
                                 }
                                 .padding(EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24))
+                                .background(.white.opacity(0.0001))
                             }
                             .buttonStyle(.plain)
                             HMSDivider(color: currentTheme.colorTheme.borderBright)
@@ -125,6 +126,7 @@ struct HMSRolePickerOptionsView: View {
                                         }
                                     }
                                     .padding(.trailing, 24)
+                                    .background(.white.opacity(0.0001))
                                 }
                                 .buttonStyle(.plain)
                             }
@@ -132,7 +134,7 @@ struct HMSRolePickerOptionsView: View {
                             HMSDivider(color: currentTheme.colorTheme.borderBright)
                         }
                         
-                        if chatScopes.contains(.private) {
+                        if chatScopes.contains(.private), roomModel.remotePeerModels.count > 0 {
                             Text("Participants")
                                 .font(.overlineMedium)
                                 .foreground(.onSurfaceMedium)
@@ -173,6 +175,7 @@ struct HMSRolePickerOptionsView: View {
                                         }
                                     }
                                     .padding(.trailing, 24)
+                                    .background(.white.opacity(0.0001))
                                 }
                                 .buttonStyle(.plain)
                             }
