@@ -73,10 +73,11 @@ struct HMSChatListView: View {
                 }
                 else {
                     HStack {
+                        
+                        let pinnedMessages = roomModel.pinnedMessages.suffix(3).reversed()
+                        
                         GeometryReader { proxy in
-                            
-                            let pinnedMessages = roomModel.pinnedMessages.suffix(3).reversed()
-                            
+
                             TabView(selection: $selectedPinnedMessage) {
                                 
                                 ForEach(pinnedMessages, id:\.self) { message in
@@ -100,7 +101,7 @@ struct HMSChatListView: View {
                                 selectedPinnedMessage = pinnedMessages.first
                             }
                             .frame(
-                                width: 45, // Height & width swap
+                                width: pinnedMessages.count == 2 ? 30 : 45, // Height & width swap
                                 height: proxy.size.width
                             )
                             .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
@@ -110,7 +111,7 @@ struct HMSChatListView: View {
                             )
                         }
                         .padding(.leading, -20)
-                        .frame(height: 45)
+                        .frame(height: (pinnedMessages.count == 2) ? 30 : 45)
                         .clipped()
                         
                         Image(systemName: "pin")
