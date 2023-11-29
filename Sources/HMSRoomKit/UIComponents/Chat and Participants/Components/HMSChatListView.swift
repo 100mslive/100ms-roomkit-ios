@@ -42,7 +42,7 @@ struct HMSChatListView: View {
             VStack {
                 if roomModel.pinnedMessages.count < 2, let firstMessage = roomModel.pinnedMessages.first {
                     HMSPinnedChatMessageView(pinnedMessage:firstMessage, isPartOfTransparentChat: true) {
-                        roomModel.pinnedMessages.removeAll{$0 == firstMessage}
+                        roomModel.pinnedMessages.remove(firstMessage)
                     }
                 }
                 else {
@@ -50,7 +50,7 @@ struct HMSChatListView: View {
                         TabView {
                             ForEach(roomModel.pinnedMessages.suffix(3).reversed(), id:\.self) { message in
                                 HMSPinnedChatMessageView(pinnedMessage: message, isPartOfTransparentChat: true) {
-                                    roomModel.pinnedMessages.removeAll{$0 == message}
+                                    roomModel.pinnedMessages.remove(message)
                                 }
                                 .padding(.leading, 30)
                             }
