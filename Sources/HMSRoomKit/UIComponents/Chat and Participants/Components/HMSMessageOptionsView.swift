@@ -61,6 +61,7 @@ struct HMSMessageOptionsView: View {
                 }
                 .foreground(.onSurfaceHigh)
                 .padding(16)
+                .background(.white.opacity(0.0001))
                 .onTapGesture {
                     #if !Preview
                     if let peer = roomModel.peerModels.first(where: {$0.peer == sender}) {
@@ -81,6 +82,7 @@ struct HMSMessageOptionsView: View {
                     Spacer()
                 }
                 .padding(16)
+                .background(.white.opacity(0.0001))
                 .onTapGesture {
                     roomModel.pinnedMessages.update(with: .init(text: messageModel.message, id: messageModel.messageID, pinnedBy: roomModel.userName))
                     dismiss()
@@ -94,6 +96,7 @@ struct HMSMessageOptionsView: View {
                 Spacer()
             }
             .padding(16)
+            .background(.white.opacity(0.0001))
             .onTapGesture {
                 UIPasteboard.general.string = messageModel.message
                 dismiss()
@@ -110,6 +113,7 @@ struct HMSMessageOptionsView: View {
                 }
                 .foreground(.onSurfaceHigh)
                 .padding(16)
+                .background(.white.opacity(0.0001))
                 .onTapGesture {
                     roomModel.chatMessageBlacklist.append(messageModel.messageID)
                     dismiss()
@@ -128,6 +132,7 @@ struct HMSMessageOptionsView: View {
                 }
                 .foreground(.errorDefault)
                 .padding(16)
+                .background(.white.opacity(0.0001))
                 .onTapGesture {
                     if let sender = messageModel.sender, let customerUserID = sender.customerUserID {
                         roomModel.chatPeerBlacklist.append(customerUserID)
