@@ -27,6 +27,10 @@ class PollVoteViewModel: ObservableObject, Identifiable {
     var voteComplete: Bool {
         questions.first(where: { $0.canVote == true }) == nil
     }
+    
+    lazy var leaderBoardModel: PollLeaderboardViewModel = {
+        PollLeaderboardViewModel(poll: poll, interactivityCenter: interactivityCenter)
+    }()
 
     internal init(poll: HMSPoll, interactivityCenter: HMSInteractivityCenter, currentRole: HMSRole, peerList: [HMSPeer]) {
         self.poll = poll
@@ -111,8 +115,6 @@ class PollVoteViewModel: ObservableObject, Identifiable {
     
     func setupSummaryIfNeeded() {
         switch (poll.category, isAdmin) {
-        case (.quiz, true):
-            setupQuizAdminSummary()
         case (.quiz, false):
             setupQuizUserSummary()
             

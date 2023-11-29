@@ -43,6 +43,7 @@ class QuestionCreateModel: ObservableObject, Identifiable {
     var pollModel: PollCreateModel
     
     @Published var text: String = ""
+    @Published var weight: String = ""
     @Published var saved: Bool = false
     @Published var loading: Bool = false
     @Published var editing: Bool = true

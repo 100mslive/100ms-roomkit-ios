@@ -39,6 +39,9 @@ struct PollQuestionsView: View {
                         }.buttonStyle(HMSIconTextButtonStyle())
                     }
                 }
+                if (model.showAnswerSelection) {
+                    PollTextField(placeholder: "Point Weightage", text: $model.weight, valid: true)
+                }
             } else {
                 VStack(alignment: .leading, spacing: 16) {
                     ForEach(model.questionOptions) { option in
