@@ -116,7 +116,6 @@ struct HMSMessageOptionsView: View {
                 .background(.white.opacity(0.0001))
                 .onTapGesture {
                     roomModel.chatMessageBlacklist.append(messageModel.messageID)
-                    dismiss()
                 }
             }
             
