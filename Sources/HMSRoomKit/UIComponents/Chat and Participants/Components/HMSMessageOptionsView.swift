@@ -116,7 +116,8 @@ struct HMSMessageOptionsView: View {
                 }
             }
             
-            if canBlockPeers {
+            #if !Preview
+            if canBlockPeers, messageModel.sender != roomModel.localPeerModel?.peer {
                 HStack {
                     Image(assetName: "circle-minus")
                         .frame(width: 20, height: 20)
@@ -134,6 +135,7 @@ struct HMSMessageOptionsView: View {
                     dismiss()
                 }
             }
+            #endif
         }
         .foreground(.onSurfaceHigh)
         .background(.surfaceDefault, cornerRadius: 8, border: .borderBright, ignoringEdges: .all)
