@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSChatListView: View {
     
+    @Environment(\.conferenceParams) var conferenceParams
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     private let messageCoordinateSpace = "messageCoordinateSpace"
     @State private var showNewMessageButton: Bool = false
@@ -41,6 +43,9 @@ struct HMSChatListView: View {
     
     @ViewBuilder
     var pinnedMessageView: some View {
+        
+        let canPinMessages =  conferenceParams.chat?.allowsPinningMessages ?? false
+        
         if roomModel.pinnedMessages.count > 0 {
             
             VStack {
@@ -58,7 +63,9 @@ struct HMSChatListView: View {
                         Image(systemName: "pin")
                             .foreground(.onSurfaceHigh)
                             .onTapGesture {
-                                roomModel.pinnedMessages.remove(firstMessage)
+                                if canPinMessages {
+                                    roomModel.pinnedMessages.remove(firstMessage)
+                                }
                             }
                     }
                     .padding(8)
@@ -109,8 +116,10 @@ struct HMSChatListView: View {
                         Image(systemName: "pin")
                             .foreground(.onSurfaceHigh)
                             .onTapGesture {
-                                if let message = selectedPinnedMessage {
-                                    roomModel.pinnedMessages.remove(message)
+                                if canPinMessages {
+                                    if let message = selectedPinnedMessage {
+                                        roomModel.pinnedMessages.remove(message)
+                                    }
                                 }
                             }
                     }
