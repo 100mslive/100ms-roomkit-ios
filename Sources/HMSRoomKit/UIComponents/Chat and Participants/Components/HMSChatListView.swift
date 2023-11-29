@@ -18,7 +18,11 @@ struct HMSChatListView: View {
     
     @Binding var recipient: HMSRecipient?
     var isTransparentMode = false
-
+    
+    @State var scrollProxy: ScrollViewProxy?
+    
+    @State var selectedPinnedMessage: HMSRoomModel.PinnedMessage?
+    
     var body: some View {
         
         if isTransparentMode {
@@ -41,36 +45,77 @@ struct HMSChatListView: View {
             
             VStack {
                 if roomModel.pinnedMessages.count < 2, let firstMessage = roomModel.pinnedMessages.first {
-                    HMSPinnedChatMessageView(pinnedMessage:firstMessage, isPartOfTransparentChat: true) {
-                        roomModel.pinnedMessages.remove(firstMessage)
+                    
+                    HStack {
+                        HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage:firstMessage, isPartOfTransparentChat: true)
+                            .background(.white.opacity(0.0001))
+                            .onTapGesture {
+                                withAnimation {
+                                    scrollProxy?.scrollTo(firstMessage.id, anchor: nil)
+                                }
+                            }
+                        
+                        Image(systemName: "pin")
+                            .foreground(.onSurfaceHigh)
+                            .onTapGesture {
+                                roomModel.pinnedMessages.remove(firstMessage)
+                            }
                     }
+                    .padding(8)
+                    .cornerRadius(8)
                 }
                 else {
-                    GeometryReader { proxy in
-                        TabView {
-                            ForEach(roomModel.pinnedMessages.suffix(3).reversed(), id:\.self) { message in
-                                HMSPinnedChatMessageView(pinnedMessage: message, isPartOfTransparentChat: true) {
-                                    roomModel.pinnedMessages.remove(message)
+                    HStack {
+                        GeometryReader { proxy in
+                            
+                            let pinnedMessages = roomModel.pinnedMessages.suffix(3).reversed()
+                            
+                            TabView(selection: $selectedPinnedMessage) {
+                                
+                                ForEach(pinnedMessages, id:\.self) { message in
+                                    HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage: message, isPartOfTransparentChat: true)
+                                        .background(.white.opacity(0.0001))
+                                        .onTapGesture {
+                                            withAnimation {
+                                                scrollProxy?.scrollTo(message.id, anchor: nil)
+                                            }
+                                        }
+                                        .padding(.leading, 40)
+                                        .tag(message as HMSRoomModel.PinnedMessage?)
                                 }
-                                .padding(.leading, 30)
+                                .rotationEffect(.degrees(-90)) // Rotate content
+                                .frame(
+                                    width: proxy.size.width,
+                                    height: proxy.size.height
+                                )
                             }
-                            .rotationEffect(.degrees(-90)) // Rotate content
+                            .onAppear() {
+                                selectedPinnedMessage = pinnedMessages.first
+                            }
                             .frame(
-                                width: proxy.size.width,
-                                height: proxy.size.height
+                                width: 45, // Height & width swap
+                                height: proxy.size.width
+                            )
+                            .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
+                            .offset(x: proxy.size.width) // Offset back into screens bounds
+                            .tabViewStyle(
+                                PageTabViewStyle(indexDisplayMode: .always)
                             )
                         }
-                        .frame(
-                            width: 60, // Height & width swap
-                            height: proxy.size.width
-                        )
-                        .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
-                        .offset(x: proxy.size.width) // Offset back into screens bounds
-                        .tabViewStyle(
-                            PageTabViewStyle(indexDisplayMode: .always)
-                        )
+                        .padding(.leading, -20)
+                        .frame(height: 45)
+                        .clipped()
+                        
+                        Image(systemName: "pin")
+                            .foreground(.onSurfaceHigh)
+                            .onTapGesture {
+                                if let message = selectedPinnedMessage {
+                                    roomModel.pinnedMessages.remove(message)
+                                }
+                            }
                     }
-                    .frame(height: 60)
+                    .padding(8)
+                    .cornerRadius(8)
                 }
             }
             .background(.surfaceDefault, cornerRadius: 8)
@@ -137,7 +182,7 @@ struct HMSChatListView: View {
             .overlay(alignment: .top) {
                 if showNewMessageButton {
                     HMSNewMessagesButton().onTapGesture {
-                        if let lastId = messages.first?.messageID {
+                        if let lastId = messages.last?.messageID {
                             withAnimation {
                                 scrollView.scrollTo(lastId, anchor: nil)
                             }
@@ -154,13 +199,15 @@ struct HMSChatListView: View {
                 }
             }
             .onChange(of: messages) { messages in
-                if let lastId = messages.first?.messageID {
+                if let lastId = messages.last?.messageID {
                     withAnimation {
                         scrollView.scrollTo(lastId, anchor: nil)
                     }
                 }
-            }.onAppear() {
-                if let lastId = messages.first?.messageID {
+            }
+            .onAppear() {
+                scrollProxy = scrollView
+                if let lastId = messages.last?.messageID {
                     withAnimation {
                         scrollView.scrollTo(lastId, anchor: nil)
                     }
@@ -172,7 +219,7 @@ struct HMSChatListView: View {
 
 struct ScrollOffsetPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat? = nil
-
+    
     static func reduce(value: inout CGFloat?, nextValue: () -> CGFloat?) {
         value = value ?? nextValue()
     }
