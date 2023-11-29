@@ -127,7 +127,7 @@ struct HMSChatListView: View {
 #endif
                     })
                     
-                    ForEach(filteredMessages, id:\.self) { message in
+                    ForEach(filteredMessages.reversed(), id:\.self) { message in
                         HMSChatMessageView(messageModel: message, isPartOfTransparentChat: isTransparentMode, recipient: $recipient)
                             .id(message.messageID)
                             .mirrorV()
