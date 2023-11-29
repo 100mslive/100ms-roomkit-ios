@@ -36,7 +36,7 @@ extension HMSRoomModel {
             sharedStore?[HMSRoomModel.pinnedMessageKey] as? [PinnedMessage] ?? []
 #else
             if let array = sharedStore?[HMSRoomModel.pinnedMessageKey] as? [[String: Any]] {
-                return array.map{PinnedMessage(text: $0["text"] as? String ?? "", id: $0["id"] as? String ?? "", pinnedBy: $0["pinned_by"] as? String ?? "")}
+                return array.map{PinnedMessage(text: $0["text"] as? String ?? "", id: $0["id"] as? String ?? "", pinnedBy: $0["pinnedBy"] as? String ?? "")}
             }
             else {
                 return []
