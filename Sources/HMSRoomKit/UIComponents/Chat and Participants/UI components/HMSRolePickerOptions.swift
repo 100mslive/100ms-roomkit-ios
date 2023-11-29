@@ -85,14 +85,16 @@ struct HMSRolePickerOptionsView: View {
                             HMSDivider(color: currentTheme.colorTheme.borderBright)
                         }
                         
-                        if allowedRoles.count > 0 {
+                        let filteredRoles = allowedRoles.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}
+                        
+                        if filteredRoles.count > 0 {
                             
                             Text("Roles")
                                 .font(.overlineMedium)
                                 .foreground(.onSurfaceMedium)
                                 .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
                             
-                            ForEach(allowedRoles.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}.sorted(by: {
+                            ForEach(filteredRoles.sorted(by: {
 #if Preview
                                 return true
 #else
@@ -134,12 +136,14 @@ struct HMSRolePickerOptionsView: View {
                             HMSDivider(color: currentTheme.colorTheme.borderBright)
                         }
                         
-                        if chatScopes.contains(.private), roomModel.remotePeerModels.count > 0 {
+                        let filteredPeers = roomModel.remotePeerModels.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}
+                        
+                        if chatScopes.contains(.private), filteredPeers.count > 0 {
                             Text("Participants")
                                 .font(.overlineMedium)
                                 .foreground(.onSurfaceMedium)
                                 .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
-                            ForEach(roomModel.remotePeerModels.filter({ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery) }).sorted(by: {
+                            ForEach(filteredPeers.sorted(by: {
                                 
 #if Preview
                                 return true
