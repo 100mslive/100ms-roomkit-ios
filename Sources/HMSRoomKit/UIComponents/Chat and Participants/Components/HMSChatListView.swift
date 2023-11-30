@@ -64,7 +64,7 @@ struct HMSChatListView: View {
                             .foreground(.onSurfaceMedium)
                             .onTapGesture {
                                 if canPinMessages {
-                                    roomModel.pinnedMessages.remove(firstMessage)
+                                    roomModel.pinnedMessages.removeAll{$0 == firstMessage}
                                 }
                             }
                     }
@@ -132,7 +132,7 @@ struct HMSChatListView: View {
                             .onTapGesture {
                                 if canPinMessages {
                                     if let message = selectedPinnedMessage {
-                                        roomModel.pinnedMessages.remove(message)
+                                        roomModel.pinnedMessages.removeAll{$0 == message}
                                     }
                                 }
                             }

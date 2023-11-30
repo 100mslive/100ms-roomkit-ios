@@ -84,7 +84,7 @@ struct HMSMessageOptionsView: View {
                 .padding(16)
                 .background(.white.opacity(0.0001))
                 .onTapGesture {
-                    roomModel.pinnedMessages.update(with: .init(text: "\(messageModel.sender?.name.appending(": ") ?? "")\(messageModel.message)", id: messageModel.messageID, pinnedBy: roomModel.userName))
+                    roomModel.pinnedMessages.append(.init(text: "\(messageModel.sender?.name.appending(": ") ?? "")\(messageModel.message)", id: messageModel.messageID, pinnedBy: roomModel.userName))
                     dismiss()
                 }
             }
