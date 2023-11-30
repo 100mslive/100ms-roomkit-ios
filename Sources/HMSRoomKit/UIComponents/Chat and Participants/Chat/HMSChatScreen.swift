@@ -90,9 +90,14 @@ struct HMSChatScreen: View {
         }
     }
     
+    @ViewBuilder
     var sendMessageView: some View {
         VStack {
-            if let recipient {
+            if let recipient, let localPeerModel = roomModel.localPeerModel {
+                
+                if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
+                    EmptyView()
+                }
                 
                 VStack(alignment: .leading, spacing: 8) {
                     
