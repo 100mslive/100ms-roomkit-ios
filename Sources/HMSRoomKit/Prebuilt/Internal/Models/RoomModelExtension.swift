@@ -46,7 +46,7 @@ extension HMSRoomModel {
 #endif
         }
         set {
-            sharedStore?[HMSRoomModel.pinnedMessageKey] = newValue.combinedWithoutDuplicates
+            sharedStore?[HMSRoomModel.pinnedMessageKey] = newValue.combinedWithoutDuplicates.suffix(3).map{["id": $0.id, "text": $0.text, "pinnedBy": $0.pinnedBy]}
         }
     }
     
