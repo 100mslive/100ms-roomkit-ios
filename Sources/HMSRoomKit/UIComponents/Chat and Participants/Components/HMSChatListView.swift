@@ -45,11 +45,12 @@ struct HMSChatListView: View {
     var pinnedMessageView: some View {
         
         let canPinMessages =  conferenceParams.chat?.allowsPinningMessages ?? false
+        let filteredPinnedMessages = roomModel.pinnedMessages.filter{pinnedMessage in !roomModel.chatMessageBlacklist.contains{$0 == pinnedMessage.id}}.suffix(3).reversed()
         
-        if roomModel.pinnedMessages.count > 0 {
+        if filteredPinnedMessages.count > 0 {
             
             VStack {
-                if roomModel.pinnedMessages.count < 2, let firstMessage = roomModel.pinnedMessages.first {
+                if filteredPinnedMessages.count < 2, let firstMessage = filteredPinnedMessages.first {
                     
                     HStack {
                         HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage:firstMessage, isPartOfTransparentChat: true)
@@ -87,13 +88,11 @@ struct HMSChatListView: View {
                 else {
                     HStack {
                         
-                        let pinnedMessages = roomModel.pinnedMessages.suffix(3).reversed()
-                        
                         GeometryReader { proxy in
 
                             TabView(selection: $selectedPinnedMessage) {
                                 
-                                ForEach(pinnedMessages, id:\.self) { message in
+                                ForEach(filteredPinnedMessages, id:\.self) { message in
                                     HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage: message, isPartOfTransparentChat: true)
                                         .background(.white.opacity(0.0001))
                                         .onTapGesture {
@@ -111,10 +110,10 @@ struct HMSChatListView: View {
                                 )
                             }
                             .onAppear() {
-                                selectedPinnedMessage = pinnedMessages.first
+                                selectedPinnedMessage = filteredPinnedMessages.first
                             }
                             .frame(
-                                width: pinnedMessages.count == 2 ? 30 : 45, // Height & width swap
+                                width: filteredPinnedMessages.count == 2 ? 30 : 45, // Height & width swap
                                 height: proxy.size.width
                             )
                             .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
@@ -124,7 +123,7 @@ struct HMSChatListView: View {
                             )
                         }
                         .padding(.leading, -20)
-                        .frame(height: (pinnedMessages.count == 2) ? 30 : 45)
+                        .frame(height: (filteredPinnedMessages.count == 2) ? 30 : 45)
                         .clipped()
                         
                         Image(assetName: "unpin")
