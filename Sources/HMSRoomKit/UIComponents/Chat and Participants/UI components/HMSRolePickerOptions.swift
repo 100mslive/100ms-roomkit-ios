@@ -27,7 +27,7 @@ struct HMSRolePickerOptionsView: View {
         
         var allowedRoles: [HMSRole] {
             
-            if let chatScopes = chatScopes {
+            if let chatScopes {
                 if let roleScope = chatScopes.first(where: { scope in
                     switch scope {
                     case .roles(_):
@@ -44,6 +44,17 @@ struct HMSRolePickerOptionsView: View {
             
             // by default no roles are allowed
             return []
+        }
+        
+        let filteredRoles = allowedRoles.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}
+        
+        var filteredPeers: [HMSPeerModel] {
+            if let chatScopes, chatScopes.contains(.private) {
+                return roomModel.remotePeerModels.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}
+            }
+            else {
+                return []
+            }
         }
         
         if let chatScopes {
@@ -84,8 +95,6 @@ struct HMSRolePickerOptionsView: View {
                             .buttonStyle(.plain)
                             HMSDivider(color: currentTheme.colorTheme.borderBright)
                         }
-                        
-                        let filteredRoles = allowedRoles.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}
                         
                         if filteredRoles.count > 0 {
                             
@@ -135,10 +144,8 @@ struct HMSRolePickerOptionsView: View {
                             
                             HMSDivider(color: currentTheme.colorTheme.borderBright)
                         }
-                        
-                        let filteredPeers = roomModel.remotePeerModels.filter{ searchQuery.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchQuery)}
-                        
-                        if chatScopes.contains(.private), filteredPeers.count > 0 {
+
+                        if filteredPeers.count > 0 {
                             Text("Participants")
                                 .font(.overlineMedium)
                                 .foreground(.onSurfaceMedium)
@@ -186,7 +193,7 @@ struct HMSRolePickerOptionsView: View {
                         }
                     }
                 }
-                .fixedSize(horizontal: false, vertical: true)
+                .fixedSize(horizontal: false, vertical: (filteredRoles.count + filteredPeers.count) > 8 ? false : true)
             }
             .background(.surfaceDefault, cornerRadius: 8, ignoringEdges: .all)
         }
