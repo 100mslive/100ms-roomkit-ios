@@ -50,7 +50,7 @@ struct HMSMessageOptionsView: View {
             HMSDivider(color: currentTheme.colorTheme.borderBright).frame(width: 172)
             
             
-            if isPrivateChatScopeAvailable, let sender = messageModel.sender {
+            if isPrivateChatScopeAvailable, let sender = messageModel.sender, sender != roomModel.localPeerModel?.peer {
                 HStack {
                     Image(assetName: "person-plus")
                         .frame(width: 20, height: 20)
@@ -63,11 +63,9 @@ struct HMSMessageOptionsView: View {
                 .padding(16)
                 .background(.white.opacity(0.0001))
                 .onTapGesture {
-                    #if !Preview
                     if let peer = roomModel.peerModels.first(where: {$0.peer == sender}) {
                         recipient = .peer(peer)
                     }
-                    #endif
                     dismiss()
                 }
             }
@@ -119,8 +117,7 @@ struct HMSMessageOptionsView: View {
                 }
             }
             
-            #if !Preview
-            if canBlockPeers, messageModel.sender != roomModel.localPeerModel?.peer {
+            if canBlockPeers, let sender = messageModel.sender, sender != roomModel.localPeerModel?.peer {
                 HStack {
                     Image(assetName: "circle-minus")
                         .frame(width: 20, height: 20)
@@ -138,7 +135,6 @@ struct HMSMessageOptionsView: View {
                     }
                 }
             }
-            #endif
         }
         .foreground(.onSurfaceHigh)
         .background(.surfaceDefault, cornerRadius: 8, border: .borderBright, ignoringEdges: .all)
