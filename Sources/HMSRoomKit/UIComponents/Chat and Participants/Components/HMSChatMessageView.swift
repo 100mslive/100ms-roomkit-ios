@@ -45,7 +45,39 @@ struct HMSChatMessageView: View {
                     
                     Spacer()
                     
-//                    if !isPartOfTransparentChat {
+                    HStack {
+                        
+                        if recipient == .everyone {
+                            if messageModel.recipient.type == .peer {
+                                Text("Direct Message")
+                                    .font(.captionRegular12)
+                                    .foreground(.onSecondaryHigh)
+                                    .padding(4)
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .stroke()
+                                            .foreground(.borderBright)
+                                    }
+                            }
+                            else if messageModel.recipient.type == .roles {
+                                HStack {
+                                    Text("To Group")
+                                        .foreground(.onSecondaryMedium)
+                                    Text("\(messageModel.recipient.rolesRecipient?.first?.name ?? "")")
+                                        .foreground(.onSecondaryHigh)
+                                }
+                                .font(.captionRegular12)
+                                
+                                .padding(4)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke()
+                                        .foreground(.borderBright)
+                                }
+                            }
+                        }
+                        
+                        //                    if !isPartOfTransparentChat {
                         Button() {
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
@@ -66,7 +98,8 @@ struct HMSChatMessageView: View {
                             .edgesIgnoringSafeArea(.all)
                             .environmentObject(theme)
                         })
-//                    }
+                        //                    }
+                    }
                 }
                 .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
                 .frame(maxWidth: .infinity)

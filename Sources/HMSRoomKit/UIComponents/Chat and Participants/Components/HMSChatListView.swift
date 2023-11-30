@@ -177,10 +177,10 @@ struct HMSChatListView: View {
                         // Don't show service messages
                         guard let sender = message.sender else { return false }
                         
-                        // Don't show messages from blacklisted user ids
-                        if let customerUserID = sender.customerUserID, roomModel.chatPeerBlacklist.contains(customerUserID) {
-                            return false
-                        }
+//                        // Don't show messages from blacklisted user ids
+//                        if let customerUserID = sender.customerUserID, roomModel.chatPeerBlacklist.contains(customerUserID) {
+//                            return false
+//                        }
                         
                         // Don't show hidden messages
                         guard !roomModel.chatMessageBlacklist.contains(message.messageID) else { return false }
@@ -188,7 +188,7 @@ struct HMSChatListView: View {
                         if let recipient {
                             switch recipient {
                             case .everyone:
-                                return message.recipient.type == .broadcast
+                                return true//message.recipient.type == .broadcast
                             case .peer(let peer):
                                 
                                 guard let peer, message.recipient.type == .peer else { return false }
