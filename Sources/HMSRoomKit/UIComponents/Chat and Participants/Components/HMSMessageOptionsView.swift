@@ -136,7 +136,6 @@ struct HMSMessageOptionsView: View {
                     if let sender = messageModel.sender, let customerUserID = sender.customerUserID {
                         roomModel.chatPeerBlacklist.append(customerUserID)
                     }
-                    dismiss()
                 }
             }
             #endif
