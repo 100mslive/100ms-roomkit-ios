@@ -57,6 +57,9 @@ struct HMSSendChatField: View {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(currentTheme.colorTheme.primaryDefault, lineWidth: isFocused ? 1 : 0)
             )
+            .onTapGesture {
+                // protect text filed from tap dismissal gesture
+            }
         }
     }
 }

@@ -22,13 +22,18 @@ struct HMSChatScreen: View {
     
     var body: some View {
         
-        if isTransparentMode {
-            chatView
+        Group {
+            if isTransparentMode {
+                chatView
+            }
+            else {
+                chatView
+                    .padding(.horizontal, 16)
+                    .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
+            }
         }
-        else {
-            chatView
-                .padding(.horizontal, 16)
-                .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
     
@@ -71,7 +76,7 @@ struct HMSChatScreen: View {
                             recipient = .role(firstWhiteListedRole)
                         }
                         else {
-                            recipient = .peer(nil)
+                            recipient = .everyone
                         }
                     }
             }
@@ -92,35 +97,40 @@ struct HMSChatScreen: View {
     
     @ViewBuilder
     var sendMessageView: some View {
-        VStack {
-            if let recipient, let localPeerModel = roomModel.localPeerModel {
-                
-                if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
-                    EmptyView()
-                }
-                
-                VStack(alignment: .leading, spacing: 8) {
+        
+        if let chatScopes = conferenceParams.chat?.chatScopes {
+            
+            VStack {
+                if let recipient, let localPeerModel = roomModel.localPeerModel {
                     
-                    HStack {
-                        Text("To")
-                            .foreground(.onSurfaceMedium)
-                            .font(.captionRegular12)
-                        HMSRolePicker(recipient: Binding(get: {
-                            recipient
-                        }, set: {
-                            self.recipient = $0
-                        }))
+                    VStack(alignment: .leading, spacing: 8) {
+                        
+                        HStack {
+                            Text("To")
+                                .foreground(.onSurfaceMedium)
+                                .font(.captionRegular12)
+                            HMSRolePicker(recipient: Binding(get: {
+                                recipient
+                            }, set: {
+                                self.recipient = $0
+                            }))
+                        }
+                        
+                        if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
+                            // if user is blacklisted don't show send field
+                        }
+                        else {
+                            if recipient == .everyone && !chatScopes.contains(.public) {
+                                // if everyone is selected but we don't have public chat scope, don't show send field
+                            }
+                            else {
+                                HMSSendChatField(recipient: recipient)
+                                    .background(.surfaceDefault, cornerRadius: 8)
+                            }
+                        }
                     }
-                    
-                    if case let .peer(peerModel) = recipient, peerModel == nil {
-                        // don't show send field
-                    }
-                    else {
-                        HMSSendChatField(recipient: recipient)
-                            .background(.surfaceDefault, cornerRadius: 8)
-                    }
+                    .padding(.bottom, 16)
                 }
-                .padding(.bottom, 16)
             }
         }
     }

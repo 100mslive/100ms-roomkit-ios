@@ -38,18 +38,19 @@ struct HMSRolePicker: View {
         }
         
         HStack {
-            if recipient.toString() == "Everyone" {
-                Image(assetName: "people-icon")
-                    .resizable()
-                    .frame(width: 16, height: 16)
-                    .foreground(.onSurfaceMedium)
-            }
-            else {
+            if case .peer(_) = recipient {
                 Image(assetName: "person-icon")
                     .resizable()
                     .frame(width: 16, height: 16)
                     .foreground(.onSurfaceMedium)
             }
+            else {
+                Image(assetName: "people-icon")
+                    .resizable()
+                    .frame(width: 16, height: 16)
+                    .foreground(.onSurfaceMedium)
+            }
+            
             Text(recipient.toString())
                 .font(.captionRegular12)
                 .foreground(.onSurfaceHigh)
@@ -67,6 +68,8 @@ struct HMSRolePicker: View {
         .background(.surfaceBright, cornerRadius: 4, opacity: 0.64, border: .borderBright)
         .onTapGesture {
             guard multipleRecipientsAvailable else { return }
+            // avoid keyboard UI constraint hang
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             isPopoverPresented = true
         }
         .sheet(isPresented: $isPopoverPresented) {
@@ -82,7 +85,7 @@ struct HMSRolePicker: View {
 struct HMSRolePicker_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSRolePicker(recipient: .constant(.peer(nil)))
+        HMSRolePicker(recipient: .constant(.everyone))
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2))
 #endif

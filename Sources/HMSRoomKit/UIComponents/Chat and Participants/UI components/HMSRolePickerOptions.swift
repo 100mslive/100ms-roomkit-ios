@@ -19,7 +19,7 @@ struct HMSRolePickerOptionsView: View {
     @Binding var selectedOption: HMSRecipient
     
     @State var searchQuery: String = ""
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         
@@ -60,7 +60,7 @@ struct HMSRolePickerOptionsView: View {
         if let chatScopes {
             VStack(spacing: 0) {
                 HMSOptionsHeaderView(title: "Send message to") {
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 } onBack: {}
                 HStack {
                     HMSSearchField(searchText: $searchQuery, placeholder: "Search for participants", style: .dark)
@@ -68,10 +68,11 @@ struct HMSRolePickerOptionsView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0) {
                         
-                        if chatScopes.contains(.public) {
+                        // Always show everyone chat.
+//                        if chatScopes.contains(.public) {
                             Button {
                                 selectedOption = .everyone
-                                presentationMode.wrappedValue.dismiss()
+                                dismiss()
                             } label: {
                                 HStack {
                                     Image(assetName: "group")
@@ -94,7 +95,7 @@ struct HMSRolePickerOptionsView: View {
                             }
                             .buttonStyle(.plain)
                             HMSDivider(color: currentTheme.colorTheme.borderBright)
-                        }
+//                        }
                         
                         if filteredRoles.count > 0 {
                             
@@ -118,7 +119,7 @@ struct HMSRolePickerOptionsView: View {
                             }), id: \.name) { role in
                                 Button {
                                     selectedOption = .role(role)
-                                    presentationMode.wrappedValue.dismiss()
+                                    dismiss()
                                 } label: {
                                     HStack {
                                         Text(role.name.capitalized)
@@ -167,7 +168,7 @@ struct HMSRolePickerOptionsView: View {
                             })) { peer in
                                 Button {
                                     selectedOption = .peer(peer)
-                                    presentationMode.wrappedValue.dismiss()
+                                    dismiss()
                                 } label: {
                                     HStack {
                                         Text(peer.name)

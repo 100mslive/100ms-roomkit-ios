@@ -225,7 +225,7 @@ struct HMSChatListView: View {
                                 }
                             case .peer(let peer):
                                 
-                                guard let peer, message.recipient.type == .peer else { return false }
+                                guard message.recipient.type == .peer else { return false }
                                 return message.recipient.peerRecipient == peer.peer
                                 
                             case .role(let role):
