@@ -106,7 +106,7 @@ struct HMSMessageOptionsView: View {
                 HStack {
                     Image(assetName: "eye-crossed")
                         .frame(width: 20, height: 20)
-                    Text("Hide of everyone")
+                    Text("Hide for everyone")
                         .font(.subtitle2Semibold14)
                     
                     Spacer()
