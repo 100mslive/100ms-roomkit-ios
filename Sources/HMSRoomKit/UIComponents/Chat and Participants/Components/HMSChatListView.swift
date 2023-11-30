@@ -60,8 +60,8 @@ struct HMSChatListView: View {
                                 }
                             }
                         
-                        Image(systemName: "pin")
-                            .foreground(.onSurfaceHigh)
+                        Image(assetName: "unpin")
+                            .foreground(.onSurfaceMedium)
                             .onTapGesture {
                                 if canPinMessages {
                                     roomModel.pinnedMessages.remove(firstMessage)
@@ -69,7 +69,20 @@ struct HMSChatListView: View {
                             }
                     }
                     .padding(8)
-                    .cornerRadius(8)
+                    .background {
+                        if !isTransparentMode {
+                            Rectangle()
+                                .foregroundStyle(.clear)
+                                .background(.surfaceDefault, cornerRadius: 8)
+                                .padding(.trailing, 35)
+                                .background(.surfaceDim, cornerRadius: 8)
+                        }
+                        else {
+                            Rectangle()
+                                .foregroundStyle(.clear)
+                                .background(.black, cornerRadius: 8, opacity: 0.64)
+                        }
+                    }
                 }
                 else {
                     HStack {
@@ -114,8 +127,8 @@ struct HMSChatListView: View {
                         .frame(height: (pinnedMessages.count == 2) ? 30 : 45)
                         .clipped()
                         
-                        Image(systemName: "pin")
-                            .foreground(.onSurfaceHigh)
+                        Image(assetName: "unpin")
+                            .foreground(.onSurfaceMedium)
                             .onTapGesture {
                                 if canPinMessages {
                                     if let message = selectedPinnedMessage {
@@ -125,10 +138,22 @@ struct HMSChatListView: View {
                             }
                     }
                     .padding(8)
-                    .cornerRadius(8)
+                    .background {
+                        if !isTransparentMode {
+                            Rectangle()
+                                .foregroundStyle(.clear)
+                                .background(.surfaceDefault, cornerRadius: 8)
+                                .padding(.trailing, 35)
+                                .background(.surfaceDim, cornerRadius: 8)
+                        }
+                        else {
+                            Rectangle()
+                                .foregroundStyle(.clear)
+                                .background(.black, cornerRadius: 8, opacity: 0.64)
+                        }
+                    }
                 }
             }
-            .background(.surfaceDefault, cornerRadius: 8)
         }
     }
     
@@ -238,10 +263,18 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
 
 struct HMSChatListView_Previews: PreviewProvider {
     static var previews: some View {
+        VStack {
 #if Preview
-        HMSChatListView(recipient: .constant(.everyone))
-            .environmentObject(HMSUITheme())
-            .environmentObject(HMSRoomModel.dummyRoom(4))
+            HMSChatListView(recipient: .constant(.everyone))
+                .environmentObject(HMSUITheme())
+                .environmentObject(HMSRoomModel.dummyRoom(4))
 #endif
+            
+#if Preview
+            HMSChatListView(recipient: .constant(.everyone), isTransparentMode: true)
+                .environmentObject(HMSUITheme())
+                .environmentObject(HMSRoomModel.dummyRoom(4))
+#endif
+        }
     }
 }
