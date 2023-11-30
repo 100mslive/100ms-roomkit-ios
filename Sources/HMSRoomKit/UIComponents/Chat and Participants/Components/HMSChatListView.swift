@@ -159,6 +159,29 @@ struct HMSChatListView: View {
     @ViewBuilder
     var messageListView: some View {
         
+        let chatScopes = conferenceParams.chat?.chatScopes
+        
+        var allowedRoles: [HMSRole] {
+            
+            if let chatScopes = chatScopes {
+                if let roleScope = chatScopes.first(where: { scope in
+                    switch scope {
+                    case .roles(_):
+                        return true
+                    default:
+                        return false
+                    }
+                }) {
+                    if case let .roles(whiteList: whiteListedRoles) = roleScope {
+                        return roomModel.roles.filter{whiteListedRoles.contains($0.name)}
+                    }
+                }
+            }
+            
+            // by default no roles are allowed
+            return []
+        }
+        
         let messages = roomModel.messages
         
         ScrollViewReader { scrollView in
@@ -188,7 +211,18 @@ struct HMSChatListView: View {
                         if let recipient {
                             switch recipient {
                             case .everyone:
-                                return true//message.recipient.type == .broadcast
+                                
+                                switch message.recipient.type {
+                                case .broadcast:
+                                    return true
+                                case .roles:
+                                    guard let rolesRecipient = message.recipient.rolesRecipient else { return false }
+                                    return allowedRoles.contains { rolesRecipient.contains($0) }
+                                case .peer:
+                                    return chatScopes?.contains(.private) ?? false
+                                @unknown default:
+                                    fatalError()
+                                }
                             case .peer(let peer):
                                 
                                 guard let peer, message.recipient.type == .peer else { return false }
