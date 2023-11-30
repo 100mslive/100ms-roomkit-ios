@@ -66,7 +66,6 @@ struct HMSMessageOptionsView: View {
                     if let peer = roomModel.peerModels.first(where: {$0.peer == sender}) {
                         recipient = .peer(peer)
                     }
-                    dismiss()
                 }
             }
             
