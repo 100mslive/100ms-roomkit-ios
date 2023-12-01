@@ -118,7 +118,7 @@ struct HMSChatMessageView: View {
                 }
                 .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
                 .frame(maxWidth: .infinity)
-                Text(messageModel.message)
+                Text(LocalizedStringKey(messageModel.message))
                     .font(.body2Regular14)
                     .foreground(.onSurfaceHigh)
 //                    .foreground(isPartOfTransparentChat ? .white : .onSurfaceHigh)

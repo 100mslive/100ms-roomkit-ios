@@ -33,17 +33,12 @@ extension HMSRoomModel {
     static let pinnedMessageKey = "pinnedMessages"
     var pinnedMessages: [PinnedMessage] {
         get {
-#if Preview
-            let pinnedMsgs = sharedStore?[HMSRoomModel.pinnedMessageKey] as? [PinnedMessage] ?? []
-            return pinnedMsgs
-#else
             if let array = sharedStore?[HMSRoomModel.pinnedMessageKey] as? [[String: Any]] {
                 return array.map{PinnedMessage(text: $0["text"] as? String ?? "", id: $0["id"] as? String ?? "", pinnedBy: $0["pinnedBy"] as? String ?? "")}
             }
             else {
                 return []
             }
-#endif
         }
         set {
             sharedStore?[HMSRoomModel.pinnedMessageKey] = newValue.combinedWithoutDuplicates.suffix(3).map{["id": $0.id, "text": $0.text, "pinnedBy": $0.pinnedBy]}

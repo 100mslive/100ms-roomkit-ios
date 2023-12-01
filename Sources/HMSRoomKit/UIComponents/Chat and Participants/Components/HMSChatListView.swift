@@ -41,6 +41,8 @@ struct HMSChatListView: View {
         }
     }
     
+    @State var isPinnedViewExpanded = false
+    
     @ViewBuilder
     var pinnedMessageView: some View {
         
@@ -53,11 +55,13 @@ struct HMSChatListView: View {
                 if filteredPinnedMessages.count < 2, let firstMessage = filteredPinnedMessages.first {
                     
                     HStack {
-                        HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage:firstMessage, isPartOfTransparentChat: true)
+                        HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage:firstMessage, isPartOfTransparentChat: isTransparentMode)
+                            .lineLimit(isPinnedViewExpanded ? nil : 2)
                             .background(.white.opacity(0.0001))
                             .onTapGesture {
                                 withAnimation {
-                                    scrollProxy?.scrollTo(firstMessage.id, anchor: nil)
+                                    isPinnedViewExpanded.toggle()
+                                    //scrollProxy?.scrollTo(firstMessage.id, anchor: nil)
                                 }
                             }
                         
@@ -88,43 +92,66 @@ struct HMSChatListView: View {
                 else {
                     HStack {
                         
-                        GeometryReader { proxy in
-
-                            TabView(selection: $selectedPinnedMessage) {
+                        ZStack {
+                            
+                            GeometryReader { proxy in
                                 
-                                ForEach(filteredPinnedMessages, id:\.self) { message in
-                                    HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage: message, isPartOfTransparentChat: true)
-                                        .background(.white.opacity(0.0001))
-                                        .onTapGesture {
-                                            withAnimation {
-                                                scrollProxy?.scrollTo(message.id, anchor: nil)
+                                TabView(selection: $selectedPinnedMessage) {
+                                    
+                                    ForEach(filteredPinnedMessages, id:\.self) { message in
+                                        HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage: message, isPartOfTransparentChat: isTransparentMode)
+                                            .background(.white.opacity(0.0001))
+                                            .lineLimit(isPinnedViewExpanded ? nil : 2)
+                                            .onTapGesture {
+                                                withAnimation {
+                                                    isPinnedViewExpanded.toggle()
+                                                    //scrollProxy?.scrollTo(message.id, anchor: nil)
+                                                }
                                             }
-                                        }
-                                        .padding(.leading, 40)
-                                        .tag(message as HMSRoomModel.PinnedMessage?)
+                                            .padding(.leading, 40)
+                                            .tag(message as HMSRoomModel.PinnedMessage?)
+                                    }
+                                    .rotationEffect(.degrees(-90)) // Rotate content
+                                    .frame(
+                                        width: proxy.size.width,
+                                        height: proxy.size.height
+                                    )
                                 }
-                                .rotationEffect(.degrees(-90)) // Rotate content
+                                .onAppear() {
+                                    selectedPinnedMessage = filteredPinnedMessages.first
+                                }
                                 .frame(
-                                    width: proxy.size.width,
-                                    height: proxy.size.height
+                                    width: filteredPinnedMessages.count == 2 ? 30 : 45, // Height & width swap
+                                    height: proxy.size.width
+                                )
+                                .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
+                                .offset(x: proxy.size.width) // Offset back into screens bounds
+                                .tabViewStyle(
+                                    PageTabViewStyle(indexDisplayMode: .always)
                                 )
                             }
-                            .onAppear() {
-                                selectedPinnedMessage = filteredPinnedMessages.first
+                            .padding(.leading, -20)
+                            .frame(height: (filteredPinnedMessages.count == 2) ? 30 : 45)
+                            .clipped()
+                            .opacity(isPinnedViewExpanded ? 0 : 1.0)
+                            
+                            if isPinnedViewExpanded {
+                                if let selectedPinnedMessage = selectedPinnedMessage {
+                                    HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage: selectedPinnedMessage, isPartOfTransparentChat: isTransparentMode)
+                                        .background(.white.opacity(0.0001))
+                                        .lineLimit(nil)
+                                        .onTapGesture {
+                                            withAnimation {
+                                                isPinnedViewExpanded.toggle()
+                                                //scrollProxy?.scrollTo(message.id, anchor: nil)
+                                            }
+                                        }
+                                }
                             }
-                            .frame(
-                                width: filteredPinnedMessages.count == 2 ? 30 : 45, // Height & width swap
-                                height: proxy.size.width
-                            )
-                            .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
-                            .offset(x: proxy.size.width) // Offset back into screens bounds
-                            .tabViewStyle(
-                                PageTabViewStyle(indexDisplayMode: .always)
-                            )
+                            else {
+                                
+                            }
                         }
-                        .padding(.leading, -20)
-                        .frame(height: (filteredPinnedMessages.count == 2) ? 30 : 45)
-                        .clipped()
                         
                         Image(assetName: "unpin")
                             .foreground(.onSurfaceMedium)
@@ -153,6 +180,9 @@ struct HMSChatListView: View {
                     }
                 }
             }
+        }
+        else {
+            Text("\(filteredPinnedMessages.count)")
         }
     }
     

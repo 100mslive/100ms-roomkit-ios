@@ -19,9 +19,8 @@ struct HMSPinnedChatMessageView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
             
-            Text(pinnedMessage.text)
+            Text(LocalizedStringKey(pinnedMessage.text))
                 .fixedSize(horizontal: false, vertical: true)
-                .lineLimit(2)
                 .font(.captionSemibold12)
                 .foreground(isPartOfTransparentChat ? .white : .onSurfaceHigh)
                 .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
