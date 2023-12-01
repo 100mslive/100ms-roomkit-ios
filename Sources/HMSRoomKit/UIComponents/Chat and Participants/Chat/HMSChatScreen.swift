@@ -120,6 +120,16 @@ struct HMSChatScreen: View {
                         
                         if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
                             // if user is blacklisted don't show send field
+                            
+                            HStack {
+                                Spacer()
+                                Text("You’ve been blocked from sending messages")
+                                    .foreground(.onSurfaceMedium)
+                                    .font(.body2Regular14)
+                                Spacer()
+                            }
+                            .padding(.vertical, 8)
+                            .background(.surfaceDefault, cornerRadius: 8)
                         }
                         else {
                             if recipient == .everyone && !chatScopes.contains(.public) {
