@@ -219,7 +219,8 @@ struct HMSChatListView: View {
                                     guard let rolesRecipient = message.recipient.rolesRecipient else { return false }
                                     return allowedRoles.contains { rolesRecipient.contains($0) }
                                 case .peer:
-                                    return chatScopes?.contains(.private) ?? false
+                                    // show dms in everyone even if they can't reply to it.
+                                    return true
                                 @unknown default:
                                     fatalError()
                                 }
