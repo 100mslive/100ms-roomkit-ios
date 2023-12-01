@@ -181,9 +181,6 @@ struct HMSChatListView: View {
                 }
             }
         }
-        else {
-            Text("\(filteredPinnedMessages.count)")
-        }
     }
     
     @ViewBuilder
