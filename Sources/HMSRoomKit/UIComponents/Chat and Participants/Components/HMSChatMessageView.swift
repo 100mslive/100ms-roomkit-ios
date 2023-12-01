@@ -29,19 +29,31 @@ struct HMSChatMessageView: View {
     }()
     
     var body: some View {
+        if isPartOfTransparentChat {
+            messageView
+                .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
+        }
+        else {
+            messageView
+                .cornerRadius(8)
+        }
+    }
+    
+    var messageView: some View {
         HStack(alignment: .top, spacing: 12) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 4) {
                     Text(messageModel.sender?.name ?? "")
                         .font(.subtitle2Semibold14)
-                        .foreground(isPartOfTransparentChat ? .white : .onSurfaceHigh)
-                        .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
+                        .foreground(.onSurfaceHigh)
+//                        .foreground(isPartOfTransparentChat ? .white : .onSurfaceHigh)
+//                        .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
                     
-                    if !isPartOfTransparentChat {
+//                    if !isPartOfTransparentChat {
                         Text(formatter.string(from: messageModel.time))
                             .font(.captionRegular12).foreground(.onSurfaceMedium)
-                            .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
-                    }
+//                            .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
+//                    }
                     
                     Spacer()
                     
@@ -105,24 +117,30 @@ struct HMSChatMessageView: View {
                 .frame(maxWidth: .infinity)
                 Text(messageModel.message)
                     .font(.body2Regular14)
-                    .foreground(isPartOfTransparentChat ? .white : .onSurfaceHigh)
-                    .shadow(color: isPartOfTransparentChat ? .black : .clear ,radius: 3, y: 1)
+                    .foreground(.onSurfaceHigh)
+//                    .foreground(isPartOfTransparentChat ? .white : .onSurfaceHigh)
+//                    .shadow(color: isPartOfTransparentChat ? .black : .clear ,radius: 3, y: 1)
                 
             }
             .frame(maxWidth: .infinity)
             
         }
         .padding(12)
-        .cornerRadius(8)
     }
 }
 
 struct HMSChatMessageView_Previews: PreviewProvider {
     static var previews: some View {
+        VStack {
 #if Preview
-        HMSChatMessageView(messageModel: .init(message: "hello"), isPartOfTransparentChat: false, recipient: .constant(.everyone))
-            .environmentObject(HMSUITheme())
-            .environmentObject(HMSRoomModel.dummyRoom(3))
+            HMSChatMessageView(messageModel: .init(message: "hello"), isPartOfTransparentChat: false, recipient: .constant(.everyone))
+                .environmentObject(HMSUITheme())
+                .environmentObject(HMSRoomModel.dummyRoom(3))
+            
+            HMSChatMessageView(messageModel: .init(message: "hello"), isPartOfTransparentChat: true, recipient: .constant(.everyone))
+                .environmentObject(HMSUITheme())
+                .environmentObject(HMSRoomModel.dummyRoom(3))
 #endif
+        }
     }
 }

@@ -88,8 +88,10 @@ struct HMSChatScreen: View {
         let messages =  roomModel.messages
         
         return ZStack {
-            if messages.isEmpty {
-                HMSChatPlaceholderView()
+            if !isTransparentMode {
+                if messages.isEmpty {
+                    HMSChatPlaceholderView()
+                }
             }
             HMSChatListView(recipient: $recipient, isTransparentMode: isTransparentMode)
         }
