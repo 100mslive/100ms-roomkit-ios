@@ -62,6 +62,8 @@ struct HMSChatMessageView: View {
                         if recipient == .everyone {
                             if messageModel.recipient.type == .peer {
                                 Text("Direct Message")
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.1)
                                     .font(.captionRegular12)
                                     .foreground(.onSecondaryHigh)
                                     .padding(4)
@@ -79,7 +81,8 @@ struct HMSChatMessageView: View {
                                         .foreground(.onSecondaryHigh)
                                 }
                                 .font(.captionRegular12)
-                                
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.1)
                                 .padding(4)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 4)
