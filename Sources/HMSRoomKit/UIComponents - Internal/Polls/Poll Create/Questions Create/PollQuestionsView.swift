@@ -76,7 +76,7 @@ struct PollQuestionsView: View {
                     }
                 }.buttonStyle(ActionButtonLowEmphStyle()).allowsHitTesting(!model.loading)
             }
-        }.padding(16).background(HMSUIColorTheme().surfaceBright).clipShape(RoundedRectangle(cornerRadius: 8))
+        }.padding(16).background(HMSUIColorTheme().surfaceDefault).clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 

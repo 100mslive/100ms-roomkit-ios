@@ -43,6 +43,6 @@ struct PollListEntryView: View {
                }.buttonStyle(ActionButtonStyle()).allowsHitTesting(false)
            }.frame(width: 89)
             
-       }.padding(16).background(HMSUIColorTheme().surfaceBright).clipShape(RoundedRectangle(cornerRadius: 8))
+       }.padding(16).background(HMSUIColorTheme().surfaceDefault).clipShape(RoundedRectangle(cornerRadius: 8))
    }
 }

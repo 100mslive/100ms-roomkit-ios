@@ -30,9 +30,12 @@ struct PollLeaderboardView: View {
             Spacer(minLength: 24)
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Leaderboard").foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
-                        Text("Based on time taken to cast the correct answer").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular)
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Leaderboard").foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
+                            Text("Based on time taken to cast the correct answer").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular)
+                        }
+                        Spacer()
                     }
                     
                     VStack(alignment: .leading, spacing: 16) {
@@ -44,7 +47,7 @@ struct PollLeaderboardView: View {
             }
         }
         .padding(.horizontal, 24)
-        .background(HMSUIColorTheme().surfaceDefault)
+        .background(HMSUIColorTheme().surfaceDim)
         .ignoresSafeArea()
         .navigationBarHidden(true)
         .onAppear {
@@ -60,7 +63,7 @@ struct PollLeaderboardEntryView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             if model.place < 4 {
-                Text("\(model.place)").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().captionSemibold).padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
+                Text("\(model.place)").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().captionSemibold12).padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
                     .background(
                         Rectangle()
                             .cornerRadius(12, corners: .allCorners)
@@ -68,7 +71,7 @@ struct PollLeaderboardEntryView: View {
                             .frame(width: 24, height: 24)
                     ).frame(width: 24, height: 24)
             } else {
-                Text("\(model.place)").foregroundColor(HMSUIColorTheme().onSurfaceLow).font(HMSUIFontTheme().captionSemibold)
+                Text("\(model.place)").foregroundColor(HMSUIColorTheme().onSurfaceLow).font(HMSUIFontTheme().captionSemibold12)
             }
             
             VStack(alignment: .leading) {

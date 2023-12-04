@@ -71,10 +71,10 @@ struct PollVoteView: View {
                         }
                     }
                 }
-            }.background(HMSUIColorTheme().surfaceDefault)
+            }.background(HMSUIColorTheme().surfaceDim)
         }
         .padding(.horizontal, 24)
-        .background(HMSUIColorTheme().surfaceDefault)
+        .background(HMSUIColorTheme().surfaceDim)
         .onAppear(perform: model.load)
         .ignoresSafeArea()
         .navigationBarHidden(true)

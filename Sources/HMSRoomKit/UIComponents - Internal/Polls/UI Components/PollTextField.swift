@@ -21,12 +21,12 @@ struct PollTextField: View {
                 self.editing = edit
             })
                 .font(HMSUIFontTheme().body1Regular16)
-                .foregroundColor(HMSUIColorTheme().onPrimaryHigh)
+                .foregroundColor(HMSUIColorTheme().onSurfaceHigh)
                 .textFieldStyle(HMSMainTextFieldStyle(focused: $editing, valid: valid))
             
             if text.isEmpty {
                 Text(placeholder).font(HMSUIFontTheme().body1Regular16)
-                    .foregroundColor(HMSUIColorTheme().secondaryDisabled)
+                    .foregroundColor(HMSUIColorTheme().onSurfaceLow)
                 .padding(.horizontal, 16).allowsHitTesting(false)
             }
         }

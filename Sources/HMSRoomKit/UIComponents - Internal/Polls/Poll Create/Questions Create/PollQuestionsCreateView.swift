@@ -26,7 +26,7 @@ struct PollQuestionsCreateView: View {
                 } label: {
                     Label("", systemImage: "chevron.left").foregroundColor(HMSUIColorTheme().onPrimaryHigh)
                 }
-                Text(model.pollModel.selectedCategory == .poll ? "Poll" : "Quiz").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
+                Text(model.pollModel.createdPoll?.category == .poll ? "Poll" : "Quiz").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
                 Spacer().frame(height: 16)
             }
             Spacer(minLength: 16)
@@ -50,7 +50,7 @@ struct PollQuestionsCreateView: View {
                 Spacer(minLength: 24)
                 HStack {
                     Spacer()
-                    Button("Launch \(model.pollModel.selectedCategory == .poll ? "Poll" : "Quiz")") {
+                    Button("Launch \(model.pollModel.createdPoll?.category == .poll ? "Poll" : "Quiz")") {
                         model.startPoll()
                         presentationMode.wrappedValue.dismiss()
                     }.buttonStyle(ActionButtonStyle(isWide: false)).alert(isPresented: $model.showingAlert) {
@@ -60,7 +60,7 @@ struct PollQuestionsCreateView: View {
             }
             
             Spacer(minLength: 24)
-        }.padding(.horizontal, 24).background(HMSUIColorTheme().surfaceDefault).ignoresSafeArea().onAppear {
+        }.padding(.horizontal, 24).background(HMSUIColorTheme().surfaceDim).ignoresSafeArea().onAppear {
             model.loadQuestions()
         }.navigationBarHidden(true)
             

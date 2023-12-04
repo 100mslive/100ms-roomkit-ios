@@ -39,9 +39,7 @@ struct HMSPickerField: View {
             }
             .padding(16)
             .background(HMSUIColorTheme().surfaceBright)
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(HMSUIColorTheme().borderBright, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
         }
     }
 }
