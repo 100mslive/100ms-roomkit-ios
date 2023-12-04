@@ -40,7 +40,11 @@ struct PollQuestionsView: View {
                     }
                 }
                 if (model.showAnswerSelection) {
-                    PollTextField(placeholder: "Point Weightage", text: $model.weight, valid: true)
+                    HStack {
+                        Text("Point Weightage").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().body2Regular14)
+                        Spacer()
+                        PollTextField(placeholder: "", text: $model.weight, valid: true).frame(width: 88)
+                    }
                 }
             } else {
                 VStack(alignment: .leading, spacing: 16) {
