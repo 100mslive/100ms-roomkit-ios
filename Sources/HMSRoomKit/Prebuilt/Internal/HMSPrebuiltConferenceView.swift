@@ -148,6 +148,10 @@ struct HMSPrebuiltConferenceView: View {
             }
 #if !Preview
             .onChange(of: pollModel.currentPolls) { currentPolls in
+                // hide poll notifications for hls viewer
+                if roomInfoModel.conferencingType == .liveStreaming {
+                    return
+                }
                 
                 let existingPollNotificationIds = roomKitModel.notifications.filter {
                     if case .poll(_) = $0.type {
@@ -190,17 +194,26 @@ struct HMSPrebuiltConferenceView: View {
                 let center = roomModel.interactivityCenter
                 if let role = roomModel.localPeerModel?.role {
                     pollCreateModel = PollCreateModel(interactivityCenter: center, limitViewResultsToRoles: [role], currentRole: role)
+                    pollCreateModel?.onPollStart = { [weak pollCreateModel] in
+                        let pollId = pollCreateModel?.createdPoll?.pollID ?? ""
+                        Task {
+                            try await roomModel.send(hlsMetadata: [HMSHLSTimedMetadata(payload: "poll:\(pollId)")])
+                        }
+                    }
                 }
             }
-            .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-view"))) { _ in
+            .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-view"))) { notification in
                 let center = roomModel.interactivityCenter
-//                guard let pollIdOfInterest: String = pollModel.currentPolls as? String else { return }
                 if let role = roomModel.localPeerModel?.peer.role {
                     
                     pollVoteViewModels = nil
                     
-                    pollVoteViewModels = pollModel.currentPolls.map { poll in
-                        PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
+                    if let pollID = notification.userInfo?["pollID"] as? String, let poll = pollModel.currentPolls.first(where: { $0.pollID == pollID }) {
+                        pollVoteViewModels = [PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])]
+                    } else {
+                        pollVoteViewModels = pollModel.currentPolls.map { poll in
+                            PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
+                        }
                     }
                 }
             }

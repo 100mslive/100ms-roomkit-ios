@@ -23,6 +23,12 @@ struct HMSHLSViewerScreen: View {
                 .onPlaybackFailure { error in
                     print("hlsError: \(error.localizedDescription)")
                 }
+                .onCue { cue in
+                    guard let payload = cue.payload, payload.starts(with: "poll") else { return }
+                    let pollID = payload.replacingOccurrences(of: "poll:", with: "")
+                    
+                    NotificationCenter.default.post(name: .init(rawValue: "poll-view"), object: nil, userInfo: ["pollID" : pollID])
+                }
 #endif
         }
         else {
