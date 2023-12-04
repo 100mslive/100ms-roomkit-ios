@@ -15,7 +15,7 @@ struct HMSChatOverlay: View {
     @Environment(\.tabPageBarState) var tabPageBarState
     @Environment(\.keyboardState) var keyboardState
     
-    @EnvironmentObject var roomKitModel: HMSRoomKitModel
+    @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
     
     @Binding var isChatPresented: Bool
     let isHLSViewer: Bool
@@ -30,7 +30,7 @@ struct HMSChatOverlay: View {
                     // transparent chat
                     if isChatPresented {
                         
-                        HMSTransparentChatScreen(isTransparentMode: true)
+                        HMSChatScreen(isTransparentMode: true)
                             .frame(maxHeight: 332)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(isHLSViewer ? [.horizontal, .top] : [.horizontal, .vertical], 8)
@@ -86,8 +86,8 @@ struct HMSChatOverlay: View {
 struct HMSChatOverlay_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        let roomKitModel: HMSRoomKitModel = {
-            let model = HMSRoomKitModel()
+        let roomKitModel: HMSRoomNotificationModel = {
+            let model = HMSRoomNotificationModel()
             model.notifications.append(.init(id: "id1", type: .handRaised, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
             model.notifications.append(.init(id: "id2", type: .handRaised, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
             model.notifications.append(.init(id: "id3", type: .handRaised, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))

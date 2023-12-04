@@ -24,7 +24,7 @@ public struct HMSDefaultConferenceScreen: View {
     
     @State var isChatPresented = false
     
-    @EnvironmentObject var roomKitModel: HMSRoomKitModel
+    @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
     
     let isHLSViewer: Bool
     
@@ -136,7 +136,7 @@ public struct HMSDefaultConferenceScreen: View {
             checkAndHideControls()
         }
         .onAppear() {
-            roomModel.beginObserving(keys: [HMSRoomModel.spotlightKey, HMSRoomModel.pinnedMessageKey])
+            roomModel.beginObserving(keys: [HMSRoomModel.spotlightKey, HMSRoomModel.pinnedMessageKey, HMSRoomModel.chatPeerBlacklistKey, HMSRoomModel.chatMessageBlacklistKey])
         }
         .animation(.default, value: userStreamingState.wrappedValue)
 #if !Preview
@@ -253,8 +253,8 @@ public struct HMSDefaultConferenceScreen: View {
 struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        let roomKitModel: HMSRoomKitModel = {
-            let model = HMSRoomKitModel()
+        let roomKitModel: HMSRoomNotificationModel = {
+            let model = HMSRoomNotificationModel()
             model.notifications.append(.init(id: "id1", type: .handRaised, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
             model.notifications.append(.init(id: "id2", type: .handRaised, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
             model.notifications.append(.init(id: "id3", type: .handRaised, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
@@ -265,13 +265,13 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
             return model
         }()
         
-        HMSDefaultConferenceScreen(isHLSViewer: false)
+        HMSDefaultConferenceScreen(isHLSViewer: true)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(HMSPrebuiltOptions())
             .environmentObject(HMSRoomInfoModel())
             .environmentObject(roomKitModel)
-            .environment(\.conferenceParams, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
+            .environment(\.conferenceParams, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true, chatScopes: [.private, .public]), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
 #endif
     }
 }

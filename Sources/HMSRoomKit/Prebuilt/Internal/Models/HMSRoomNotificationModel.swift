@@ -9,7 +9,7 @@
 import Foundation
 
 @MainActor
-class HMSRoomKitModel: ObservableObject {
+class HMSRoomNotificationModel: ObservableObject {
     
     deinit {
         print("deinit HMSRoomKitModel")

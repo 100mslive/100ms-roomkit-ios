@@ -21,7 +21,7 @@ struct HMSSessionMenuButton: View {
                 .resizable()
                 .frame(width: 21, height: 20)
                 .foreground(isDisabled ? .onSurfaceLow : .onSurfaceHigh)
-            Text(text).font(.captionSemibold)
+            Text(text).font(.captionSemibold12)
                 .multilineTextAlignment(.center)
                 .foreground(isDisabled ? .onSurfaceLow : .onSurfaceHigh)
         }

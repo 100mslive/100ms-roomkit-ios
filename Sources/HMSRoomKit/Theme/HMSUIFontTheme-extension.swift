@@ -14,8 +14,8 @@ extension HMSUIFontTheme {
          switch token {
          case .captionRegular12:
              return captionRegular
-         case .captionSemibold:
-             return captionSemibold
+         case .captionSemibold12:
+             return captionSemibold12
          case .body2Regular14:
              return body2Regular14
          case .body1Regular16:
@@ -28,6 +28,8 @@ extension HMSUIFontTheme {
              return subtitle1
          case .subtitle2Semibold14:
              return subtitle2Semibold14
+         case .subtitle2Semibold16:
+             return subtitle2Semibold16
          case .buttonSemibold16:
              return buttonSemibold16
          case .overlineMedium:
@@ -44,13 +46,14 @@ extension HMSUIFontTheme {
 
 public enum HMSThemeFont {
     case captionRegular12
-    case captionSemibold
+    case captionSemibold12
     case body2Regular14
     case body1Regular16
     case body1Semibold16
     case body2Semibold14
     case subtitle1
     case subtitle2Semibold14
+    case subtitle2Semibold16
     case buttonSemibold16
     case overlineMedium
     case heading6Semibold20

@@ -78,6 +78,8 @@ extension HMSUIColorTheme {
             return alertErrorDim
         case .white:
             return .white
+        case .black:
+            return .black
         }
     }
 }
@@ -125,6 +127,7 @@ public enum HMSThemeColor {
     case errorDim
     
     case white
+    case black
 }
 
 extension Color {

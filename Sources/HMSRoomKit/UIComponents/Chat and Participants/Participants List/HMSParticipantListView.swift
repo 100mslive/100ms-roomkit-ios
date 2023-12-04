@@ -159,7 +159,7 @@ class HMSParticipantListViewModel {
     }
     
     
-    static func makeSectionedPeers(from peers: [HMSPeerModel], roles: [RoleType], offStageRoles: [String], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeSectionedPeers(from peers: [HMSPeerModel], roles: [HMSRole], offStageRoles: [String], searchQuery: String) -> [PeerSectionViewModel] {
         
         let roleSectionMap = roles.reduce(into: [String: PeerSectionViewModel]()) {
             let newSection = PeerSectionViewModel(name: $1.name)
@@ -479,8 +479,9 @@ struct HMSSearchField: View {
     
     var body: some View {
         HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass").foreground(.onSurfaceMedium)
-            TextField("", text: $searchText, prompt: Text(placeholder))
+            Image(systemName: "magnifyingglass")
+                .foreground(.onSurfaceMedium)
+            TextField("", text: $searchText, prompt: Text(placeholder).foregroundColor(currentTheme.colorTheme.onSurfaceLow))
                 .foreground(.onSurfaceMedium)
                 .font(.body2Regular14)
         }

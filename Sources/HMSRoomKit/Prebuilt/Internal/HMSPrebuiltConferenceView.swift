@@ -21,7 +21,7 @@ struct HMSPrebuiltConferenceView: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
-    @StateObject var roomKitModel = HMSRoomKitModel()
+    @StateObject var roomKitModel = HMSRoomNotificationModel()
     
     @EnvironmentObject var pollModel: HMSRoomKitPollModel
     
@@ -39,7 +39,20 @@ struct HMSPrebuiltConferenceView: View {
                         if let defaultScreen = roomInfoModel.defaultConferencingScreen {
                             
                             if let chat = defaultScreen.elements?.chat {
-                                screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay , allowsPinningMessages: chat.allow_pinning_messages )
+                                
+                                var chatScopes = [HMSConferenceScreen.DefaultType.Chat.Scope]()
+                                
+                                if chat.public_chat_enabled {
+                                    chatScopes.append(.public)
+                                }
+                                
+                                chatScopes.append(.roles(whiteList: chat.roles_whitelist))
+                                
+                                if chat.private_chat_enabled {
+                                    chatScopes.append(.private)
+                                }
+                                
+                                screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay, allowsPinningMessages: chat.allow_pinning_messages, title: chat.chat_title, messagePlaceholder: chat.message_placeholder, chatScopes: chatScopes, controls: .init(canDisableChat: chat.real_time_controls?.can_disable_chat ?? false, canBlockUser: chat.real_time_controls?.can_block_user ?? false, canHideMessage: chat.real_time_controls?.can_hide_message ?? false))
                             }
                             else {
                                 screen.chat = nil
@@ -79,7 +92,20 @@ struct HMSPrebuiltConferenceView: View {
                         if let defaultScreen = roomInfoModel.liveStreamingConferencingScreen {
                             
                             if let chat = defaultScreen.elements?.chat {
-                                screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay , allowsPinningMessages: chat.allow_pinning_messages )
+                                
+                                var chatScopes = [HMSConferenceScreen.DefaultType.Chat.Scope]()
+                                
+                                if chat.public_chat_enabled {
+                                    chatScopes.append(.public)
+                                }
+                                
+                                chatScopes.append(.roles(whiteList: chat.roles_whitelist))
+                                
+                                if chat.private_chat_enabled {
+                                    chatScopes.append(.private)
+                                }
+                                
+                                screen.chat = .init(initialState: chat.initial_state == .CHAT_STATE_OPEN ? .open : .close, isOverlay: chat.is_overlay, allowsPinningMessages: chat.allow_pinning_messages, title: chat.chat_title, messagePlaceholder: chat.message_placeholder, chatScopes: chatScopes, controls: .init(canDisableChat: chat.real_time_controls?.can_disable_chat ?? false, canBlockUser: chat.real_time_controls?.can_block_user ?? false, canHideMessage: chat.real_time_controls?.can_hide_message ?? false))
                             }
                             else {
                                 screen.chat = nil

@@ -53,14 +53,50 @@ extension HMSConferenceScreen {
                 case close
             }
             
+            // chat states
             public var initialState: InitialState = .close
             public var isOverlay: Bool = false
             public var allowsPinningMessages: Bool = true
+            public var title: String = "Live chat"
+            public var messagePlaceholder: String = "Send a message"
             
-            public init(initialState: InitialState, isOverlay: Bool, allowsPinningMessages: Bool) {
+            // chat controls
+            public enum Scope: Equatable {
+                case `public`
+                case `private`
+                case roles(whiteList: [String])
+            }
+            
+            public var chatScopes: [Scope] = [.public, .private]
+            
+            public struct Controls {
+                public let canDisableChat: Bool
+                public let canBlockUser: Bool
+                public let canHideMessage: Bool
+                
+                public init(canDisableChat: Bool, canBlockUser: Bool, canHideMessage: Bool) {
+                    self.canDisableChat = canDisableChat
+                    self.canBlockUser = canBlockUser
+                    self.canHideMessage = canHideMessage
+                }
+            }
+            
+            public var controls: Controls? = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)
+            
+            public init(initialState: InitialState = .close,
+                        isOverlay: Bool = false,
+                        allowsPinningMessages: Bool = true,
+                        title: String = "Live chat",
+                        messagePlaceholder: String = "Send a message",
+                        chatScopes: [Scope] = [.public, .private],
+                        controls: Controls? = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)) {
                 self.initialState = initialState
                 self.isOverlay = isOverlay
                 self.allowsPinningMessages = allowsPinningMessages
+                self.title = title
+                self.messagePlaceholder = messagePlaceholder
+                self.chatScopes = chatScopes
+                self.controls = controls ?? .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)
             }
         }
         
