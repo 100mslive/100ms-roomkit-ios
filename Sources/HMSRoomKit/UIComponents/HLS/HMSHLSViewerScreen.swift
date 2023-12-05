@@ -27,7 +27,7 @@ struct HMSHLSViewerScreen: View {
                     guard let payload = cue.payload, payload.starts(with: "poll") else { return }
                     let pollID = payload.replacingOccurrences(of: "poll:", with: "")
                     
-                    NotificationCenter.default.post(name: .init(rawValue: "poll-view"), object: nil, userInfo: ["pollID" : pollID])
+                    NotificationCenter.default.post(name: .init(rawValue: "poll-hls-cue"), object: nil, userInfo: ["pollID" : pollID])
                 }
 #endif
         }

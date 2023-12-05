@@ -147,38 +147,8 @@ struct HMSPrebuiltConferenceView: View {
                 UIApplication.shared.isIdleTimerDisabled = true
             }
 #if !Preview
-            .onChange(of: pollModel.currentPolls) { currentPolls in
-                // hide poll notifications for hls viewer
-                if roomInfoModel.conferencingType == .liveStreaming {
-                    return
-                }
-                
-                let existingPollNotificationIds = roomKitModel.notifications.filter {
-                    if case .poll(_) = $0.type {
-                        return true
-                    }
-                    else {
-                        return false
-                    }
-                }.map{$0.id}
-                
-                let newPolls = currentPolls.filter{!existingPollNotificationIds.contains($0.pollID)}
-                let pollsThatAreStopped = existingPollNotificationIds.filter{!currentPolls.map{$0.pollID}.contains($0)}
-                
-                // Remove notification for peers who have lowered their hands
-                roomKitModel.removeNotification(for: pollsThatAreStopped)
-                
-                guard (roomModel.userRole?.permissions.pollRead ?? false) || (roomModel.userRole?.permissions.pollWrite ?? false) else { return }
-                
-                pollsOptionAppearance.containsItems.wrappedValue = currentPolls.count > 0
-                
-                // add notification for each new peer
-                for newPoll in newPolls {
-                    let notification = HMSRoomKitNotification(id: newPoll.pollID, type: .poll(type: newPoll.category), actor: newPoll.createdBy?.name ?? "", isDismissible: true, title: "\(newPoll.createdBy?.name ?? "") started a new \(newPoll.category == .poll ? "poll": "quiz")")
-                    roomKitModel.addNotification(notification)
-                    
-                    pollsOptionAppearance.badgeState.wrappedValue = .badged
-                }
+            .onChange(of: pollModel.currentPolls) { _ in
+                updatePollNotifications()
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-vote"))) { notification in
                 let center = roomModel.interactivityCenter
@@ -202,18 +172,19 @@ struct HMSPrebuiltConferenceView: View {
                     }
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-hls-cue"))) { notification in
+                if let pollID = notification.userInfo?["pollID"] as? String {
+                    updatePollNotifications(pollID: pollID)
+                }
+            }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-view"))) { notification in
                 let center = roomModel.interactivityCenter
                 if let role = roomModel.localPeerModel?.peer.role {
                     
                     pollVoteViewModels = nil
                     
-                    if let pollID = notification.userInfo?["pollID"] as? String, let poll = pollModel.currentPolls.first(where: { $0.pollID == pollID }) {
-                        pollVoteViewModels = [PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])]
-                    } else {
-                        pollVoteViewModels = pollModel.currentPolls.map { poll in
-                            PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
-                        }
+                    pollVoteViewModels = pollModel.currentPolls.map { poll in
+                        PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
                     }
                 }
             }
@@ -237,6 +208,40 @@ struct HMSPrebuiltConferenceView: View {
             if !roomModel.roleChangeRequests.isEmpty {
                 HMSPreviewRoleScreen()
             }
+        }
+    }
+    
+    func updatePollNotifications(pollID: String? = nil) {
+        // hide poll notifications for hls viewer
+        if roomInfoModel.conferencingType == .liveStreaming && pollID == nil {
+            return
+        }
+        
+        let existingPollNotificationIds = roomKitModel.notifications.filter {
+            if case .poll(_) = $0.type {
+                return true
+            }
+            else {
+                return false
+            }
+        }.map{$0.id}
+        
+        let newPolls = pollModel.currentPolls.filter{!existingPollNotificationIds.contains($0.pollID) && (pollID == nil || $0.pollID == pollID )}
+        let pollsThatAreStopped = existingPollNotificationIds.filter{!pollModel.currentPolls.map{$0.pollID}.contains($0)}
+        
+        // Remove notification for peers who have lowered their hands
+        roomKitModel.removeNotification(for: pollsThatAreStopped)
+        
+        guard (roomModel.userRole?.permissions.pollRead ?? false) || (roomModel.userRole?.permissions.pollWrite ?? false) else { return }
+        
+        pollsOptionAppearance.containsItems.wrappedValue = pollModel.currentPolls.count > 0
+        
+        // add notification for each new peer
+        for newPoll in newPolls {
+            let notification = HMSRoomKitNotification(id: newPoll.pollID, type: .poll(type: newPoll.category), actor: newPoll.createdBy?.name ?? "", isDismissible: true, title: "\(newPoll.createdBy?.name ?? "") started a new \(newPoll.category == .poll ? "poll": "quiz")")
+            roomKitModel.addNotification(notification)
+            
+            pollsOptionAppearance.badgeState.wrappedValue = .badged
         }
     }
 }
