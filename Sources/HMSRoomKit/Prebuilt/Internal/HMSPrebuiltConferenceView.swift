@@ -16,6 +16,7 @@ extension [PollVoteViewModel]: Identifiable {
 }
 
 struct HMSPrebuiltConferenceView: View {
+    static let hlsCueDuration = 20
     
     @Environment(\.pollsOptionAppearance) var pollsOptionAppearance
     
@@ -167,7 +168,7 @@ struct HMSPrebuiltConferenceView: View {
                     pollCreateModel?.onPollStart = { [weak pollCreateModel] in
                         let pollId = pollCreateModel?.createdPoll?.pollID ?? ""
                         Task {
-                            try await roomModel.send(hlsMetadata: [HMSHLSTimedMetadata(payload: "poll:\(pollId)")])
+                            try await roomModel.send(hlsMetadata: [HMSHLSTimedMetadata(payload: "poll:\(pollId)", duration: HMSPrebuiltConferenceView.hlsCueDuration)])
                         }
                     }
                 }
@@ -212,11 +213,7 @@ struct HMSPrebuiltConferenceView: View {
     }
     
     func updatePollNotifications(pollID: String? = nil) {
-        // hide poll notifications for hls viewer
-        if roomInfoModel.conferencingType == .liveStreaming && pollID == nil {
-            return
-        }
-        
+        let isHLSViewer = (roomInfoModel.conferencingType == .liveStreaming)
         let existingPollNotificationIds = roomKitModel.notifications.filter {
             if case .poll(_) = $0.type {
                 return true
@@ -226,7 +223,23 @@ struct HMSPrebuiltConferenceView: View {
             }
         }.map{$0.id}
         
-        let newPolls = pollModel.currentPolls.filter{!existingPollNotificationIds.contains($0.pollID) && (pollID == nil || $0.pollID == pollID )}
+        let newPolls = pollModel.currentPolls.filter { poll in
+            guard !existingPollNotificationIds.contains(poll.pollID) else { return false }
+            // Rest of the conditions are specific to HLS stream viewers
+            guard isHLSViewer else { return true }
+           
+            // Poll is older than hls rolling window so assume timed metadata cue will not come
+            if let startedAt = poll.startedAt, Date().timeIntervalSince(startedAt) >= TimeInterval(HMSPrebuiltConferenceView.hlsCueDuration) {
+                return true
+            }
+            // Cue has come with poll ID show matching poll
+            else if poll.pollID == pollID {
+                return true
+            }
+            
+            return false
+        }
+        
         let pollsThatAreStopped = existingPollNotificationIds.filter{!pollModel.currentPolls.map{$0.pollID}.contains($0)}
         
         // Remove notification for peers who have lowered their hands
