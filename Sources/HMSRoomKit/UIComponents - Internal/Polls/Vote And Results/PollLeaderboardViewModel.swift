@@ -50,7 +50,7 @@ class PollLeaderboardEntryViewModel: Identifiable {
         self.name = entry.peer?.userName ?? "Unknown"
         self.score = totalScore > 0 ? "\(entry.score)/\(totalScore)" : ""
         self.correctAnswers = "\(entry.correctResponses)/\(totalQuestions)"
-        self.time = "\(entry.duration)s"
+        self.time = ""
         self.isNoResponse = entry.totalResponses == 0
     }
     

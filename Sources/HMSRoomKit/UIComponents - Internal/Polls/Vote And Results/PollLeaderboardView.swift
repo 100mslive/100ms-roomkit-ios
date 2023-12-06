@@ -88,9 +88,11 @@ struct PollLeaderboardEntryView: View {
                 Image(assetName: "circle-checkmark").foregroundColor(HMSUIColorTheme().onSurfaceMedium).frame(width: 12, height: 12)
                 Text(model.correctAnswers).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().captionRegular)
             }
-            HStack(spacing: 4) {
-                Image(assetName: "clock").foregroundColor(HMSUIColorTheme().onSurfaceMedium).frame(width: 12, height: 12)
-                Text(model.time).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().captionRegular)
+            if !model.time.isEmpty {
+                HStack(spacing: 4) {
+                    Image(assetName: "clock").foregroundColor(HMSUIColorTheme().onSurfaceMedium).frame(width: 12, height: 12)
+                    Text(model.time).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().captionRegular)
+                }
             }
         }
     }
