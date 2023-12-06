@@ -60,7 +60,7 @@ struct PollQuestionsCreateView: View {
             }
             
             Spacer(minLength: 24)
-        }.padding(.horizontal, 24).background(HMSUIColorTheme().surfaceDim).ignoresSafeArea().onAppear {
+        }.padding(.horizontal, 24).background(HMSUIColorTheme().surfaceDim).onAppear {
             model.loadQuestions()
         }.navigationBarHidden(true)
             

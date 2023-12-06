@@ -43,7 +43,7 @@ struct PollQuestionsView: View {
                     HStack {
                         Text("Point Weightage").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().body2Regular14)
                         Spacer()
-                        PollTextField(placeholder: "", text: $model.weight, valid: true).frame(width: 88)
+                        PollTextField(placeholder: "", text: $model.weight, valid: true, keyboardType: .numberPad).frame(width: 88)
                     }
                 }
             } else {
