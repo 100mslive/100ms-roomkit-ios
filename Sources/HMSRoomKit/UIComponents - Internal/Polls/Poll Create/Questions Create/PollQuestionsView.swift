@@ -55,6 +55,8 @@ struct PollQuestionsView: View {
             }
             if !model.valid || !model.optionsValid {
                 Text("Please fill the fields to Save.").foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
+            } else if !model.answersSelected {
+                Text("Please select an answer for the question.").foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
             }
             HStack {
                 if model.index > 1 {

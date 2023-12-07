@@ -142,6 +142,8 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
             questionToSave.valid = true
         }
         
+        var answerSelected = false
+        
         for option in questionToSave.questionOptions {
             questionToSave.optionsValid = true
             
@@ -152,6 +154,18 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
             } else {
                 option.valid = true
             }
+            
+            if option.selected {
+                answerSelected = true
+            }
+        }
+        
+        let isQuiz = questionToSave.pollModel.createdPoll?.category == .quiz
+        if isQuiz && !answerSelected {
+            questionToSave.answersSelected = false
+            result = false
+        } else {
+            questionToSave.answersSelected = true
         }
         
         return result

@@ -48,6 +48,7 @@ class QuestionCreateModel: ObservableObject, Identifiable {
     @Published var loading: Bool = false
     @Published var editing: Bool = true
     @Published var valid: Bool = true
+    @Published var answersSelected: Bool = true
     @Published var optionsValid: Bool = true
     @Published var questionOptions: [QuestionOptionCreateModel]
     @Published var index: Int = 1
