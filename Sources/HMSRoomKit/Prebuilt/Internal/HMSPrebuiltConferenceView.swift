@@ -30,6 +30,7 @@ struct HMSPrebuiltConferenceView: View {
     @State var pollCreateModel: PollCreateModel? = nil
     
     @State var pollVoteViewModels: [PollVoteViewModel]? = nil
+    @State var hlsPollIDs = [String]()
     
     var body: some View {
         ZStack {
@@ -175,8 +176,9 @@ struct HMSPrebuiltConferenceView: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-hls-cue"))) { notification in
                 if let pollID = notification.userInfo?["pollID"] as? String {
-                    updatePollNotifications(pollID: pollID)
+                    hlsPollIDs.append(pollID)
                 }
+                updatePollNotifications()
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-view"))) { notification in
                 let center = roomModel.interactivityCenter
@@ -212,7 +214,7 @@ struct HMSPrebuiltConferenceView: View {
         }
     }
     
-    func updatePollNotifications(pollID: String? = nil) {
+    func updatePollNotifications() {
         let isHLSViewer = (roomInfoModel.conferencingType == .liveStreaming)
         let existingPollNotificationIds = roomKitModel.notifications.filter {
             if case .poll(_) = $0.type {
@@ -223,9 +225,7 @@ struct HMSPrebuiltConferenceView: View {
             }
         }.map{$0.id}
         
-        let newPolls = pollModel.currentPolls.filter { poll in
-            guard !existingPollNotificationIds.contains(poll.pollID) else { return false }
-            // Rest of the conditions are specific to HLS stream viewers
+        let currentPolls = pollModel.currentPolls.filter { poll in
             guard isHLSViewer else { return true }
            
             // Poll is older than hls rolling window so assume timed metadata cue will not come
@@ -233,11 +233,15 @@ struct HMSPrebuiltConferenceView: View {
                 return true
             }
             // Cue has come with poll ID show matching poll
-            else if poll.pollID == pollID {
+            else if hlsPollIDs.contains(poll.pollID) {
                 return true
             }
             
             return false
+        }
+        
+        let newPolls = currentPolls.filter { poll in
+            !existingPollNotificationIds.contains(poll.pollID)
         }
         
         let pollsThatAreStopped = existingPollNotificationIds.filter{!pollModel.currentPolls.map{$0.pollID}.contains($0)}
@@ -247,7 +251,7 @@ struct HMSPrebuiltConferenceView: View {
         
         guard (roomModel.userRole?.permissions.pollRead ?? false) || (roomModel.userRole?.permissions.pollWrite ?? false) else { return }
         
-        pollsOptionAppearance.containsItems.wrappedValue = pollModel.currentPolls.count > 0
+        pollsOptionAppearance.containsItems.wrappedValue = !currentPolls.isEmpty
         
         // add notification for each new peer
         for newPoll in newPolls {
