@@ -58,12 +58,23 @@ struct PollVoteView: View {
                                 Text("End \(model.poll.category == .poll ? "Poll" : "Quiz")")
                             }.buttonStyle(ActionButtonStyle(isWide: false))
                         }
+                    } else if model.isAdmin && model.poll.state == .stopped && model.poll.category == .quiz {
+                        NavigationLink() {
+                            PollLeaderboardView(model: model.leaderBoardModel)
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Button {} label: {
+                                    Text("View Results")
+                                }.buttonStyle(ActionButtonStyle(isWide: false)).allowsHitTesting(false)
+                            }
+                        }
                     }
                 }
-            }.background(HMSUIColorTheme().surfaceDefault)
+            }.background(HMSUIColorTheme().surfaceDim)
         }
         .padding(.horizontal, 24)
-        .background(HMSUIColorTheme().surfaceDefault)
+        .background(HMSUIColorTheme().surfaceDim)
         .onAppear(perform: model.load)
         .ignoresSafeArea()
         .navigationBarHidden(true)

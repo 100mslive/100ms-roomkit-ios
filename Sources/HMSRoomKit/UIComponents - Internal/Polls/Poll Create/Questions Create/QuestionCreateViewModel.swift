@@ -99,6 +99,7 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
                 .withIndex(index + 1)
                 .withType(question.type)
                 .withTitle(question.text.trimmingCharacters(in: .whitespacesAndNewlines))
+                .withWeight(weight: question.weight.isEmpty ? 0 : (Int(question.weight) ?? 0))
             
             for option in question.questionOptions {
                 if poll.category == .quiz {
@@ -141,6 +142,8 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
             questionToSave.valid = true
         }
         
+        var answerSelected = false
+        
         for option in questionToSave.questionOptions {
             questionToSave.optionsValid = true
             
@@ -151,6 +154,18 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
             } else {
                 option.valid = true
             }
+            
+            if option.selected {
+                answerSelected = true
+            }
+        }
+        
+        let isQuiz = questionToSave.pollModel.createdPoll?.category == .quiz
+        if isQuiz && !answerSelected {
+            questionToSave.answersSelected = false
+            result = false
+        } else {
+            questionToSave.answersSelected = true
         }
         
         return result

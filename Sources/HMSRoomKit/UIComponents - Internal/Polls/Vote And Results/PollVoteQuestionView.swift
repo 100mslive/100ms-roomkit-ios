@@ -51,7 +51,7 @@ struct PollVoteQuestionView: View {
                 }
             }
              
-        }.padding(16).background(HMSUIColorTheme().surfaceBright).overlay(
+        }.padding(16).background(HMSUIColorTheme().surfaceDefault).overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(model.borderColor, lineWidth: 1)).clipShape(RoundedRectangle(cornerRadius: 8))
     }

@@ -49,8 +49,10 @@ struct HMSMainTextFieldStyle: TextFieldStyle {
     var valid: Bool
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
-            .padding(16)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
             .background(valid ? HMSUIColorTheme().surfaceBright : HMSUIColorTheme().alertErrorDim)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(valid ? (focused ? HMSUIColorTheme().primaryDefault : HMSUIColorTheme().surfaceBright) : HMSUIColorTheme().alertErrorDefault , lineWidth: 1))

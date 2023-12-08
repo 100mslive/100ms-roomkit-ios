@@ -39,6 +39,13 @@ struct PollQuestionsView: View {
                         }.buttonStyle(HMSIconTextButtonStyle())
                     }
                 }
+                if (model.showAnswerSelection) {
+                    HStack {
+                        Text("Point Weightage").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().body2Regular14)
+                        Spacer()
+                        PollTextField(placeholder: "", text: $model.weight, valid: true, keyboardType: .numberPad).frame(width: 88)
+                    }
+                }
             } else {
                 VStack(alignment: .leading, spacing: 16) {
                     ForEach(model.questionOptions) { option in
@@ -48,6 +55,8 @@ struct PollQuestionsView: View {
             }
             if !model.valid || !model.optionsValid {
                 Text("Please fill the fields to Save.").foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
+            } else if !model.answersSelected {
+                Text("Please select an answer for the question.").foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
             }
             HStack {
                 if model.index > 1 {
@@ -69,7 +78,7 @@ struct PollQuestionsView: View {
                     }
                 }.buttonStyle(ActionButtonLowEmphStyle()).allowsHitTesting(!model.loading)
             }
-        }.padding(16).background(HMSUIColorTheme().surfaceBright).clipShape(RoundedRectangle(cornerRadius: 8))
+        }.padding(16).background(HMSUIColorTheme().surfaceDefault).clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 

@@ -12,6 +12,7 @@ struct PollTextField: View {
     var placeholder: String
     @Binding var text: String
     var valid: Bool = true
+    var keyboardType: UIKeyboardType = .default
     @State private var editing = false
     
     var body: some View {
@@ -19,14 +20,14 @@ struct PollTextField: View {
             
             TextField("", text: $text, onEditingChanged: { edit in
                 self.editing = edit
-            })
+            }).keyboardType(keyboardType)
                 .font(HMSUIFontTheme().body1Regular16)
-                .foregroundColor(HMSUIColorTheme().onPrimaryHigh)
+                .foregroundColor(HMSUIColorTheme().onSurfaceHigh)
                 .textFieldStyle(HMSMainTextFieldStyle(focused: $editing, valid: valid))
             
             if text.isEmpty {
                 Text(placeholder).font(HMSUIFontTheme().body1Regular16)
-                    .foregroundColor(HMSUIColorTheme().secondaryDisabled)
+                    .foregroundColor(HMSUIColorTheme().onSurfaceLow)
                 .padding(.horizontal, 16).allowsHitTesting(false)
             }
         }
