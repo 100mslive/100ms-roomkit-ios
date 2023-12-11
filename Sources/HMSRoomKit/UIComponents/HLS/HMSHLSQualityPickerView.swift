@@ -43,14 +43,15 @@ struct HMSHLSQualityPickerView: View {
                     Text(Quality.Auto.rawValue)
                         .foreground(.onSurfaceHigh)
                         .font(.subtitle2Semibold14)
-                        .padding(16)
                     
                     Spacer()
                     
                     if hlsPlaybackQuality.wrappedValue == .Auto {
                         Image(assetName: "checkmark")
+                            .foreground(.onSurfaceHigh)
                     }
                 }
+                .padding(16)
                 .background(.white.opacity(0.0001))
                 .onTapGesture {
                     player._nativePlayer.currentItem?.preferredPeakBitRate = 0
@@ -62,14 +63,15 @@ struct HMSHLSQualityPickerView: View {
                     Text(Quality.High.rawValue)
                         .foreground(.onSurfaceHigh)
                         .font(.subtitle2Semibold14)
-                        .padding(16)
                         
                     Spacer()
                     
                     if hlsPlaybackQuality.wrappedValue == .High {
                         Image(assetName: "checkmark")
+                            .foreground(.onSurfaceHigh)
                     }
                 }
+                .padding(16)
                 .background(.white.opacity(0.0001))
                 .onTapGesture {
                     player._nativePlayer.currentItem?.preferredPeakBitRate = 1500 * 1000
@@ -81,14 +83,15 @@ struct HMSHLSQualityPickerView: View {
                     Text(Quality.Medium.rawValue)
                         .foreground(.onSurfaceHigh)
                         .font(.subtitle2Semibold14)
-                        .padding(16)
                         
                     Spacer()
                     
                     if hlsPlaybackQuality.wrappedValue == .Medium {
                         Image(assetName: "checkmark")
+                            .foreground(.onSurfaceHigh)
                     }
                 }
+                .padding(16)
                 .background(.white.opacity(0.0001))
                 .onTapGesture {
                     player._nativePlayer.currentItem?.preferredPeakBitRate = 850 * 1000
@@ -100,14 +103,15 @@ struct HMSHLSQualityPickerView: View {
                     Text(Quality.Low.rawValue)
                         .foreground(.onSurfaceHigh)
                         .font(.subtitle2Semibold14)
-                        .padding(16)
                         
                     Spacer()
                     
                     if hlsPlaybackQuality.wrappedValue == .Low {
                         Image(assetName: "checkmark")
+                            .foreground(.onSurfaceHigh)
                     }
                 }
+                .padding(16)
                 .background(.white.opacity(0.0001))
                 .onTapGesture {
                     player._nativePlayer.currentItem?.preferredPeakBitRate = 450 * 1000

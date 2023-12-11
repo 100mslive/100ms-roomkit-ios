@@ -83,7 +83,7 @@ struct HMSOptionSheetView: View {
                     }
                     
                     if roomModel.userCanStartStopRecording {
-                        HMSSessionMenuButton(text: roomModel.recordingState != .stopped ? "Recording On" : "Start Recording", image: "record-on", highlighted: roomModel.recordingState != .stopped, isDisabled: roomModel.isUserHLSViewer)
+                        HMSSessionMenuButton(text: roomModel.recordingState != .stopped ? "Recording On" : "Start Recording", image: "record-on", highlighted: roomModel.recordingState != .stopped, isDisabled: isHLSViewer)
                             .onTapGesture {
                                 guard roomModel.recordingState == .stopped else {
                                     internalSheet = .stopRecording
@@ -124,7 +124,7 @@ struct HMSOptionSheetView: View {
                         }
                     }
                     
-                    if isHLSViewer {
+                    if isHLSViewer && roomModel.isBeingStreamed {
                         HMSSessionMenuButton(text: "Quality", subText:"(\(hlsPlaybackQuality.wrappedValue.rawValue))", image: "gear-icon", highlighted: false, isDisabled: false)
                             .onTapGesture {
                                 NotificationCenter.default.post(name: .init(rawValue: "hls-quality-picker"), object: nil)
