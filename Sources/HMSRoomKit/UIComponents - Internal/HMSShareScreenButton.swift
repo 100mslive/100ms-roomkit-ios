@@ -10,6 +10,7 @@ import SwiftUI
 
 struct HMSSessionMenuButton: View {
     var text: String
+    var subText: String? = nil
     var image: String
     var highlighted: Bool
     var badgeText: String?
@@ -24,6 +25,11 @@ struct HMSSessionMenuButton: View {
             Text(text).font(.captionSemibold12)
                 .multilineTextAlignment(.center)
                 .foreground(isDisabled ? .onSurfaceLow : .onSurfaceHigh)
+            if let subText {
+                Text(subText).font(.captionRegular12)
+                    .multilineTextAlignment(.center)
+                    .foreground(isDisabled ? .onSurfaceLow : .onSurfaceMedium)
+            }
         }
         .frame(width: 109, height: 60)
         .overlay(alignment: .topTrailing) {

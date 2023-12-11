@@ -51,7 +51,7 @@ struct HMSChatOverlay: View {
             // Control panel
             if keyboardState.wrappedValue == .hidden {
                 if isHLSViewer {
-                    HMSBottomControlStrip(isChatPresented: $isChatPresented)
+                    HMSBottomControlStrip(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer)
                         .padding(tabPageBarState.wrappedValue == .hidden ? [.horizontal, .top] : [.horizontal], 16)
                         .transition(.move(edge: .bottom))
                         .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
@@ -60,7 +60,7 @@ struct HMSChatOverlay: View {
                 }
                 else {
                     // dummy Hidden strip on webrtc for providing the correct height for overlay chat for hls broadcasters
-                    HMSBottomControlStrip(isChatPresented: $isChatPresented)
+                    HMSBottomControlStrip(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer)
                         .padding(tabPageBarState.wrappedValue == .hidden ? [.horizontal, .top] : [.horizontal], 16)
                         .transition(.move(edge: .bottom))
                         .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)

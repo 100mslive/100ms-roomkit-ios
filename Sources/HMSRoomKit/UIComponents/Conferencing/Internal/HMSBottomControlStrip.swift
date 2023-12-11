@@ -23,6 +23,8 @@ struct HMSBottomControlStrip: View {
     
     @State var isOptionsSheetPresented: Bool = false
     
+    let isHLSViewer: Bool
+    
     var body: some View {
         
         let isChatEnabled = conferenceComponentParam.chat != nil
@@ -72,7 +74,7 @@ struct HMSBottomControlStrip: View {
                                 menuContext.wrappedValue = .none
                             }) {
                                 HMSSheet {
-                                    HMSOptionSheetView()
+                                    HMSOptionSheetView(isHLSViewer: isHLSViewer)
                                         .environmentObject(currentTheme)
                                         .environmentObject(roomModel)
                                         .environmentObject(localPeerModel)
@@ -91,7 +93,7 @@ struct HMSBottomControlStrip: View {
 struct HMSBottomControlStrip_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSBottomControlStrip(isChatPresented: .constant(false))
+        HMSBottomControlStrip(isChatPresented: .constant(false), isHLSViewer: true)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(3))
             .environmentObject(HMSPrebuiltOptions())
