@@ -22,6 +22,8 @@ public struct HMSDefaultConferenceScreen: View {
     @State private var keyboardState = EnvironmentValues.HMSKeyboardState.hidden
     @State private var chatBadgeState = EnvironmentValues.HMSChatBadgeState.none
     
+    @State var hlsPlaybackQuality: HMSHLSQualityPickerView.Quality = .Auto
+    
     @State var isChatPresented = false
     
     @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
@@ -67,7 +69,7 @@ public struct HMSDefaultConferenceScreen: View {
                 
                 if !isHLSViewer {
                     if userStreamingState.wrappedValue == .none {
-                        HMSBottomControlStrip(isChatPresented: $isChatPresented)
+                        HMSBottomControlStrip(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer)
                             .padding(tabPageBarState == .hidden ? [.horizontal, .top] : [.horizontal], 16)
                             .transition(.move(edge: .bottom))
                             .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
@@ -230,6 +232,7 @@ public struct HMSDefaultConferenceScreen: View {
         .environment(\.tabPageBarState, $tabPageBarState)
         .environment(\.keyboardState, $keyboardState)
         .environment(\.chatBadgeState, $chatBadgeState)
+        .environment(\.hlsPlaybackQuality, $hlsPlaybackQuality)
     }
     
     func checkAndHideControls() {

@@ -14,9 +14,16 @@ struct HMSHLSViewerScreen: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     
     var body: some View {
-        if roomModel.hlsVariants.first?.url != nil {
-            HMSHLSPlayerView()
-#if !Preview
+        Group {
+#if Preview
+            HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!) { player in
+                HMSHLSPlayerControlsView(player: player)
+            }
+#else
+            if roomModel.hlsVariants.first?.url != nil {
+                HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!) { player in
+                    HMSHLSPlayerControlsView(player: player)
+                }
                 .onResolutionChanged { size in
                     print("resolution: \(size)")
                 }
@@ -29,10 +36,11 @@ struct HMSHLSViewerScreen: View {
                     
                     NotificationCenter.default.post(name: .init(rawValue: "poll-hls-cue"), object: nil, userInfo: ["pollID" : pollID])
                 }
+            }
+            else {
+                HMSStreamNotStartedView()
+            }
 #endif
-        }
-        else {
-            HMSStreamNotStartedView()
         }
     }
 }
