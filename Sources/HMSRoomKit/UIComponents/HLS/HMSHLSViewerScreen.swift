@@ -21,7 +21,7 @@ struct HMSHLSViewerScreen: View {
             }
 #else
             if roomModel.hlsVariants.first?.url != nil {
-                HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!) { player in
+                HMSHLSPlayerView { player in
                     HMSHLSPlayerControlsView(player: player)
                 }
                 .onResolutionChanged { size in
