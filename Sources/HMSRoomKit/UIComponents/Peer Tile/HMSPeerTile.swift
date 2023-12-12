@@ -98,7 +98,6 @@ struct HMSPeerTile_Previews: PreviewProvider {
         HMSPeerTile(peerModel: HMSRoomModel.localPeer)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(3))
-            .environmentObject(HMSRoomInfoModel())
 #endif
     }
 }

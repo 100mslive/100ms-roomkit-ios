@@ -58,6 +58,8 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
         self.dismiss = dismiss
     }
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     var body: some View {
         if let context = peerModel.popoverContext(roomModel: roomModel, conferenceParams: conferenceComponentParam, isPresented: $isPresented, menuAction: $menuAction) {
             label()
@@ -69,9 +71,18 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
                     dismiss?()
                 }) {
                     HMSSheet {
-                        HMSPeerOptionsView(context: context)
-                            .environmentObject(roomModel)
-                            .environmentObject(peerModel)
+                        Group {
+                            if verticalSizeClass == .regular {
+                                HMSPeerOptionsView(context: context)
+                            }
+                            else {
+                                ScrollView {
+                                    HMSPeerOptionsView(context: context)
+                                }
+                            }
+                        }
+                        .environmentObject(roomModel)
+                        .environmentObject(peerModel)
                     }
                     .edgesIgnoringSafeArea(.all)
                     .environmentObject(currentTheme)
@@ -318,14 +329,15 @@ struct HMSPeerOptionsView: View {
                     }
                 }
             }
-        }.font(.subtitle2Semibold14)
-            .foreground(.onSurfaceHigh)
-            .sheet(isPresented: $isChangeNameSheetPresented) {
-                HMSSheet {
-                    HMSChangeNameView()
-                }
-                .edgesIgnoringSafeArea(.all)
+        }
+        .font(.subtitle2Semibold14)
+        .foreground(.onSurfaceHigh)
+        .sheet(isPresented: $isChangeNameSheetPresented) {
+            HMSSheet {
+                HMSChangeNameView()
             }
+            .edgesIgnoringSafeArea(.all)
+        }
 //            .background(.backgroundDim, cornerRadius: 8.0, ignoringEdges: .all)
     }
 }
