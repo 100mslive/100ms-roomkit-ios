@@ -68,7 +68,7 @@ struct HMSPrebuiltConferenceView: View {
                             }
                             
                             if let on_stage_exp = defaultScreen.elements?.on_stage_exp {
-                                screen.onStageExperience = .init(onStageRoleName: on_stage_exp.on_stage_role, rolesWhoCanComeOnStage: on_stage_exp.off_stage_roles, bringToStageLabel: on_stage_exp.bring_to_stage_label, removeFromStageLabel: on_stage_exp.remove_from_stage_label)
+                                screen.onStageExperience = .init(onStageRoleName: on_stage_exp.on_stage_role, rolesWhoCanComeOnStage: on_stage_exp.off_stage_roles, bringToStageLabel: on_stage_exp.bring_to_stage_label, removeFromStageLabel: on_stage_exp.remove_from_stage_label, skipPreviewForRoleChange: on_stage_exp.skip_preview_for_role_change)
                             }
                             else {
                                 screen.onStageExperience = nil
@@ -121,7 +121,7 @@ struct HMSPrebuiltConferenceView: View {
                             }
                             
                             if let on_stage_exp = defaultScreen.elements?.on_stage_exp {
-                                screen.onStageExperience = .init(onStageRoleName: on_stage_exp.on_stage_role, rolesWhoCanComeOnStage: on_stage_exp.off_stage_roles, bringToStageLabel: on_stage_exp.bring_to_stage_label, removeFromStageLabel: on_stage_exp.remove_from_stage_label)
+                                screen.onStageExperience = .init(onStageRoleName: on_stage_exp.on_stage_role, rolesWhoCanComeOnStage: on_stage_exp.off_stage_roles, bringToStageLabel: on_stage_exp.bring_to_stage_label, removeFromStageLabel: on_stage_exp.remove_from_stage_label, skipPreviewForRoleChange: on_stage_exp.skip_preview_for_role_change)
                             }
                             else {
                                 screen.onStageExperience = nil

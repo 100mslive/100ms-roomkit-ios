@@ -266,8 +266,12 @@ struct HMSPeerOptionsView: View {
                         .background(.white.opacity(0.0001))
                         .onTapGesture {
                             guard !onStageRoleName.isEmpty else { return }
+                            let skipPreview = onStageExperience?.skipPreviewForRoleChange ?? false
                             Task {
-                                try await roomModel.changeRole(of: peerModel, to: onStageRoleName)
+                                try await roomModel.changeRole(of: peerModel, to: onStageRoleName, shouldAskForApproval: !skipPreview)
+                                if skipPreview {
+                                    try await roomModel.lowerHand(of: peerModel)
+                                }
                             }
                             context.isPresented = false
                         }

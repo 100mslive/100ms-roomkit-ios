@@ -165,6 +165,9 @@ public struct HMSDefaultConferenceScreen: View {
                 roomKitModel.addNotification(notification)
             }
         }
+        .onChange(of: roomModel.userRole) { _ in
+            roomModel.localPeerModel?.previousRole = roomModel.userPreviousRole?.name ?? ""
+        }
         .onChange(of: roomModel.peersSharingScreen.filter{$0.isLocal}) { peers in
             if let localPeer = peers.first {
                 let notification = HMSRoomKitNotification(id: localPeer.id, type: .screenShare, actor: localPeer.name, isDismissible: false, title: "You are sharing your screen")
