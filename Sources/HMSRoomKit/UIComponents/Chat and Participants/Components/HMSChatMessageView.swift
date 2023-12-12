@@ -28,6 +28,8 @@ struct HMSChatMessageView: View {
         return formatter
     }()
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     var body: some View {
         if isPartOfTransparentChat {
             messageView
@@ -108,7 +110,14 @@ struct HMSChatMessageView: View {
                         .foreground(.onSurfaceLow)
                         .sheet(isPresented: $isPopoverPresented, content: {
                             HMSSheet {
-                                HMSMessageOptionsView(messageModel: messageModel, recipient: $recipient)
+                                if verticalSizeClass == .regular {
+                                    HMSMessageOptionsView(messageModel: messageModel, recipient: $recipient)
+                                }
+                                else {
+                                    ScrollView {
+                                        HMSMessageOptionsView(messageModel: messageModel, recipient: $recipient)
+                                    }
+                                }
                             }
                             .edgesIgnoringSafeArea(.all)
                             .environmentObject(theme)

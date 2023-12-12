@@ -10,6 +10,8 @@ import HMSHLSPlayerSDK
 
 struct HMSHLSPlayerControlsView: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     let player: HMSHLSPlayer
     
     @State var isPopoverPresented = false

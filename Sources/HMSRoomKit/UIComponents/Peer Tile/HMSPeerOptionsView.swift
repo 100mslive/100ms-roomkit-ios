@@ -37,6 +37,8 @@ struct HMSPeerOptionsViewContext {
 
 struct HMSPeerOptionsButtonView<Content: View>: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     @Environment(\.menuContext) var menuContext
     
@@ -57,8 +59,6 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
         self.label = label
         self.dismiss = dismiss
     }
-    
-    @Environment(\.verticalSizeClass) var verticalSizeClass
     
     var body: some View {
         if let context = peerModel.popoverContext(roomModel: roomModel, conferenceParams: conferenceComponentParam, isPresented: $isPresented, menuAction: $menuAction) {
@@ -165,6 +165,8 @@ struct HMSOptionsHeaderView: View {
 }
 
 struct HMSPeerOptionsView: View {
+    
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @Environment(\.conferenceParams) var conferenceComponentParam
     
@@ -334,7 +336,14 @@ struct HMSPeerOptionsView: View {
         .foreground(.onSurfaceHigh)
         .sheet(isPresented: $isChangeNameSheetPresented) {
             HMSSheet {
-                HMSChangeNameView()
+                if verticalSizeClass == .regular {
+                    HMSChangeNameView()
+                }
+                else {
+                    ScrollView {
+                        HMSChangeNameView()
+                    }
+                }
             }
             .edgesIgnoringSafeArea(.all)
         }

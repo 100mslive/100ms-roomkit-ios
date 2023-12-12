@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSOptionSheetView: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.pollsOptionAppearance) var pollsOptionAppearance
     
     @Environment(\.conferenceParams) var conferenceComponentParam
@@ -154,7 +156,14 @@ struct HMSOptionSheetView: View {
                 }
             case .stopRecording:
                 HMSSheet {
-                    HMSStopRecordingView()
+                    if verticalSizeClass == .regular {
+                        HMSStopRecordingView()
+                    }
+                    else {
+                        ScrollView {
+                            HMSStopRecordingView()
+                        }
+                    }
                 }
                 .edgesIgnoringSafeArea(.all)
             }
