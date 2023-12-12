@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSPaginatedBottomTilesView: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     let peers: [HMSPeerModel]
     
     @Environment(\.tabPageBarState) var tabPageBarState
@@ -19,26 +21,62 @@ struct HMSPaginatedBottomTilesView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     
     var body: some View {
-        TabView {
-            Group {
-                let chunks = Array(peers.chunks(ofCount: 2))
-                
-                ForEach(chunks, id:\.self) { chunk in
-                    TallVGrid(items: Array(chunk), idKeyPath: \.self, numOfColumns: 2, vhSpacing: 8, isTrailing: peers.count > 2, maxItemInOnePage: 2, content: { peer in
+        
+        if verticalSizeClass == .compact {
+            GeometryReader { proxy in
+                TabView {
+                    
+                    let chunks = Array(peers.chunks(ofCount: 2))
+                    
+                    ForEach(chunks, id:\.self) { chunk in
                         
-                        HMSPeerTile(peerModel: peer)
-                            .background(.backgroundDefault, cornerRadius: 0)
-                    })
+                        VStack {
+                            ForEach(Array(chunk)) { peer in
+                                HMSPeerTile(peerModel: peer)
+                                    .frame(height: 140)
+                                    .background(.backgroundDefault, cornerRadius: 0)
+                            }
+                        }
+                    }
+                    .rotationEffect(.degrees(-90)) // Rotate content
+                    .frame(
+                        width: proxy.size.width,
+                        height: proxy.size.height
+                    )
                 }
+                .frame(
+                    width: proxy.size.height, // Height & width swap
+                    height: proxy.size.width
+                )
+                .rotationEffect(.degrees(90), anchor: .topLeading) // Rotate TabView
+                .offset(x: proxy.size.width) // Offset back into screens bounds
+                .tabViewStyle(
+                    PageTabViewStyle(indexDisplayMode: .never)
+                )
             }
-            .padding(.bottom, 35)
         }
-        .tabViewStyle(.page)
-        .onAppear() {
-            tabPageBarState.wrappedValue = .visible
-        }
-        .onDisappear() {
-            tabPageBarState.wrappedValue = .hidden
+        else {
+            TabView {
+                Group {
+                    let chunks = Array(peers.chunks(ofCount: 2))
+                    
+                    ForEach(chunks, id:\.self) { chunk in
+                        TallVGrid(items: Array(chunk), idKeyPath: \.self, numOfColumns: 2, vhSpacing: 8, isTrailing: peers.count > 2, maxItemInOnePage: 2, content: { peer in
+                            
+                            HMSPeerTile(peerModel: peer)
+                                .background(.backgroundDefault, cornerRadius: 0)
+                        })
+                    }
+                }
+                .padding(.bottom, 35)
+            }
+            .tabViewStyle(.page)
+            .onAppear() {
+                tabPageBarState.wrappedValue = .visible
+            }
+            .onDisappear() {
+                tabPageBarState.wrappedValue = .hidden
+            }
         }
     }
 }

@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSScreenProminenceLayout: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.controlsState) var controlsState
@@ -26,38 +28,20 @@ struct HMSScreenProminenceLayout: View {
     
     var body: some View {
         
-        let isInsetMode = conferenceComponentParam.tileLayout?.grid.isLocalTileInsetEnabled ?? false
-        let visiblePeers = roomModel.visiblePeersInLayout(isUsingInset: isInsetMode)
-        let screenSharingPeers = roomModel.peersSharingScreen.filter{!$0.isLocal}
-        
         GeometryReader { geo in
-            VStack(spacing: 0) {
-                HMSScreenSharePaginatedView()
-                    .overlay(alignment: .topTrailing) {
-                        HMSExpandIconView()
-                            .frame(width: 16, height: 16)
-                            .frame(width: 40, height: 40)
-                            .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
-                            .foreground(.onSurfaceHigh)
-                            .background(.white.opacity(0.0001))
-                            .onTapGesture {
-                                withAnimation {
-                                    isExpanded.toggle()
-                                }
-                            }
-                            .padding()
-                    }
-                
-                if !isExpanded {
-                    HMSPaginatedBottomTilesView(peers: visiblePeers.sorted{first,second in
-                        
-                        if screenSharingPeers.contains(second) && roomModel.highlightedPeers.contains(first) {
-                            return false
-                        }
-                        
-                        return screenSharingPeers.contains(first) || roomModel.highlightedPeers.contains(first)
-                    })
-                    .frame(height: geo.size.height * 0.33)
+            
+            if verticalSizeClass == .regular {
+                VStack(spacing: 0) {
+                    screenView
+                    tilesView
+                        .frame(height: geo.size.height * 0.33)
+                }
+            }
+            else {
+                HStack(spacing: 0) {
+                    screenView
+                    tilesView
+                        .frame(width: geo.size.width * 0.33)
                 }
             }
         }
@@ -82,6 +66,43 @@ struct HMSScreenProminenceLayout: View {
             withAnimation {
                 controlsState.wrappedValue = isExpanded ? .hidden : .visible
             }
+        }
+    }
+    
+    var screenView: some View {
+        HMSScreenSharePaginatedView()
+            .overlay(alignment: .topTrailing) {
+                HMSExpandIconView()
+                    .frame(width: 16, height: 16)
+                    .frame(width: 40, height: 40)
+                    .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
+                    .foreground(.onSurfaceHigh)
+                    .background(.white.opacity(0.0001))
+                    .onTapGesture {
+                        withAnimation {
+                            isExpanded.toggle()
+                        }
+                    }
+                    .padding()
+            }
+    }
+    
+    @ViewBuilder
+    var tilesView: some View {
+        
+        let isInsetMode = conferenceComponentParam.tileLayout?.grid.isLocalTileInsetEnabled ?? false
+        let visiblePeers = roomModel.visiblePeersInLayout(isUsingInset: isInsetMode)
+        let screenSharingPeers = roomModel.peersSharingScreen.filter{!$0.isLocal}
+        
+        if !isExpanded {
+            HMSPaginatedBottomTilesView(peers: visiblePeers.sorted{first,second in
+                
+                if screenSharingPeers.contains(second) && roomModel.highlightedPeers.contains(first) {
+                    return false
+                }
+                
+                return screenSharingPeers.contains(first) || roomModel.highlightedPeers.contains(first)
+            })
         }
     }
 }
