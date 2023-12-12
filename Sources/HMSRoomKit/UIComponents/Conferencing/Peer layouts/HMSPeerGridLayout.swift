@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSPeerGridLayout: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     var peersInOnePage = 6
@@ -55,7 +57,7 @@ struct HMSPeerGridLayout: View {
                         
                         ForEach(chunks.indices, id:\.self) { index in
                             let chunk = chunks[index]
-                            TallVGrid(items: Array(chunk), idKeyPath: \.self, numOfColumns: 2, vhSpacing: 8, isTrailing: numberOfPeers > peersInOnePage, maxItemInOnePage: 6, content: { peer in
+                            TallVGrid(items: Array(chunk), idKeyPath: \.self, numOfColumns: verticalSizeClass == .regular ? 2 : 3, vhSpacing: 8, isTrailing: numberOfPeers > peersInOnePage, maxItemInOnePage: 6, content: { peer in
                                 HMSPeerTile(peerModel: peer)
                                     .background(.backgroundDefault, cornerRadius: 0)
                             })
