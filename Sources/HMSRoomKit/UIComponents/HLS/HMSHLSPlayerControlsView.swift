@@ -16,6 +16,10 @@ struct HMSHLSPlayerControlsView: View {
     
     @State var isPopoverPresented = false
     
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    @State var refresh = false
+    
     var body: some View {
         Color.clear
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "hls-quality-picker"))) { _ in
@@ -38,6 +42,26 @@ struct HMSHLSPlayerControlsView: View {
                     HMSHLSQualityPickerView(player: player)
                 }
                 .edgesIgnoringSafeArea(.all)
+            }
+            .overlay(alignment: .bottomTrailing, content: {
+                VStack {
+                    if refresh {
+                        Text("preferredPeakBitRate: \(player._nativePlayer.currentItem?.preferredPeakBitRate ?? -1)")
+                        Text("bitrate: \(player.statMonitor.bitrate)")
+                        Text("estimatedBandwidth: \(player.statMonitor.estimatedBandwidth)")
+                        Text("width: \(player.statMonitor.videoSize.width), height: \(player.statMonitor.videoSize.height)")
+                    }
+                    else {
+                        Text("preferredPeakBitRate: \(player._nativePlayer.currentItem?.preferredPeakBitRate ?? -1)")
+                        Text("bitrate: \(player.statMonitor.bitrate)")
+                        Text("estimatedBandwidth: \(player.statMonitor.estimatedBandwidth)")
+                        Text("width: \(player.statMonitor.videoSize.width), height: \(player.statMonitor.videoSize.height)")
+                    }
+                }
+                .foreground(.white)
+            })
+            .onReceive(timer) { _ in
+                refresh.toggle()
             }
     }
 }
