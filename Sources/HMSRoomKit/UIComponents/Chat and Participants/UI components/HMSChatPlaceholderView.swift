@@ -19,11 +19,13 @@ struct HMSChatPlaceholderView: View {
             Text("There are no messages here yet. Start a conversation by sending a message.").multilineTextAlignment(.center).font(.body2Regular14)
                 .foreground(.onSurfaceMedium)
         }
+        .minimumScaleFactor(0.1)
     }
 }
 
 struct HMSChatPlaceholderView_Previews: PreviewProvider {
     static var previews: some View {
         HMSChatPlaceholderView()
+            .environmentObject(HMSUITheme())
     }
 }

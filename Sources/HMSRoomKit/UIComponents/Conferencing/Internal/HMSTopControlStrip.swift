@@ -68,6 +68,7 @@ struct HMSTopControlStrip_Previews: PreviewProvider {
         HMSTopControlStrip()
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(3))
+            .environmentObject(HMSRoomInfoModel())
 #endif
     }
 }

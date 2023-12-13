@@ -85,7 +85,8 @@ struct HMSChatParticipantToggleView: View {
                         HMSParticipantListView()
                             .environment(\.mainSheetDismiss, { dismiss() })
                     }
-                }.background(.surfaceDim, cornerRadius: 0)
+                }
+                .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
             }
         }
     }
