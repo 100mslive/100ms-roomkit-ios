@@ -21,7 +21,8 @@ public struct HMSDefaultConferenceScreen: View {
     @State private var menuContext = EnvironmentValues.MenuContext.none
     @State private var keyboardState = EnvironmentValues.HMSKeyboardState.hidden
     @State private var chatBadgeState = EnvironmentValues.HMSChatBadgeState.none
-    
+    @State private var previousRole = ""
+
     @State var hlsPlaybackQuality: HMSHLSQualityPickerView.Quality = .Auto
     
     @State var isChatPresented = false
@@ -81,6 +82,7 @@ public struct HMSDefaultConferenceScreen: View {
         }
         .edgesIgnoringSafeArea(userStreamingState.wrappedValue == .starting ? [.all] : [])
         .onAppear() {
+            previousRole = roomModel.userRole?.name ?? ""
             isChatPresented = chatInitialState == .open
         }
         //            .padding(.vertical, 5)
@@ -166,7 +168,8 @@ public struct HMSDefaultConferenceScreen: View {
             }
         }
         .onChange(of: roomModel.userRole) { _ in
-            roomModel.localPeerModel?.previousRole = roomModel.userPreviousRole?.name ?? ""
+            roomModel.localPeerModel?.previousRole = previousRole
+            previousRole = roomModel.userRole?.name ?? ""
         }
         .onChange(of: roomModel.peersSharingScreen.filter{$0.isLocal}) { peers in
             if let localPeer = peers.first {

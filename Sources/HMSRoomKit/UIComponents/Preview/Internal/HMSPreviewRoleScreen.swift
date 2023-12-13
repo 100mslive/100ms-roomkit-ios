@@ -64,6 +64,12 @@ struct HMSPreviewRoleScreen: View {
                 try await roomModel.previewChangeRoleRequest()
             }
         }
+        .onChange(of: roomModel.localAudioTrackModel) { model in
+            roomModel.toggleMic()
+        }
+        .onChange(of: roomModel.localVideoTrackModel) { model in
+            roomModel.toggleCamera()
+        }
     }
 }
 
