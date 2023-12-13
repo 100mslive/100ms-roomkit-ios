@@ -47,8 +47,7 @@ struct HMSMessageOptionsView: View {
             }
             .padding(.horizontal, 24)
             
-            HMSDivider(color: currentTheme.colorTheme.borderBright).frame(width: 172)
-            
+            HMSDivider(color: currentTheme.colorTheme.borderBright)
             
             if isPrivateChatScopeAvailable, let sender = messageModel.sender, sender != roomModel.localPeerModel?.peer, roomModel.remotePeerModels.contains(where: {$0.peer == sender}) {
                 HStack {

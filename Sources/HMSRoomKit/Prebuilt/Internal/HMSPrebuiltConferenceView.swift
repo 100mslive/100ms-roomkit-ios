@@ -205,7 +205,6 @@ struct HMSPrebuiltConferenceView: View {
                     .padding(.bottom, 30)
                 }
                 .background(HMSUIColorTheme().surfaceDefault)
-                .ignoresSafeArea()
             })
 #endif
             if !roomModel.roleChangeRequests.isEmpty {
@@ -268,6 +267,8 @@ struct HMSPrebuiltConferenceView_Previews: PreviewProvider {
 #if Preview
         HMSPrebuiltConferenceView()
             .environmentObject(HMSRoomModel.dummyRoom(3))
+            .environmentObject(HMSRoomInfoModel())
+            .environmentObject(HMSUITheme())
 #endif
     }
 }

@@ -110,7 +110,9 @@ struct PollCreateView: View {
                         }
                     }.padding(.horizontal, 24)
                 }
-            }.background(HMSUIColorTheme().surfaceDim).ignoresSafeArea().onAppear {
+            }
+            .background(HMSUIColorTheme().surfaceDim)
+            .onAppear {
                 model.refreshPolls()
             }
         }

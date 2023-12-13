@@ -48,7 +48,6 @@ struct PollLeaderboardView: View {
         }
         .padding(.horizontal, 24)
         .background(HMSUIColorTheme().surfaceDim)
-        .ignoresSafeArea()
         .navigationBarHidden(true)
         .onAppear {
             model.fetchLeaderboard()

@@ -76,7 +76,6 @@ struct PollVoteView: View {
         .padding(.horizontal, 24)
         .background(HMSUIColorTheme().surfaceDim)
         .onAppear(perform: model.load)
-        .ignoresSafeArea()
         .navigationBarHidden(true)
     }
 }
