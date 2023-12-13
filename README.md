@@ -3,11 +3,11 @@
 RoomKit SDK for iOS enables you to integrate our production-ready conferencing and livestreaming UI into your own app effortlessly. This README will guide you through the integration process and provide examples of common use cases.
   
 ## Pre-requisites
-- 100ms account: You need to have a 100ms account to create a room and get a [room-code](https://www.100ms.live/docs/get-started/v2/get-started/prebuilt/room-codes/overview)/[auth-token](https://www.100ms.live/docs/get-started/v2/get-started/security-and-tokens#auth-token-for-client-sdks). You can create a 100ms account here.
-- Xcode 14 or higher
-- iOS 15 or higher
-- NSMicrophoneUsageDescription (ie. Privacy - Microphone Usage Description) in info.plist of your app
-- NSCameraUsageDescription (ie. Privacy - Camera Usage Description) in info.plist of your app
+- **100ms account**: You will need a 100ms account to create rooms and generate tokens. If you don't have one yet, you can create it [here](https://dashboard.100ms.live/signup). Once you've created an account, navigate to the 100ms dashboard and generate [room-codes](https://www.100ms.live/docs/get-started/v2/get-started/prebuilt/room-codes/overview) and [auth-tokens](https://www.100ms.live/docs/get-started/v2/get-started/security-and-tokens#auth-token-for-client-sdks) following the provided guides.
+- **Xcode 14 or higher**: This is required for building iOS applications.
+- **iOS 15 or higher**: Ensure your device or simulator is running this version or higher.
+- **NSMicrophoneUsageDescription**: You need to provide a valid description for microphone usage in your app's `info.plist` file.
+- **NSCameraUsageDescription**: Similar to the microphone, you need to provide a valid description for camera usage in your app's `info.plist` file.
 
 👀 To see an example app implementation of a conferencing/livestreaming app using 100ms RoomKit SDK, checkout the [example repository](https://github.com/100mslive/100ms-roomkit-example).
 
