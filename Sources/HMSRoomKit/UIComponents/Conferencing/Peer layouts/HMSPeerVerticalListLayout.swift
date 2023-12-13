@@ -12,6 +12,8 @@ import HMSRoomModels
 
 public struct HMSPeerVerticalListLayout: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.controlsState) private var controlsState
@@ -25,10 +27,20 @@ public struct HMSPeerVerticalListLayout: View {
         let isInsetMode = conferenceComponentParam.tileLayout?.grid.isLocalTileInsetEnabled ?? false
         let visiblePeers = roomModel.visiblePeersInLayout(isUsingInset: isInsetMode)
         
-        VStack {
-            ForEach(visiblePeers, id: \.self) { peer in
-                HMSPeerTile(peerModel: peer)
-                    .background(.backgroundDefault, cornerRadius: 0)
+        if verticalSizeClass == .regular {
+            VStack {
+                ForEach(visiblePeers, id: \.self) { peer in
+                    HMSPeerTile(peerModel: peer)
+                        .background(.backgroundDefault, cornerRadius: 0)
+                }
+            }
+        }
+        else {
+            HStack {
+                ForEach(visiblePeers, id: \.self) { peer in
+                    HMSPeerTile(peerModel: peer)
+                        .background(.backgroundDefault, cornerRadius: 0)
+                }
             }
         }
     }
