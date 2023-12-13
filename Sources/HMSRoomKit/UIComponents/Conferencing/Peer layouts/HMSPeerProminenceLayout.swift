@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSPeerProminenceLayout: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.tabPageBarState) var tabPageBarState
@@ -30,21 +32,43 @@ struct HMSPeerProminenceLayout: View {
         let nonProminentPeers: [HMSPeerModel] = visiblePeers.filter{!prominentPeers.contains($0)}
         
         GeometryReader { geo in
-            VStack(spacing: 0) {
-                TabView {
-                    ForEach(prominentPeers, id: \.self) { peer in
-                        
-                        HMSPeerTile(peerModel: peer)
-                            .background(.backgroundDefault, cornerRadius: 0)
+            
+            if verticalSizeClass == .regular {
+                VStack(spacing: 0) {
+                    TabView {
+                        ForEach(prominentPeers, id: \.self) { peer in
+                            
+                            HMSPeerTile(peerModel: peer)
+                                .background(.backgroundDefault, cornerRadius: 0)
+                        }
+                        .padding(.bottom, 35)
                     }
-                    .padding(.bottom, 35)
+                    .tabViewStyle(.page)
+                    
+                    HMSPaginatedBottomTilesView(peers: nonProminentPeers)
+                        .transition(.move(edge: .bottom))
+                        .frame(height: nonProminentPeers.count > 0 ? geo.size.height * 0.33 : 0)
+                        .opacity(nonProminentPeers.count > 0 ? 1 : 0)
                 }
-                .tabViewStyle(.page)
-                
-                HMSPaginatedBottomTilesView(peers: nonProminentPeers)
-                    .transition(.move(edge: .bottom))
-                    .frame(height: nonProminentPeers.count > 0 ? geo.size.height * 0.33 : 0)
-                    .opacity(nonProminentPeers.count > 0 ? 1 : 0)
+            }
+            else {
+                HStack(spacing: 0) {
+                    TabView {
+                        ForEach(prominentPeers, id: \.self) { peer in
+                            
+                            HMSPeerTile(peerModel: peer)
+                                .background(.backgroundDefault, cornerRadius: 0)
+                        }
+                        .padding(.bottom, 35)
+                    }
+                    .tabViewStyle(.page)
+                    
+                    HMSPaginatedBottomTilesView(peers: nonProminentPeers)
+                        .transition(.move(edge: .bottom))
+                        .frame(width: nonProminentPeers.count > 0 ? geo.size.width * 0.33 : 0)
+                        .opacity(nonProminentPeers.count > 0 ? 1 : 0)
+                        .padding(.horizontal, 10)
+                }
             }
         }
         .animation(.default, value: nonProminentPeers.count)

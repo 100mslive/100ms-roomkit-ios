@@ -33,7 +33,6 @@ struct HMSPaginatedBottomTilesView: View {
                         VStack {
                             ForEach(Array(chunk)) { peer in
                                 HMSPeerTile(peerModel: peer)
-                                    .frame(height: 140)
                                     .background(.backgroundDefault, cornerRadius: 0)
                             }
                         }

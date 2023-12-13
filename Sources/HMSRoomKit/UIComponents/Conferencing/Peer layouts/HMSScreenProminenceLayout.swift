@@ -41,6 +41,7 @@ struct HMSScreenProminenceLayout: View {
                 HStack(spacing: 0) {
                     screenView
                     tilesView
+                        .padding(.horizontal, 10)
                         .frame(width: geo.size.width * 0.33)
                 }
             }
