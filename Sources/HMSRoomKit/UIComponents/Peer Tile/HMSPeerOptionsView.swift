@@ -37,6 +37,8 @@ struct HMSPeerOptionsViewContext {
 
 struct HMSPeerOptionsButtonView<Content: View>: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     @Environment(\.menuContext) var menuContext
     
@@ -69,9 +71,18 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
                     dismiss?()
                 }) {
                     HMSSheet {
-                        HMSPeerOptionsView(context: context)
-                            .environmentObject(roomModel)
-                            .environmentObject(peerModel)
+                        Group {
+                            if verticalSizeClass == .regular {
+                                HMSPeerOptionsView(context: context)
+                            }
+                            else {
+                                ScrollView {
+                                    HMSPeerOptionsView(context: context)
+                                }
+                            }
+                        }
+                        .environmentObject(roomModel)
+                        .environmentObject(peerModel)
                     }
                     .edgesIgnoringSafeArea(.all)
                     .environmentObject(currentTheme)
@@ -154,6 +165,8 @@ struct HMSOptionsHeaderView: View {
 }
 
 struct HMSPeerOptionsView: View {
+    
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @Environment(\.conferenceParams) var conferenceComponentParam
     
@@ -318,14 +331,22 @@ struct HMSPeerOptionsView: View {
                     }
                 }
             }
-        }.font(.subtitle2Semibold14)
-            .foreground(.onSurfaceHigh)
-            .sheet(isPresented: $isChangeNameSheetPresented) {
-                HMSSheet {
+        }
+        .font(.subtitle2Semibold14)
+        .foreground(.onSurfaceHigh)
+        .sheet(isPresented: $isChangeNameSheetPresented) {
+            HMSSheet {
+                if verticalSizeClass == .regular {
                     HMSChangeNameView()
                 }
-                .edgesIgnoringSafeArea(.all)
+                else {
+                    ScrollView {
+                        HMSChangeNameView()
+                    }
+                }
             }
+            .edgesIgnoringSafeArea(.all)
+        }
 //            .background(.backgroundDim, cornerRadius: 8.0, ignoringEdges: .all)
     }
 }

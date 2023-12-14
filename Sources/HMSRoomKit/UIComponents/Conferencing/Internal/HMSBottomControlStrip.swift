@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSBottomControlStrip: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.menuContext) var menuContext
@@ -74,7 +76,16 @@ struct HMSBottomControlStrip: View {
                                 menuContext.wrappedValue = .none
                             }) {
                                 HMSSheet {
-                                    HMSOptionSheetView(isHLSViewer: isHLSViewer)
+                                    Group {
+                                        if verticalSizeClass == .regular {
+                                            HMSOptionSheetView(isHLSViewer: isHLSViewer)
+                                        }
+                                        else {
+                                            ScrollView {
+                                                HMSOptionSheetView(isHLSViewer: isHLSViewer)
+                                            }
+                                        }
+                                    }
                                         .environmentObject(currentTheme)
                                         .environmentObject(roomModel)
                                         .environmentObject(localPeerModel)

@@ -84,6 +84,7 @@ public struct HMSEndCallScreen: View {
                     }
                 }
             }
+            .minimumScaleFactor(0.3)
             
             Spacer()
         }

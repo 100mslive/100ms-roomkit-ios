@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSRolePicker: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.conferenceParams) var conferenceParams
     
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -74,7 +76,14 @@ struct HMSRolePicker: View {
         }
         .sheet(isPresented: $isPopoverPresented) {
             HMSSheet {
-                HMSRolePickerOptionsView(selectedOption: $recipient)
+                if verticalSizeClass == .regular {
+                    HMSRolePickerOptionsView(selectedOption: $recipient)
+                }
+                else {
+                    ScrollView {
+                        HMSRolePickerOptionsView(selectedOption: $recipient)
+                    }
+                }
             }
             .edgesIgnoringSafeArea(.all)
         }

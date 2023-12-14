@@ -11,17 +11,26 @@ import HMSRoomModels
 
 struct HMSLeaveCallOptionsView: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
     
     @State var isLeaveSheetPresented = false
     @State var isEndCallSheetPresented = false
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         
         let isBeingStreamed = roomModel.isBeingStreamed
         
         VStack(alignment: .leading) {
+            
+            HMSOptionsHeaderView(title: "", subtitle: "", onClose: {
+                dismiss()
+            })
+            
             HStack(alignment: .top, spacing: 16) {
                 Image(assetName: "leave-icon")
                     .foreground(.onSurfaceHigh)
@@ -71,14 +80,28 @@ struct HMSLeaveCallOptionsView: View {
         }
         .sheet(isPresented: $isLeaveSheetPresented) {
             HMSSheet {
-                HMSLeaveCallView()
+                if verticalSizeClass == .regular {
+                    HMSLeaveCallView()
+                }
+                else {
+                    ScrollView {
+                        HMSLeaveCallView()
+                    }
+                }
             }
             .edgesIgnoringSafeArea(.all)
             .environmentObject(currentTheme)
         }
         .sheet(isPresented: $isEndCallSheetPresented) {
             HMSSheet {
-                HMSEndCallView()
+                if verticalSizeClass == .regular {
+                    HMSEndCallView()
+                }
+                else {
+                    ScrollView {
+                        HMSEndCallView()
+                    }
+                }
             }
             .edgesIgnoringSafeArea(.all)
             .environmentObject(currentTheme)

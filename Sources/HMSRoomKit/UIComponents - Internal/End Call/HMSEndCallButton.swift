@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSEndCallButton: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.menuContext) var menuContext
     
     @EnvironmentObject var currentTheme: HMSUITheme
@@ -50,14 +52,28 @@ struct HMSEndCallButton: View {
             }
             .sheet(isPresented: $isOptionsPresented) {
                 HMSSheet {
-                    HMSLeaveCallOptionsView()
+                    if verticalSizeClass == .regular {
+                        HMSLeaveCallOptionsView()
+                    }
+                    else {
+                        ScrollView {
+                            HMSLeaveCallOptionsView()
+                        }
+                    }
                 }
                 .edgesIgnoringSafeArea(.all)
                 .background(.surfaceDim, cornerRadius: 0)
             }
             .sheet(isPresented: $isLeaveSheetPresented) {
                 HMSSheet {
-                    HMSLeaveCallView()
+                    if verticalSizeClass == .regular {
+                        HMSLeaveCallView()
+                    }
+                    else {
+                        ScrollView {
+                            HMSLeaveCallView()
+                        }
+                    }
                 }
                 .edgesIgnoringSafeArea(.all)
                 .environmentObject(currentTheme)
