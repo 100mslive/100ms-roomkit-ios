@@ -76,10 +76,16 @@ struct HMSNotificationStackView: View {
                         case .none:
                             break
                         case .bringOnStage:
+                            let skipPreview = onStageExperience?.skipPreviewForRoleChange ?? false
+                            
                             guard !onStageRole.isEmpty else { return }
                             Task {
                                 guard let peerModel = roomModel.peerModels.first(where: { $0.id == notification.id }) else { return }
-                                try await roomModel.changeRole(of: peerModel, to: onStageRole)
+                                try await roomModel.changeRole(of: peerModel, to: onStageRole, shouldAskForApproval: !skipPreview)
+                                
+                                if skipPreview {
+                                    try await roomModel.lowerHand(of: peerModel)
+                                }
                             }
                             roomKitModel.dismissNotification(for: notification.id)
                             break

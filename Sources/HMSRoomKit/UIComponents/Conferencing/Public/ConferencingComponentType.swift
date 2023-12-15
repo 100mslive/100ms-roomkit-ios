@@ -135,6 +135,7 @@ extension HMSConferenceScreen {
             public let rolesWhoCanComeOnStage: [String]
             public let bringToStageLabel: String
             public let removeFromStageLabel: String
+            public let skipPreviewForRoleChange: Bool
         }
         
         public var brb: BRB? = .default

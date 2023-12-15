@@ -43,9 +43,6 @@ extension HMSPeerModel {
             metadata[HMSPeerModel.previousRoleKey] = newValue
         }
     }
-    func setPreviousRole() {
-        previousRole = role?.name ?? ""
-    }
 }
 
 // Data in in-memory static store

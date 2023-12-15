@@ -25,6 +25,11 @@ public struct HMSPrebuiltView: View {
         
         roomModel = HMSRoomModel(roomCode: roomCode, options: options?.roomOptions) { sdk in
             sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
+            
+            sdk.trackSettings = HMSTrackSettings.build { videoSettingsBuilder, audioSettingsBuilder in
+                videoSettingsBuilder.initialMuteState = .mute
+                audioSettingsBuilder.initialMuteState = .mute
+            }
         }
         
         if let userName = options?.roomOptions?.userName {
@@ -41,6 +46,11 @@ public struct HMSPrebuiltView: View {
         
         roomModel = HMSRoomModel(token: token, options: options?.roomOptions) { sdk in
             sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
+            
+            sdk.trackSettings = HMSTrackSettings.build { videoSettingsBuilder, audioSettingsBuilder in
+                videoSettingsBuilder.initialMuteState = .mute
+                audioSettingsBuilder.initialMuteState = .mute
+            }
         }
         
         if let userName = options?.roomOptions?.userName {

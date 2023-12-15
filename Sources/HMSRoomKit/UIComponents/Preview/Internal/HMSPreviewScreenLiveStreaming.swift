@@ -101,6 +101,12 @@ struct HMSPreviewScreenLiveStreaming: View {
         }), content: {
             Alert(title: Text("Error"), message: Text(roomModel.lastError?.localizedDescription ?? ""))
         })
+        .onChange(of: roomModel.localAudioTrackModel) { model in
+            roomModel.toggleMic()
+        }
+        .onChange(of: roomModel.localVideoTrackModel) { model in
+            roomModel.toggleCamera()
+        }
         //        .ignoresSafeArea(.keyboard)
 //        .onAppear {
 //            

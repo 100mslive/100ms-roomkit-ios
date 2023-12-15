@@ -51,7 +51,6 @@ struct HMSPreviewRoleBottomOverlay: View {
                     .frame(maxWidth: .infinity, maxHeight: 48, alignment: .center)
                     .background(.primaryDefault, cornerRadius: 8)
                     .onTapGesture {
-                        roomModel.localPeerModel?.setPreviousRole()
                         Task {
                             try await roomModel.setUserStatus(.none)
                             try await roomModel.acceptChangeRoleRequest()
