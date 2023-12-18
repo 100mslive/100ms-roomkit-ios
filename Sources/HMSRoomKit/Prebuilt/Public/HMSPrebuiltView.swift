@@ -120,7 +120,7 @@ public extension HMSPrebuiltView {
     
     func screenShare(appGroupName: String, screenShareBroadcastExtensionBundleId: String) -> HMSPrebuiltView {
         let options = self.options
-        options.roomOptions = HMSRoomOptions(appGroupName: appGroupName, screenShareBroadcastExtensionBundleId: screenShareBroadcastExtensionBundleId)
+        options.roomOptions = HMSRoomOptions(userName: options.roomOptions?.userName, userId: options.roomOptions?.userId, appGroupName: appGroupName, screenShareBroadcastExtensionBundleId: screenShareBroadcastExtensionBundleId)
         
         if let token = token {
             return HMSPrebuiltView(token: token, options: options, onDismiss: self.onDismiss)

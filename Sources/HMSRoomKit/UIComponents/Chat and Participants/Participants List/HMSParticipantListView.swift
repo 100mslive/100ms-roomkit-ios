@@ -545,7 +545,9 @@ extension HMSPeerModel {
         }
         
         if isLocal {
-            actions.append(.changeName)
+            if (roomModel.options?.userName ?? "").isEmpty {
+                actions.append(.changeName)
+            }
             actions.append(.minimizeTile)
         } else {
             let canMute = permissions.mute == true

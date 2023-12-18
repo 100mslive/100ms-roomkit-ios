@@ -13,9 +13,13 @@ import HMSRoomModels
 struct HMSJoinNameLabel: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
+    @State private var namePreset = false
     
     var body: some View {
-        HMSJoinNameView(name: $roomModel.userName)
+        HMSJoinNameView(name: $roomModel.userName).allowsHitTesting(!namePreset)
+            .onAppear {
+                namePreset = !roomModel.userName.isEmpty
+        }
     }
 }
 
