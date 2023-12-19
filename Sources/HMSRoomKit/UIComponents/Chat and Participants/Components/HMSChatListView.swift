@@ -235,36 +235,37 @@ struct HMSChatListView: View {
                         // Don't show hidden messages
                         guard !roomModel.chatMessageBlacklist.contains(message.messageID) else { return false }
                         
-                        if let recipient {
-                            switch recipient {
-                            case .everyone:
-                                
-                                switch message.recipient.type {
-                                case .broadcast:
-                                    return true
-                                case .roles:
-                                    guard let rolesRecipient = message.recipient.rolesRecipient else { return false }
-                                    return allowedRoles.contains { rolesRecipient.contains($0) }
-                                case .peer:
-                                    // show dms in everyone even if they can't reply to it.
-                                    return true
-                                @unknown default:
-                                    fatalError()
-                                }
-                            case .peer(let peer):
-                                
-                                guard message.recipient.type == .peer else { return false }
-                                return message.sender == peer.peer || message.recipient.peerRecipient == peer.peer
-                                
-                            case .role(let role):
-                                guard message.recipient.type == .roles else { return false }
-                                return message.recipient.rolesRecipient?.contains(role) ?? false
-                            }
-                        }
-                        else {
-                            // if we don't have recipient then show public messages
-                            return message.recipient.type == .broadcast
-                        }
+//                        if let recipient {
+//                            switch recipient {
+//                            case .everyone:
+//                                
+//                                switch message.recipient.type {
+//                                case .broadcast:
+//                                    return true
+//                                case .roles:
+//                                    guard let rolesRecipient = message.recipient.rolesRecipient else { return false }
+//                                    return allowedRoles.contains { rolesRecipient.contains($0) }
+//                                case .peer:
+//                                    // show dms in everyone even if they can't reply to it.
+//                                    return true
+//                                @unknown default:
+//                                    fatalError()
+//                                }
+//                            case .peer(let peer):
+//                                
+//                                guard message.recipient.type == .peer else { return false }
+//                                return message.sender == peer.peer || message.recipient.peerRecipient == peer.peer
+//                                
+//                            case .role(let role):
+//                                guard message.recipient.type == .roles else { return false }
+//                                return message.recipient.rolesRecipient?.contains(role) ?? false
+//                            }
+//                        }
+//                        else {
+//                            // if we don't have recipient then show public messages
+//                            return message.recipient.type == .broadcast
+//                        }
+                        return true
 #endif
                     })
                     
