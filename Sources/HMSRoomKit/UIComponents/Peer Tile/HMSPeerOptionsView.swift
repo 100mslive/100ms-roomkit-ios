@@ -157,7 +157,7 @@ struct HMSOptionsHeaderView: View {
             .padding(.vertical, 16)
             if showsDivider {
                 Divider()
-                    .background(.borderDefault, cornerRadius: 0)
+                    .background(.borderBright, cornerRadius: 0)
                     .padding(.bottom, 16)
             }
         }

@@ -108,7 +108,7 @@ struct HMSChatScreen: View {
 //        if let chatScopes = conferenceParams.chat?.chatScopes {
             
             VStack {
-                if let recipient, let localPeerModel = roomModel.localPeerModel {
+                if let localPeerModel = roomModel.localPeerModel {
                     
                     VStack(alignment: .leading, spacing: 8) {
                         
@@ -116,11 +116,7 @@ struct HMSChatScreen: View {
                             Text("To")
                                 .foreground(.onSurfaceMedium)
                                 .font(.captionRegular12)
-                            HMSRolePicker(recipient: Binding(get: {
-                                recipient
-                            }, set: {
-                                self.recipient = $0
-                            }))
+                            HMSRolePicker(recipient: $recipient)
                         }
                         
                         if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
@@ -141,8 +137,10 @@ struct HMSChatScreen: View {
 //                                // if everyone is selected but we don't have public chat scope, don't show send field
 //                            }
 //                            else {
+                            if let recipient {
                                 HMSSendChatField(recipient: recipient)
                                     .background(.surfaceDefault, cornerRadius: 8)
+                            }
 //                            }
                         }
                     }
