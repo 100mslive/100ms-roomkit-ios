@@ -76,7 +76,12 @@ struct HMSChatScreen: View {
                             recipient = .role(firstWhiteListedRole)
                         }
                         else {
-                            recipient = .everyone
+                            if let firstRemotePeer = roomModel.remotePeerModels.first {
+                                recipient = .peer(firstRemotePeer)
+                            }
+                            else {
+                                recipient = nil
+                            }
                         }
                     }
             }
@@ -100,7 +105,7 @@ struct HMSChatScreen: View {
     @ViewBuilder
     var sendMessageView: some View {
         
-        if let chatScopes = conferenceParams.chat?.chatScopes {
+//        if let chatScopes = conferenceParams.chat?.chatScopes {
             
             VStack {
                 if let recipient, let localPeerModel = roomModel.localPeerModel {
@@ -132,19 +137,19 @@ struct HMSChatScreen: View {
                             .background(.surfaceDefault, cornerRadius: 8)
                         }
                         else {
-                            if recipient == .everyone && !chatScopes.contains(.public) {
-                                // if everyone is selected but we don't have public chat scope, don't show send field
-                            }
-                            else {
+//                            if recipient == .everyone && !chatScopes.contains(.public) {
+//                                // if everyone is selected but we don't have public chat scope, don't show send field
+//                            }
+//                            else {
                                 HMSSendChatField(recipient: recipient)
                                     .background(.surfaceDefault, cornerRadius: 8)
-                            }
+//                            }
                         }
                     }
                     .padding(.bottom, 16)
                 }
             }
-        }
+//        }
     }
 }
 
