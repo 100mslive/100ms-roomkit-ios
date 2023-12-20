@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-
+import HMSRoomModels
 
 struct PollResultsView: View {
+    @EnvironmentObject var roomModel: HMSRoomModel
     @ObservedObject var model: PollLeaderboardViewModel
     @Environment(\.presentationMode) var presentationMode
     
@@ -42,9 +43,10 @@ struct PollResultsView: View {
                         }
                         Spacer()
                     }
-                    if !model.entries.isEmpty {
+                    
+                    if !model.summaryEntries.isEmpty {
                         VStack(spacing: 0) {
-                            PollLeaderboardView(model: model, limit: 5)
+                            PollLeaderboardView(model: model, isSummary: true)
                                 .padding(EdgeInsets(top: 12, leading: 16, bottom: 16, trailing: 16))
                             PollDivider()
                             HStack {
@@ -70,7 +72,7 @@ struct PollResultsView: View {
         .background(HMSUIColorTheme().surfaceDim)
         .navigationBarHidden(true)
         .onAppear {
-            model.fetchLeaderboard()
+            model.fetchLeaderboardSummary(userID: roomModel.localPeerModel?.customerUserId ?? "")
         }
         
     }

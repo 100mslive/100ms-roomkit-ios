@@ -58,7 +58,7 @@ struct PollVoteView: View {
                                 Text("End \(model.poll.category == .poll ? "Poll" : "Quiz")")
                             }.buttonStyle(ActionButtonStyle(isWide: false))
                         }
-                    } else if model.isAdmin && model.poll.state == .stopped && model.poll.category == .quiz {
+                    } else if model.poll.state == .stopped && model.poll.category == .quiz {
                         NavigationLink() {
                             PollResultsView(model: model.leaderBoardModel)
                         } label: {

@@ -11,11 +11,11 @@ import HMSSDK
 
 struct PollLeaderboardView: View {
     @ObservedObject var model: PollLeaderboardViewModel
-    var limit = 0
+    var isSummary = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            ForEach(limit > 0 ? Array(model.entries.prefix(limit)) : model.entries) { entry in
+            ForEach(isSummary ? model.summaryEntries : model.entries) { entry in
                 PollLeaderboardEntryView(model: entry)
             }
         }

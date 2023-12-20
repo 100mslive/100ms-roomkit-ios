@@ -11,16 +11,36 @@ import HMSSDK
 class PollLeaderboardViewModel: ObservableObject, Identifiable {
     let interactivityCenter: HMSInteractivityCenter
     var poll: HMSPoll
+    var isAmdin = false
+    var userID: String = ""
     
     @Published var isFetching = false
     @Published var hasNext = true
     @Published var entries = [PollLeaderboardEntryViewModel]()
+    @Published var summaryEntries = [PollLeaderboardEntryViewModel]()
     @Published var summary: PollSummaryViewModel?
     
     
-    internal init(poll: HMSPoll, interactivityCenter: HMSInteractivityCenter) {
+    internal init(poll: HMSPoll, interactivityCenter: HMSInteractivityCenter, isAmdin: Bool) {
         self.poll = poll
         self.interactivityCenter = interactivityCenter
+        self.isAmdin = isAmdin
+    }
+    
+    func fetchLeaderboardSummary(userID: String) {
+        self.userID = userID
+        
+        guard summary == nil else { return }
+        isFetching = true
+        interactivityCenter.fetchLeaderboard(for: poll, offset: 0, count: 5, includeCurrentPeer: !isAmdin) { [weak self] response, error in
+            guard let self = self else { return }
+            self.isFetching = false
+            if let response = response {
+                let newEntries = response.entries.map { PollLeaderboardEntryViewModel(entry: $0, poll: self.poll) }
+                self.summaryEntries = newEntries
+                self.setupSummary(with: response)
+            }
+        }
     }
     
     func fetchLeaderboard() {
@@ -31,15 +51,20 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
             guard let self = self else { return }
             self.isFetching = false
             if let response = response {
-                let newEntries = response.entries.enumerated().map { PollLeaderboardEntryViewModel(entry: $1, poll: self.poll, place: currentOffset + $0 + 1) }
+                let newEntries = response.entries.map { PollLeaderboardEntryViewModel(entry: $0, poll: self.poll) }
                 self.entries.append(contentsOf: newEntries)
                 self.hasNext = response.hasNext
-                self.setupSummary(with: response.summary)
             }
         }
     }
     
-    func setupSummary(with summary: HMSPollLeaderboardSummary) {
+    func setupSummary(with response: HMSPollLeaderboardResponse) {
+        isAmdin ? setupAdminSummary(with: response) : setupUserSummary(with: response)
+    }
+    
+    func setupAdminSummary(with response: HMSPollLeaderboardResponse) {
+        let summary = response.summary
+        
         guard summary.totalPeersCount > 0 else { return }
         
         let votedPercent = summary.respondedPeersCount * 100 / summary.totalPeersCount
@@ -57,17 +82,36 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
         
         self.summary = PollSummaryViewModel(items: [row1, row2])
     }
+    
+    func setupUserSummary(with response: HMSPollLeaderboardResponse) {
+        let summary = response.summary
+        guard summary.totalPeersCount > 0 else { return }
+        
+        guard let userEntry = response.entries.first(where: { $0.peer?.customerUserID == userID }) else { return }
+        let model = PollLeaderboardEntryViewModel(entry: userEntry, poll: poll)
+        
+        let rank = PollSummaryItemViewModel(title: "YOUR RANK", subtitle: "(\(model.place)/\(summary.totalPeersCount)")
+        
+        let points = PollSummaryItemViewModel(title: "POINTS", subtitle: "\(userEntry.score)")
+        let row1 = PollSummaryItemRowViewModel(items: [rank, points])
+        
+        let time = PollSummaryItemViewModel(title: "TIME TAKEN", subtitle: model.time)
+        let score = PollSummaryItemViewModel(title: "CORRECT ANSWERS", subtitle: model.correctAnswers)
+        let row2 = PollSummaryItemRowViewModel(items: [time, score])
+        
+        self.summary = PollSummaryViewModel(items: [row1, row2])
+    }
 }
 
 class PollLeaderboardEntryViewModel: Identifiable {
-    internal init(entry: HMSPollLeaderboardEntry, poll: HMSPoll, place: Int) {
+    internal init(entry: HMSPollLeaderboardEntry, poll: HMSPoll) {
         let questions = poll.questions ?? []
         let totalQuestions = questions.count
         let totalScore = questions.reduce(0) { partialResult, question in
             partialResult + question.weight
         }
         
-        self.place = place
+        self.place = entry.position
         self.name = entry.peer?.userName ?? "Unknown"
         self.score = totalScore > 0 ? "\(entry.score)/\(totalScore)" : ""
         self.correctAnswers = "\(entry.correctResponses)/\(totalQuestions)"
