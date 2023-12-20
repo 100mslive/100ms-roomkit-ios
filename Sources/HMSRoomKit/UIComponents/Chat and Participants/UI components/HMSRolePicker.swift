@@ -53,9 +53,26 @@ struct HMSRolePicker: View {
                     .foreground(.onSurfaceMedium)
             }
             
-            Text(recipient?.toString() ?? "Choose a recipient")
-                .font(.captionRegular12)
-                .foreground(.onPrimaryHigh)
+            if case let .peer(peer) = recipient {
+                if roomModel.remotePeerModels.contains(peer) {
+                    Text(recipient!.toString())
+                        .font(.captionRegular12)
+                        .foreground(.onPrimaryHigh)
+                }
+                else {
+                    Text("Choose a recipient")
+                        .font(.captionRegular12)
+                        .foreground(.onPrimaryHigh)
+                        .onAppear() {
+                            recipient = nil
+                        }
+                }
+            }
+            else {
+                Text(recipient?.toString() ?? "Choose a recipient")
+                    .font(.captionRegular12)
+                    .foreground(.onPrimaryHigh)
+            }
             
             if multipleRecipientsAvailable {
                 Image(assetName: "chevron-up")

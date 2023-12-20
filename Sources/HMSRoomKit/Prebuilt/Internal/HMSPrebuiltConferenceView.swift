@@ -48,7 +48,9 @@ struct HMSPrebuiltConferenceView: View {
                                     chatScopes.append(.public)
                                 }
                                 
-                                chatScopes.append(.roles(whiteList: chat.roles_whitelist))
+                                if !chat.roles_whitelist.isEmpty {
+                                    chatScopes.append(.roles(whiteList: chat.roles_whitelist))
+                                }
                                 
                                 if chat.private_chat_enabled {
                                     chatScopes.append(.private)
@@ -101,7 +103,9 @@ struct HMSPrebuiltConferenceView: View {
                                     chatScopes.append(.public)
                                 }
                                 
-                                chatScopes.append(.roles(whiteList: chat.roles_whitelist))
+                                if !chat.roles_whitelist.isEmpty {
+                                    chatScopes.append(.roles(whiteList: chat.roles_whitelist))
+                                }
                                 
                                 if chat.private_chat_enabled {
                                     chatScopes.append(.private)

@@ -76,12 +76,7 @@ struct HMSChatScreen: View {
                             recipient = .role(firstWhiteListedRole)
                         }
                         else {
-                            if let firstRemotePeer = roomModel.remotePeerModels.first {
-                                recipient = .peer(firstRemotePeer)
-                            }
-                            else {
-                                recipient = nil
-                            }
+                            recipient = nil
                         }
                     }
             }
