@@ -60,7 +60,7 @@ struct PollVoteView: View {
                         }
                     } else if model.isAdmin && model.poll.state == .stopped && model.poll.category == .quiz {
                         NavigationLink() {
-                            PollLeaderboardView(model: model.leaderBoardModel)
+                            PollResultsView(model: model.leaderBoardModel)
                         } label: {
                             HStack {
                                 Spacer()

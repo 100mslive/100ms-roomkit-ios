@@ -1,14 +1,13 @@
 //
-//  PollResultsView.swift
+//  PollLeaderboardDetailView.swift
 //  HMSRoomKitPreview
 //
-//  Created by Dmitry Fedoseyev on 29.11.2023.
+//  Created by Dmitry Fedoseyev on 20.12.2023.
 //
 
 import SwiftUI
 
-
-struct PollResultsView: View {
+struct PollLeaderboardDetailView: View {
     @ObservedObject var model: PollLeaderboardViewModel
     @Environment(\.presentationMode) var presentationMode
     
@@ -30,11 +29,6 @@ struct PollResultsView: View {
             Spacer(minLength: 24)
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    if let summary = model.summary {
-                        Text("Participation Summary").foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
-                        PollSummaryView(model: summary).padding(.bottom, 8)
-                    }
-                    
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Leaderboard").foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
@@ -42,27 +36,8 @@ struct PollResultsView: View {
                         }
                         Spacer()
                     }
-                    if !model.entries.isEmpty {
-                        VStack(spacing: 0) {
-                            PollLeaderboardView(model: model, limit: 5)
-                                .padding(EdgeInsets(top: 12, leading: 16, bottom: 16, trailing: 16))
-                            PollDivider()
-                            HStack {
-                                Spacer()
-                                NavigationLink {
-                                    PollLeaderboardDetailView(model: model)
-                                } label: {
-                                    HStack {
-                                        Text("View All").font(.body2Regular14).foreground(.onSurfaceHigh)
-                                        Image(assetName: "back").foreground(.onSurfaceHigh)
-                                            .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                                    }
-                                }
-                            }.padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
-                        }
-                        .background(HMSUIColorTheme().surfaceDefault)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                    }
+                    
+                    PollLeaderboardView(model: model)
                 }
             }
         }
