@@ -19,23 +19,19 @@ public struct HMSPrebuiltView: View {
     let onDismiss: (() -> Void)?
     let options: HMSPrebuiltOptions
     
-    let roomModel: HMSRoomModel
+    @StateObject private var roomModel: HMSRoomModel
     
     public init(roomCode: String, options: HMSPrebuiltOptions? = nil, onDismiss: (() -> Void)? = nil) {
         
-        roomModel = HMSRoomModel(roomCode: roomCode, options: options?.roomOptions) { sdk in
+        _roomModel = StateObject(wrappedValue: HMSRoomModel(roomCode: roomCode, options: options?.roomOptions) { sdk in
             sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
             
             sdk.trackSettings = HMSTrackSettings.build { videoSettingsBuilder, audioSettingsBuilder in
                 videoSettingsBuilder.initialMuteState = .mute
                 audioSettingsBuilder.initialMuteState = .mute
             }
-        }
-        
-        if let userName = options?.roomOptions?.userName {
-            roomModel.userName = userName
-        }
-        
+        })
+
         self.roomCode = roomCode
         self.token = nil
         self.onDismiss = onDismiss
@@ -44,19 +40,15 @@ public struct HMSPrebuiltView: View {
     
     public init(token: String, options: HMSPrebuiltOptions? = nil, onDismiss: (() -> Void)? = nil) {
         
-        roomModel = HMSRoomModel(token: token, options: options?.roomOptions) { sdk in
+        _roomModel = StateObject(wrappedValue: HMSRoomModel(token: token, options: options?.roomOptions) { sdk in
             sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
             
             sdk.trackSettings = HMSTrackSettings.build { videoSettingsBuilder, audioSettingsBuilder in
                 videoSettingsBuilder.initialMuteState = .mute
                 audioSettingsBuilder.initialMuteState = .mute
             }
-        }
-        
-        if let userName = options?.roomOptions?.userName {
-            roomModel.userName = userName
-        }
-        
+        })
+
         self.token = token
         self.roomCode = nil
         self.onDismiss = onDismiss
@@ -80,6 +72,11 @@ public struct HMSPrebuiltView: View {
             }
         }
         .environmentObject(options.theme ?? roomInfoModel.theme)
+        .onAppear() {
+            if let userName = options.roomOptions?.userName {
+                roomModel.userName = userName
+            }
+        }
         .task {
             // Call layout API
 
@@ -119,6 +116,7 @@ public extension HMSPrebuiltView {
     }
     
     func screenShare(appGroupName: String, screenShareBroadcastExtensionBundleId: String) -> HMSPrebuiltView {
+        
         let options = self.options
         options.roomOptions = HMSRoomOptions(userName: options.roomOptions?.userName, userId: options.roomOptions?.userId, appGroupName: appGroupName, screenShareBroadcastExtensionBundleId: screenShareBroadcastExtensionBundleId)
         
@@ -129,6 +127,5 @@ public extension HMSPrebuiltView {
             // room code must be there if token is nil - our inits make sure of that
             return HMSPrebuiltView(roomCode: self.roomCode!, options: options, onDismiss: self.onDismiss)
         }
-        
     }
 }

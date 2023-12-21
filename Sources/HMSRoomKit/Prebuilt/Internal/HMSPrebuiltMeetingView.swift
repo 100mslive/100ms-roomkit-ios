@@ -16,7 +16,7 @@ struct HMSPrebuiltMeetingView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     
-    @State var userStreamingState = EnvironmentValues.HMSUserStreamingState.none
+    @State private var userStreamingState = EnvironmentValues.HMSUserStreamingState.none
     @State private var controlsState = EnvironmentValues.HMSControlsState.visible
     @State private var pollsBadgeState: HMSOptionSheetView.PollsOptionAppearance = .init(.none, containsItems: false)
     
