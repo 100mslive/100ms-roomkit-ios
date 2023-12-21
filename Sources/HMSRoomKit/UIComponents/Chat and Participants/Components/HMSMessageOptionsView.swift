@@ -149,6 +149,24 @@ struct HMSMessageOptionsView: View {
                     dismiss()
                 }
             }
+            
+            if roomModel.localPeerModel?.role?.permissions.removeOthers ?? false, let sender = messageModel.sender, let senderPeer = roomModel.remotePeerModels.first(where: {$0.peer == sender}) {
+                
+                HStack {
+                    Image(assetName: "peer-remove")
+                    Text("Remove Participant").font(.subtitle2Semibold14)
+                    Spacer(minLength: 0)
+                }
+                .foreground(.errorDefault)
+                .padding(16)
+                .background(.white.opacity(0.0001))
+                .onTapGesture {
+                    Task {
+                        try await roomModel.remove(peer: senderPeer)
+                    }
+                    dismiss()
+                }
+            }
         }
         .foreground(.onSurfaceHigh)
         .background(.surfaceDefault, cornerRadius: 8, border: .borderBright, ignoringEdges: .all)
