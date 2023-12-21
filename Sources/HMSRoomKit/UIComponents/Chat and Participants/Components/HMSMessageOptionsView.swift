@@ -71,17 +71,31 @@ struct HMSMessageOptionsView: View {
             
             if canPinMessages {
                 HStack {
-                    Image(assetName: "pin")
-                        .frame(width: 20, height: 20)
-                    Text("Pin")
-                        .font(.subtitle2Semibold14)
+                    if roomModel.pinnedMessages.contains(where: {$0.id == messageModel.messageID}) {
+                        Image(assetName: "unpin")
+                            .frame(width: 20, height: 20)
+                        Text("Unpin")
+                            .font(.subtitle2Semibold14)
+                    }
+                    else {
+                        Image(assetName: "pin")
+                            .frame(width: 20, height: 20)
+                        Text("Pin")
+                            .font(.subtitle2Semibold14)
+                    }
                     
                     Spacer()
                 }
                 .padding(16)
                 .background(.white.opacity(0.0001))
                 .onTapGesture {
-                    roomModel.pinnedMessages.append(.init(text: "\(messageModel.sender?.name.appending(": ") ?? "")\(messageModel.message)", id: messageModel.messageID, pinnedBy: roomModel.userName))
+                    if roomModel.pinnedMessages.contains(where: {$0.id == messageModel.messageID}) {
+                        
+                        roomModel.pinnedMessages.removeAll{$0.id == messageModel.messageID}
+                    }
+                    else {
+                        roomModel.pinnedMessages.append(.init(text: "\(messageModel.sender?.name.appending(": ") ?? "")\(messageModel.message)", id: messageModel.messageID, pinnedBy: roomModel.userName))
+                    }
                     dismiss()
                 }
             }
