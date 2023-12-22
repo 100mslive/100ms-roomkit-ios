@@ -20,18 +20,12 @@ struct PollStateBadgeView: View {
     var endDate: Date?
     
     @State private var timeLeft = ""
-    private var formatter: DateComponentsFormatter = {
-       var result = DateComponentsFormatter()
-        result.allowedUnits = [.minute, .second]
-        result.unitsStyle = .positional
-        return result
-    }()
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func refreshTimeLeft() {
         if let endDate = endDate, endDate > Date() {
-            self.timeLeft = formatter.string(from: Date(), to:endDate ) ?? ""
+            self.timeLeft = endDate.secondsFromNow
         } else {
             self.timeLeft = ""
         }
@@ -71,5 +65,20 @@ extension HMSPollState {
 struct PollStateBadgeView_Previews: PreviewProvider {
     static var previews: some View {
         return PollStateBadgeView(pollState: .started, endDate: Date(timeIntervalSinceNow: 120))
+    }
+}
+
+extension DateComponentsFormatter {
+    static var defaultSecondsFormatter: DateComponentsFormatter = {
+       var result = DateComponentsFormatter()
+        result.allowedUnits = [.minute, .second]
+        result.unitsStyle = .positional
+        return result
+    }()
+}
+
+extension Date {
+    var secondsFromNow: String {
+        DateComponentsFormatter.defaultSecondsFormatter.string(from: Date(), to: self) ?? ""
     }
 }
