@@ -34,6 +34,8 @@ class PollCreateModel: ObservableObject, Identifiable {
     var currentRole: HMSRole
     
     var onPollStart: (()->Void)?
+    
+    var canCreatePolls: Bool
 
     lazy var questionModel: QuestionCreateViewModel = {
         QuestionCreateViewModel(pollModel: PollCreateModel(interactivityCenter: interactivityCenter, currentRole: currentRole))
@@ -43,7 +45,7 @@ class PollCreateModel: ObservableObject, Identifiable {
         self.interactivityCenter = interactivityCenter
         self.limitViewResultsToRoles = limitViewResultsToRoles
         self.currentRole = currentRole
-        
+        self.canCreatePolls = self.currentRole.permissions.pollWrite ?? false
     }
 
     func timerDuration() -> Int {

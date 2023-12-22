@@ -39,57 +39,59 @@ struct PollCreateView: View {
                 }.padding(.horizontal, 24)
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
-                        Group {
-                            Spacer().frame(height: 16)
-                            Text("Select the type you want to continue with").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular)
-                            Spacer().frame(height: 16)
-                            HStack(spacing: 16) {
-                                PollTypeButton(text: "Poll", icon: "chart.bar.fill", selected: model.selectedCategory == .poll) {
-                                    model.selectedCategory = .poll
+                        Spacer().frame(height: 16)
+                        if model.canCreatePolls {
+                            Group {
+                                Text("Select the type you want to continue with").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular)
+                                Spacer().frame(height: 16)
+                                HStack(spacing: 16) {
+                                    PollTypeButton(text: "Poll", icon: "chart.bar.fill", selected: model.selectedCategory == .poll) {
+                                        model.selectedCategory = .poll
+                                    }
+                                    PollTypeButton(text: "Quiz", icon: "questionmark.circle", selected: model.selectedCategory == .quiz) {
+                                        model.selectedCategory = .quiz
+                                    }
                                 }
-                                PollTypeButton(text: "Quiz", icon: "questionmark.circle", selected: model.selectedCategory == .quiz) {
-                                    model.selectedCategory = .quiz
-                                }
-                            }
-                            Spacer().frame(height: 16)
-                        }
-                        
-                        Group {
-                            Text("Name this \(model.selectedCategory == .poll ? "poll" : "quiz")").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body2Regular14)
-                            Spacer().frame(height: 8)
-                            PollTextField(placeholder: "My \(model.selectedCategory == .poll ? "Poll" : "Quiz")", text: $model.pollTitle, valid: model.valid)
-                            Spacer().frame(height: 24)
-                        }
-                        
-                        Group {
-                            SwitchView(text: "Hide vote count", isOn: $model.hideVotes)
-                            Spacer().frame(height: 24)
-                            SwitchView(text: "Make results anonymous", isOn: $model.anonymous)
-                            Spacer().frame(height: 24)
-                            HStack {
-                                SwitchView(text: "Timer", isOn: $model.enableTimer)
-                                Spacer()
-                                HMSPickerField(title: "", options: model.timerDurationOptions, selectedOption: $model.selectedTimerDuration).opacity(model.enableTimer ? 1 : 0)
-                            }
-                            Spacer().frame(height: 24)
-                            
-                        }
-                        
-                        Group {
-                            if !model.valid {
-                                Text(model.errorMessage).foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
                                 Spacer().frame(height: 16)
                             }
                             
-                            NavigationLink(destination: PollQuestionsCreateView(model: model.questionModel), isActive: $model.isShowingQuestionView) {
-                                EmptyView()
+                            Group {
+                                Text("Name this \(model.selectedCategory == .poll ? "poll" : "quiz")").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body2Regular14)
+                                Spacer().frame(height: 8)
+                                PollTextField(placeholder: "My \(model.selectedCategory == .poll ? "Poll" : "Quiz")", text: $model.pollTitle, valid: model.valid)
+                                Spacer().frame(height: 24)
                             }
                             
-                            Button("Create \(model.selectedCategory == .poll ? "Poll" : "Quiz")") {
-                                model.createPoll()
-                            }.buttonStyle(ActionButtonStyle())
+                            Group {
+                                SwitchView(text: "Hide vote count", isOn: $model.hideVotes)
+                                Spacer().frame(height: 24)
+                                SwitchView(text: "Make results anonymous", isOn: $model.anonymous)
+                                Spacer().frame(height: 24)
+                                HStack {
+                                    SwitchView(text: "Timer", isOn: $model.enableTimer)
+                                    Spacer()
+                                    HMSPickerField(title: "", options: model.timerDurationOptions, selectedOption: $model.selectedTimerDuration).opacity(model.enableTimer ? 1 : 0)
+                                }
+                                Spacer().frame(height: 24)
+                                
+                            }
                             
-                            Spacer(minLength: 24)
+                            Group {
+                                if !model.valid {
+                                    Text(model.errorMessage).foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
+                                    Spacer().frame(height: 16)
+                                }
+                                
+                                NavigationLink(destination: PollQuestionsCreateView(model: model.questionModel), isActive: $model.isShowingQuestionView) {
+                                    EmptyView()
+                                }
+                                
+                                Button("Create \(model.selectedCategory == .poll ? "Poll" : "Quiz")") {
+                                    model.createPoll()
+                                }.buttonStyle(ActionButtonStyle())
+                                
+                                Spacer(minLength: 24)
+                            }
                         }
                         
                         if !model.currentPolls.isEmpty {

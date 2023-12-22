@@ -167,16 +167,7 @@ struct HMSPrebuiltConferenceView: View {
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-create"))) { _ in
-                let center = roomModel.interactivityCenter
-                if let role = roomModel.localPeerModel?.role {
-                    pollCreateModel = PollCreateModel(interactivityCenter: center, limitViewResultsToRoles: [role], currentRole: role)
-                    pollCreateModel?.onPollStart = { [weak pollCreateModel] in
-                        let pollId = pollCreateModel?.createdPoll?.pollID ?? ""
-                        Task {
-                            try await roomModel.send(hlsMetadata: [HMSHLSTimedMetadata(payload: "poll:\(pollId)", duration: HMSPrebuiltConferenceView.hlsCueDuration)])
-                        }
-                    }
-                }
+                setupPollCreateModel()
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-hls-cue"))) { notification in
                 if let pollID = notification.userInfo?["pollID"] as? String {
@@ -185,18 +176,12 @@ struct HMSPrebuiltConferenceView: View {
                 updatePollNotifications()
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-view"))) { notification in
-                let center = roomModel.interactivityCenter
-                if let role = roomModel.localPeerModel?.peer.role {
-                    
-                    pollVoteViewModels = nil
-                    
-                    pollVoteViewModels = pollModel.currentPolls.map { poll in
-                        PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
-                    }
-                }
+                setupPollCreateModel()
             }
             .sheet(item: $pollVoteViewModel, content: { model in
-                PollVoteView(model: model)
+                NavigationView {
+                    PollVoteView(model: model)
+                }
             })
             .sheet(item: $pollCreateModel, content: { model in
                 PollCreateView(model: model)
@@ -266,6 +251,19 @@ struct HMSPrebuiltConferenceView: View {
         
         if currentPolls.isEmpty {
             pollsOptionAppearance.badgeState.wrappedValue = .none
+        }
+    }
+    
+    func setupPollCreateModel() {
+        let center = roomModel.interactivityCenter
+        if let role = roomModel.localPeerModel?.role {
+            pollCreateModel = PollCreateModel(interactivityCenter: center, limitViewResultsToRoles: [role], currentRole: role)
+            pollCreateModel?.onPollStart = { [weak pollCreateModel] in
+                let pollId = pollCreateModel?.createdPoll?.pollID ?? ""
+                Task {
+                    try await roomModel.send(hlsMetadata: [HMSHLSTimedMetadata(payload: "poll:\(pollId)", duration: HMSPrebuiltConferenceView.hlsCueDuration)])
+                }
+            }
         }
     }
 }
