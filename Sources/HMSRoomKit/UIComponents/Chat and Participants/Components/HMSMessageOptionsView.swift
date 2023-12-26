@@ -49,20 +49,21 @@ struct HMSMessageOptionsView: View {
             
             HMSDivider(color: currentTheme.colorTheme.borderBright)
             
-            if isPrivateChatScopeAvailable, let sender = messageModel.sender, sender != roomModel.localPeerModel?.peer, roomModel.remotePeerModels.contains(where: {$0.peer == sender}) {
-                HStack {
-                    Image(assetName: "person-plus")
-                        .frame(width: 20, height: 20)
-                    Text("Message privately")
-                        .font(.subtitle2Semibold14)
-                    
-                    Spacer()
-                }
-                .foreground(.onSurfaceHigh)
-                .padding(16)
-                .background(.white.opacity(0.0001))
-                .onTapGesture {
-                    if let peer = roomModel.peerModels.first(where: {$0.peer == sender}) {
+            if isPrivateChatScopeAvailable, let sender = messageModel.sender, sender != roomModel.localPeerModel?.peer {
+                
+                HMSPeerLoaderView(peerId: sender.peerID) { peer in
+                    HStack {
+                        Image(assetName: "person-plus")
+                            .frame(width: 20, height: 20)
+                        Text("Message privately")
+                            .font(.subtitle2Semibold14)
+                        
+                        Spacer()
+                    }
+                    .foreground(.onSurfaceHigh)
+                    .padding(16)
+                    .background(.white.opacity(0.0001))
+                    .onTapGesture {
                         recipient = .peer(peer)
                         dismiss()
                     }
@@ -150,21 +151,23 @@ struct HMSMessageOptionsView: View {
                 }
             }
             
-            if roomModel.localPeerModel?.role?.permissions.removeOthers ?? false, let sender = messageModel.sender, let senderPeer = roomModel.remotePeerModels.first(where: {$0.peer == sender}) {
+            if roomModel.localPeerModel?.role?.permissions.removeOthers ?? false, let sender = messageModel.sender {
                 
-                HStack {
-                    Image(assetName: "peer-remove")
-                    Text("Remove Participant").font(.subtitle2Semibold14)
-                    Spacer(minLength: 0)
-                }
-                .foreground(.errorDefault)
-                .padding(16)
-                .background(.white.opacity(0.0001))
-                .onTapGesture {
-                    Task {
-                        try await roomModel.remove(peer: senderPeer)
+                HMSPeerLoaderView(peerId: sender.peerID) { peer in
+                    HStack {
+                        Image(assetName: "peer-remove")
+                        Text("Remove Participant").font(.subtitle2Semibold14)
+                        Spacer(minLength: 0)
                     }
-                    dismiss()
+                    .foreground(.errorDefault)
+                    .padding(16)
+                    .background(.white.opacity(0.0001))
+                    .onTapGesture {
+                        Task {
+                            try await roomModel.remove(peer: peer)
+                        }
+                        dismiss()
+                    }
                 }
             }
         }
