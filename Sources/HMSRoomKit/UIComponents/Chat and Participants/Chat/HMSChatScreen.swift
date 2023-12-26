@@ -43,7 +43,7 @@ struct HMSChatScreen: View {
         
         var allowedRoles: [HMSRole] {
             
-            if let chatScopes = chatScopes {
+            if let chatScopes {
                 if let roleScope = chatScopes.first(where: { scope in
                     switch scope {
                     case .roles(_):
@@ -100,39 +100,44 @@ struct HMSChatScreen: View {
     @ViewBuilder
     var sendMessageView: some View {
         
-        VStack {
-            if let localPeerModel = roomModel.localPeerModel {
-                
-                VStack(alignment: .leading, spacing: 8) {
+        let chatScopes = conferenceParams.chat?.chatScopes ?? []
+        
+        if chatScopes.count > 0 {
+            
+            VStack {
+                if let localPeerModel = roomModel.localPeerModel {
                     
-                    HStack {
-                        Text("To")
-                            .foreground(.onSurfaceMedium)
-                            .font(.captionRegular12)
-                        HMSRolePicker(recipient: $recipient)
-                    }
-                    
-                    if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
-                        // if user is blacklisted don't show send field
+                    VStack(alignment: .leading, spacing: 8) {
                         
                         HStack {
-                            Spacer()
-                            Text("You’ve been blocked from sending messages")
+                            Text("To")
                                 .foreground(.onSurfaceMedium)
-                                .font(.body2Regular14)
-                            Spacer()
+                                .font(.captionRegular12)
+                            HMSRolePicker(recipient: $recipient)
                         }
-                        .padding(.vertical, 8)
-                        .background(.surfaceDefault, cornerRadius: 8)
-                    }
-                    else {
-                        if let recipient {
-                            HMSSendChatField(recipient: recipient)
-                                .background(.surfaceDefault, cornerRadius: 8)
+                        
+                        if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
+                            // if user is blacklisted don't show send field
+                            
+                            HStack {
+                                Spacer()
+                                Text("You’ve been blocked from sending messages")
+                                    .foreground(.onSurfaceMedium)
+                                    .font(.body2Regular14)
+                                Spacer()
+                            }
+                            .padding(.vertical, 8)
+                            .background(.surfaceDefault, cornerRadius: 8)
+                        }
+                        else {
+                            if let recipient {
+                                HMSSendChatField(recipient: recipient)
+                                    .background(.surfaceDefault, cornerRadius: 8)
+                            }
                         }
                     }
+                    .padding(.bottom, 16)
                 }
-                .padding(.bottom, 16)
             }
         }
     }
