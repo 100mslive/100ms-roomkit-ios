@@ -36,8 +36,13 @@ struct HMSChatMessageView: View {
                 .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
         }
         else {
-            messageView
-                .cornerRadius(8)
+            if messageModel.recipient.type != .broadcast {
+                messageView
+                    .background(.surfaceDefault, cornerRadius: 8)
+            }
+            else {
+                messageView
+            }
         }
     }
     
@@ -57,42 +62,23 @@ struct HMSChatMessageView: View {
 //                            .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
 //                    }
                     
-                    Spacer()
+                    if messageModel.recipient.type == .peer, let peerParticipant = messageModel.recipient.peerRecipient {
+                        Text("to \(peerParticipant.isLocal ? "You" : peerParticipant.name) (DM)")
+                            .lineLimit(1)
+                            .font(.captionRegular12)
+                            .foreground(.onSurfaceMedium)
+                    }
+                    else if messageModel.recipient.type == .roles, let firstRoleRecipient = messageModel.recipient.rolesRecipient?.first {
+                        
+                        Text("to \(firstRoleRecipient.name) (Group)")
+                            .foreground(.onSurfaceMedium)
+                            .font(.captionRegular12)
+                            .lineLimit(1)
+                    }
                     
                     HStack {
-                        
-                        if recipient == .everyone {
-                            if messageModel.recipient.type == .peer {
-                                Text("Direct Message")
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.1)
-                                    .font(.captionRegular12)
-                                    .foreground(.onSecondaryHigh)
-                                    .padding(4)
-                                    .overlay {
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .stroke()
-                                            .foreground(.borderBright)
-                                    }
-                            }
-                            else if messageModel.recipient.type == .roles {
-                                HStack {
-                                    Text("To Group")
-                                        .foreground(.onSecondaryMedium)
-                                    Text("\(messageModel.recipient.rolesRecipient?.first?.name ?? "")")
-                                        .foreground(.onSecondaryHigh)
-                                }
-                                .font(.captionRegular12)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.1)
-                                .padding(4)
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .stroke()
-                                        .foreground(.borderBright)
-                                }
-                            }
-                        }
+
+                        Spacer()
                         
                         //                    if !isPartOfTransparentChat {
                         Button() {

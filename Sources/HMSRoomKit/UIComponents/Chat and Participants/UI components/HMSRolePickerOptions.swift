@@ -16,7 +16,7 @@ struct HMSRolePickerOptionsView: View {
     
     @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
-    @Binding var selectedOption: HMSRecipient
+    @Binding var selectedOption: HMSRecipient?
     
     @State var searchQuery: String = ""
     @Environment(\.dismiss) var dismiss
@@ -62,139 +62,150 @@ struct HMSRolePickerOptionsView: View {
                 HMSOptionsHeaderView(title: "Send message to") {
                     dismiss()
                 } onBack: {}
-                HStack {
-                    HMSSearchField(searchText: $searchQuery, placeholder: "Search for participants", style: .dark)
-                }.padding(.horizontal, 24)
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 0) {
-                        
-                        // Always show everyone chat.
-//                        if chatScopes.contains(.public) {
-                            Button {
-                                selectedOption = .everyone
-                                dismiss()
-                            } label: {
-                                HStack {
-                                    Image(assetName: "group")
-                                        .foreground(.onSurfaceHigh)
-                                    Text(HMSRecipient.everyone.toString())
-                                        .font(.subtitle2Semibold14)
-                                        .foreground(.onSurfaceHigh)
-                                    
-                                    Spacer()
-                                    
-                                    if selectedOption == .everyone {
-                                        Image(assetName: "checkmark")
-                                            .resizable()
-                                            .foreground(.onSurfaceHigh)
-                                            .frame(width: 20, height: 20)
-                                    }
-                                }
-                                .padding(EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24))
-                                .background(.white.opacity(0.0001))
-                            }
-                            .buttonStyle(.plain)
-                            HMSDivider(color: currentTheme.colorTheme.borderBright)
-//                        }
-                        
-                        if filteredRoles.count > 0 {
+                
+                if chatScopes.count == 1 && chatScopes.contains(.private) && roomModel.remotePeerModels.count == 0 {
+                    Text("No recipient yet")
+                        .foreground(.onSurfaceLow)
+                        .font(.subtitle2Semibold14)
+                        .padding(.vertical, 38)
+                }
+                else {
+                    
+                    HStack {
+                        HMSSearchField(searchText: $searchQuery, placeholder: "Search for participants", style: .dark)
+                    }.padding(.horizontal, 24)
+                    
+                    ScrollView {
+                        LazyVStack(alignment: .leading, spacing: 0) {
                             
-                            Text("Roles")
-                                .font(.overlineMedium)
-                                .foreground(.onSurfaceMedium)
-                                .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
-                            
-                            ForEach(filteredRoles.sorted(by: {
-#if Preview
-                                return true
-#else
-                                
-                                let peerRecipients = roomModel.messages.compactMap{$0.recipient.rolesRecipient}.flatMap{$0}.reversed()
-                                guard let index1 = peerRecipients.firstIndex(of: $0),
-                                      let index2 = peerRecipients.firstIndex(of: $1) else {
-                                    return false
-                                }
-                                return index1 < index2
-#endif
-                            }), id: \.name) { role in
+                            // Always show everyone chat.
+                            if chatScopes.contains(.public) {
                                 Button {
-                                    selectedOption = .role(role)
+                                    selectedOption = .everyone
                                     dismiss()
                                 } label: {
                                     HStack {
-                                        Text(role.name.capitalized)
+                                        Image(assetName: "group")
+                                            .foreground(.onSurfaceHigh)
+                                        Text(HMSRecipient.everyone.toString())
                                             .font(.subtitle2Semibold14)
                                             .foreground(.onSurfaceHigh)
-                                            .padding(.vertical, 14)
-                                            .padding(.horizontal, 24)
                                         
                                         Spacer()
                                         
-                                        if selectedOption == .role(role) {
+                                        if selectedOption == .everyone {
                                             Image(assetName: "checkmark")
                                                 .resizable()
                                                 .foreground(.onSurfaceHigh)
                                                 .frame(width: 20, height: 20)
                                         }
                                     }
-                                    .padding(.trailing, 24)
+                                    .padding(EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24))
                                     .background(.white.opacity(0.0001))
                                 }
                                 .buttonStyle(.plain)
+                                HMSDivider(color: currentTheme.colorTheme.borderBright)
                             }
                             
-                            HMSDivider(color: currentTheme.colorTheme.borderBright)
-                        }
-
-                        if filteredPeers.count > 0 {
-                            Text("Participants")
-                                .font(.overlineMedium)
-                                .foreground(.onSurfaceMedium)
-                                .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
-                            ForEach(filteredPeers.sorted(by: {
+                            if filteredRoles.count > 0 {
                                 
+                                Text("Roles")
+                                    .font(.overlineMedium)
+                                    .foreground(.onSurfaceMedium)
+                                    .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
+                                
+                                ForEach(filteredRoles.sorted(by: {
 #if Preview
-                                return true
+                                    return true
 #else
-                                
-                                let peerRecipients = roomModel.messages.compactMap{$0.recipient.peerRecipient}.reversed()
-                                guard let index1 = peerRecipients.firstIndex(of: $0.peer),
-                                      let index2 = peerRecipients.firstIndex(of: $1.peer) else {
-                                    return false
-                                }
-                                return index1 < index2
-#endif
-                                
-                            })) { peer in
-                                Button {
-                                    selectedOption = .peer(peer)
-                                    dismiss()
-                                } label: {
-                                    HStack {
-                                        Text(peer.name)
-                                            .font(.subtitle2Semibold14)
-                                            .foreground(.onSurfaceHigh)
-                                            .padding(.vertical, 14)
-                                            .padding(.horizontal, 24)
-                                        
-                                        Spacer()
-                                        
-                                        if selectedOption == .peer(peer) {
-                                            Image(assetName: "checkmark")
-                                                .resizable()
-                                                .foreground(.onSurfaceHigh)
-                                                .frame(width: 20, height: 20)
-                                        }
+                                    
+                                    let peerRecipients = roomModel.messages.compactMap{$0.recipient.rolesRecipient}.flatMap{$0}.reversed()
+                                    guard let index1 = peerRecipients.firstIndex(of: $0),
+                                          let index2 = peerRecipients.firstIndex(of: $1) else {
+                                        return false
                                     }
-                                    .padding(.trailing, 24)
-                                    .background(.white.opacity(0.0001))
+                                    return index1 < index2
+#endif
+                                }), id: \.name) { role in
+                                    Button {
+                                        selectedOption = .role(role)
+                                        dismiss()
+                                    } label: {
+                                        HStack {
+                                            Text(role.name.capitalized)
+                                                .font(.subtitle2Semibold14)
+                                                .foreground(.onSurfaceHigh)
+                                                .padding(.vertical, 14)
+                                                .padding(.horizontal, 24)
+                                            
+                                            Spacer()
+                                            
+                                            if selectedOption == .role(role) {
+                                                Image(assetName: "checkmark")
+                                                    .resizable()
+                                                    .foreground(.onSurfaceHigh)
+                                                    .frame(width: 20, height: 20)
+                                            }
+                                        }
+                                        .padding(.trailing, 24)
+                                        .background(.white.opacity(0.0001))
+                                    }
+                                    .buttonStyle(.plain)
                                 }
-                                .buttonStyle(.plain)
+                                
+                                HMSDivider(color: currentTheme.colorTheme.borderBright)
+                            }
+                            
+                            if filteredPeers.count > 0 {
+                                Text("Participants")
+                                    .font(.overlineMedium)
+                                    .foreground(.onSurfaceMedium)
+                                    .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
+                                ForEach(filteredPeers.sorted(by: {
+                                    
+#if Preview
+                                    return true
+#else
+                                    
+                                    let peerRecipients = roomModel.messages.compactMap{$0.recipient.peerRecipient}.reversed()
+                                    guard let index1 = peerRecipients.firstIndex(of: $0.peer),
+                                          let index2 = peerRecipients.firstIndex(of: $1.peer) else {
+                                        return false
+                                    }
+                                    return index1 < index2
+#endif
+                                    
+                                })) { peer in
+                                    Button {
+                                        selectedOption = .peer(peer)
+                                        dismiss()
+                                    } label: {
+                                        HStack {
+                                            Text(peer.name)
+                                                .font(.subtitle2Semibold14)
+                                                .foreground(.onSurfaceHigh)
+                                                .padding(.vertical, 14)
+                                                .padding(.horizontal, 24)
+                                            
+                                            Spacer()
+                                            
+                                            if selectedOption == .peer(peer) {
+                                                Image(assetName: "checkmark")
+                                                    .resizable()
+                                                    .foreground(.onSurfaceHigh)
+                                                    .frame(width: 20, height: 20)
+                                            }
+                                        }
+                                        .padding(.trailing, 24)
+                                        .background(.white.opacity(0.0001))
+                                    }
+                                    .buttonStyle(.plain)
+                                }
                             }
                         }
                     }
+                    .fixedSize(horizontal: false, vertical: (filteredRoles.count + filteredPeers.count) > 8 ? false : true)
                 }
-                .fixedSize(horizontal: false, vertical: (filteredRoles.count + filteredPeers.count) > 8 ? false : true)
             }
             .background(.surfaceDefault, cornerRadius: 8, ignoringEdges: .all)
         }
@@ -205,9 +216,10 @@ struct HMSRolePickerOptionsView: View {
 struct HMSRolePickerOptionsView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSRolePickerOptionsView(selectedOption: .constant(.everyone))
+        HMSRolePickerOptionsView(selectedOption: .constant(nil))
             .environmentObject(HMSUITheme())
-            .environmentObject(HMSRoomModel.dummyRoom(3))
+            .environmentObject(HMSRoomModel.dummyRoom(0))
+            .environment(\.conferenceParams, .init(chat: .init(chatScopes: [.private])))
 #endif
     }
 }

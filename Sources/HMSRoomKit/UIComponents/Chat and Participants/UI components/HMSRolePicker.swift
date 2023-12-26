@@ -17,7 +17,7 @@ struct HMSRolePicker: View {
     @Environment(\.conferenceParams) var conferenceParams
     
     @EnvironmentObject var roomModel: HMSRoomModel
-    @Binding var recipient: HMSRecipient
+    @Binding var recipient: HMSRecipient?
     
     @State private var isPopoverPresented: Bool = false
     
@@ -53,9 +53,26 @@ struct HMSRolePicker: View {
                     .foreground(.onSurfaceMedium)
             }
             
-            Text(recipient.toString())
-                .font(.captionRegular12)
-                .foreground(.onSurfaceHigh)
+            if case let .peer(peer) = recipient {
+                if roomModel.remotePeerModels.contains(peer) {
+                    Text(recipient!.toString())
+                        .font(.captionRegular12)
+                        .foreground(.onPrimaryHigh)
+                }
+                else {
+                    Text("Choose a recipient")
+                        .font(.captionRegular12)
+                        .foreground(.onPrimaryHigh)
+                        .onAppear() {
+                            recipient = nil
+                        }
+                }
+            }
+            else {
+                Text(recipient?.toString() ?? "Choose a recipient")
+                    .font(.captionRegular12)
+                    .foreground(.onPrimaryHigh)
+            }
             
             if multipleRecipientsAvailable {
                 Image(assetName: "chevron-up")
@@ -67,7 +84,7 @@ struct HMSRolePicker: View {
             }
         }
         .padding(4)
-        .background(.surfaceBright, cornerRadius: 4, opacity: 0.64, border: .borderBright)
+        .background(.primaryDefault, cornerRadius: 4)
         .onTapGesture {
             guard multipleRecipientsAvailable else { return }
             // avoid keyboard UI constraint hang
@@ -94,9 +111,10 @@ struct HMSRolePicker: View {
 struct HMSRolePicker_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSRolePicker(recipient: .constant(.everyone))
+        HMSRolePicker(recipient: .constant(nil))
             .environmentObject(HMSUITheme())
-            .environmentObject(HMSRoomModel.dummyRoom(2))
+            .environmentObject(HMSRoomModel.dummyRoom(0))
+            .environment(\.conferenceParams, .init(chat: .init(chatScopes: [.private])))
 #endif
     }
 }
