@@ -35,16 +35,60 @@ struct PollVoteQuestionView: View {
                 HStack(spacing: 8) {
                     Spacer()
                     
-                    if model.canSkip {
-                        Button {
-                            
-                        } label: {
-                            Text("Skip")
-                        }.buttonStyle(ActionButtonLowEmphStyle())
-                    }
-                    
                     Button {
                         model.vote()
+                    } label: {
+                        model.poll.category == .quiz ? Text("Answer") : Text("Vote")
+                    }.buttonStyle(ActionButtonStyle(isWide: false))
+                }
+            }
+             
+        }.padding(16).background(HMSUIColorTheme().surfaceDefault).overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(model.borderColor, lineWidth: 1)).clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+}
+
+
+struct PollVoteQuestionCarouselView: View {
+    var questions: [PollVoteQuestionViewModel]
+    @State var questionIndex = 0
+    @State var startDate = Date()
+    
+    var body: some View {
+       
+        let model = questions[questionIndex]
+        
+        VStack(alignment: .leading, spacing: 16) {
+            Text("QUESTION \(model.index) of \(model.count)").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular)
+            
+            HStack{
+                Text(model.text).foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body1Regular16)
+                Spacer()
+            }
+            VStack(alignment: .leading, spacing: 16) {
+                if model.poll.category == .poll || model.canVote || model.poll.state == .stopped {
+                    ForEach(model.questionOptions) { option in
+                        PollVoteQuestionOptionView(model: option)
+                    }
+                } else {
+                    ForEach(model.questionOptions) { option in
+                        QuizVoteQuestionOptionView(model: option)
+                    }
+                }
+            }
+            
+            if model.canVote {
+                HStack(spacing: 8) {
+                    Spacer()
+                    
+                    Button {
+                        if questionIndex + 1 < questions.count {
+                            questionIndex += 1
+                        }
+                        let interval = Date().timeIntervalSince(startDate)
+                        model.vote(duration: interval)
+                        startDate = Date()
                     } label: {
                         Text(model.poll.category == .poll ? "Vote" : "Answer")
                     }.buttonStyle(ActionButtonStyle(isWide: false))

@@ -31,6 +31,7 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         }
     }
     var canViewResponses: Bool
+    var duration: TimeInterval = 0
     
     internal init(question: HMSPollQuestion, count: Int, poll: HMSPoll, canVote: Bool, canViewResponses: Bool, onVote: @escaping ((PollVoteQuestionViewModel) -> Void)) {
         self.question = question
@@ -43,7 +44,9 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         updateResults()
     }
     
-    func vote() {
+    func vote(duration: TimeInterval = 0) {
+        self.duration = duration
+        
         for (index, option) in questionOptions.enumerated() {
             if (option.selected) {
                 question.options?[index].voteCount += 1

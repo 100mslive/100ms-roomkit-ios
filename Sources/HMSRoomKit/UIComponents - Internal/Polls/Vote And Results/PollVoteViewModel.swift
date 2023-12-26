@@ -174,7 +174,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
         guard !selectedOptions.isEmpty else { return }
 
         let resultBuilder = HMSPollResponseBuilder(poll: poll)
-        resultBuilder.addResponse(for: question.question, options: selectedOptions)
+        resultBuilder.addResponse(for: question.question, options: selectedOptions, duration: question.duration)
         
         interactivityCenter.add(response: resultBuilder) { _, error in
             question.canVote = !question.question.voted
