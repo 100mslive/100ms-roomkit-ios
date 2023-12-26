@@ -43,8 +43,13 @@ struct PollVoteView: View {
                         PollSummaryView(model: summary).padding(.bottom, 8)
                         Text("Questions").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().subtitle2Semibold14)
                     }
-                    ForEach(model.questions) { question in
-                        PollVoteQuestionView(model: question)
+                    
+                    if !model.voteComplete && model.poll.category == .quiz, !model.questions.isEmpty {
+                        PollVoteQuestionCarouselView(questions: model.questions)
+                    } else {
+                        ForEach(model.questions) { question in
+                            PollVoteQuestionView(model: question)
+                        }
                     }
                     
                     if model.canEndPoll && model.poll.state != .stopped {
