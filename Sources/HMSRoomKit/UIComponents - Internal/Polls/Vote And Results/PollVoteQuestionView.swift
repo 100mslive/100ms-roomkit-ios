@@ -46,7 +46,7 @@ struct PollVoteQuestionView: View {
                     Button {
                         model.vote()
                     } label: {
-                        Text("Vote")
+                        Text(model.poll.category == .poll ? "Vote" : "Answer")
                     }.buttonStyle(ActionButtonStyle(isWide: false))
                 }
             }

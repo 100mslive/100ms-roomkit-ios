@@ -109,8 +109,8 @@ class PollCreateModel: ObservableObject, Identifiable {
     func resultModel(poll: HMSPoll) -> PollVoteViewModel? {
         guard poll.state == .started || poll.state == .stopped else { return nil }
         let model = PollVoteViewModel(poll: poll, interactivityCenter: interactivityCenter, currentRole: currentRole, peerList: [])
-        model.canEndPoll = poll.state == .started
-        model.isAdmin = true
+        model.canEndPoll = canCreatePolls && poll.state == .started
+        model.isAdmin = canCreatePolls
         return model
     }
     
