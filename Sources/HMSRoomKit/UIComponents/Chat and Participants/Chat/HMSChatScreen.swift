@@ -100,49 +100,41 @@ struct HMSChatScreen: View {
     @ViewBuilder
     var sendMessageView: some View {
         
-//        if let chatScopes = conferenceParams.chat?.chatScopes {
-            
-            VStack {
-                if let localPeerModel = roomModel.localPeerModel {
+        VStack {
+            if let localPeerModel = roomModel.localPeerModel {
+                
+                VStack(alignment: .leading, spacing: 8) {
                     
-                    VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text("To")
+                            .foreground(.onSurfaceMedium)
+                            .font(.captionRegular12)
+                        HMSRolePicker(recipient: $recipient)
+                    }
+                    
+                    if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
+                        // if user is blacklisted don't show send field
                         
                         HStack {
-                            Text("To")
+                            Spacer()
+                            Text("You’ve been blocked from sending messages")
                                 .foreground(.onSurfaceMedium)
-                                .font(.captionRegular12)
-                            HMSRolePicker(recipient: $recipient)
+                                .font(.body2Regular14)
+                            Spacer()
                         }
-                        
-                        if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
-                            // if user is blacklisted don't show send field
-                            
-                            HStack {
-                                Spacer()
-                                Text("You’ve been blocked from sending messages")
-                                    .foreground(.onSurfaceMedium)
-                                    .font(.body2Regular14)
-                                Spacer()
-                            }
-                            .padding(.vertical, 8)
-                            .background(.surfaceDefault, cornerRadius: 8)
-                        }
-                        else {
-//                            if recipient == .everyone && !chatScopes.contains(.public) {
-//                                // if everyone is selected but we don't have public chat scope, don't show send field
-//                            }
-//                            else {
-                            if let recipient {
-                                HMSSendChatField(recipient: recipient)
-                                    .background(.surfaceDefault, cornerRadius: 8)
-                            }
-//                            }
+                        .padding(.vertical, 8)
+                        .background(.surfaceDefault, cornerRadius: 8)
+                    }
+                    else {
+                        if let recipient {
+                            HMSSendChatField(recipient: recipient)
+                                .background(.surfaceDefault, cornerRadius: 8)
                         }
                     }
-                    .padding(.bottom, 16)
                 }
+                .padding(.bottom, 16)
             }
-//        }
+        }
     }
 }
 
