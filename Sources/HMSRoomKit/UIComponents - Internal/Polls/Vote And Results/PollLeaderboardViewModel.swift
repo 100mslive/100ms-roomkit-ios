@@ -18,6 +18,7 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
     @Published var hasNext = true
     @Published var entries = [PollLeaderboardEntryViewModel]()
     @Published var summaryEntries = [PollLeaderboardEntryViewModel]()
+    @Published var showViewAll = false
     @Published var summary: PollSummaryViewModel?
     
     
@@ -38,6 +39,7 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
             if let response = response {
                 let newEntries = response.entries.map { PollLeaderboardEntryViewModel(entry: $0, poll: self.poll) }
                 self.summaryEntries = newEntries
+                self.showViewAll = response.hasNext
                 self.setupSummary(with: response)
             }
         }

@@ -48,19 +48,21 @@ struct PollResultsView: View {
                         VStack(spacing: 0) {
                             PollLeaderboardView(model: model, isSummary: true)
                                 .padding(EdgeInsets(top: 12, leading: 16, bottom: 16, trailing: 16))
-                            PollDivider()
-                            HStack {
-                                Spacer()
-                                NavigationLink {
-                                    PollLeaderboardDetailView(model: model)
-                                } label: {
-                                    HStack {
-                                        Text("View All").font(.body2Regular14).foreground(.onSurfaceHigh)
-                                        Image(assetName: "back").foreground(.onSurfaceHigh)
-                                            .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                            if model.showViewAll {
+                                PollDivider()
+                                HStack {
+                                    Spacer()
+                                    NavigationLink {
+                                        PollLeaderboardDetailView(model: model)
+                                    } label: {
+                                        HStack {
+                                            Text("View All").font(.body2Regular14).foreground(.onSurfaceHigh)
+                                            Image(assetName: "back").foreground(.onSurfaceHigh)
+                                                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                                        }
                                     }
-                                }
-                            }.padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                                }.padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                            }
                         }
                         .background(HMSUIColorTheme().surfaceDefault)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
