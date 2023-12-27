@@ -67,13 +67,6 @@ struct PollCreateView: View {
                                 Spacer().frame(height: 24)
                                 SwitchView(text: "Make results anonymous", isOn: $model.anonymous)
                                 Spacer().frame(height: 24)
-                                HStack {
-                                    SwitchView(text: "Timer", isOn: $model.enableTimer)
-                                    Spacer()
-                                    HMSPickerField(title: "", options: model.timerDurationOptions, selectedOption: $model.selectedTimerDuration).opacity(model.enableTimer ? 1 : 0)
-                                }
-                                Spacer().frame(height: 24)
-                                
                             }
                             
                             Group {
