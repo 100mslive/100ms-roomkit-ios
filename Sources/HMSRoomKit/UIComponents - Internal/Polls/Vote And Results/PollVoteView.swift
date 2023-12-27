@@ -26,7 +26,7 @@ struct PollVoteView: View {
                 } label: {
                     Label("", systemImage: "chevron.left").foregroundColor(HMSUIColorTheme().onPrimaryHigh)
                 }
-                Text(model.poll.category == .poll ? "Poll" : "Quiz").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
+                Text(model.poll.title).lineLimit(1).truncationMode(.tail).foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
                 PollStateBadgeView(pollState: model.poll.state, endDate: model.endDate)
                 Spacer().frame(height: 16)
             }
