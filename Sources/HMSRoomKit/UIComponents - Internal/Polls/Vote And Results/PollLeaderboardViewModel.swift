@@ -68,6 +68,7 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
         let summary = response.summary
         
         guard summary.totalPeersCount > 0 else { return }
+        var rows = [PollSummaryItemRowViewModel]()
         
         let votedPercent = summary.respondedPeersCount * 100 / summary.totalPeersCount
         let votedDescription = "(\(summary.respondedPeersCount)/\(summary.totalPeersCount)"
@@ -78,17 +79,25 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
         let correct = PollSummaryItemViewModel(title: "CORRECT ANSWERS", subtitle: "\(correctPercent)% \(correctDescription))")
         let row1 = PollSummaryItemRowViewModel(items: [voted, correct])
         
+        rows.append(row1)
+        
         var items = [PollSummaryItemViewModel]()
         if summary.averageTime > 0 {
             let avgTime = PollSummaryItemViewModel(title: "AVG. TIME TAKEN", subtitle: "\(TimeInterval(summary.averageTime).stringTime)")
             items.append(avgTime)
         }
         
-        let avgScore = PollSummaryItemViewModel(title: "AVG. SCORE", subtitle: "\(summary.averageScore)")
-        items.append(avgScore)
-        let row2 = PollSummaryItemRowViewModel(items: items)
+        if summary.averageScore > 0 {
+            let avgScore = PollSummaryItemViewModel(title: "AVG. SCORE", subtitle: "\(summary.averageScore)")
+            items.append(avgScore)
+        }
+
+        if !items.isEmpty {
+            let row2 = PollSummaryItemRowViewModel(items: items)
+            rows.append(row2)
+        }
         
-        self.summary = PollSummaryViewModel(items: [row1, row2])
+        self.summary = PollSummaryViewModel(items: rows)
     }
     
     func setupUserSummary(with response: HMSPollLeaderboardResponse) {
