@@ -176,7 +176,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
         let resultBuilder = HMSPollResponseBuilder(poll: poll)
         resultBuilder.addResponse(for: question.question, options: selectedOptions)
         
-        interactivityCenter.add(response: resultBuilder) { [weak self] _, error in
+        interactivityCenter.add(response: resultBuilder) { _, error in
             question.canVote = !question.question.voted
         }
     }
