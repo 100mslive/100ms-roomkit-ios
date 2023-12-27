@@ -178,7 +178,6 @@ class PollVoteViewModel: ObservableObject, Identifiable {
         
         interactivityCenter.add(response: resultBuilder) { [weak self] _, error in
             question.canVote = !question.question.voted
-            self?.setupSummaryIfNeeded()
         }
     }
 }
