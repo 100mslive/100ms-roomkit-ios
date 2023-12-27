@@ -168,6 +168,13 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
             questionToSave.answersSelected = true
         }
         
+        if isQuiz && (questionToSave.weight.isEmpty || (Int(questionToSave.weight) ?? 0) == 0) {
+            questionToSave.weightSelected = false
+            result = false
+        } else {
+            questionToSave.weightSelected = true
+        }
+        
         return result
     }
     
