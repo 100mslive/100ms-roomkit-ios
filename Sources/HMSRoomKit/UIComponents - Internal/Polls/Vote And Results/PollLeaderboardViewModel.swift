@@ -130,12 +130,14 @@ class PollLeaderboardEntryViewModel: Identifiable {
         self.correctAnswers = "\(entry.correctResponses)/\(totalQuestions)"
         self.time = entry.duration > 0 ? TimeInterval(entry.duration).stringTime : ""
         self.isNoResponse = entry.totalResponses == 0
+        self.hasCorrectAnswers = entry.correctResponses > 0
     }
     
     var id: Int {
         place
     }
     
+    let hasCorrectAnswers: Bool
     let place: Int
     let name: String
     let score: String

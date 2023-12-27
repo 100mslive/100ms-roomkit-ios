@@ -46,7 +46,7 @@ struct PollLeaderboardEntryView: View {
                 }
             }
             Spacer()
-            if model.place == 1 {
+            if model.place == 1 && model.hasCorrectAnswers {
                 Image(assetName: "prize", renderingMode: .original)
             }
             HStack(spacing: 4) {
