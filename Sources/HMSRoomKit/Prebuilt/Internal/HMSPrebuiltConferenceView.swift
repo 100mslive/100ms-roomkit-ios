@@ -263,6 +263,10 @@ struct HMSPrebuiltConferenceView: View {
             
             pollsOptionAppearance.badgeState.wrappedValue = .badged
         }
+        
+        if currentPolls.isEmpty {
+            pollsOptionAppearance.badgeState.wrappedValue = .none
+        }
     }
 }
 
