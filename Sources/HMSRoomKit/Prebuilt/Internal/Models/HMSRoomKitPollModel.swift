@@ -24,6 +24,7 @@ extension HMSPoll {
 class HMSRoomKitPollModel: ObservableObject {
     
     @Published var currentPolls = Set<HMSPoll>()
+    @Published var polls = Set<HMSPoll>()
     
     weak var roomModel: HMSRoomModel?
     
@@ -40,6 +41,7 @@ class HMSRoomKitPollModel: ObservableObject {
             switch update {
             case .started:
                 self.currentPolls.update(with: poll)
+                self.polls.update(with: poll)
             case .resultsUpdated:
                 break
             case .stopped:
