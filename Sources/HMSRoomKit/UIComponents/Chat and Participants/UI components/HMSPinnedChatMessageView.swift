@@ -14,7 +14,6 @@ struct HMSPinnedChatMessageView: View {
     let scrollProxy: ScrollViewProxy?
     let pinnedMessage: HMSRoomModel.PinnedMessage
     var isPartOfTransparentChat: Bool
-//    var onUnpin: (() -> Void)
     
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
@@ -25,13 +24,6 @@ struct HMSPinnedChatMessageView: View {
                 .foreground(isPartOfTransparentChat ? .white : .onSurfaceHigh)
                 .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
-//            Button {
-//                onUnpin()
-//            } label: {
-//                Image(systemName: "xmark")
-//            }
-//            .foreground(.onSurfaceMedium)
             
             Spacer(minLength: 0)
         }

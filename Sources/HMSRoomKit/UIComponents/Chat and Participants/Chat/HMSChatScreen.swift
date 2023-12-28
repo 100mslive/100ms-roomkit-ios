@@ -43,7 +43,7 @@ struct HMSChatScreen: View {
         
         var allowedRoles: [HMSRole] {
             
-            if let chatScopes = chatScopes {
+            if let chatScopes {
                 if let roleScope = chatScopes.first(where: { scope in
                     switch scope {
                     case .roles(_):
@@ -100,7 +100,9 @@ struct HMSChatScreen: View {
     @ViewBuilder
     var sendMessageView: some View {
         
-//        if let chatScopes = conferenceParams.chat?.chatScopes {
+        let chatScopes = conferenceParams.chat?.chatScopes ?? []
+        
+        if chatScopes.count > 0 {
             
             VStack {
                 if let localPeerModel = roomModel.localPeerModel {
@@ -128,21 +130,16 @@ struct HMSChatScreen: View {
                             .background(.surfaceDefault, cornerRadius: 8)
                         }
                         else {
-//                            if recipient == .everyone && !chatScopes.contains(.public) {
-//                                // if everyone is selected but we don't have public chat scope, don't show send field
-//                            }
-//                            else {
                             if let recipient {
                                 HMSSendChatField(recipient: recipient)
                                     .background(.surfaceDefault, cornerRadius: 8)
                             }
-//                            }
                         }
                     }
                     .padding(.bottom, 16)
                 }
             }
-//        }
+        }
     }
 }
 
