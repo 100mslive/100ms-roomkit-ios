@@ -151,7 +151,7 @@ struct HMSMessageOptionsView: View {
                 }
             }
             
-            if roomModel.localPeerModel?.role?.permissions.removeOthers ?? false, let sender = messageModel.sender {
+            if roomModel.localPeerModel?.role?.permissions.removeOthers ?? false, let sender = messageModel.sender, sender.peerID != roomModel.localPeerModel?.id {
                 
                 HMSPeerLoaderView(peerId: sender.peerID) { peer in
                     HStack {

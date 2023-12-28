@@ -54,7 +54,7 @@ struct HMSRolePicker: View {
             }
             
             if case let .peer(peer) = recipient {
-                if roomModel.remotePeerModels.contains(peer) {
+                if roomModel.remotePeerModels.contains(peer) || peer.isTemporary {
                     Text(recipient!.toString())
                         .font(.captionRegular12)
                         .foreground(.onPrimaryHigh)
