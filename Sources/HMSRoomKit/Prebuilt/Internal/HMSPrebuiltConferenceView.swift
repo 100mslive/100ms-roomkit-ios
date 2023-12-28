@@ -162,7 +162,9 @@ struct HMSPrebuiltConferenceView: View {
                 if let poll = center.polls.first(where: { $0.pollID == pollIdOfInterest }), let role = roomModel.localPeerModel?.peer.role {
                     
                     pollVoteViewModel = PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
-                    pollVoteViewModel?.isAdmin = role.permissions.pollWrite ?? false
+                    let isAdmin = role.permissions.pollWrite ?? false
+                    pollVoteViewModel?.isAdmin = isAdmin
+                    pollVoteViewModel?.canEndPoll = isAdmin && poll.state == .started
                     
                     roomKitModel.dismissNotification(for: pollIdOfInterest)
                 }
