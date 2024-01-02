@@ -33,7 +33,7 @@ struct HMSPeerLoaderView<Content>: View where Content: View {
             if let peer = roomModel.remotePeerModels.first(where: {$0.id == peerId}) {
                 self.peer = peer
             }
-            else {
+            else if roomModel.isLarge {
                 do {
                     peer = try await roomModel.fetchPeer(with: peerId)
                 }
