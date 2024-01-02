@@ -13,6 +13,8 @@ struct HMSHLSViewerScreen: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
     
+    @State var streamFinished = false
+    
     var body: some View {
         Group {
 #if Preview
@@ -36,9 +38,23 @@ struct HMSHLSViewerScreen: View {
                     
                     NotificationCenter.default.post(name: .init(rawValue: "poll-hls-cue"), object: nil, userInfo: ["pollID" : pollID])
                 }
+                .onPlaybackStateChanged { state in
+                    if state == .playing {
+                        streamFinished = false
+                    }
+                    else if state == .stopped {
+                        streamFinished = true
+                    }
+                }
+                .overlay(alignment: .center) {
+                    if streamFinished {
+                        HMSNoStreamView(state: streamFinished ? .streamEnded : .streamYetToStart)
+                            .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
+                    }
+                }
             }
             else {
-                HMSStreamNotStartedView()
+                HMSNoStreamView(state: .streamYetToStart)
             }
 #endif
         }

@@ -8,7 +8,14 @@
 
 import SwiftUI
 
-struct HMSStreamNotStartedView: View {
+struct HMSNoStreamView: View {
+    
+    enum State {
+        case leftStream, streamEnded, streamYetToStart
+    }
+    
+    let state: State
+    
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 24) {
@@ -24,13 +31,32 @@ struct HMSStreamNotStartedView: View {
                 
                 
                 VStack(spacing: 8) {
-                    Text("Stream yet to start")
-                        .font(.heading5Semibold24)
-                        .foreground(.onSurfaceHigh)
-                    
-                    Text("Sit back and relax")
-                        .font(.body1Regular16)
-                        .foreground(.onSurfaceMedium)
+                    switch state {
+                    case .leftStream:
+                        Text("You left the stream")
+                            .font(.heading5Semibold24)
+                            .foreground(.onSurfaceHigh)
+                        
+                        Text("Have a nice day!")
+                            .font(.body1Regular16)
+                            .foreground(.onSurfaceMedium)
+                    case .streamEnded:
+                        Text("Stream ended")
+                            .font(.heading5Semibold24)
+                            .foreground(.onSurfaceHigh)
+                        
+                        Text("Have a nice day!")
+                            .font(.body1Regular16)
+                            .foreground(.onSurfaceMedium)
+                    case .streamYetToStart:
+                        Text("Stream yet to start")
+                            .font(.heading5Semibold24)
+                            .foreground(.onSurfaceHigh)
+                        
+                        Text("Sit back and relax")
+                            .font(.body1Regular16)
+                            .foreground(.onSurfaceMedium)
+                    }
                 }
             }
             .frame(width: geo.size.width, height: geo.size.height)
@@ -41,7 +67,7 @@ struct HMSStreamNotStartedView: View {
 
 struct HMSStreamNotStartedView_Previews: PreviewProvider {
     static var previews: some View {
-        HMSStreamNotStartedView()
+        HMSNoStreamView(state: .streamYetToStart)
             .environmentObject(HMSUITheme())
     }
 }
