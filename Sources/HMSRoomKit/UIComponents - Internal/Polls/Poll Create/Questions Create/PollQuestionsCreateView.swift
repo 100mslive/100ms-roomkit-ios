@@ -26,7 +26,7 @@ struct PollQuestionsCreateView: View {
                 } label: {
                     Label("", systemImage: "chevron.left").foregroundColor(HMSUIColorTheme().onPrimaryHigh)
                 }
-                Text(model.pollModel.createdPoll?.category == .poll ? "Poll" : "Quiz").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
+                Text(model.pollModel.createdPoll?.title ?? "").lineLimit(1).truncationMode(.tail).foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
                 Spacer().frame(height: 16)
             }
             Spacer(minLength: 16)

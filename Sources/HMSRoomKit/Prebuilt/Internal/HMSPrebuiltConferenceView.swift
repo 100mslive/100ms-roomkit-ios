@@ -162,21 +162,15 @@ struct HMSPrebuiltConferenceView: View {
                 if let poll = center.polls.first(where: { $0.pollID == pollIdOfInterest }), let role = roomModel.localPeerModel?.peer.role {
                     
                     pollVoteViewModel = PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
+                    let isAdmin = role.permissions.pollWrite ?? false
+                    pollVoteViewModel?.isAdmin = isAdmin
+                    pollVoteViewModel?.canEndPoll = isAdmin && poll.state == .started
                     
                     roomKitModel.dismissNotification(for: pollIdOfInterest)
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-create"))) { _ in
-                let center = roomModel.interactivityCenter
-                if let role = roomModel.localPeerModel?.role {
-                    pollCreateModel = PollCreateModel(interactivityCenter: center, limitViewResultsToRoles: [role], currentRole: role)
-                    pollCreateModel?.onPollStart = { [weak pollCreateModel] in
-                        let pollId = pollCreateModel?.createdPoll?.pollID ?? ""
-                        Task {
-                            try await roomModel.send(hlsMetadata: [HMSHLSTimedMetadata(payload: "poll:\(pollId)", duration: HMSPrebuiltConferenceView.hlsCueDuration)])
-                        }
-                    }
-                }
+                setupPollCreateModel()
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-hls-cue"))) { notification in
                 if let pollID = notification.userInfo?["pollID"] as? String {
@@ -185,18 +179,12 @@ struct HMSPrebuiltConferenceView: View {
                 updatePollNotifications()
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-view"))) { notification in
-                let center = roomModel.interactivityCenter
-                if let role = roomModel.localPeerModel?.peer.role {
-                    
-                    pollVoteViewModels = nil
-                    
-                    pollVoteViewModels = pollModel.currentPolls.map { poll in
-                        PollVoteViewModel(poll: poll, interactivityCenter: center, currentRole: role, peerList: roomModel.room?.peers ?? [])
-                    }
-                }
+                setupPollCreateModel()
             }
             .sheet(item: $pollVoteViewModel, content: { model in
-                PollVoteView(model: model)
+                NavigationView {
+                    PollVoteView(model: model)
+                }
             })
             .sheet(item: $pollCreateModel, content: { model in
                 PollCreateView(model: model)
@@ -254,7 +242,7 @@ struct HMSPrebuiltConferenceView: View {
         
         guard (roomModel.userRole?.permissions.pollRead ?? false) || (roomModel.userRole?.permissions.pollWrite ?? false) else { return }
         
-        pollsOptionAppearance.containsItems.wrappedValue = !currentPolls.isEmpty
+        pollsOptionAppearance.containsItems.wrappedValue = !pollModel.polls.isEmpty
         
         // add notification for each new peer
         for newPoll in newPolls {
@@ -266,6 +254,19 @@ struct HMSPrebuiltConferenceView: View {
         
         if currentPolls.isEmpty {
             pollsOptionAppearance.badgeState.wrappedValue = .none
+        }
+    }
+    
+    func setupPollCreateModel() {
+        let center = roomModel.interactivityCenter
+        if let role = roomModel.localPeerModel?.role {
+            pollCreateModel = PollCreateModel(interactivityCenter: center, limitViewResultsToRoles: [role], currentRole: role)
+            pollCreateModel?.onPollStart = { [weak pollCreateModel] in
+                let pollId = pollCreateModel?.createdPoll?.pollID ?? ""
+                Task {
+                    try await roomModel.send(hlsMetadata: [HMSHLSTimedMetadata(payload: "poll:\(pollId)", duration: HMSPrebuiltConferenceView.hlsCueDuration)])
+                }
+            }
         }
     }
 }

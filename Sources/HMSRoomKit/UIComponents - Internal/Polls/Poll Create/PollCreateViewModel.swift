@@ -34,6 +34,8 @@ class PollCreateModel: ObservableObject, Identifiable {
     var currentRole: HMSRole
     
     var onPollStart: (()->Void)?
+    
+    var canCreatePolls: Bool
 
     lazy var questionModel: QuestionCreateViewModel = {
         QuestionCreateViewModel(pollModel: PollCreateModel(interactivityCenter: interactivityCenter, currentRole: currentRole))
@@ -43,7 +45,7 @@ class PollCreateModel: ObservableObject, Identifiable {
         self.interactivityCenter = interactivityCenter
         self.limitViewResultsToRoles = limitViewResultsToRoles
         self.currentRole = currentRole
-        
+        self.canCreatePolls = self.currentRole.permissions.pollWrite ?? false
     }
 
     func timerDuration() -> Int {
@@ -107,8 +109,8 @@ class PollCreateModel: ObservableObject, Identifiable {
     func resultModel(poll: HMSPoll) -> PollVoteViewModel? {
         guard poll.state == .started || poll.state == .stopped else { return nil }
         let model = PollVoteViewModel(poll: poll, interactivityCenter: interactivityCenter, currentRole: currentRole, peerList: [])
-        model.canEndPoll = poll.state == .started
-        model.isAdmin = true
+        model.canEndPoll = canCreatePolls && poll.state == .started
+        model.isAdmin = canCreatePolls
         return model
     }
     
