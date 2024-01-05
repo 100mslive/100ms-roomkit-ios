@@ -15,6 +15,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
     var isAdmin = false
     var canViewResponses: Bool
     var startedByName: String = ""
+    var userID: String
     
     @Published var endDate: Date?
     @Published var state: HMSPollState
@@ -29,7 +30,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
     }
     
     lazy var leaderBoardModel: PollLeaderboardViewModel = {
-        PollLeaderboardViewModel(poll: poll, interactivityCenter: interactivityCenter)
+        PollLeaderboardViewModel(poll: poll, interactivityCenter: interactivityCenter, isAmdin: isAdmin)
     }()
 
     internal init(poll: HMSPoll, interactivityCenter: HMSInteractivityCenter, currentRole: HMSRole, peerList: [HMSPeer]) {
@@ -41,17 +42,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
             self.endDate =  startDate.addingTimeInterval(TimeInterval(poll.duration))
         }
         self.startedByName = poll.createdBy?.name ?? ""
-        setupObserver()
-    }
-    
-    internal init(poll: HMSPoll, interactivityCenter: HMSInteractivityCenter, canViewResponses: Bool) {
-        self.poll = poll
-        self.canViewResponses = canViewResponses
-        self.state = poll.state
-        self.interactivityCenter = interactivityCenter
-        if let startDate = poll.startedAt, poll.duration > 0 {
-            self.endDate =  startDate.addingTimeInterval(TimeInterval(poll.duration))
-        }
+        self.userID = peerList.first(where: { $0.isLocal })?.customerUserID ?? ""
         setupObserver()
     }
     
@@ -185,9 +176,8 @@ class PollVoteViewModel: ObservableObject, Identifiable {
         let resultBuilder = HMSPollResponseBuilder(poll: poll)
         resultBuilder.addResponse(for: question.question, options: selectedOptions)
         
-        interactivityCenter.add(response: resultBuilder) { [weak self] _, error in
+        interactivityCenter.add(response: resultBuilder) { _, error in
             question.canVote = !question.question.voted
-            self?.setupSummaryIfNeeded()
         }
     }
 }

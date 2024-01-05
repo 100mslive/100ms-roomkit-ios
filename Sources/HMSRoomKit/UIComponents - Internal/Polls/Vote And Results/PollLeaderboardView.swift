@@ -8,51 +8,17 @@
 import SwiftUI
 import HMSSDK
 
+
 struct PollLeaderboardView: View {
     @ObservedObject var model: PollLeaderboardViewModel
-    @Environment(\.presentationMode) var presentationMode
+    var isSummary = false
     
     var body: some View {
-        VStack(alignment: .trailing, spacing: 0) {
-            Spacer(minLength: 24)
-            HStack {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Label("", systemImage: "chevron.left").foregroundColor(HMSUIColorTheme().onPrimaryHigh)
-                }
-                Text(model.poll.category == .poll ? "Poll" : "Quiz").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
-                PollStateBadgeView(pollState: model.poll.state)
-                Spacer().frame(height: 16)
-            }
-            Spacer(minLength: 16)
-            PollDivider()
-            Spacer(minLength: 24)
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Leaderboard").foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
-                            Text("Based on time taken to cast the correct answer").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular)
-                        }
-                        Spacer()
-                    }
-                    
-                    VStack(alignment: .leading, spacing: 16) {
-                        ForEach(model.entries) { entry in
-                            PollLeaderboardEntryView(model: entry)
-                        }
-                    }
-                }
+        VStack(alignment: .leading, spacing: 16) {
+            ForEach(isSummary ? model.summaryEntries : model.entries) { entry in
+                PollLeaderboardEntryView(model: entry)
             }
         }
-        .padding(.horizontal, 24)
-        .background(HMSUIColorTheme().surfaceDim)
-        .navigationBarHidden(true)
-        .onAppear {
-            model.fetchLeaderboard()
-        }
-        
     }
 }
 
@@ -80,7 +46,7 @@ struct PollLeaderboardEntryView: View {
                 }
             }
             Spacer()
-            if model.place == 1 {
+            if model.place == 1 && model.hasCorrectAnswers {
                 Image(assetName: "prize", renderingMode: .original)
             }
             HStack(spacing: 4) {

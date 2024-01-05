@@ -67,7 +67,7 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         let selectedIndexes = canVote ? Set<Int>() : question.selectedOptionIndexes
         let correctIndexes = canVote ? Set<Int>() : question.correctOptionIndexes
         
-        if poll.category == .quiz, question.voted, poll.state == .started {
+        if poll.category == .quiz, question.voted {
             let correct = selectedIndexes == correctIndexes
             borderColor = correct ? HMSUIColorTheme().alertSuccess : HMSUIColorTheme().alertErrorDefault
         } else {
