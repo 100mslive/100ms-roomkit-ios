@@ -14,6 +14,8 @@ struct HMSHLSViewerScreen: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @State var streamFinished = false
+    @State var preparingToPlay = true
+    @State var isBuffering = false
     
     var body: some View {
         Group {
@@ -39,13 +41,28 @@ struct HMSHLSViewerScreen: View {
                     NotificationCenter.default.post(name: .init(rawValue: "poll-hls-cue"), object: nil, userInfo: ["pollID" : pollID])
                 }
                 .onPlaybackStateChanged { state in
+                    
+                    isBuffering = state == .buffering
+                    
                     if state == .playing {
                         streamFinished = false
+                        preparingToPlay = false
                     }
                     else if state == .stopped {
                         streamFinished = true
                     }
                 }
+                .onAppear() {
+                    preparingToPlay = true
+                }
+                .overlay(content: {
+                    if preparingToPlay || isBuffering {
+                        HMSLoadingView {
+                            Image(assetName: "progress-indicator")
+                                .foreground(.primaryDefault)
+                        }
+                    }
+                })
                 .overlay(alignment: .center) {
                     if streamFinished {
                         HMSNoStreamView(state: streamFinished ? .streamEnded : .streamYetToStart)
