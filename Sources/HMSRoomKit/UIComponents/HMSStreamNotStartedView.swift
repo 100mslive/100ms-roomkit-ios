@@ -11,7 +11,7 @@ import SwiftUI
 struct HMSNoStreamView: View {
     
     enum State {
-        case leftStream, streamEnded, streamYetToStart
+        case streamEnded, streamYetToStart
     }
     
     let state: State
@@ -32,14 +32,6 @@ struct HMSNoStreamView: View {
                 
                 VStack(spacing: 8) {
                     switch state {
-                    case .leftStream:
-                        Text("You left the stream")
-                            .font(.heading5Semibold24)
-                            .foreground(.onSurfaceHigh)
-                        
-                        Text("Have a nice day!")
-                            .font(.body1Regular16)
-                            .foreground(.onSurfaceMedium)
                     case .streamEnded:
                         Text("Stream ended")
                             .font(.heading5Semibold24)
