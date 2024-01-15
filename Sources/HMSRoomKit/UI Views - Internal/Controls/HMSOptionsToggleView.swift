@@ -7,30 +7,69 @@
 //
 
 import SwiftUI
+import HMSRoomModels
 
 struct HMSOptionsToggleView: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
+    @EnvironmentObject var roomModel: HMSRoomModel
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
+    let isHLSViewer: Bool
+    
     @Environment(\.pollsOptionAppearance) var pollsOptionAppearance
+    @Environment(\.menuContext) var menuContext
+    
+    @State var isSessionMenuPresented = false
     
     var body: some View {
-        Image(assetName: "hamburger")
-            .frame(width: 40, height: 40)
-            .controlAppearance(isEnabled: true)
-            .overlay(alignment: .topTrailing, content: {
-                if pollsOptionAppearance.badgeState.wrappedValue == .badged {
-                    Image(assetName: "chat-badge-icon")
-                        .resizable()
-                        .frame(width: 8, height: 8)
-                        .foreground(.primaryDefault)
-                        .padding(-2)
+        if let localPeerModel = roomModel.localPeerModel {
+            Image(assetName: "hamburger")
+                .frame(width: 40, height: 40)
+                .controlAppearance(isEnabled: true)
+                .overlay(alignment: .topTrailing, content: {
+                    if pollsOptionAppearance.badgeState.wrappedValue == .badged {
+                        Image(assetName: "chat-badge-icon")
+                            .resizable()
+                            .frame(width: 8, height: 8)
+                            .foreground(.primaryDefault)
+                            .padding(-2)
+                    }
+                })
+                .onTapGesture {
+                    isSessionMenuPresented.toggle()
                 }
-            })
+                .sheet(isPresented: $isSessionMenuPresented, onDismiss: {
+                    menuContext.wrappedValue = .none
+                }) {
+                    HMSSheet {
+                        Group {
+                            if verticalSizeClass == .regular {
+                                HMSOptionSheetView(isHLSViewer: isHLSViewer)
+                            }
+                            else {
+                                ScrollView {
+                                    HMSOptionSheetView(isHLSViewer: isHLSViewer)
+                                }
+                            }
+                        }
+                        .environmentObject(currentTheme)
+                        .environmentObject(roomModel)
+                        .environmentObject(localPeerModel)
+                    }
+                    .edgesIgnoringSafeArea(.all)
+                }
+        }
     }
 }
 
 struct HMSOptionsToggleView_Previews: PreviewProvider {
     static var previews: some View {
-        HMSOptionsToggleView()
+        #if Preview
+        HMSOptionsToggleView(isHLSViewer: true)
             .environmentObject(HMSUITheme())
+            .environmentObject(HMSRoomModel.dummyRoom(3))
+        #endif
     }
 }

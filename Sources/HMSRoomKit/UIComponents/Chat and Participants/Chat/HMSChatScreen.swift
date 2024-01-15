@@ -10,17 +10,23 @@ import SwiftUI
 import HMSSDK
 import HMSRoomModels
 
-struct HMSChatScreen: View {
+public struct HMSChatScreen<Content>: View where Content : View {
     
     @Environment(\.conferenceParams) var conferenceParams
     
     @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
     
-    @State var recipient: HMSRecipient?
+    @State private var recipient: HMSRecipient?
     var isTransparentMode: Bool = false
     
-    var body: some View {
+    @ViewBuilder let content: () -> Content
+    public init(isTransparentMode: Bool = false, @ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+        self.isTransparentMode = isTransparentMode
+    }
+    
+    public var body: some View {
         
         Group {
             if isTransparentMode {
@@ -131,8 +137,12 @@ struct HMSChatScreen: View {
                         }
                         else {
                             if let recipient {
-                                HMSSendChatField(recipient: recipient)
-                                    .background(.surfaceDefault, cornerRadius: 8)
+                                HStack {
+                                    HMSSendChatField(recipient: recipient)
+                                        .background(.surfaceDefault, cornerRadius: 8)
+                                    
+                                    content()
+                                }
                             }
                         }
                     }
@@ -147,11 +157,11 @@ struct HMSChatView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
         VStack {
-            HMSChatScreen()
+            HMSChatScreen{}
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(3))
             
-            HMSChatScreen(isTransparentMode: true)
+            HMSChatScreen(isTransparentMode: true) {}
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(3))
             

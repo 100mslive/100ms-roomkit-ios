@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSChatListView: View {
     
+    @Environment(\.chatScreenAppearance) var chatScreenAppearance
+    
     @Environment(\.conferenceParams) var conferenceParams
     
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -27,7 +29,7 @@ struct HMSChatListView: View {
     
     var body: some View {
         
-        if isTransparentMode {
+        if chatScreenAppearance.pinnedMessagePosition.wrappedValue == .bottom {
             VStack {
                 messageListView
                 pinnedMessageView
@@ -65,13 +67,13 @@ struct HMSChatListView: View {
                                 }
                             }
                         
-                        Image(assetName: "unpin")
-                            .foreground(.onSurfaceMedium)
-                            .onTapGesture {
-                                if canPinMessages {
+                        if canPinMessages {
+                            Image(assetName: "unpin")
+                                .foreground(.onSurfaceMedium)
+                                .onTapGesture {
                                     roomModel.pinnedMessages.removeAll{$0 == firstMessage}
                                 }
-                            }
+                        }
                     }
                     .padding(8)
                     .background {
@@ -79,7 +81,7 @@ struct HMSChatListView: View {
                             Rectangle()
                                 .foregroundStyle(.clear)
                                 .background(.surfaceDefault, cornerRadius: 8)
-                                .padding(.trailing, 35)
+                                .padding(.trailing, canPinMessages ? 35 : 0)
                                 .background(.surfaceDim, cornerRadius: 8)
                         }
                         else {
@@ -153,15 +155,17 @@ struct HMSChatListView: View {
                             }
                         }
                         
-                        Image(assetName: "unpin")
-                            .foreground(.onSurfaceMedium)
-                            .onTapGesture {
-                                if canPinMessages {
+                        if canPinMessages {
+                            Image(assetName: "unpin")
+                                .foreground(.onSurfaceMedium)
+                                .onTapGesture {
+                                    
                                     if let message = selectedPinnedMessage {
                                         roomModel.pinnedMessages.removeAll{$0 == message}
                                     }
+                                    
                                 }
-                            }
+                        }
                     }
                     .padding(8)
                     .background {
@@ -169,7 +173,7 @@ struct HMSChatListView: View {
                             Rectangle()
                                 .foregroundStyle(.clear)
                                 .background(.surfaceDefault, cornerRadius: 8)
-                                .padding(.trailing, 35)
+                                .padding(.trailing, canPinMessages ? 35 : 0)
                                 .background(.surfaceDim, cornerRadius: 8)
                         }
                         else {

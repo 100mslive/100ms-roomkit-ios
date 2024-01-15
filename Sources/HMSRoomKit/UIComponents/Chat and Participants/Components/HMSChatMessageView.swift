@@ -123,7 +123,7 @@ struct HMSChatMessageView: View {
             .frame(maxWidth: .infinity)
             
         }
-        .padding(12)
+//        .padding(12)
     }
 }
 

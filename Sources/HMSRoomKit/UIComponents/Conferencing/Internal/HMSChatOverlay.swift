@@ -30,7 +30,8 @@ struct HMSChatOverlay: View {
                     // transparent chat
                     if isChatPresented {
                         
-                        HMSChatScreen(isTransparentMode: true)
+                        HMSChatScreen(isTransparentMode: true){}
+                            .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom)))
                             .frame(maxHeight: 332)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(isHLSViewer ? [.horizontal, .top] : [.horizontal, .vertical], 8)
@@ -51,12 +52,11 @@ struct HMSChatOverlay: View {
             // Control panel
             if keyboardState.wrappedValue == .hidden {
                 if isHLSViewer {
-                    HMSBottomControlStrip(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer)
-                        .padding(tabPageBarState.wrappedValue == .hidden ? [.horizontal, .top] : [.horizontal], 16)
-                        .transition(.move(edge: .bottom))
-                        .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
-                        .opacity(controlsState.wrappedValue == .hidden ? 0 : 1)
-                    //                                        .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
+                    //                    HMSBottomControlStrip(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer)
+                    //                        .padding(tabPageBarState.wrappedValue == .hidden ? [.horizontal, .top] : [.horizontal], 16)
+                    //                        .transition(.move(edge: .bottom))
+                    //                        .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
+                    //                        .opacity(controlsState.wrappedValue == .hidden ? 0 : 1)
                 }
                 else {
                     // dummy Hidden strip on webrtc for providing the correct height for overlay chat for hls broadcasters
