@@ -80,7 +80,7 @@ struct HMSChatParticipantToggleView: View {
                     
                     switch selectedPane {
                     case .chat:
-                        HMSChatScreen{}
+                        HMSChatScreen(content: {}, contentV: {})
                     case .participants:
                         HMSParticipantListView()
                             .environment(\.mainSheetDismiss, { dismiss() })

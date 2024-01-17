@@ -30,7 +30,7 @@ struct HMSChatOverlay: View {
                     // transparent chat
                     if isChatPresented {
                         
-                        HMSChatScreen(isTransparentMode: true){}
+                        HMSChatScreen(isTransparentMode: true, content: {}, contentV: {})
                             .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom)))
                             .frame(maxHeight: 332)
                             .fixedSize(horizontal: false, vertical: true)
@@ -41,7 +41,6 @@ struct HMSChatOverlay: View {
                 
                 if keyboardState.wrappedValue == .hidden {
                     HMSNotificationStackView()
-                        .environmentObject(roomKitModel)
                         .padding([.horizontal, .bottom], 8)
                 }
             }

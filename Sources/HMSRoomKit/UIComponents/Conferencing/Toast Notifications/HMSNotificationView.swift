@@ -147,7 +147,7 @@ struct HMSNotificationView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .frame(maxWidth: .infinity)
         .fixedSize(horizontal: false, vertical: true)
-        .background(.surfaceDim, cornerRadius: 8)
+        .background(.surfaceDefault, cornerRadius: 8)
         .padding(.leading, isErrorType ? 8 : 0)
         .background(.errorDefault, cornerRadius: 8)
     }

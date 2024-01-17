@@ -45,6 +45,9 @@ struct HMSHLSLayout: View {
         .background(.backgroundDim, cornerRadius: 0)
     }
     
+    @Environment(\.keyboardState) var keyboardState
+    @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
+    
     @ViewBuilder
     var chatScreen: some View {
         
@@ -55,8 +58,10 @@ struct HMSHLSLayout: View {
         let canScreenShare = roomModel.userCanShareScreen
         
         HStack {
-            HMSChatScreen {
+            HMSChatScreen(content: {
+                
                 if let localPeerModel = roomModel.localPeerModel {
+                    
                     HMSHandRaisedToggle()
                         .environmentObject(localPeerModel)
                     
@@ -64,8 +69,19 @@ struct HMSHLSLayout: View {
                         HMSOptionsToggleView(isHLSViewer: true)
                     }
                 }
+            }) {
+                if keyboardState.wrappedValue == .hidden {
+                    HMSNotificationStackView()
+                        .padding([.bottom], 8)
+                }
             }
             .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom)))
+        }
+        .onAppear() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                let notification = HMSRoomKitNotification(id: "isReconnecting", type: .info(icon: "loading-record"), actor: "isReconnecting", isDismissible: false, title: "You have lost your network connection. Trying to reconnect.")
+                roomKitModel.addNotification(notification)
+            }
         }
     }
     

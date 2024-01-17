@@ -10,7 +10,7 @@ import SwiftUI
 import HMSSDK
 import HMSRoomModels
 
-public struct HMSChatScreen<Content>: View where Content : View {
+public struct HMSChatScreen<Content, ContentV>: View where Content : View, ContentV: View {
     
     @Environment(\.conferenceParams) var conferenceParams
     
@@ -21,8 +21,10 @@ public struct HMSChatScreen<Content>: View where Content : View {
     var isTransparentMode: Bool = false
     
     @ViewBuilder let content: () -> Content
-    public init(isTransparentMode: Bool = false, @ViewBuilder content: @escaping () -> Content) {
+    @ViewBuilder let contentV: () -> ContentV
+    public init(isTransparentMode: Bool = false, @ViewBuilder content: @escaping () -> Content, @ViewBuilder contentV: @escaping () -> ContentV) {
         self.content = content
+        self.contentV = contentV
         self.isTransparentMode = isTransparentMode
     }
     
@@ -111,6 +113,9 @@ public struct HMSChatScreen<Content>: View where Content : View {
         if chatScopes.count > 0 {
             
             VStack {
+                
+                contentV()
+                
                 if let localPeerModel = roomModel.localPeerModel {
                     
                     VStack(alignment: .leading, spacing: 8) {
@@ -157,11 +162,11 @@ struct HMSChatView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
         VStack {
-            HMSChatScreen{}
+            HMSChatScreen(content: {}, contentV: {})
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(3))
             
-            HMSChatScreen(isTransparentMode: true) {}
+            HMSChatScreen(isTransparentMode: true, content: {}, contentV: {})
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(3))
             
