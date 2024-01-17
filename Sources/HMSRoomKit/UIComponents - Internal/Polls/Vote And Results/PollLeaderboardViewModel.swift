@@ -137,7 +137,7 @@ class PollLeaderboardEntryViewModel: Identifiable {
         self.name = entry.peer?.userName ?? "Unknown"
         self.score = totalScore > 0 ? "\(entry.score)/\(totalScore)" : ""
         self.correctAnswers = "\(entry.correctResponses)/\(totalQuestions)"
-        self.time = entry.duration > 0 ? TimeInterval(entry.duration).stringTime : ""
+        self.time = entry.duration > 0 ? TimeInterval(entry.duration / 100).stringTime : ""
         self.isNoResponse = entry.totalResponses == 0
         self.hasCorrectAnswers = entry.correctResponses > 0
     }
