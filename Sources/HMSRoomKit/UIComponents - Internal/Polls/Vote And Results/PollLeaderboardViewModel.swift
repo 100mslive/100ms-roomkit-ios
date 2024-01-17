@@ -83,7 +83,7 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
         
         var items = [PollSummaryItemViewModel]()
         if summary.averageTime > 0 {
-            let avgTime = PollSummaryItemViewModel(title: "AVG. TIME TAKEN", subtitle: "\(TimeInterval(summary.averageTime).stringTime)")
+            let avgTime = PollSummaryItemViewModel(title: "AVG. TIME TAKEN", subtitle: "\(TimeInterval(summary.averageTime / 100).stringTime)")
             items.append(avgTime)
         }
         

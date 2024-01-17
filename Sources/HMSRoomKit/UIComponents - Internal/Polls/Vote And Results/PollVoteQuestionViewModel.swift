@@ -70,14 +70,14 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         let selectedIndexes = canVote ? Set<Int>() : question.selectedOptionIndexes
         let correctIndexes = canVote ? Set<Int>() : question.correctOptionIndexes
         
-        if poll.category == .quiz, question.voted {
+        if poll.category == .quiz, question.voted, poll.state == .stopped {
             let correct = selectedIndexes == correctIndexes
             borderColor = correct ? HMSUIColorTheme().alertSuccess : HMSUIColorTheme().alertErrorDefault
         } else {
             borderColor = HMSUIColorTheme().surfaceBright
         }
         
-        questionOptions = question.options?.map { PollVoteQuestionOptionViewModel(option: $0, isSingleChoice: singleChoice, canVote: canVote, selected: selectedIndexes.contains($0.index), isCorrect: correctIndexes.contains($0.index), canViewResponses: canViewResponses, onSelectionChange: selection) } ?? []
+        questionOptions = question.options?.map { PollVoteQuestionOptionViewModel(option: $0, isSingleChoice: singleChoice, canVote: canVote, selected: selectedIndexes.contains($0.index), isCorrect: poll.state == .stopped && correctIndexes.contains($0.index), canViewResponses: canViewResponses, onSelectionChange: selection) } ?? []
     }
     
     func updateResults() {

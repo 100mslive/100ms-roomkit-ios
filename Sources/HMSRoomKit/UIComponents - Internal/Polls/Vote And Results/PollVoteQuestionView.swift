@@ -20,7 +20,7 @@ struct PollVoteQuestionView: View {
                 Spacer()
             }
             VStack(alignment: .leading, spacing: 16) {
-                if model.poll.category == .poll || model.canVote {
+                if model.poll.category == .poll || model.canVote || model.poll.state == .started {
                     ForEach(model.questionOptions) { option in
                         PollVoteQuestionOptionView(model: option)
                     }
@@ -67,7 +67,7 @@ struct PollVoteQuestionCarouselView: View {
                 Spacer()
             }
             VStack(alignment: .leading, spacing: 16) {
-                if model.poll.category == .poll || model.canVote || model.poll.state == .stopped {
+                if model.poll.category == .poll || model.canVote || model.poll.state == .started {
                     ForEach(model.questionOptions) { option in
                         PollVoteQuestionOptionView(model: option)
                     }
@@ -78,10 +78,10 @@ struct PollVoteQuestionCarouselView: View {
                 }
             }
             
-            if model.canVote {
-                HStack(spacing: 8) {
-                    Spacer()
-                    
+            
+            HStack(spacing: 8) {
+                Spacer()
+                if model.canVote {
                     Button {
                         if questionIndex + 1 < questions.count {
                             questionIndex += 1
@@ -92,11 +92,17 @@ struct PollVoteQuestionCarouselView: View {
                     } label: {
                         Text(model.poll.category == .poll ? "Vote" : "Answer")
                     }.buttonStyle(ActionButtonStyle(isWide: false))
+                } else {
+                    Text(model.poll.category == .poll ? "Voted" : "Answered").foregroundColor(HMSUIColorTheme().onSurfaceLow).font(HMSUIFontTheme().buttonSemibold16)
                 }
             }
+            
              
         }.padding(16).background(HMSUIColorTheme().surfaceDefault).overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(model.borderColor, lineWidth: 1)).clipShape(RoundedRectangle(cornerRadius: 8))
+            .onAppear {
+                questionIndex = questions.firstIndex(where: { $0.canVote == true }) ?? (questions.count - 1)
+            }
     }
 }
