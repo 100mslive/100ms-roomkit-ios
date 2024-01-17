@@ -35,7 +35,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
 
     internal init(poll: HMSPoll, interactivityCenter: HMSInteractivityCenter, currentRole: HMSRole, peerList: [HMSPeer]) {
         self.poll = poll
-        self.canViewResponses = poll.rolesThatCanViewResponses.isEmpty || poll.rolesThatCanViewResponses.contains(currentRole)
+        self.canViewResponses = (poll.rolesThatCanViewResponses.isEmpty || poll.rolesThatCanViewResponses.contains(currentRole)) && poll.category == .poll
         self.state = poll.state
         self.interactivityCenter = interactivityCenter
         if let startDate = poll.startedAt, poll.duration > 0 {
