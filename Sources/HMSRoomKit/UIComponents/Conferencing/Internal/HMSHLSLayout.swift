@@ -77,12 +77,6 @@ struct HMSHLSLayout: View {
             }
             .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom)))
         }
-        .onAppear() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                let notification = HMSRoomKitNotification(id: "isReconnecting", type: .info(icon: "loading-record"), actor: "isReconnecting", isDismissible: false, title: "You have lost your network connection. Trying to reconnect.")
-                roomKitModel.addNotification(notification)
-            }
-        }
     }
     
     var topBarGradient: some View {
