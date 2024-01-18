@@ -11,6 +11,8 @@ import HMSRoomModels
 
 struct HMSHLSViewerScreen: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @State var streamFinished = false
@@ -68,6 +70,16 @@ struct HMSHLSViewerScreen: View {
                     .frame(width: geo.size.width * scale, height: geo.size.height * scale)
                     .overlay(content: {
                         Color.black.opacity(0.001)
+                            .overlay(alignment: .bottomTrailing) {
+                                Button {
+                                    toggleOrientation()
+                                } label: {
+                                    Image(assetName: verticalSizeClass == .regular ? "maximize-icon" : "minimize-icon")
+                                        .foreground(.white)
+                                }
+                                .padding(.trailing, 8)
+                                .padding(.bottom, 4)
+                            }
                             .gesture(MagnificationGesture().onChanged { val in
                                 let delta = val / self.lastScaleValue
                                 self.lastScaleValue = val
@@ -101,6 +113,31 @@ struct HMSHLSViewerScreen: View {
             HMSNoStreamView(state: .streamYetToStart)
         }
 #endif
+    }
+    
+    func toggleOrientation() {
+        
+        if #available(iOS 16.0, *) {
+            UIApplication.shared.connectedScenes.forEach { scene in
+                if let windowScene = scene as? UIWindowScene {
+                    if windowScene.interfaceOrientation == .portrait {
+                        windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: UIInterfaceOrientationMask.landscape))
+                    }
+                    else {
+                        windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: UIInterfaceOrientationMask.portrait))
+                    }
+                }
+            }
+            UIViewController.attemptRotationToDeviceOrientation()
+        }
+        else {
+            if UIDevice.current.orientation == .portrait {
+                UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
+            }
+            else {
+                UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            }
+        }
     }
 }
 
