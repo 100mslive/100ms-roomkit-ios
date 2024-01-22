@@ -19,6 +19,8 @@ struct HMSHLSLayout: View {
     @EnvironmentObject var currentTheme: HMSUITheme
     @Environment(\.controlsState) var controlsState
     
+    @State var isMaximised = false
+    
     var body: some View {
         ZStack {
             
@@ -28,14 +30,14 @@ struct HMSHLSLayout: View {
             GeometryReader { reader in
                 if verticalSizeClass == .regular {
                     VStack {
-                        HMSHLSViewerScreen()
+                        HMSHLSViewerScreen(isMaximized: $isMaximised)
                             .frame(height: reader.size.height/3)
                         chatScreen
                     }
                 }
                 else {
                     HStack(spacing: 0) {
-                        HMSHLSViewerScreen()
+                        HMSHLSViewerScreen(isMaximized: $isMaximised)
                         chatScreen
                             .frame(width: reader.size.width/2.2)
                     }

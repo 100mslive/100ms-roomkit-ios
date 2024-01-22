@@ -22,6 +22,8 @@ struct HMSHLSViewerScreen: View {
     @State var scale: CGFloat = 1.0
     @State var lastScaleValue: CGFloat = 1.0
     
+    @Binding var isMaximized: Bool
+    
     var body: some View {
         
 #if Preview
@@ -68,18 +70,20 @@ struct HMSHLSViewerScreen: View {
                     .frame(width: geo.size.width, height: geo.size.height )
                     .scaleEffect(scale)
                     .frame(width: geo.size.width * scale, height: geo.size.height * scale)
+                    .overlay(alignment: .bottomTrailing) {
+                        Button {
+                            isMaximized.toggle()
+                        } label: {
+                            Image(assetName: verticalSizeClass == .regular ? "maximize-icon" : "minimize-icon")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foreground(.white)
+                        }
+                        .padding(.trailing, 8)
+                        .padding(.bottom, 4)
+                    }
                     .overlay(content: {
                         Color.black.opacity(0.001)
-                            .overlay(alignment: .bottomTrailing) {
-                                Button {
-                                    toggleOrientation()
-                                } label: {
-                                    Image(assetName: verticalSizeClass == .regular ? "maximize-icon" : "minimize-icon")
-                                        .foreground(.white)
-                                }
-                                .padding(.trailing, 8)
-                                .padding(.bottom, 4)
-                            }
                             .gesture(MagnificationGesture().onChanged { val in
                                 let delta = val / self.lastScaleValue
                                 self.lastScaleValue = val
@@ -114,37 +118,12 @@ struct HMSHLSViewerScreen: View {
         }
 #endif
     }
-    
-    func toggleOrientation() {
-        
-        if #available(iOS 16.0, *) {
-            UIApplication.shared.connectedScenes.forEach { scene in
-                if let windowScene = scene as? UIWindowScene {
-                    if windowScene.interfaceOrientation == .portrait {
-                        windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: UIInterfaceOrientationMask.landscape))
-                    }
-                    else {
-                        windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: UIInterfaceOrientationMask.portrait))
-                    }
-                }
-            }
-            UIViewController.attemptRotationToDeviceOrientation()
-        }
-        else {
-            if UIDevice.current.orientation == .portrait {
-                UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
-            }
-            else {
-                UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
-            }
-        }
-    }
 }
 
 struct HMSHLSViewerScreen_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSHLSViewerScreen()
+        HMSHLSViewerScreen(isMaximized: .constant(false))
             .environmentObject(HMSRoomModel.dummyRoom(1))
             .environmentObject(HMSUITheme())
 #endif
