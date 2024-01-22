@@ -19,97 +19,59 @@ struct HMSHLSViewerScreen: View {
     @State var preparingToPlay = true
     @State var isBuffering = false
     
-    @State var scale: CGFloat = 1.0
-    @State var lastScaleValue: CGFloat = 1.0
-    
     @Binding var isMaximized: Bool
     
     var body: some View {
         
 #if Preview
         HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!) { player in
-            HMSHLSPlayerControlsView(player: player)
+            HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
         }
 #else
         if roomModel.hlsVariants.first?.url != nil {
-            
-            GeometryReader { geo in
+
+            HMSHLSPlayerView { player in
+                HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
+            }
+            .onResolutionChanged { size in
+                print("resolution: \(size)")
+            }
+            .onPlaybackFailure { error in
+                print("hlsError: \(error.localizedDescription)")
+            }
+            .onCue { cue in
+                guard let payload = cue.payload, payload.starts(with: "poll") else { return }
+                let pollID = payload.replacingOccurrences(of: "poll:", with: "")
                 
-                ScrollView([.vertical, .horizontal], showsIndicators: false) {
-                    
-                    HMSHLSPlayerView { player in
-                        HMSHLSPlayerControlsView(player: player)
+                NotificationCenter.default.post(name: .init(rawValue: "poll-hls-cue"), object: nil, userInfo: ["pollID" : pollID])
+            }
+            .onPlaybackStateChanged { state in
+                
+                isBuffering = state == .buffering
+                
+                if state == .playing {
+                    streamFinished = false
+                    preparingToPlay = false
+                }
+                else if state == .stopped {
+                    streamFinished = true
+                }
+            }
+            .onAppear() {
+                preparingToPlay = true
+            }
+            .overlay(content: {
+                if preparingToPlay || isBuffering {
+                    HMSLoadingView {
+                        Image(assetName: "progress-indicator")
+                            .foreground(.primaryDefault)
                     }
-                    .onResolutionChanged { size in
-                        print("resolution: \(size)")
-                    }
-                    .onPlaybackFailure { error in
-                        print("hlsError: \(error.localizedDescription)")
-                    }
-                    .onCue { cue in
-                        guard let payload = cue.payload, payload.starts(with: "poll") else { return }
-                        let pollID = payload.replacingOccurrences(of: "poll:", with: "")
-                        
-                        NotificationCenter.default.post(name: .init(rawValue: "poll-hls-cue"), object: nil, userInfo: ["pollID" : pollID])
-                    }
-                    .onPlaybackStateChanged { state in
-                        
-                        isBuffering = state == .buffering
-                        
-                        if state == .playing {
-                            streamFinished = false
-                            preparingToPlay = false
-                        }
-                        else if state == .stopped {
-                            streamFinished = true
-                        }
-                    }
-                    .onAppear() {
-                        preparingToPlay = true
-                    }
-                    .frame(width: geo.size.width, height: geo.size.height )
-                    .scaleEffect(scale)
-                    .frame(width: geo.size.width * scale, height: geo.size.height * scale)
-                    .overlay(alignment: .bottomTrailing) {
-                        Button {
-                            isMaximized.toggle()
-                        } label: {
-                            Image(assetName: verticalSizeClass == .regular ? "maximize-icon" : "minimize-icon")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                                .foreground(.white)
-                        }
-                        .padding(.trailing, 8)
-                        .padding(.bottom, 4)
-                    }
-                    .overlay(content: {
-                        Color.black.opacity(0.001)
-                            .gesture(MagnificationGesture().onChanged { val in
-                                let delta = val / self.lastScaleValue
-                                self.lastScaleValue = val
-                                var newScale = self.scale * delta
-                                if newScale < 1.0 {
-                                    newScale =  1.0
-                                }
-                                scale = newScale
-                            }.onEnded{val in
-                                lastScaleValue = 1
-                            })
-                    })
-                    .overlay(content: {
-                        if preparingToPlay || isBuffering {
-                            HMSLoadingView {
-                                Image(assetName: "progress-indicator")
-                                    .foreground(.primaryDefault)
-                            }
-                        }
-                    })
-                    .overlay(alignment: .center) {
-                        if streamFinished {
-                            HMSNoStreamView(state: streamFinished ? .streamEnded : .streamYetToStart)
-                                .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
-                        }
-                    }
+                }
+            })
+            .overlay(alignment: .center) {
+                if streamFinished {
+                    HMSNoStreamView(state: streamFinished ? .streamEnded : .streamYetToStart)
+                        .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
                 }
             }
         }

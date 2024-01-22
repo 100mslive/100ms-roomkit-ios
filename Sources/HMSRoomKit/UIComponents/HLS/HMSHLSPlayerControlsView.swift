@@ -14,11 +14,13 @@ struct HMSHLSPlayerControlsView: View {
     
     let player: HMSHLSPlayer
     
-    @State var isPopoverPresented = false
+    @State private var isPopoverPresented = false
     
 //    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    @State var refresh = false
+    @State private var refresh = false
+    
+    @Binding var isMaximized: Bool
     
     var body: some View {
         Color.clear
@@ -26,17 +28,31 @@ struct HMSHLSPlayerControlsView: View {
                 
                 isPopoverPresented.toggle()
             }
-//            .overlay(alignment: .topTrailing) {
-//                Image(assetName: "gear-icon")
-//                    .resizable()
-//                    .foreground(.white)
-//                    .frame(width: 32, height: 32)
-//                    .padding()
-//                    .onTapGesture {
-//                        isPopoverPresented.toggle()
-//                    }
+            .overlay(alignment: .bottomTrailing) {
+                Button {
+                    withAnimation {
+                        isMaximized.toggle()
+                    }
+                } label: {
+                    Image(assetName: isMaximized ? "maximize-icon" : "minimize-icon")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foreground(.white)
+                }
+                .padding(.trailing, 8)
+                .padding(.bottom, 4)
+            }
+            .overlay(alignment: .topTrailing) {
+                Image(assetName: "gear-icon")
+                    .resizable()
+                    .foreground(.white)
+                    .frame(width: 32, height: 32)
+                    .padding()
+                    .onTapGesture {
+                        isPopoverPresented.toggle()
+                    }
                     
-//            }
+            }
             .sheet(isPresented: $isPopoverPresented) {
                 HMSSheet {
                     HMSHLSQualityPickerView(player: player)
@@ -69,7 +85,7 @@ struct HMSHLSPlayerControlsView: View {
 struct HMSHLSPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSHLSPlayerControlsView(player: HMSHLSPlayer())
+        HMSHLSPlayerControlsView(player: HMSHLSPlayer(), isMaximized: .constant(false))
             .environmentObject(HMSUITheme())
             .environment(\.colorScheme, .dark)
 #endif
