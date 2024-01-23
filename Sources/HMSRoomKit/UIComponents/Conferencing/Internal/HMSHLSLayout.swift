@@ -22,29 +22,54 @@ struct HMSHLSLayout: View {
     @State var isMaximized = false
     
     var body: some View {
+        
         ZStack {
             
             Color.clear
                 .edgesIgnoringSafeArea(.all)
             
             GeometryReader { reader in
-                if verticalSizeClass == .regular {
-                    VStack {
+                
+                if #available(iOS 16.0, *) {
+                    
+                    let layout = verticalSizeClass == .compact ? AnyLayout(HStackLayout())
+                    : AnyLayout(VStackLayout())
+                    
+                    layout {
                         HMSHLSViewerScreen(isMaximized: $isMaximized)
 
                         if !isMaximized {
-                            chatScreen
-                                .frame(height: (reader.size.height * 2)/3)
+                            
+                            if verticalSizeClass == .regular {
+                                chatScreen
+                                    .frame(height: (reader.size.height * 2)/3)
+                            }
+                            else {
+                                chatScreen
+                                    .frame(width: reader.size.width/2.2)
+                            }
                         }
                     }
                 }
                 else {
-                    HStack(spacing: 0) {
-                        HMSHLSViewerScreen(isMaximized: $isMaximized)
-                        
-                        if !isMaximized {
-                            chatScreen
-                                .frame(width: reader.size.width/2.2)
+                    if verticalSizeClass == .regular {
+                        VStack {
+                            HMSHLSViewerScreen(isMaximized: $isMaximized)
+
+                            if !isMaximized {
+                                chatScreen
+                                    .frame(height: (reader.size.height * 2)/3)
+                            }
+                        }
+                    }
+                    else {
+                        HStack(spacing: 0) {
+                            HMSHLSViewerScreen(isMaximized: $isMaximized)
+                            
+                            if !isMaximized {
+                                chatScreen
+                                    .frame(width: reader.size.width/2.2)
+                            }
                         }
                     }
                 }
