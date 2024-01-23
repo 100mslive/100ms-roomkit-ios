@@ -34,20 +34,21 @@ struct HMSHLSPlayerControlsView: View {
                         isMaximized.toggle()
                     }
                 } label: {
-                    Image(assetName: isMaximized ? "maximize-icon" : "minimize-icon")
+                    Image(assetName: isMaximized ? "minimize-icon" : "maximize-icon")
                         .resizable()
-                        .frame(width: 30, height: 30)
+                        .frame(width: 32, height: 32)
                         .foreground(.white)
                 }
+                .padding(.top, 4)
                 .padding(.trailing, 8)
-                .padding(.bottom, 4)
             }
             .overlay(alignment: .topTrailing) {
                 Image(assetName: "gear-icon")
                     .resizable()
                     .foreground(.white)
                     .frame(width: 32, height: 32)
-                    .padding()
+                    .padding(.top, 4)
+                    .padding(.trailing, 8)
                     .onTapGesture {
                         isPopoverPresented.toggle()
                     }

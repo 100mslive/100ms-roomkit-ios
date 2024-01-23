@@ -104,6 +104,7 @@ struct HMSHLSLayout_Previews: PreviewProvider {
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(HMSPrebuiltOptions())
             .environmentObject(HMSRoomInfoModel())
+            .environmentObject(HMSRoomNotificationModel())
 #endif
     }
 }
