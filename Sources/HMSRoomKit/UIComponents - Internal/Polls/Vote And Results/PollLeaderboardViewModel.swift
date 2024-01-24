@@ -107,7 +107,7 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
         guard let userEntry = response.entries.first(where: { $0.peer?.customerUserID == userID }) else { return }
         let model = PollLeaderboardEntryViewModel(entry: userEntry, poll: poll)
         
-        let rank = PollSummaryItemViewModel(title: "YOUR RANK", subtitle: "\(model.place)/\(summary.totalPeersCount)")
+        let rank = PollSummaryItemViewModel(title: "YOUR RANK", subtitle: "\(model.place)")
         
         let points = PollSummaryItemViewModel(title: "POINTS", subtitle: "\(userEntry.score)")
         let row1 = PollSummaryItemRowViewModel(items: [rank, points])
