@@ -43,16 +43,41 @@ struct HMSHLSPlayerControlsView: View {
                 .padding(.trailing, 8)
             }
             .overlay(alignment: .topTrailing) {
-                Image(assetName: "gear-icon")
-                    .resizable()
-                    .foreground(.white)
-                    .frame(width: 32, height: 32)
-                    .padding(.top, 4)
-                    .padding(.trailing, 8)
-                    .onTapGesture {
-                        isPopoverPresented.toggle()
-                    }
+                
+                HStack(spacing: 20) {
                     
+                    Image(assetName: "subtitle-toggle")
+                        .resizable()
+                        .foreground(.white)
+                        .frame(width: 32, height: 32)
+                        .onTapGesture {
+                            let player = player._nativePlayer
+                            guard let playerItem = player.currentItem else {return }
+                            
+                            guard let availableSubtitleTracks = playerItem.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else { return }
+                            
+                            // subtitle are available in media
+                            
+                            if let _ = playerItem.currentMediaSelection.selectedMediaOption(in: availableSubtitleTracks) {
+                                // subtitle is selected, remove it
+                                playerItem.select(nil, in: availableSubtitleTracks)
+                            }
+                            else {
+                                // subtitle is not selected, set the first available subtitle
+                                playerItem.select(availableSubtitleTracks.options.first, in: availableSubtitleTracks)
+                            }
+                        }
+                    
+                    Image(assetName: "gear-icon")
+                        .resizable()
+                        .foreground(.white)
+                        .frame(width: 32, height: 32)
+                        .onTapGesture {
+                            isPopoverPresented.toggle()
+                        }
+                }
+                .padding(.top, 4)
+                .padding(.trailing, 8)
             }
             .sheet(isPresented: $isPopoverPresented) {
                 HMSSheet {
