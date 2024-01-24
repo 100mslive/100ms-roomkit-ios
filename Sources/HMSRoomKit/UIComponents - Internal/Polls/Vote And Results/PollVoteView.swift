@@ -48,7 +48,9 @@ struct PollVoteView: View {
                         PollVoteQuestionCarouselView(questions: model.questions)
                     } else {
                         ForEach(model.questions) { question in
-                            PollVoteQuestionView(model: question)
+                            PollVoteQuestionView(model: question) {
+                                question.vote()
+                            }
                         }
                     }
                     

@@ -21,6 +21,7 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         }
     }
     @Published var canSkip: Bool = false
+    @Published var answerSelected: Bool = false
     @Published var borderColor = HMSUIColorTheme().surfaceBright
     
     var poll: HMSPoll
@@ -60,10 +61,20 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         text = question.text
         index = question.index
         let selection: ((PollVoteQuestionOptionViewModel)->Void) = { [weak self] selectedModel in
-            guard selectedModel.isSingleChoice, let options = self?.questionOptions else { return }
+            guard let options = self?.questionOptions else { return }
+            
+            var hasSelections = false
             for optionModel in options {
+                if optionModel.selected {
+                    hasSelections = true
+                }
+                
+                guard selectedModel.isSingleChoice else { continue }
+
                 optionModel.selected = optionModel.option.index == selectedModel.option.index
             }
+            
+            self?.answerSelected = hasSelections
         }
         
         let singleChoice = question.type == .singleChoice
