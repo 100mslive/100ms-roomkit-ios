@@ -25,6 +25,11 @@ class PollVoteViewModel: ObservableObject, Identifiable {
     @Published var isFetching = false
     @Published var questions = [PollVoteQuestionViewModel]()
     
+    
+    var id: String {
+        poll.pollID
+    }
+    
     var voteComplete: Bool {
         questions.first(where: { $0.canVote == true }) == nil
     }
