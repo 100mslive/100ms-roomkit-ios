@@ -27,17 +27,13 @@ struct PollLeaderboardEntryView: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            if model.place < 4 {
-                Text("\(model.place)").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().captionSemibold12).padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
-                    .background(
-                        Rectangle()
-                            .cornerRadius(12, corners: .allCorners)
-                            .foregroundColor(placeColor(for: model.place))
-                            .frame(width: 24, height: 24)
-                    ).frame(width: 24, height: 24)
-            } else {
-                Text("\(model.place)").foregroundColor(HMSUIColorTheme().onSurfaceLow).font(HMSUIFontTheme().captionSemibold12)
-            }
+            Text("\(model.place)").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().captionSemibold12).padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
+                .background(
+                    Rectangle()
+                        .cornerRadius(12, corners: .allCorners)
+                        .foregroundColor(placeColor(for: model.place))
+                        .frame(width: 24, height: 24)
+                ).frame(width: 24, height: 24)
             
             VStack(alignment: .leading) {
                 Text(model.name).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
