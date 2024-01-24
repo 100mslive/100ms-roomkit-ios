@@ -72,7 +72,7 @@ struct PollVoteView: View {
                             HStack {
                                 Spacer()
                                 Button {} label: {
-                                    Text("View Results")
+                                    Text("View Leaderboard")
                                 }.buttonStyle(ActionButtonStyle(isWide: false)).allowsHitTesting(false)
                             }
                         }
