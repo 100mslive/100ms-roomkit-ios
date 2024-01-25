@@ -9,20 +9,22 @@
 import SwiftUI
 
 struct ActionButtonStyle: ButtonStyle {
-    internal init(isWide: Bool = true) {
+    internal init(isWide: Bool = true, isDisabled: Bool = false) {
         self.isWide = isWide
+        self.isDisabled = isDisabled
     }
     
     var isWide: Bool
+    var isDisabled: Bool
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(HMSUIFontTheme().buttonSemibold16)
-            .foregroundColor(HMSUIColorTheme().onPrimaryHigh)
+            .foregroundColor(isDisabled ? HMSUIColorTheme().onPrimaryLow : HMSUIColorTheme().onPrimaryHigh)
             .frame(maxWidth: isWide ? .infinity : nil, alignment: .center)
             .padding(.vertical, 10)
             .padding(.horizontal, 24)
-            .background(HMSUIColorTheme().primaryDefault)
+            .background(isDisabled ? HMSUIColorTheme().primaryDisabled : HMSUIColorTheme().primaryDefault)
             .cornerRadius(8)
     }
 }

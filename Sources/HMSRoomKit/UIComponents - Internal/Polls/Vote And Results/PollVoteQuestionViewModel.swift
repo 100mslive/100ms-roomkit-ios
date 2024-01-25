@@ -21,6 +21,7 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         }
     }
     @Published var canSkip: Bool = false
+    @Published var answerSelected: Bool = false
     @Published var borderColor = HMSUIColorTheme().surfaceBright
     
     var poll: HMSPoll
@@ -31,6 +32,7 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         }
     }
     var canViewResponses: Bool
+    var duration: TimeInterval = 0
     
     internal init(question: HMSPollQuestion, count: Int, poll: HMSPoll, canVote: Bool, canViewResponses: Bool, onVote: @escaping ((PollVoteQuestionViewModel) -> Void)) {
         self.question = question
@@ -43,7 +45,9 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         updateResults()
     }
     
-    func vote() {
+    func vote(duration: TimeInterval = 0) {
+        self.duration = duration
+        
         for (index, option) in questionOptions.enumerated() {
             if (option.selected) {
                 question.options?[index].voteCount += 1
@@ -57,24 +61,34 @@ class PollVoteQuestionViewModel: ObservableObject, Identifiable {
         text = question.text
         index = question.index
         let selection: ((PollVoteQuestionOptionViewModel)->Void) = { [weak self] selectedModel in
-            guard selectedModel.isSingleChoice, let options = self?.questionOptions else { return }
+            guard let options = self?.questionOptions else { return }
+            
+            var hasSelections = false
             for optionModel in options {
+                if optionModel.selected {
+                    hasSelections = true
+                }
+                
+                guard selectedModel.isSingleChoice else { continue }
+
                 optionModel.selected = optionModel.option.index == selectedModel.option.index
             }
+            
+            self?.answerSelected = hasSelections
         }
         
         let singleChoice = question.type == .singleChoice
         let selectedIndexes = canVote ? Set<Int>() : question.selectedOptionIndexes
         let correctIndexes = canVote ? Set<Int>() : question.correctOptionIndexes
         
-        if poll.category == .quiz, question.voted {
+        if poll.category == .quiz, question.voted, poll.state == .stopped {
             let correct = selectedIndexes == correctIndexes
             borderColor = correct ? HMSUIColorTheme().alertSuccess : HMSUIColorTheme().alertErrorDefault
         } else {
             borderColor = HMSUIColorTheme().surfaceBright
         }
         
-        questionOptions = question.options?.map { PollVoteQuestionOptionViewModel(option: $0, isSingleChoice: singleChoice, canVote: canVote, selected: selectedIndexes.contains($0.index), isCorrect: correctIndexes.contains($0.index), canViewResponses: canViewResponses, onSelectionChange: selection) } ?? []
+        questionOptions = question.options?.map { PollVoteQuestionOptionViewModel(option: $0, isSingleChoice: singleChoice, canVote: canVote, selected: selectedIndexes.contains($0.index), isCorrect: poll.state == .stopped && correctIndexes.contains($0.index), canViewResponses: canViewResponses, onSelectionChange: selection) } ?? []
     }
     
     func updateResults() {

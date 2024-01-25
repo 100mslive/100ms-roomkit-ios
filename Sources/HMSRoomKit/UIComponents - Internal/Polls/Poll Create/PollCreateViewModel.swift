@@ -24,6 +24,7 @@ class PollCreateModel: ObservableObject, Identifiable {
     @Published var selectedTimerDuration: String = "5 minutes"
     @Published var timerDurationOptions: [String] = ["5 minutes", "15 minutes", "30 minutes", "1 hour"]
     
+    var currentPollsSet = Set<PollListModel>()
     @Published var currentPolls = [PollListModel]()
 
     var durations = [5, 15, 30, 60]
@@ -46,6 +47,7 @@ class PollCreateModel: ObservableObject, Identifiable {
         self.limitViewResultsToRoles = limitViewResultsToRoles
         self.currentRole = currentRole
         self.canCreatePolls = self.currentRole.permissions.pollWrite ?? false
+        setupObserver()
     }
 
     func timerDuration() -> Int {
@@ -115,20 +117,26 @@ class PollCreateModel: ObservableObject, Identifiable {
     }
     
     func refreshLocalPolls() {
+        let allPolls = interactivityCenter.polls.map { PollListModel(poll: $0, resultModel: self.resultModel(poll: $0), createModel: self.createModel(poll: $0)) }
+        
+        currentPollsSet.formUnion(allPolls)
+        
+        currentPollsSet.forEach { $0.updateValues() }
+        
         let stateOrder = [HMSPollState.started, HMSPollState.created, HMSPollState.stopped]
-        currentPolls = interactivityCenter.polls.sorted { left, right in
+        currentPolls = currentPollsSet.sorted { left, right in
                 if left.state != right.state {
                     let leftIndex = stateOrder.firstIndex(of: left.state) ?? 0
                     let rightIndex = stateOrder.firstIndex(of: right.state) ?? 0
                     return leftIndex < rightIndex
-                } else if left.state == .started, let leftDate = left.startedAt, let rightDate = right.startedAt {
+                } else if left.state == .started, let leftDate = left.poll.startedAt, let rightDate = right.poll.startedAt {
                     return leftDate > rightDate
-                } else if left.state == .stopped, let leftDate = left.stoppedAt, let rightDate = right.stoppedAt {
+                } else if left.state == .stopped, let leftDate = left.poll.stoppedAt, let rightDate = right.poll.stoppedAt {
                     return leftDate > rightDate
                 }
                 
                 return false
-            }.map { PollListModel(poll: $0, resultModel: self.resultModel(poll: $0), createModel: self.createModel(poll: $0)) }
+            }
     }
     
     func refreshPolls() {
@@ -140,6 +148,18 @@ class PollCreateModel: ObservableObject, Identifiable {
             interactivityCenter.fetchPollList(state: .stopped) { [weak self] polls, error in
                 guard let self = self else { return }
                 self.refreshLocalPolls()
+            }
+        }
+    }
+    
+    func setupObserver() {
+        interactivityCenter.addPollUpdateListner { [weak self] updatedPoll, update in
+            guard let self = self else { return }
+            switch update {
+            case .started, .stopped:
+                self.refreshPolls()
+            default:
+                break
             }
         }
     }

@@ -43,8 +43,15 @@ struct PollVoteView: View {
                         PollSummaryView(model: summary).padding(.bottom, 8)
                         Text("Questions").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().subtitle2Semibold14)
                     }
-                    ForEach(model.questions) { question in
-                        PollVoteQuestionView(model: question)
+                    
+                    if model.poll.category == .quiz, !model.questions.isEmpty, model.poll.state == .started {
+                        PollVoteQuestionCarouselView(questions: model.questions)
+                    } else {
+                        ForEach(model.questions) { question in
+                            PollVoteQuestionView(model: question) {
+                                question.vote()
+                            }
+                        }
                     }
                     
                     if model.canEndPoll && model.poll.state != .stopped {
@@ -65,7 +72,7 @@ struct PollVoteView: View {
                             HStack {
                                 Spacer()
                                 Button {} label: {
-                                    Text("View Results")
+                                    Text("View Leaderboard")
                                 }.buttonStyle(ActionButtonStyle(isWide: false)).allowsHitTesting(false)
                             }
                         }

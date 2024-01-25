@@ -25,6 +25,11 @@ class PollVoteViewModel: ObservableObject, Identifiable {
     @Published var isFetching = false
     @Published var questions = [PollVoteQuestionViewModel]()
     
+    
+    var id: String {
+        poll.pollID
+    }
+    
     var voteComplete: Bool {
         questions.first(where: { $0.canVote == true }) == nil
     }
@@ -35,7 +40,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
 
     internal init(poll: HMSPoll, interactivityCenter: HMSInteractivityCenter, currentRole: HMSRole, peerList: [HMSPeer]) {
         self.poll = poll
-        self.canViewResponses = poll.rolesThatCanViewResponses.isEmpty || poll.rolesThatCanViewResponses.contains(currentRole)
+        self.canViewResponses = (poll.rolesThatCanViewResponses.isEmpty || poll.rolesThatCanViewResponses.contains(currentRole)) && poll.category == .poll
         self.state = poll.state
         self.interactivityCenter = interactivityCenter
         if let startDate = poll.startedAt, poll.duration > 0 {
@@ -174,7 +179,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
         guard !selectedOptions.isEmpty else { return }
 
         let resultBuilder = HMSPollResponseBuilder(poll: poll)
-        resultBuilder.addResponse(for: question.question, options: selectedOptions)
+        resultBuilder.addResponse(for: question.question, options: selectedOptions, duration: Int(question.duration * 1000))
         
         interactivityCenter.add(response: resultBuilder) { _, error in
             question.canVote = !question.question.voted
