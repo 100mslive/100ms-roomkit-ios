@@ -22,6 +22,7 @@ struct HMSHLSPlayerControlsView: View {
     
     @Binding var isMaximized: Bool
     
+    @State var isSubtitlesOff = false
     @State var isSubtitleToggleShown = false
     
     var body: some View {
@@ -50,7 +51,7 @@ struct HMSHLSPlayerControlsView: View {
                     
                     if isSubtitleToggleShown {
                         
-                        Image(assetName: "subtitle-toggle")
+                        Image(assetName: isSubtitlesOff ? "subtitle-off" : "subtitle-on")
                             .resizable()
                             .foreground(.white)
                             .frame(width: 32, height: 32)
@@ -65,12 +66,16 @@ struct HMSHLSPlayerControlsView: View {
                                 if let _ = playerItem.currentMediaSelection.selectedMediaOption(in: availableSubtitleTracks) {
                                     // subtitle is selected, remove it
                                     playerItem.select(nil, in: availableSubtitleTracks)
+                                    
+                                    isSubtitlesOff = true
                                 }
                                 else {
                                     // subtitle is not selected, set the first available subtitle
                                     if let firstSubtitle = availableSubtitleTracks.options.first(where: {$0.mediaType == .subtitle}) {
                                         
                                         playerItem.select(firstSubtitle, in: availableSubtitleTracks)
+                                        
+                                        isSubtitlesOff = false
                                     }
                                 }
                             }
