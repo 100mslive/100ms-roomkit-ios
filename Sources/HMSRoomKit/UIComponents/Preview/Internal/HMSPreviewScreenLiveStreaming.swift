@@ -20,7 +20,6 @@ struct HMSPreviewScreenLiveStreaming: View {
     @EnvironmentObject var currentTheme: HMSUITheme
     
     @State var name: String = ""
-//    @State private var keyboardOffset: CGFloat = 0.0
     
     var body: some View {
         
@@ -89,7 +88,6 @@ struct HMSPreviewScreenLiveStreaming: View {
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
-        //        .offset(y: keyboardOffset)
         .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
         .alert(isPresented: Binding(get: {
             guard let lastError = roomModel.lastError as? HMSError else { return false }
@@ -107,27 +105,6 @@ struct HMSPreviewScreenLiveStreaming: View {
         .onChange(of: roomModel.localVideoTrackModel) { model in
             roomModel.toggleCamera()
         }
-        //        .ignoresSafeArea(.keyboard)
-//        .onAppear {
-//            
-//            // Doing this avoids retain cycle in observers below
-//            let keyboardOffset = $keyboardOffset
-//            
-//            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
-//                guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-//                let keyboardHeight = keyboardFrame.height
-//                
-//                withAnimation {
-//                    keyboardOffset.wrappedValue = -keyboardHeight
-//                }
-//            }
-//            
-//            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-//                withAnimation {
-//                    keyboardOffset.wrappedValue = 0.0
-//                }
-//            }
-//        }
     }
 }
 

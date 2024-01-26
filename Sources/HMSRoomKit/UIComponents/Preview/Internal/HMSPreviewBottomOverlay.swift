@@ -44,17 +44,6 @@ struct HMSPreviewBottomOverlay: View {
                 HMSAirplayButton {
                     HMSSpeakerButtonView()
                 }
-//                .sheet(isPresented: $showDeviceSettings) {
-//                    HalfSheet {
-//                        HMSDeviceSettingsSheetView(isPresented: $showDeviceSettings)
-//                            .environmentObject(currentTheme)
-//                            .environmentObject(roomModel)
-//                    }
-//                    .edgesIgnoringSafeArea(.all)
-//                }
-//                .onTapGesture {
-//                    showDeviceSettings.toggle()
-//                }
             }
 
             HStack {
