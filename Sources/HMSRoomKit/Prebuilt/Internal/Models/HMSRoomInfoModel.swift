@@ -22,6 +22,7 @@ class HMSRoomInfoModel: ObservableObject {
     // .none means no preview screen
     @Published var previewType: PreviewType = .none
     @Published var defaultPreviewScreen: HMSRoomLayout.LayoutData.Screens.Preview.DefaultPreviewScreen?
+    @Published var skipPreview = false
     
     // Conferencing screen
     enum ConferencingType {

@@ -37,16 +37,24 @@ struct HMSPrebuiltMeetingView: View {
                         pollModel.currentPolls.removeAll()
                     }
             case .notJoined:
-                
-                switch roomInfoModel.previewType {
-                case .default, .none:
-                    HMSPreviewScreen { screen in
-                        if let defaultScreen = roomInfoModel.defaultPreviewScreen {
-                            screen = .init(title: defaultScreen.elements?.preview_header?.title ?? "", subTitle: defaultScreen.elements?.preview_header?.sub_title ?? "", joinButtonType: defaultScreen.elements?.join_form.join_btn_type == .join ? .join : .goLive, joinButtonLabel: defaultScreen.elements?.join_form.join_btn_label ?? "", goLiveButtonLabel: defaultScreen.elements?.join_form.go_live_btn_label ?? "")
+                if roomInfoModel.skipPreview {
+                    HMSLoadingScreen().onAppear() {
+                        Task {
+                            try await roomModel.joinSession()
                         }
                     }
-                    .onAppear() {
-                        UIApplication.shared.isIdleTimerDisabled = true
+                } else {
+                    
+                    switch roomInfoModel.previewType {
+                    case .default, .none:
+                        HMSPreviewScreen { screen in
+                            if let defaultScreen = roomInfoModel.defaultPreviewScreen {
+                                screen = .init(title: defaultScreen.elements?.preview_header?.title ?? "", subTitle: defaultScreen.elements?.preview_header?.sub_title ?? "", joinButtonType: defaultScreen.elements?.join_form.join_btn_type == .join ? .join : .goLive, joinButtonLabel: defaultScreen.elements?.join_form.join_btn_label ?? "", goLiveButtonLabel: defaultScreen.elements?.join_form.go_live_btn_label ?? "")
+                            }
+                        }
+                        .onAppear() {
+                            UIApplication.shared.isIdleTimerDisabled = true
+                        }
                     }
                 }
                 
