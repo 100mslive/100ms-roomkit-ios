@@ -40,7 +40,7 @@ struct HMSBottomControlStrip: View {
             HStack(spacing: 0) {
                 Spacer(minLength: 0)
                 HStack(spacing: 24) {
-                    HMSEndCallButton(type: .hls)
+                    HMSEndCallButton(type: .webrtc)
                     
                     if roomModel.localAudioTrackModel != nil {
                         HMSMicToggle()
