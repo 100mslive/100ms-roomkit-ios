@@ -81,6 +81,36 @@ struct HMSHLSLayout: View {
     @Environment(\.keyboardState) var keyboardState
     @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
     
+    let descriptionTimer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    
+    @State var streamStartedText: String = ""
+    
+    @ViewBuilder
+    var descriptionPane: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                HMSCompanyLogoView()
+                VStack {
+                    HStack {
+                        Text("\(roomModel.viewerCountDisplayString) watching").font(.captionRegular12)
+                            .foreground(.onSurfaceMedium)
+                        if !streamStartedText.isEmpty {
+                            Text("·").font(.captionRegular12)
+                                .foreground(.onSurfaceMedium)
+                            Text("Started \(streamStartedText) ago").font(.captionRegular12)
+                                .foreground(.onSurfaceMedium)
+                        }
+                    }
+                }
+            }.padding(16)
+            HMSDivider(color: currentTheme.colorTheme.borderBright)
+        }.background(.surfaceDim, cornerRadius: 0).onReceive(descriptionTimer) { time in
+            refreshStreamStartedText()
+        }.onAppear() {
+            refreshStreamStartedText()
+        }
+    }
+    
     @ViewBuilder
     var chatScreen: some View {
         
@@ -90,25 +120,28 @@ struct HMSHLSLayout: View {
         let canStartRecording = roomModel.userCanStartStopRecording
         let canScreenShare = roomModel.userCanShareScreen
         
-        HStack {
-            HMSChatScreen(content: {
-                
-                if let localPeerModel = roomModel.localPeerModel {
+        VStack(spacing: 0) {
+            descriptionPane
+            HStack {
+                HMSChatScreen(content: {
                     
-                    HMSHandRaisedToggle()
-                        .environmentObject(localPeerModel)
-                    
-                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
-                        HMSOptionsToggleView(isHLSViewer: true)
+                    if let localPeerModel = roomModel.localPeerModel {
+                        
+                        HMSHandRaisedToggle()
+                            .environmentObject(localPeerModel)
+                        
+                        if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+                            HMSOptionsToggleView(isHLSViewer: true)
+                        }
+                    }
+                }) {
+                    if keyboardState.wrappedValue == .hidden {
+                        HMSNotificationStackView()
+                            .padding([.bottom], 8)
                     }
                 }
-            }) {
-                if keyboardState.wrappedValue == .hidden {
-                    HMSNotificationStackView()
-                        .padding([.bottom], 8)
-                }
+                .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom)))
             }
-            .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom)))
         }
     }
     
@@ -118,6 +151,13 @@ struct HMSHLSLayout: View {
             startPoint: .top,
             endPoint: .bottom
         )
+    }
+    
+    private func refreshStreamStartedText() {
+        if let variant = roomModel.hlsVariants.first,
+           let startedAt = variant.startedAt {
+            streamStartedText = startedAt.minutesSinceNow
+        }
     }
 }
 
