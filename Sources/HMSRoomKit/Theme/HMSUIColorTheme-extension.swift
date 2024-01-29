@@ -80,6 +80,8 @@ extension HMSUIColorTheme {
             return .white
         case .black:
             return .black
+        case .clear:
+            return .clear
         }
     }
 }
@@ -128,6 +130,7 @@ public enum HMSThemeColor {
     
     case white
     case black
+    case clear
 }
 
 extension Color {

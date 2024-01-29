@@ -106,16 +106,7 @@ struct HMSHLSPlayerControlsView: View {
                     }
                     .opacity(hlsPlayerPreferences.isControlsHidden.wrappedValue ? 0.0 : 1.0)
                     .overlay(alignment: .topLeading) {
-                        Button {
-                            Task {
-                                try await roomModel.leaveSession()
-                            }
-                        } label: {
-                            Image(assetName: "xmark")
-                                .resizable()
-                                .frame(width: 32, height: 32)
-                                .foreground(.white)
-                        }
+                        HMSEndCallButton(type: .hls)
                         .padding(.top, 4)
                         .padding(.trailing, 8)
                     }
