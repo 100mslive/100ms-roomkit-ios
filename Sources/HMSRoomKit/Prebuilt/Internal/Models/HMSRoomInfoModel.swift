@@ -22,7 +22,6 @@ class HMSRoomInfoModel: ObservableObject {
     // .none means no preview screen
     @Published var previewType: PreviewType = .none
     @Published var defaultPreviewScreen: HMSRoomLayout.LayoutData.Screens.Preview.DefaultPreviewScreen?
-    @Published var skipPreview = false
     
     // Conferencing screen
     enum ConferencingType {
@@ -85,12 +84,12 @@ class HMSRoomInfoModel: ObservableObject {
         }
         
         // Update preview screen
-        if let previewScreen = layoutData.screens?.preview?.default {
+        if layoutData.screens?.preview?.skip_preview_screen == true {
+            previewType = .none
+        }
+        else if let previewScreen = layoutData.screens?.preview?.default {
             previewType = .default
             defaultPreviewScreen = previewScreen
-        }
-        else {
-            previewType = .none
         }
         
         // Update conferencing screen
