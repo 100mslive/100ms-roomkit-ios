@@ -83,7 +83,7 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
         
         var items = [PollSummaryItemViewModel]()
         if summary.averageTime > 0 {
-            let avgTime = PollSummaryItemViewModel(title: "AVG. TIME TAKEN", subtitle: "\(TimeInterval(summary.averageTime).stringTime)")
+            let avgTime = PollSummaryItemViewModel(title: "AVG. TIME TAKEN", subtitle: "\(TimeInterval(summary.averageTime / 1000).stringTime)")
             items.append(avgTime)
         }
         
@@ -107,7 +107,7 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
         guard let userEntry = response.entries.first(where: { $0.peer?.customerUserID == userID }) else { return }
         let model = PollLeaderboardEntryViewModel(entry: userEntry, poll: poll)
         
-        let rank = PollSummaryItemViewModel(title: "YOUR RANK", subtitle: "\(model.place)/\(summary.totalPeersCount)")
+        let rank = PollSummaryItemViewModel(title: "YOUR RANK", subtitle: "\(model.place)")
         
         let points = PollSummaryItemViewModel(title: "POINTS", subtitle: "\(userEntry.score)")
         let row1 = PollSummaryItemRowViewModel(items: [rank, points])
@@ -137,7 +137,7 @@ class PollLeaderboardEntryViewModel: Identifiable {
         self.name = entry.peer?.userName ?? "Unknown"
         self.score = totalScore > 0 ? "\(entry.score)/\(totalScore)" : ""
         self.correctAnswers = "\(entry.correctResponses)/\(totalQuestions)"
-        self.time = entry.duration > 0 ? TimeInterval(entry.duration).stringTime : ""
+        self.time = entry.duration > 0 ? TimeInterval(entry.duration / 1000).stringTime : ""
         self.isNoResponse = entry.totalResponses == 0
         self.hasCorrectAnswers = entry.correctResponses > 0
     }

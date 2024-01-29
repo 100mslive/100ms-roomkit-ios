@@ -37,9 +37,15 @@ struct HMSPrebuiltMeetingView: View {
                         pollModel.currentPolls.removeAll()
                     }
             case .notJoined:
-                
                 switch roomInfoModel.previewType {
-                case .default, .none:
+                case .none:
+                    HMSLoadingScreen().onAppear() {
+                        UIApplication.shared.isIdleTimerDisabled = true
+                        Task {
+                            try await roomModel.joinSession()
+                        }
+                    }
+                case .default:
                     HMSPreviewScreen { screen in
                         if let defaultScreen = roomInfoModel.defaultPreviewScreen {
                             screen = .init(title: defaultScreen.elements?.preview_header?.title ?? "", subTitle: defaultScreen.elements?.preview_header?.sub_title ?? "", joinButtonType: defaultScreen.elements?.join_form.join_btn_type == .join ? .join : .goLive, joinButtonLabel: defaultScreen.elements?.join_form.join_btn_label ?? "", goLiveButtonLabel: defaultScreen.elements?.join_form.go_live_btn_label ?? "")
