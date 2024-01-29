@@ -9,11 +9,13 @@
 import SwiftUI
 import HMSRoomModels
 
-struct HMSHLSViewerScreen: View {
+public struct HMSHLSViewerScreen: View {
     
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @EnvironmentObject var roomModel: HMSRoomModel
+    
+    @State var hlsPlaybackPreference: HMSHLSPreferences = .init(isControlsHidden: true)
     
     @State var streamFinished = false
     @State var preparingToPlay = true
@@ -21,64 +23,66 @@ struct HMSHLSViewerScreen: View {
     
     @Binding var isMaximized: Bool
     
-    var body: some View {
-        
+    public var body: some View {
+        Group {
 #if Preview
-        HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!) { player in
-            HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
-        }
-#else
-        if roomModel.hlsVariants.first?.url != nil {
-
-            HMSHLSPlayerView { player in
+            HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!) { player in
                 HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
             }
-            .onResolutionChanged { size in
-                print("resolution: \(size)")
-            }
-            .onPlaybackFailure { error in
-                print("hlsError: \(error.localizedDescription)")
-            }
-            .onCue { cue in
-                guard let payload = cue.payload, payload.starts(with: "poll") else { return }
-                let pollID = payload.replacingOccurrences(of: "poll:", with: "")
+#else
+            if roomModel.hlsVariants.first?.url != nil {
                 
-                NotificationCenter.default.post(name: .init(rawValue: "poll-hls-cue"), object: nil, userInfo: ["pollID" : pollID])
-            }
-            .onPlaybackStateChanged { state in
-                
-                isBuffering = state == .buffering
-                
-                if state == .playing {
-                    streamFinished = false
-                    preparingToPlay = false
+                HMSHLSPlayerView { player in
+                    HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
                 }
-                else if state == .stopped {
-                    streamFinished = true
+                .onResolutionChanged { size in
+                    print("resolution: \(size)")
                 }
-            }
-            .onAppear() {
-                preparingToPlay = true
-            }
-            .overlay(content: {
-                if preparingToPlay || isBuffering {
-                    HMSLoadingView {
-                        Image(assetName: "progress-indicator")
-                            .foreground(.primaryDefault)
+                .onPlaybackFailure { error in
+                    print("hlsError: \(error.localizedDescription)")
+                }
+                .onCue { cue in
+                    guard let payload = cue.payload, payload.starts(with: "poll") else { return }
+                    let pollID = payload.replacingOccurrences(of: "poll:", with: "")
+                    
+                    NotificationCenter.default.post(name: .init(rawValue: "poll-hls-cue"), object: nil, userInfo: ["pollID" : pollID])
+                }
+                .onPlaybackStateChanged { state in
+                    
+                    isBuffering = state == .buffering
+                    
+                    if state == .playing {
+                        streamFinished = false
+                        preparingToPlay = false
+                    }
+                    else if state == .stopped {
+                        streamFinished = true
                     }
                 }
-            })
-            .overlay(alignment: .center) {
-                if streamFinished {
-                    HMSNoStreamView(state: streamFinished ? .streamEnded : .streamYetToStart)
-                        .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
+                .onAppear() {
+                    preparingToPlay = true
+                }
+                .overlay(content: {
+                    if preparingToPlay || isBuffering {
+                        HMSLoadingView {
+                            Image(assetName: "progress-indicator")
+                                .foreground(.primaryDefault)
+                        }
+                    }
+                })
+                .overlay(alignment: .center) {
+                    if streamFinished {
+                        HMSNoStreamView(state: streamFinished ? .streamEnded : .streamYetToStart)
+                            .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
+                    }
                 }
             }
-        }
-        else {
-            HMSNoStreamView(state: .streamYetToStart)
-        }
+            else {
+                HMSNoStreamView(state: .streamYetToStart)
+            }
 #endif
+        }
+        .environment(\.hlsPlayerPreferences, $hlsPlaybackPreference)
     }
 }
 

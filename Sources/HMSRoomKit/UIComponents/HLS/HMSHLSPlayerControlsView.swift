@@ -25,72 +25,77 @@ struct HMSHLSPlayerControlsView: View {
     @State var isSubtitlesOff = false
     @State var isSubtitleToggleShown = false
     
+    @Environment(\.hlsPlayerPreferences) var hlsPlayerPreferences
+    
     var body: some View {
         Color.clear
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "hls-quality-picker"))) { _ in
-                
                 isPopoverPresented.toggle()
             }
-            .overlay(alignment: .bottomTrailing) {
-                Button {
-                    withAnimation {
-                        isMaximized.toggle()
-                    }
-                } label: {
-                    Image(assetName: isMaximized ? "minimize-icon" : "maximize-icon")
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                        .foreground(.white)
-                }
-                .padding(.top, 4)
-                .padding(.trailing, 8)
-            }
-            .overlay(alignment: .topTrailing) {
-                
-                HStack(spacing: 20) {
-                    
-                    if isSubtitleToggleShown {
-                        
-                        Image(assetName: isSubtitlesOff ? "subtitle-off" : "subtitle-on")
-                            .resizable()
-                            .foreground(.white)
-                            .frame(width: 32, height: 32)
-                            .onTapGesture {
-                                let player = player._nativePlayer
-                                guard let playerItem = player.currentItem else {return }
-                                
-                                guard let availableSubtitleTracks = playerItem.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else { return }
-                                
-                                // subtitle are available in media
-                                
-                                if let _ = playerItem.currentMediaSelection.selectedMediaOption(in: availableSubtitleTracks) {
-                                    // subtitle is selected, remove it
-                                    playerItem.select(nil, in: availableSubtitleTracks)
-                                    
-                                    isSubtitlesOff = true
-                                }
-                                else {
-                                    // subtitle is not selected, set the first available subtitle
-                                    if let firstSubtitle = availableSubtitleTracks.options.first(where: {$0.mediaType == .subtitle}) {
-                                        
-                                        playerItem.select(firstSubtitle, in: availableSubtitleTracks)
-                                        
-                                        isSubtitlesOff = false
-                                    }
-                                }
+            .overlay {
+                Color.clear
+                    .overlay(alignment: .bottomTrailing) {
+                        Button {
+                            withAnimation {
+                                isMaximized.toggle()
                             }
-                    }
-                    
-                    Image(assetName: "gear-icon")
-                        .resizable()
-                        .foreground(.white)
-                        .frame(width: 32, height: 32)
-                        .onTapGesture {
-                            isPopoverPresented.toggle()
+                        } label: {
+                            Image(assetName: isMaximized ? "minimize-icon" : "maximize-icon")
+                                .resizable()
+                                .frame(width: 32, height: 32)
+                                .foreground(.white)
                         }
-                }
-                .padding(.top, 4)
-                .padding(.trailing, 8)
+                        .padding(.top, 4)
+                        .padding(.trailing, 8)
+                    }
+                    .overlay(alignment: .topTrailing) {
+                        
+                        HStack(spacing: 20) {
+                            
+                            if isSubtitleToggleShown {
+                                
+                                Image(assetName: isSubtitlesOff ? "subtitle-off" : "subtitle-on")
+                                    .resizable()
+                                    .foreground(.white)
+                                    .frame(width: 32, height: 32)
+                                    .onTapGesture {
+                                        let player = player._nativePlayer
+                                        guard let playerItem = player.currentItem else {return }
+                                        
+                                        guard let availableSubtitleTracks = playerItem.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else { return }
+                                        
+                                        // subtitle are available in media
+                                        
+                                        if let _ = playerItem.currentMediaSelection.selectedMediaOption(in: availableSubtitleTracks) {
+                                            // subtitle is selected, remove it
+                                            playerItem.select(nil, in: availableSubtitleTracks)
+                                            
+                                            isSubtitlesOff = true
+                                        }
+                                        else {
+                                            // subtitle is not selected, set the first available subtitle
+                                            if let firstSubtitle = availableSubtitleTracks.options.first(where: {$0.mediaType == .subtitle}) {
+                                                
+                                                playerItem.select(firstSubtitle, in: availableSubtitleTracks)
+                                                
+                                                isSubtitlesOff = false
+                                            }
+                                        }
+                                    }
+                            }
+                            
+                            Image(assetName: "gear-icon")
+                                .resizable()
+                                .foreground(.white)
+                                .frame(width: 32, height: 32)
+                                .onTapGesture {
+                                    isPopoverPresented.toggle()
+                                }
+                        }
+                        .padding(.top, 4)
+                        .padding(.trailing, 8)
+                    }
+                    .opacity(hlsPlayerPreferences.isControlsHidden.wrappedValue ? 0.0 : 1.0)
             }
             .sheet(isPresented: $isPopoverPresented) {
                 HMSSheet {
@@ -122,6 +127,7 @@ struct HMSHLSPlayerControlsView: View {
                     isSubtitleToggleShown = false
                 }
             }
+            .animation(.default, value: hlsPlayerPreferences.isControlsHidden.wrappedValue)
         //            .overlay(alignment: .bottomTrailing, content: {
         //                VStack {
         //                    if refresh {
