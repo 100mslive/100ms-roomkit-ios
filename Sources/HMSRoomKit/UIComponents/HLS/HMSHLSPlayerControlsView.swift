@@ -7,10 +7,12 @@
 
 import SwiftUI
 import HMSHLSPlayerSDK
+import HMSRoomModels
 
 struct HMSHLSPlayerControlsView: View {
     
     @Environment(\.verticalSizeClass) var verticalSizeClass
+    @EnvironmentObject var roomModel: HMSRoomModel
     
     let player: HMSHLSPlayer
     
@@ -36,6 +38,8 @@ struct HMSHLSPlayerControlsView: View {
                 Color.clear
                     .overlay(alignment: .bottomTrailing) {
                         Button {
+                            hlsPlayerPreferences.wrappedValue.resetHideTask?()
+                            
                             withAnimation {
                                 isMaximized.toggle()
                             }
@@ -59,6 +63,9 @@ struct HMSHLSPlayerControlsView: View {
                                     .foreground(.white)
                                     .frame(width: 32, height: 32)
                                     .onTapGesture {
+                                        
+                                        hlsPlayerPreferences.wrappedValue.resetHideTask?()
+                                        
                                         let player = player._nativePlayer
                                         guard let playerItem = player.currentItem else {return }
                                         
@@ -89,6 +96,8 @@ struct HMSHLSPlayerControlsView: View {
                                 .foreground(.white)
                                 .frame(width: 32, height: 32)
                                 .onTapGesture {
+                                    hlsPlayerPreferences.wrappedValue.resetHideTask?()
+                                    
                                     isPopoverPresented.toggle()
                                 }
                         }
@@ -96,6 +105,20 @@ struct HMSHLSPlayerControlsView: View {
                         .padding(.trailing, 8)
                     }
                     .opacity(hlsPlayerPreferences.isControlsHidden.wrappedValue ? 0.0 : 1.0)
+                    .overlay(alignment: .topLeading) {
+                        Button {
+                            Task {
+                                try await roomModel.leaveSession()
+                            }
+                        } label: {
+                            Image(assetName: "xmark")
+                                .resizable()
+                                .frame(width: 32, height: 32)
+                                .foreground(.white)
+                        }
+                        .padding(.top, 4)
+                        .padding(.trailing, 8)
+                    }
             }
             .sheet(isPresented: $isPopoverPresented) {
                 HMSSheet {
