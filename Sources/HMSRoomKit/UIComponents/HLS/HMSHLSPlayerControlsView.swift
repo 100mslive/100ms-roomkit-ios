@@ -52,8 +52,8 @@ struct HMSHLSPlayerControlsView: View {
                                 .frame(width: 32, height: 32)
                                 .foreground(.white)
                         }
-                        .padding(.top, 4)
-                        .padding(.trailing, 8)
+                        .padding(.bottom, 8)
+                        .padding(.trailing, 12)
                     }
                     .overlay(alignment: .topTrailing) {
                         
@@ -104,14 +104,14 @@ struct HMSHLSPlayerControlsView: View {
                                     isPopoverPresented.toggle()
                                 }
                         }
-                        .padding(.top, 4)
-                        .padding(.trailing, 8)
+                        .padding(.top, 8)
+                        .padding(.trailing, 12)
                     }
                     .opacity(hlsPlayerPreferences.isControlsHidden.wrappedValue ? 0.0 : 1.0)
                     .overlay(alignment: .topLeading) {
                         HMSEndCallButton(type: .hls)
-                        .padding(.top, 4)
-                        .padding(.trailing, 8)
+                        .padding(.top, 8)
+                        .padding(.leading, 12)
                     }
             }
             .onAppear() {
