@@ -109,9 +109,11 @@ struct HMSHLSPlayerControlsView: View {
                     }
                     .opacity(hlsPlayerPreferences.isControlsHidden.wrappedValue ? 0.0 : 1.0)
                     .overlay(alignment: .topLeading) {
-                        HMSEndCallButton(type: .hls)
-                        .padding(.top, 8)
-                        .padding(.leading, 12)
+                        if !isMaximized {
+                            HMSEndCallButton(type: .hls)
+                                .padding(.top, 8)
+                                .padding(.leading, 12)
+                        }
                     }
             }
             .onAppear() {
