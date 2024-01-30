@@ -37,12 +37,12 @@ struct HMSHLSLayout: View {
                     
                     layout {
                         HMSHLSViewerScreen(isMaximized: $isMaximized)
+                            .frame(height: !isMaximized && verticalSizeClass == .regular ? (reader.size.width * 9)/16 : nil)
 
                         if !isMaximized {
                             
                             if verticalSizeClass == .regular {
                                 chatScreen
-                                    .frame(height: (reader.size.height * 2)/3)
                             }
                             else {
                                 chatScreen
@@ -55,10 +55,10 @@ struct HMSHLSLayout: View {
                     if verticalSizeClass == .regular {
                         VStack {
                             HMSHLSViewerScreen(isMaximized: $isMaximized)
+                                .frame(height: !isMaximized ? (reader.size.width * 9)/16 : nil)
 
                             if !isMaximized {
                                 chatScreen
-                                    .frame(height: (reader.size.height * 2)/3)
                             }
                         }
                     }
