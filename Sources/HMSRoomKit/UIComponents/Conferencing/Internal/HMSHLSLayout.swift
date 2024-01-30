@@ -100,6 +100,12 @@ struct HMSHLSLayout: View {
                             Text("Started \(streamStartedText) ago").font(.captionRegular12)
                                 .foreground(.onSurfaceMedium)
                         }
+                        if roomModel.recordingState == .recording {
+                            Text("·").font(.captionRegular12)
+                                .foreground(.onSurfaceMedium)
+                            Text("Recording").font(.captionRegular12)
+                                .foreground(.onSurfaceMedium)
+                        }
                     }
                 }
             }.padding(16)
