@@ -104,7 +104,9 @@ struct HMSHLSLayout: View {
                 }
             }.padding(16)
             HMSDivider(color: currentTheme.colorTheme.borderBright)
-        }.background(.surfaceDim, cornerRadius: 0).onReceive(descriptionTimer) { time in
+        }
+        .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
+        .onReceive(descriptionTimer) { time in
             refreshStreamStartedText()
         }.onAppear() {
             refreshStreamStartedText()
