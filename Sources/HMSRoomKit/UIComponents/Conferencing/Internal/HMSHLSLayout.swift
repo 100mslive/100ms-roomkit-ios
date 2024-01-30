@@ -123,7 +123,11 @@ struct HMSHLSLayout: View {
         let canScreenShare = roomModel.userCanShareScreen
         
         VStack(spacing: 0) {
-            descriptionPane
+            
+            if keyboardState.wrappedValue == .hidden {
+                descriptionPane
+            }
+            
             HStack {
                 HMSChatScreen(content: {
                     

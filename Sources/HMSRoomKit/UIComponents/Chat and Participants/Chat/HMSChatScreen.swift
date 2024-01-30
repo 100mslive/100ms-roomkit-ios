@@ -116,7 +116,9 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
             
             VStack {
                 
-                contentV()
+                if keyboardState.wrappedValue == .hidden {
+                    contentV()
+                }
                 
                 if let localPeerModel = roomModel.localPeerModel {
                     
@@ -148,7 +150,9 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
                                     HMSSendChatField(recipient: recipient)
                                         .background(.surfaceDefault, cornerRadius: 8)
                                     
-                                    content()
+                                    if keyboardState.wrappedValue == .hidden {
+                                        content()
+                                    }
                                 }
                             }
                         }
