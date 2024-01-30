@@ -46,7 +46,7 @@ struct HMSHLSLayout: View {
                             }
                             else {
                                 chatScreen
-                                    .frame(width: reader.size.width/2.2)
+                                    .frame(width: reader.size.width/2.5)
                             }
                         }
                     }
@@ -68,7 +68,7 @@ struct HMSHLSLayout: View {
                             
                             if !isMaximized {
                                 chatScreen
-                                    .frame(width: reader.size.width/2.2)
+                                    .frame(width: reader.size.width/2.5)
                             }
                         }
                     }

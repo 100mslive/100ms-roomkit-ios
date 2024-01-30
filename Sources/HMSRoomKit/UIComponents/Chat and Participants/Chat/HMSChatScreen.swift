@@ -12,6 +12,7 @@ import HMSRoomModels
 
 public struct HMSChatScreen<Content, ContentV>: View where Content : View, ContentV: View {
     
+    @Environment(\.keyboardState) var keyboardState
     @Environment(\.conferenceParams) var conferenceParams
     
     @EnvironmentObject var currentTheme: HMSUITheme
@@ -96,9 +97,10 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
         let messages =  roomModel.messages
         
         return ZStack {
-            if !isTransparentMode {
+            if keyboardState.wrappedValue == .hidden && !isTransparentMode {
                 if messages.isEmpty {
                     HMSChatPlaceholderView()
+                        .padding()
                 }
             }
             HMSChatListView(recipient: $recipient, isTransparentMode: isTransparentMode)

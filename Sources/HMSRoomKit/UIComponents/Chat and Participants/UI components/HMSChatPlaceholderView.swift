@@ -16,13 +16,17 @@ struct HMSChatPlaceholderView: View {
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+                .minimumScaleFactor(0.5)
             Text("Start a conversation")
                 .font(.heading6Semibold20)
                 .foreground(.onSurfaceHigh)
-            Text("There are no messages here yet. Start a conversation by sending a message.").multilineTextAlignment(.center).font(.body2Regular14)
+            Text("There are no messages here yet. Start a conversation by sending a message.")
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
+                .multilineTextAlignment(.center)
+                .font(.body2Regular14)
                 .foreground(.onSurfaceMedium)
         }
-        .minimumScaleFactor(0.3)
     }
 }
 
