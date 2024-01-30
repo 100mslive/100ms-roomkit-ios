@@ -31,8 +31,11 @@ struct HMSHLSPlayerControlsView: View {
     
     var body: some View {
         Color.clear
-            .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "hls-quality-picker"))) { _ in
-                isPopoverPresented.toggle()
+            .sheet(isPresented: $isPopoverPresented) {
+                HMSSheet {
+                    HMSHLSQualityPickerView(player: player)
+                }
+                .edgesIgnoringSafeArea(.all)
             }
             .overlay {
                 Color.clear
@@ -110,12 +113,6 @@ struct HMSHLSPlayerControlsView: View {
                         .padding(.top, 4)
                         .padding(.trailing, 8)
                     }
-            }
-            .sheet(isPresented: $isPopoverPresented) {
-                HMSSheet {
-                    HMSHLSQualityPickerView(player: player)
-                }
-                .edgesIgnoringSafeArea(.all)
             }
             .onAppear() {
                 let player = player._nativePlayer
