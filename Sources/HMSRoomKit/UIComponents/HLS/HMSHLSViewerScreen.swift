@@ -82,6 +82,13 @@ public struct HMSHLSViewerScreen: View {
             }
 #endif
         }
+        .overlay(alignment: .topLeading) {
+            if !isMaximized {
+                HMSEndCallButton(type: .hls)
+                    .padding(.top, 8)
+                    .padding(.leading, 12)
+            }
+        }
         .environment(\.hlsPlayerPreferences, $hlsPlaybackPreference)
     }
 }

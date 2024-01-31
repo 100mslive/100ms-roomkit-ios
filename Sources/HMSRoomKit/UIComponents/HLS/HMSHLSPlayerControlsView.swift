@@ -108,13 +108,6 @@ struct HMSHLSPlayerControlsView: View {
                         .padding(.trailing, 12)
                     }
                     .opacity(hlsPlayerPreferences.isControlsHidden.wrappedValue ? 0.0 : 1.0)
-                    .overlay(alignment: .topLeading) {
-                        if !isMaximized {
-                            HMSEndCallButton(type: .hls)
-                                .padding(.top, 8)
-                                .padding(.leading, 12)
-                        }
-                    }
             }
             .onAppear() {
                 let player = player._nativePlayer
