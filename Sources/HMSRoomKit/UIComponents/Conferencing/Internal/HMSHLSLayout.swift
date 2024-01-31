@@ -92,20 +92,21 @@ struct HMSHLSLayout: View {
                 HMSCompanyLogoView()
                 VStack {
                     HStack {
-                        Text("\(roomModel.viewerCountDisplayString) watching").font(.captionRegular12)
-                            .foreground(.onSurfaceMedium)
+                        Text("\(roomModel.viewerCountDisplayString) watching").lineLimit(1).font(.captionRegular12)
+                            .foreground(.onSurfaceMedium).layoutPriority(2)
                         if !streamStartedText.isEmpty {
                             Text("·").font(.captionRegular12)
                                 .foreground(.onSurfaceMedium)
-                            Text("Started \(streamStartedText) ago").font(.captionRegular12)
-                                .foreground(.onSurfaceMedium)
+                            Text("Started \(streamStartedText) ago").lineLimit(1).font(.captionRegular12)
+                                .foreground(.onSurfaceMedium).layoutPriority(1)
                         }
                         if roomModel.recordingState == .recording {
                             Text("·").font(.captionRegular12)
                                 .foreground(.onSurfaceMedium)
-                            Text("Recording").font(.captionRegular12)
+                            Text("Recording").lineLimit(1).truncationMode(.tail).font(.captionRegular12)
                                 .foreground(.onSurfaceMedium)
                         }
+                        Spacer()
                     }
                 }
             }.padding(16)
