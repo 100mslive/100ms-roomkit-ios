@@ -250,7 +250,7 @@ struct HMSChatListView: View {
                     HMSNewMessagesButton().onTapGesture {
                         if let lastId = messages.last?.messageID {
                             withAnimation {
-                                scrollView.scrollTo(lastId, anchor: nil)
+                                scrollView.scrollTo(lastId, anchor: .top)
                             }
                         }
                     }.mirrorV()
@@ -267,7 +267,7 @@ struct HMSChatListView: View {
             .onChange(of: messages) { messages in
                 if let lastId = messages.last?.messageID {
                     withAnimation {
-                        scrollView.scrollTo(lastId, anchor: nil)
+                        scrollView.scrollTo(lastId, anchor: .top)
                     }
                 }
             }
@@ -275,7 +275,7 @@ struct HMSChatListView: View {
                 scrollProxy = scrollView
                 if let lastId = messages.last?.messageID {
                     withAnimation {
-                        scrollView.scrollTo(lastId, anchor: nil)
+                        scrollView.scrollTo(lastId, anchor: .top)
                     }
                 }
             }
