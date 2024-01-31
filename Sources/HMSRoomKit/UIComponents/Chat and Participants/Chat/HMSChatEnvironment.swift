@@ -16,9 +16,11 @@ extension HMSChatListView {
         }
         
         var pinnedMessagePosition: Position
+        var isPlain = false
         
-        public init(pinnedMessagePosition: Position) {
+        public init(pinnedMessagePosition: Position, isPlain: Bool = false) {
             self.pinnedMessagePosition = pinnedMessagePosition
+            self.isPlain = isPlain
         }
         
         struct Key: EnvironmentKey {

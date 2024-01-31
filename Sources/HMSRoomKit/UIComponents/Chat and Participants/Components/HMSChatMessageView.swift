@@ -13,6 +13,8 @@ import HMSRoomModels
 
 struct HMSChatMessageView: View {
     
+    @Environment(\.chatScreenAppearance) var chatScreenAppearance
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var theme: HMSUITheme
     
@@ -56,11 +58,11 @@ struct HMSChatMessageView: View {
 //                        .foreground(isPartOfTransparentChat ? .white : .onSurfaceHigh)
 //                        .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
                     
-//                    if !isPartOfTransparentChat {
+                    if !chatScreenAppearance.isPlain.wrappedValue {
                         Text(formatter.string(from: messageModel.time))
                             .font(.captionRegular12).foreground(.onSurfaceMedium)
 //                            .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
-//                    }
+                    }
                     
                     if messageModel.recipient.type == .peer, let peerParticipant = messageModel.recipient.peerRecipient {
                         Text("to \(peerParticipant.isLocal ? "You" : peerParticipant.name) (DM)")
@@ -80,35 +82,35 @@ struct HMSChatMessageView: View {
 
                         Spacer()
                         
-                        //                    if !isPartOfTransparentChat {
-                        Button() {
-                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
-                                isPopoverPresented.toggle()
-                            }
-                            
-                        } label: {
-                            Image(assetName: "vertical-ellipsis")
-                                .resizable()
-                                .frame(width: 3.33, height: 15)
-                                .padding(.horizontal, 9)
-                        }
-                        .foreground(.onSurfaceLow)
-                        .sheet(isPresented: $isPopoverPresented, content: {
-                            HMSSheet {
-                                if verticalSizeClass == .regular {
-                                    HMSMessageOptionsView(messageModel: messageModel, recipient: $recipient)
+                        if !chatScreenAppearance.isPlain.wrappedValue {
+                            Button() {
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+                                    isPopoverPresented.toggle()
                                 }
-                                else {
-                                    ScrollView {
+                                
+                            } label: {
+                                Image(assetName: "vertical-ellipsis")
+                                    .resizable()
+                                    .frame(width: 3.33, height: 15)
+                                    .padding(.horizontal, 9)
+                            }
+                            .foreground(.onSurfaceLow)
+                            .sheet(isPresented: $isPopoverPresented, content: {
+                                HMSSheet {
+                                    if verticalSizeClass == .regular {
                                         HMSMessageOptionsView(messageModel: messageModel, recipient: $recipient)
                                     }
+                                    else {
+                                        ScrollView {
+                                            HMSMessageOptionsView(messageModel: messageModel, recipient: $recipient)
+                                        }
+                                    }
                                 }
-                            }
-                            .edgesIgnoringSafeArea(.all)
-                            .environmentObject(theme)
-                        })
-                        //                    }
+                                .edgesIgnoringSafeArea(.all)
+                                .environmentObject(theme)
+                            })
+                        }
                     }
                 }
                 .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))

@@ -153,7 +153,7 @@ struct HMSHLSLayout: View {
                             .padding([.bottom], 8)
                     }
                 }
-                .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom)))
+                .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom, isPlain: true)))
             }
         }
     }
