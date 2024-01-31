@@ -92,7 +92,7 @@ struct HMSHLSLayout: View {
                 HMSCompanyLogoView()
                 VStack {
                     HStack {
-                        Text("\(roomModel.viewerCountDisplayString) watching").lineLimit(1).font(.captionRegular12)
+                        Text("\(roomModel.participantCountDisplayString) watching").lineLimit(1).font(.captionRegular12)
                             .foreground(.onSurfaceMedium).layoutPriority(2)
                         if !streamStartedText.isEmpty {
                             Text("·").font(.captionRegular12)
