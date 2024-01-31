@@ -35,6 +35,7 @@ struct HMSChatMessageView: View {
     var body: some View {
         if isPartOfTransparentChat {
             messageView
+                .padding(8)
                 .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
         }
         else {
