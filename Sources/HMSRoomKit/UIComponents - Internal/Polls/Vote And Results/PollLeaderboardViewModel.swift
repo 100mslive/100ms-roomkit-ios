@@ -183,4 +183,12 @@ extension TimeInterval {
             return "\(seconds)s"
         }
     }
+    
+    var stringTimeShort: String {
+        if hours != 0 {
+            return "\(hours):\(minutes):\(seconds)"
+        } else {
+            return "\(minutes):\(seconds < 10 ? "0" : "")\(seconds)"
+        }
+    }
 }

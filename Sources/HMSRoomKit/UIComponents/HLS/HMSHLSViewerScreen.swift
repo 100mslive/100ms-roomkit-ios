@@ -22,7 +22,8 @@ public struct HMSHLSViewerScreen: View {
     @State var streamFinished = false
     @State var preparingToPlay = true
     @State var isBuffering = false
-    
+    @State var isPlaying: Bool = false
+
     @Binding var isMaximized: Bool
     
     @State var resetGesture = false
@@ -34,13 +35,13 @@ public struct HMSHLSViewerScreen: View {
         Group {
 #if Preview
             HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!, resetGesture: $resetGesture) { player in
-                HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
+                HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized, isPlaying: $isPlaying, isSeekEnabled: false)
             }
 #else
-            if roomModel.hlsVariants.first?.url != nil {
+            if let variant = roomModel.hlsVariants.first {
                 
                 HMSHLSPlayerView(resetGesture: $resetGesture) { player in
-                    HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
+                    HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized, isPlaying: $isPlaying, isSeekEnabled: variant.playlistType == .dvr)
                 }
                 .onResolutionChanged { size in
                     print("resolution: \(size)")
@@ -55,7 +56,7 @@ public struct HMSHLSViewerScreen: View {
                     NotificationCenter.default.post(name: .init(rawValue: "poll-hls-cue"), object: nil, userInfo: ["pollID" : pollID])
                 }
                 .onPlaybackStateChanged { state in
-                    
+                    isPlaying = state == .playing
                     isBuffering = state == .buffering
                     
                     if state == .playing {
@@ -106,7 +107,7 @@ public struct HMSHLSViewerScreen: View {
 struct HMSHLSViewerScreen_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSHLSViewerScreen(isMaximized: .constant(false))
+        HMSHLSViewerScreen(isPlaying: true, isMaximized: .constant(false))
             .environmentObject(HMSRoomModel.dummyRoom(1))
             .environmentObject(HMSUITheme())
 #endif
