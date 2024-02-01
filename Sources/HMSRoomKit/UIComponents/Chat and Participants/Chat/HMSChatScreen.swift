@@ -75,9 +75,9 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
             
             chatListView
             
-            if let chatScopes {
-                sendMessageView
-                    .onAppear() {
+            sendMessageView
+                .onAppear() {
+                    if let chatScopes {
                         if chatScopes.contains(.public) {
                             recipient = .everyone
                         }
@@ -88,16 +88,17 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
                             recipient = nil
                         }
                     }
-            }
+                }
         }
     }
     
     var chatListView: some View {
         
+        let chatScopes = conferenceParams.chat?.chatScopes
         let messages =  roomModel.messages
         
         return ZStack {
-            if keyboardState.wrappedValue == .hidden && !isTransparentMode {
+            if keyboardState.wrappedValue == .hidden && !isTransparentMode && (chatScopes?.count ?? 0) > 0 {
                 if messages.isEmpty {
                     HMSChatPlaceholderView()
                         .padding()
@@ -158,6 +159,30 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
                         }
                     }
                     .padding(.bottom, 16)
+                }
+            }
+        }
+        else {
+            VStack(spacing: 8) {
+                
+                if keyboardState.wrappedValue == .hidden {
+                    contentV()
+                }
+                
+                HStack(spacing: 8) {
+                    HStack {
+                        Spacer()
+                        Text("Chat disabled.")
+                            .foreground(.onSurfaceMedium)
+                            .font(.body2Regular14)
+                        Spacer()
+                    }
+                    .padding(.vertical, 8)
+                    .background(.surfaceDefault, cornerRadius: 8)
+                    
+                    if keyboardState.wrappedValue == .hidden {
+                        content()
+                    }
                 }
             }
         }
