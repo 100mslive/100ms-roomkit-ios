@@ -65,8 +65,6 @@ struct PollCreateView: View {
                             Group {
                                 SwitchView(text: "Hide vote count", isOn: $model.hideVotes)
                                 Spacer().frame(height: 24)
-                                SwitchView(text: "Make results anonymous", isOn: $model.anonymous)
-                                Spacer().frame(height: 24)
                             }
                             
                             Group {
