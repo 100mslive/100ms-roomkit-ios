@@ -23,6 +23,14 @@ struct HMSHLSLayout: View {
     
     var body: some View {
         
+        let isParticipantListEnabled = conferenceComponentParam.participantList != nil
+        let isBrbEnabled = conferenceComponentParam.brb != nil
+        let isHandRaiseEnabled = conferenceComponentParam.onStageExperience != nil
+        let canStartRecording = roomModel.userCanStartStopRecording
+        let canScreenShare = roomModel.userCanShareScreen
+        
+        let isChatEnabled = conferenceComponentParam.chat != nil
+        
         ZStack {
             
             Color.clear
@@ -34,6 +42,9 @@ struct HMSHLSLayout: View {
                     
                     let layout = verticalSizeClass == .compact ? AnyLayout(HStackLayout())
                     : AnyLayout(VStackLayout())
+                    
+                    let layout2 = verticalSizeClass == .compact ? AnyLayout(VStackLayout())
+                    : AnyLayout(HStackLayout())
                     
                     layout {
                         HMSHLSViewerScreen(isMaximized: $isMaximized)
@@ -50,25 +61,72 @@ struct HMSHLSLayout: View {
                             }
                         }
                     }
-                }
-                else {
-                    if verticalSizeClass == .regular {
-                        VStack {
-                            HMSHLSViewerScreen(isMaximized: $isMaximized)
-                                .frame(height: !isMaximized ? (reader.size.width * 9)/16 : nil)
-
-                            if !isMaximized {
-                                chatScreen
+                    .overlay(alignment: verticalSizeClass == .regular ? .bottom : .trailing) {
+                        if !isChatEnabled {
+                            
+                            layout2 {
+                                if let localPeerModel = roomModel.localPeerModel {
+                                    HMSHandRaisedToggle()
+                                        .environmentObject(localPeerModel)
+                                }
+                                
+                                if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+                                    HMSOptionsToggleView(isHLSViewer: true)
+                                }
                             }
                         }
                     }
-                    else {
-                        HStack(spacing: 0) {
-                            HMSHLSViewerScreen(isMaximized: $isMaximized)
+                }
+                else {
+                    VStack {
+                        if verticalSizeClass == .regular {
+                            VStack {
+                                HMSHLSViewerScreen(isMaximized: $isMaximized)
+                                    .frame(height: !isMaximized ? (reader.size.width * 9)/16 : nil)
+                                
+                                if !isMaximized {
+                                    chatScreen
+                                }
+                            }
+                        }
+                        else {
+                            HStack(spacing: 0) {
+                                HMSHLSViewerScreen(isMaximized: $isMaximized)
+                                
+                                if !isMaximized {
+                                    chatScreen
+                                        .frame(width: reader.size.width/2.5)
+                                }
+                            }
+                        }
+                    }
+                    .overlay(alignment: verticalSizeClass == .regular ? .bottom : .trailing) {
+                        
+                        if !isChatEnabled {
                             
-                            if !isMaximized {
-                                chatScreen
-                                    .frame(width: reader.size.width/2.5)
+                            if verticalSizeClass == .regular {
+                                HStack {
+                                    if let localPeerModel = roomModel.localPeerModel {
+                                        HMSHandRaisedToggle()
+                                            .environmentObject(localPeerModel)
+                                    }
+                                    
+                                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+                                        HMSOptionsToggleView(isHLSViewer: true)
+                                    }
+                                }
+                            }
+                            else {
+                                VStack {
+                                    if let localPeerModel = roomModel.localPeerModel {
+                                        HMSHandRaisedToggle()
+                                            .environmentObject(localPeerModel)
+                                    }
+                                    
+                                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+                                        HMSOptionsToggleView(isHLSViewer: true)
+                                    }
+                                }
                             }
                         }
                     }
@@ -76,6 +134,11 @@ struct HMSHLSLayout: View {
             }
         }
         .background(.backgroundDim, cornerRadius: 0)
+        .onAppear() {
+            if !isChatEnabled {
+                isMaximized = true
+            }
+        }
     }
     
     @Environment(\.keyboardState) var keyboardState

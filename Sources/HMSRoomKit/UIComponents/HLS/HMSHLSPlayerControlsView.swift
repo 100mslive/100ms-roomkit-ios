@@ -11,6 +11,8 @@ import HMSRoomModels
 
 struct HMSHLSPlayerControlsView: View {
     
+    @Environment(\.conferenceParams) var conferenceParams
+    
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @EnvironmentObject var roomModel: HMSRoomModel
     
@@ -30,6 +32,9 @@ struct HMSHLSPlayerControlsView: View {
     @Environment(\.hlsPlayerPreferences) var hlsPlayerPreferences
     
     var body: some View {
+        
+        let isChatEnabled = conferenceParams.chat != nil
+        
         Color.clear
             .sheet(isPresented: $isPopoverPresented) {
                 HMSSheet {
@@ -40,20 +45,22 @@ struct HMSHLSPlayerControlsView: View {
             .overlay {
                 Color.clear
                     .overlay(alignment: .bottomTrailing) {
-                        Button {
-                            hlsPlayerPreferences.wrappedValue.resetHideTask?()
-                            
-                            withAnimation {
-                                isMaximized.toggle()
+                        if isChatEnabled {
+                            Button {
+                                hlsPlayerPreferences.wrappedValue.resetHideTask?()
+                                
+                                withAnimation {
+                                    isMaximized.toggle()
+                                }
+                            } label: {
+                                Image(assetName: isMaximized ? "minimize-icon" : "maximize-icon")
+                                    .resizable()
+                                    .frame(width: 32, height: 32)
+                                    .foreground(.white)
                             }
-                        } label: {
-                            Image(assetName: isMaximized ? "minimize-icon" : "maximize-icon")
-                                .resizable()
-                                .frame(width: 32, height: 32)
-                                .foreground(.white)
+                            .padding(.bottom, 8)
+                            .padding(.trailing, 12)
                         }
-                        .padding(.bottom, 8)
-                        .padding(.trailing, 12)
                     }
                     .overlay(alignment: .topTrailing) {
                         

@@ -11,6 +11,8 @@ import HMSRoomModels
 
 public struct HMSHLSViewerScreen: View {
     
+    @Environment(\.conferenceParams) var conferenceParams
+    
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -24,6 +26,9 @@ public struct HMSHLSViewerScreen: View {
     @Binding var isMaximized: Bool
     
     public var body: some View {
+        
+        let isChatEnabled = conferenceParams.chat != nil
+        
         Group {
 #if Preview
             HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!) { player in
@@ -83,7 +88,7 @@ public struct HMSHLSViewerScreen: View {
 #endif
         }
         .overlay(alignment: .topLeading) {
-            if !isMaximized {
+            if !isMaximized || !isChatEnabled {
                 HMSEndCallButton(type: .hls)
                     .padding(.top, 8)
                     .padding(.leading, 12)
