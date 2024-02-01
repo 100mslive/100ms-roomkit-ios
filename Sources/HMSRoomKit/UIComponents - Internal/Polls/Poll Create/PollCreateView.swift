@@ -92,7 +92,7 @@ struct PollCreateView: View {
                                 Text("Previous Polls/Quizzes").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
                                 ForEach(model.currentPolls) { pollListModel in
                                     NavigationLink() {
-                                        if let createModel = pollListModel.createModel {
+                                        if pollListModel.state == .created, let createModel = pollListModel.createModel {
                                             PollQuestionsCreateView(model: QuestionCreateViewModel(pollModel: createModel)) }
                                         else if let resultModel = pollListModel.resultModel {
                                             PollVoteView(model: resultModel)
