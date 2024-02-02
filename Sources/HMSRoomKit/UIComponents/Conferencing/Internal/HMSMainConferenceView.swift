@@ -11,9 +11,6 @@ import HMSRoomModels
 
 struct HMSMainConferenceView: View {
     
-    @Environment(\.controlsState) var controlsState
-    @EnvironmentObject var currentTheme: HMSUITheme
-    
     @Binding var isChatPresented: Bool
     let isHLSViewer: Bool
     let isChatOverlay: Bool
@@ -23,32 +20,12 @@ struct HMSMainConferenceView: View {
         GeometryReader { geo in
             
             if isHLSViewer {
-                HMSHLSViewerScreen()
-                    .edgesIgnoringSafeArea(.all)
-                    .overlay(alignment: .top) {
-                        HMSTopControlStrip()
-                            .padding([.bottom,.horizontal], 16)
-                            .transition(.move(edge: .top))
-                            .background (
-                                topBarGradient
-                                    .edgesIgnoringSafeArea(.all)
-                            )
-                            .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
-                            .opacity(controlsState.wrappedValue == .hidden ? 0 : 1)
-                    }
+                HMSHLSLayout()
             }
             else {
                 HMSPeerLayout()
             }
         }
-    }
-    
-    var topBarGradient: some View {
-        LinearGradient(
-            gradient: Gradient(colors: [currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.64), currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.0)]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
     }
 }
 
@@ -66,7 +43,7 @@ struct HMSMainConferenceView_Previews: PreviewProvider {
         
         @State var isChatPresented = false
         
-        HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: false, isChatOverlay: false)
+        HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: true, isChatOverlay: false)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(HMSPrebuiltOptions())

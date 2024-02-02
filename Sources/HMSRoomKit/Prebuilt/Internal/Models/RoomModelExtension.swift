@@ -82,6 +82,7 @@ extension HMSRoomModel {
 }
 
 // Convenience properties and methods
+@MainActor
 extension HMSRoomModel {
     
     var highlightedPeers: [HMSPeerModel] {

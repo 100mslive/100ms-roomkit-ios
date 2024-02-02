@@ -20,15 +20,15 @@ struct HMSEndCallButtonView: View {
         case .webrtc:
             return "hangup"
         case .hls:
-            return "leave-icon"
+            return "xmark"
         }
     }
     
     var body: some View {
         Image(assetName: iconName)
-            .foreground(.onPrimaryHigh)
-            .frame(width: 40, height: 40)
-            .background(.errorDefault, cornerRadius: 8)
+            .foreground(type == .hls ? .white : .onPrimaryHigh)
+            .frame(width: type == .hls ? 32 : 40, height: type == .hls ? 32 : 40)
+            .background(type == .hls ? .clear : .errorDefault, cornerRadius: 8)
     }
 }
 

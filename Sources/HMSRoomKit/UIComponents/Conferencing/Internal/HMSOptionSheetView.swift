@@ -125,15 +125,6 @@ struct HMSOptionSheetView: View {
                                 }
                         }
                     }
-                    
-                    if isHLSViewer && roomModel.isBeingStreamed {
-                        HMSSessionMenuButton(text: "Quality", subText:"(\(hlsPlaybackQuality.wrappedValue.rawValue))", image: "gear-icon", highlighted: false, isDisabled: false)
-                            .onTapGesture {
-                                NotificationCenter.default.post(name: .init(rawValue: "hls-quality-picker"), object: nil)
-                                
-                                dismiss()
-                            }
-                    }
                 }
                 .padding(.bottom)
             }

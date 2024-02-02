@@ -9,24 +9,36 @@
 import SwiftUI
 import HMSRoomModels
 
-struct HMSHLSViewerScreen: View {
+public struct HMSHLSViewerScreen: View {
+    
+    @Environment(\.conferenceParams) var conferenceParams
+    
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @EnvironmentObject var roomModel: HMSRoomModel
+    
+    @State var hlsPlaybackPreference: HMSHLSPreferences = .init(isControlsHidden: true)
     
     @State var streamFinished = false
     @State var preparingToPlay = true
     @State var isBuffering = false
     
-    var body: some View {
+    @Binding var isMaximized: Bool
+    
+    public var body: some View {
+        
+        let isChatEnabled = conferenceParams.chat != nil
+        
         Group {
 #if Preview
             HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!) { player in
-                HMSHLSPlayerControlsView(player: player)
+                HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
             }
 #else
             if roomModel.hlsVariants.first?.url != nil {
+                
                 HMSHLSPlayerView { player in
-                    HMSHLSPlayerControlsView(player: player)
+                    HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
                 }
                 .onResolutionChanged { size in
                     print("resolution: \(size)")
@@ -75,13 +87,21 @@ struct HMSHLSViewerScreen: View {
             }
 #endif
         }
+        .overlay(alignment: .topLeading) {
+            if !isMaximized || !isChatEnabled {
+                HMSEndCallButton(type: .hls)
+                    .padding(.top, 8)
+                    .padding(.leading, 12)
+            }
+        }
+        .environment(\.hlsPlayerPreferences, $hlsPlaybackPreference)
     }
 }
 
 struct HMSHLSViewerScreen_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSHLSViewerScreen()
+        HMSHLSViewerScreen(isMaximized: .constant(false))
             .environmentObject(HMSRoomModel.dummyRoom(1))
             .environmentObject(HMSUITheme())
 #endif

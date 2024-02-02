@@ -10,17 +10,26 @@ import SwiftUI
 import HMSSDK
 import HMSRoomModels
 
-struct HMSChatScreen: View {
+public struct HMSChatScreen<Content, ContentV>: View where Content : View, ContentV: View {
     
+    @Environment(\.keyboardState) var keyboardState
     @Environment(\.conferenceParams) var conferenceParams
     
     @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
     
-    @State var recipient: HMSRecipient?
+    @State private var recipient: HMSRecipient?
     var isTransparentMode: Bool = false
     
-    var body: some View {
+    @ViewBuilder let content: () -> Content
+    @ViewBuilder let contentV: () -> ContentV
+    public init(isTransparentMode: Bool = false, @ViewBuilder content: @escaping () -> Content, @ViewBuilder contentV: @escaping () -> ContentV) {
+        self.content = content
+        self.contentV = contentV
+        self.isTransparentMode = isTransparentMode
+    }
+    
+    public var body: some View {
         
         Group {
             if isTransparentMode {
@@ -66,9 +75,9 @@ struct HMSChatScreen: View {
             
             chatListView
             
-            if let chatScopes {
-                sendMessageView
-                    .onAppear() {
+            sendMessageView
+                .onAppear() {
+                    if let chatScopes {
                         if chatScopes.contains(.public) {
                             recipient = .everyone
                         }
@@ -79,18 +88,20 @@ struct HMSChatScreen: View {
                             recipient = nil
                         }
                     }
-            }
+                }
         }
     }
     
     var chatListView: some View {
         
+        let chatScopes = conferenceParams.chat?.chatScopes
         let messages =  roomModel.messages
         
         return ZStack {
-            if !isTransparentMode {
+            if keyboardState.wrappedValue == .hidden && !isTransparentMode && (chatScopes?.count ?? 0) > 0 {
                 if messages.isEmpty {
                     HMSChatPlaceholderView()
+                        .padding()
                 }
             }
             HMSChatListView(recipient: $recipient, isTransparentMode: isTransparentMode)
@@ -105,15 +116,22 @@ struct HMSChatScreen: View {
         if chatScopes.count > 0 {
             
             VStack {
+                
+                if keyboardState.wrappedValue == .hidden {
+                    contentV()
+                }
+                
                 if let localPeerModel = roomModel.localPeerModel {
                     
                     VStack(alignment: .leading, spacing: 8) {
                         
-                        HStack {
-                            Text("To")
-                                .foreground(.onSurfaceMedium)
-                                .font(.captionRegular12)
-                            HMSRolePicker(recipient: $recipient)
+                        if !(chatScopes.count == 1 && chatScopes.contains(.public)) {
+                            HStack {
+                                Text("To")
+                                    .foreground(.onSurfaceMedium)
+                                    .font(.captionRegular12)
+                                HMSRolePicker(recipient: $recipient)
+                            }
                         }
                         
                         if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
@@ -131,12 +149,42 @@ struct HMSChatScreen: View {
                         }
                         else {
                             if let recipient {
-                                HMSSendChatField(recipient: recipient)
-                                    .background(.surfaceDefault, cornerRadius: 8)
+                                HStack {
+                                    HMSSendChatField(recipient: recipient)
+                                        .background(.surfaceDefault, cornerRadius: 8)
+                                    
+                                    if keyboardState.wrappedValue == .hidden {
+                                        content()
+                                    }
+                                }
                             }
                         }
                     }
                     .padding(.bottom, 16)
+                }
+            }
+        }
+        else {
+            VStack(spacing: 8) {
+                
+                if keyboardState.wrappedValue == .hidden {
+                    contentV()
+                }
+                
+                HStack(spacing: 8) {
+                    HStack {
+                        Spacer()
+                        Text("Chat disabled.")
+                            .foreground(.onSurfaceMedium)
+                            .font(.body2Regular14)
+                        Spacer()
+                    }
+                    .padding(.vertical, 8)
+                    .background(.surfaceDefault, cornerRadius: 8)
+                    
+                    if keyboardState.wrappedValue == .hidden {
+                        content()
+                    }
                 }
             }
         }
@@ -147,11 +195,11 @@ struct HMSChatView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
         VStack {
-            HMSChatScreen()
+            HMSChatScreen(content: {}, contentV: {})
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(3))
             
-            HMSChatScreen(isTransparentMode: true)
+            HMSChatScreen(isTransparentMode: true, content: {}, contentV: {})
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(3))
             

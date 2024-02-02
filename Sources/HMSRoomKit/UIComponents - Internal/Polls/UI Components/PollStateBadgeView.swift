@@ -75,10 +75,21 @@ extension DateComponentsFormatter {
         result.unitsStyle = .positional
         return result
     }()
+    
+    static var defaultMinutesFormatter: DateComponentsFormatter = {
+       var result = DateComponentsFormatter()
+        result.allowedUnits = [.hour, .minute]
+        result.unitsStyle = .abbreviated
+        return result
+    }()
 }
 
 extension Date {
     var secondsFromNow: String {
         DateComponentsFormatter.defaultSecondsFormatter.string(from: Date(), to: self) ?? ""
+    }
+    
+    var minutesSinceNow: String {
+        DateComponentsFormatter.defaultMinutesFormatter.string(from: self, to: Date()) ?? ""
     }
 }

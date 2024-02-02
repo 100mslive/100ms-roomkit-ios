@@ -12,8 +12,6 @@ import HMSRoomModels
 
 struct HMSBottomControlStrip: View {
     
-    @Environment(\.verticalSizeClass) var verticalSizeClass
-    
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     @Environment(\.menuContext) var menuContext
@@ -21,7 +19,6 @@ struct HMSBottomControlStrip: View {
     @EnvironmentObject var currentTheme: HMSUITheme
     
     @Binding var isChatPresented: Bool
-    @State var isSessionMenuPresented = false
     
     @State var isOptionsSheetPresented: Bool = false
     
@@ -37,12 +34,13 @@ struct HMSBottomControlStrip: View {
         let canStartRecording = roomModel.userCanStartStopRecording
         let canScreenShare = roomModel.userCanShareScreen
         
+        let chatInitialState = conferenceComponentParam.chat?.initialState ?? .close
         
         if let localPeerModel = roomModel.localPeerModel {
             HStack(spacing: 0) {
                 Spacer(minLength: 0)
                 HStack(spacing: 24) {
-                    HMSEndCallButton(type: .hls)
+                    HMSEndCallButton(type: .webrtc)
                     
                     if roomModel.localAudioTrackModel != nil {
                         HMSMicToggle()
@@ -57,7 +55,7 @@ struct HMSBottomControlStrip: View {
                         HMSCameraToggle()
                     }
                     
-                    if isChatEnabled {
+                    if isChatEnabled && !isHLSViewer {
                         HMSChatToggleView()
                             .controlAppearance(isEnabled: !isChatPresented)
                             .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
@@ -67,31 +65,8 @@ struct HMSBottomControlStrip: View {
                     }
                     
                     if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
-                        HMSOptionsToggleView()
+                        HMSOptionsToggleView(isHLSViewer: isHLSViewer)
                             .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
-                            .onTapGesture {
-                                isSessionMenuPresented.toggle()
-                            }
-                            .sheet(isPresented: $isSessionMenuPresented, onDismiss: {
-                                menuContext.wrappedValue = .none
-                            }) {
-                                HMSSheet {
-                                    Group {
-                                        if verticalSizeClass == .regular {
-                                            HMSOptionSheetView(isHLSViewer: isHLSViewer)
-                                        }
-                                        else {
-                                            ScrollView {
-                                                HMSOptionSheetView(isHLSViewer: isHLSViewer)
-                                            }
-                                        }
-                                    }
-                                        .environmentObject(currentTheme)
-                                        .environmentObject(roomModel)
-                                        .environmentObject(localPeerModel)
-                                }
-                                .edgesIgnoringSafeArea(.all)
-                            }
                     }
                 }
                 Spacer(minLength: 0)

@@ -54,7 +54,7 @@ public struct HMSDefaultConferenceScreen: View {
                     }
                 }
                 
-                if isChatOverlay {
+                if isChatOverlay || isHLSViewer {
                     HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
                 }
                 else {
@@ -101,10 +101,12 @@ public struct HMSDefaultConferenceScreen: View {
                 }
             }
         }
-        .ignoresSafeArea(.keyboard)
+//        .ignoresSafeArea(.keyboard)
         // chat overlay
         .overlay(alignment: .bottom) {
-            HMSChatOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+            if isChatOverlay && !isHLSViewer {
+                HMSChatOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+            }
         }
         .overlay {
             if userStreamingState.wrappedValue == .starting {
