@@ -194,9 +194,9 @@ struct HMSHLSLayout: View {
         
         VStack(spacing: 0) {
             
-            if keyboardState.wrappedValue == .hidden {
-                descriptionPane
-            }
+            descriptionPane
+                .frame(height: keyboardState.wrappedValue == .hidden ? nil : 0)
+                .opacity(keyboardState.wrappedValue == .hidden ? 1 : 0)
             
             HStack {
                 HMSChatScreen(content: {
