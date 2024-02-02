@@ -125,11 +125,13 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
                     
                     VStack(alignment: .leading, spacing: 8) {
                         
-                        HStack {
-                            Text("To")
-                                .foreground(.onSurfaceMedium)
-                                .font(.captionRegular12)
-                            HMSRolePicker(recipient: $recipient)
+                        if !(chatScopes.count == 1 && chatScopes.contains(.public)) {
+                            HStack {
+                                Text("To")
+                                    .foreground(.onSurfaceMedium)
+                                    .font(.captionRegular12)
+                                HMSRolePicker(recipient: $recipient)
+                            }
                         }
                         
                         if let customerUserId = localPeerModel.customerUserId, roomModel.chatPeerBlacklist.contains(customerUserId) {
