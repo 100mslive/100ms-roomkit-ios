@@ -65,8 +65,6 @@ struct PollCreateView: View {
                             Group {
                                 SwitchView(text: "Hide vote count", isOn: $model.hideVotes)
                                 Spacer().frame(height: 24)
-                                SwitchView(text: "Make results anonymous", isOn: $model.anonymous)
-                                Spacer().frame(height: 24)
                             }
                             
                             Group {
@@ -92,7 +90,7 @@ struct PollCreateView: View {
                                 Text("Previous Polls/Quizzes").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
                                 ForEach(model.currentPolls) { pollListModel in
                                     NavigationLink() {
-                                        if let createModel = pollListModel.createModel {
+                                        if pollListModel.state == .created, let createModel = pollListModel.createModel {
                                             PollQuestionsCreateView(model: QuestionCreateViewModel(pollModel: createModel)) }
                                         else if let resultModel = pollListModel.resultModel {
                                             PollVoteView(model: resultModel)
