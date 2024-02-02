@@ -121,7 +121,12 @@ class PollCreateModel: ObservableObject, Identifiable {
         
         currentPollsSet.formUnion(allPolls)
         
-        currentPollsSet.forEach { $0.updateValues() }
+        currentPollsSet.forEach {
+            $0.updateValues()
+            if $0.resultModel == nil {
+                $0.resultModel = resultModel(poll: $0.poll)
+            }
+        }
         
         let stateOrder = [HMSPollState.started, HMSPollState.created, HMSPollState.stopped]
         currentPolls = currentPollsSet.sorted { left, right in
