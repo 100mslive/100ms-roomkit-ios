@@ -147,13 +147,80 @@ struct HMSHLSLayout: View {
     let descriptionTimer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
     @State var streamStartedText: String = ""
+    @State var isDescriptionExpanded: Bool = false
     
     @ViewBuilder
     var descriptionPane: some View {
+        Button() {
+            isDescriptionExpanded.toggle()
+        } label: {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack {
+                    HMSCompanyLogoView()
+                    VStack(alignment: .leading, spacing: 4) {
+                        if let headerText = conferenceComponentParam.header?.title {
+                            Text(headerText).font(.subtitle2Semibold14)
+                                .foreground(.onSecondaryHigh)
+                        }
+                        HStack {
+                            Text("\(roomModel.participantCountDisplayString) watching").lineLimit(1).font(.captionRegular12)
+                                .foreground(.onSurfaceMedium).layoutPriority(2)
+                            if !streamStartedText.isEmpty {
+                                Text("·").font(.captionRegular12)
+                                    .foreground(.onSurfaceMedium)
+                                Text("Started \(streamStartedText) ago").lineLimit(1).font(.captionRegular12)
+                                    .foreground(.onSurfaceMedium).layoutPriority(1)
+                            }
+                            if conferenceComponentParam.header?.description != nil {
+                                Text("...more")
+                                    .font(.captionSemibold12)
+                                    .foreground(.onSurfaceHigh)
+                                
+                            }
+                            else if roomModel.recordingState == .recording {
+                                Text("·").font(.captionRegular12)
+                                    .foreground(.onSurfaceMedium)
+                                Text("Recording").lineLimit(1).truncationMode(.tail).font(.captionRegular12)
+                                    .foreground(.onSurfaceMedium)
+                            }
+                            Spacer()
+                        }
+                    }
+                }.padding(16)
+                HMSDivider(color: currentTheme.colorTheme.borderBright)
+            }
+        }
+        .allowsHitTesting(conferenceComponentParam.header?.description != nil)
+        .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
+        .onReceive(descriptionTimer) { time in
+            refreshStreamStartedText()
+        }.onAppear() {
+            refreshStreamStartedText()
+        }
+    }
+    
+    @ViewBuilder
+    var expandedDescriptionPane: some View {
         VStack(alignment: .leading, spacing: 0) {
+            Button() {
+                isDescriptionExpanded.toggle()
+            } label: {
+                HStack {
+                    Text("Description")
+                        .font(.subtitle2Semibold16)
+                        .foreground(.onSurfaceHigh)
+                    Spacer()
+                    Image(systemName: "chevron.down").foreground(.onSurfaceMedium)
+                }.padding(16)
+            }
+            HMSDivider(color: currentTheme.colorTheme.borderBright)
             HStack {
                 HMSCompanyLogoView()
-                VStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    if let headerText = conferenceComponentParam.header?.title {
+                        Text(headerText).font(.subtitle2Semibold14)
+                            .foreground(.onSecondaryHigh)
+                    }
                     HStack {
                         Text("\(roomModel.participantCountDisplayString) watching").lineLimit(1).font(.captionRegular12)
                             .foreground(.onSurfaceMedium).layoutPriority(2)
@@ -173,7 +240,13 @@ struct HMSHLSLayout: View {
                     }
                 }
             }.padding(16)
-            HMSDivider(color: currentTheme.colorTheme.borderBright)
+            if let descriptionText = conferenceComponentParam.header?.description {
+                Text(descriptionText)
+                    .font(.body2Regular14)
+                    .foreground(.onSurfaceMedium)
+                    .padding(.horizontal, 16)
+            }
+            Spacer()
         }
         .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
         .onReceive(descriptionTimer) { time in
@@ -193,31 +266,34 @@ struct HMSHLSLayout: View {
         let canScreenShare = roomModel.userCanShareScreen
         
         VStack(spacing: 0) {
-            
-            descriptionPane
-                .frame(height: keyboardState.wrappedValue == .hidden ? nil : 0)
-                .opacity(keyboardState.wrappedValue == .hidden ? 1 : 0)
-            
-            HStack {
-                HMSChatScreen(content: {
-                    
-                    if let localPeerModel = roomModel.localPeerModel {
+            if !isDescriptionExpanded {
+                descriptionPane
+                    .frame(height: keyboardState.wrappedValue == .hidden ? nil : 0)
+                    .opacity(keyboardState.wrappedValue == .hidden ? 1 : 0)
+                HStack {
+                    HMSChatScreen(content: {
                         
-                        HMSHandRaisedToggle()
-                            .environmentObject(localPeerModel)
-                        
-                        if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
-                            HMSOptionsToggleView(isHLSViewer: true)
+                        if let localPeerModel = roomModel.localPeerModel {
+                            
+                            HMSHandRaisedToggle()
+                                .environmentObject(localPeerModel)
+                            
+                            if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+                                HMSOptionsToggleView(isHLSViewer: true)
+                            }
+                        }
+                    }) {
+                        if keyboardState.wrappedValue == .hidden {
+                            HMSNotificationStackView()
+                                .padding([.bottom], 8)
                         }
                     }
-                }) {
-                    if keyboardState.wrappedValue == .hidden {
-                        HMSNotificationStackView()
-                            .padding([.bottom], 8)
-                    }
+                    .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom, isPlain: true)))
                 }
-                .environment(\.chatScreenAppearance, .constant(.init(pinnedMessagePosition: .bottom, isPlain: true)))
+            } else {
+                expandedDescriptionPane
             }
+            
         }
     }
     

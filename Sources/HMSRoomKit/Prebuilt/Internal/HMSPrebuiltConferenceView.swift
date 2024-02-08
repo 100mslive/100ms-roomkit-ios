@@ -83,6 +83,13 @@ struct HMSPrebuiltConferenceView: View {
                                 screen.brb = nil
                             }
                             
+                            if let header = defaultScreen.elements?.header {
+                                screen.header = .init(title: header.title, description: header.description)
+                            }
+                            else {
+                                screen.header = nil
+                            }
+                            
                             if (defaultScreen.elements?.participant_list) != nil {
                                 screen.participantList = .init()
                             }
@@ -136,6 +143,13 @@ struct HMSPrebuiltConferenceView: View {
                             }
                             else {
                                 screen.brb = nil
+                            }
+                            
+                            if let header = defaultScreen.elements?.header {
+                                screen.header = .init(title: header.title, description: header.description)
+                            }
+                            else {
+                                screen.header = nil
                             }
                             
                             if (defaultScreen.elements?.participant_list) != nil {
