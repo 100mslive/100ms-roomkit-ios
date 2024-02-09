@@ -40,8 +40,8 @@ struct HMSHLSLayout: View {
                 
                 if #available(iOS 16.0, *) {
                     
-                    let layout = verticalSizeClass == .compact ? AnyLayout(HStackLayout())
-                    : AnyLayout(VStackLayout())
+                    let layout = verticalSizeClass == .compact ? AnyLayout(HStackLayout(spacing: 0))
+                    : AnyLayout(VStackLayout(spacing: 0))
                     
                     let layout2 = verticalSizeClass == .compact ? AnyLayout(VStackLayout())
                     : AnyLayout(HStackLayout())
