@@ -12,6 +12,8 @@ import HMSRoomModels
 
 public struct HMSChatScreen<Content, ContentV>: View where Content : View, ContentV: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.keyboardState) var keyboardState
     @Environment(\.conferenceParams) var conferenceParams
     
@@ -37,7 +39,7 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
             }
             else {
                 chatView
-                    .padding(.horizontal, 16)
+                    .padding(verticalSizeClass == .regular ? .horizontal : .leading, 16)
                     .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
             }
         }
