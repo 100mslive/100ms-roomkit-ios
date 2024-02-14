@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSChatListView: View {
     
+    @Environment(\.keyboardState) var keyboardState
+    
     @Environment(\.chatScreenAppearance) var chatScreenAppearance
     
     @Environment(\.conferenceParams) var conferenceParams
@@ -184,6 +186,8 @@ struct HMSChatListView: View {
         }
     }
     
+    @State var isLastMessageVisible = false
+    
     @ViewBuilder
     var messageListView: some View {
         
@@ -212,7 +216,7 @@ struct HMSChatListView: View {
         
         let messages = roomModel.messages
         
-        ScrollViewReader { scrollView in
+        ScrollViewReader { scrollViewProxy in
             ScrollView(showsIndicators: false) {
                 LazyVStack(spacing: isTransparentMode ? 12 : 5) {
                     
@@ -236,12 +240,12 @@ struct HMSChatListView: View {
                             .onAppear() {
                                 if message == messages.last {
                                     showNewMessageButton = false
-                                    
-                                    if let lastId = messages.last?.messageID {
-                                        withAnimation {
-                                            scrollView.scrollTo(lastId, anchor: .top)
-                                        }
-                                    }
+                                    isLastMessageVisible = true
+                                }
+                            }
+                            .onDisappear() {
+                                if message == messages.last {
+                                    isLastMessageVisible = false
                                 }
                             }
                     }
@@ -251,16 +255,43 @@ struct HMSChatListView: View {
                 if showNewMessageButton {
                     HMSNewMessagesButton()
                         .onTapGesture {
-                            if let lastId = messages.last?.messageID {
-                                withAnimation {
-                                    scrollView.scrollTo(lastId, anchor: .top)
-                                }
-                            }
+                            scrollToBottom(scrollViewProxy: scrollViewProxy)
                         }
                 }
             }
             .onChange(of: messages) { messages in
-                showNewMessageButton = true
+                if isLastMessageVisible || keyboardState.wrappedValue == .visible {
+                    scrollToBottom(scrollViewProxy: scrollViewProxy)
+                } else {
+                    showNewMessageButton = true
+                }
+            }
+            .onAppear() {
+                scrollToBottom(scrollViewProxy: scrollViewProxy, animate: false)
+            }
+            .onChange(of: keyboardState.wrappedValue) { keyboardState in
+                if keyboardState == .visible || isLastMessageVisible {
+                    Task { @MainActor in
+                        try? await Task.sleep(nanoseconds: 500_000_000)
+                        scrollToBottom(scrollViewProxy: scrollViewProxy, animate: keyboardState == .visible)
+                    }
+                }
+            }
+        }
+    }
+    
+    func scrollToBottom(scrollViewProxy: ScrollViewProxy, animate: Bool = true) {
+        
+        let messages = roomModel.messages
+        
+        if let lastId = messages.last?.messageID {
+            if animate {
+                withAnimation {
+                    scrollViewProxy.scrollTo(lastId, anchor: .top)
+                }
+            }
+            else {
+                scrollViewProxy.scrollTo(lastId, anchor: .top)
             }
         }
     }
