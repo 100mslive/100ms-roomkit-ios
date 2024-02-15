@@ -32,7 +32,7 @@ struct PollLeaderboardDetailView: View {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Leaderboard").foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
-                            Text("Based on score and time taken to cast the correct answer").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular)
+                            Text("Based on score and time taken to cast the correct answer").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular12)
                         }
                         Spacer()
                     }

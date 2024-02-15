@@ -13,7 +13,7 @@ struct PollQuestionsView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("QUESTION \(model.index) of \(model.count)").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular).frame(maxWidth: .infinity, alignment: .leading)
+            Text("QUESTION \(model.index) of \(model.count)").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular12).frame(maxWidth: .infinity, alignment: .leading)
 
             if model.editing {
                 HMSPickerField(title:"Question Type", options: model.options, selectedOption: $model.selectedOption)

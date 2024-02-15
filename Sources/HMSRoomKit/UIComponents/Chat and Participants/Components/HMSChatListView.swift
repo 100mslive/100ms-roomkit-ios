@@ -22,7 +22,6 @@ struct HMSChatListView: View {
     @State private var showNewMessageButton: Bool = false
     
     @Binding var recipient: HMSRecipient?
-    var isTransparentMode = false
     
     @State var selectedPinnedMessage: HMSRoomModel.PinnedMessage?
     
@@ -46,6 +45,8 @@ struct HMSChatListView: View {
     
     @ViewBuilder
     var pinnedMessageView: some View {
+        
+        let isTransparentMode = chatScreenAppearance.mode.wrappedValue == .transparent
         
         let canPinMessages =  conferenceParams.chat?.allowsPinningMessages ?? false
         let filteredPinnedMessages = roomModel.pinnedMessages.filter{pinnedMessage in !roomModel.chatMessageBlacklist.contains{$0 == pinnedMessage.id}}.suffix(3).reversed()
@@ -191,6 +192,8 @@ struct HMSChatListView: View {
     @ViewBuilder
     var messageListView: some View {
         
+        let isTransparentMode = chatScreenAppearance.mode.wrappedValue == .transparent
+        
         let chatScopes = conferenceParams.chat?.chatScopes
         
         var allowedRoles: [HMSRole] {
@@ -235,7 +238,7 @@ struct HMSChatListView: View {
                     })
                     
                     ForEach(filteredMessages, id:\.self) { message in
-                        HMSChatMessageView(messageModel: message, isPartOfTransparentChat: isTransparentMode, recipient: $recipient)
+                        HMSChatMessageView(messageModel: message, recipient: $recipient)
                             .id(message.messageID)
                             .onAppear() {
                                 if message == messages.last {
@@ -307,9 +310,10 @@ struct HMSChatListView_Previews: PreviewProvider {
 #endif
             
 #if Preview
-            HMSChatListView(recipient: .constant(.everyone), isTransparentMode: true)
+            HMSChatListView(recipient: .constant(.everyone))
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(4))
+                .environment(\.chatScreenAppearance, .constant(.init(mode: .plain)))
 #endif
         }
     }

@@ -12,6 +12,8 @@ import HMSRoomModels
 
 public struct HMSChatScreen<Content, ContentV>: View where Content : View, ContentV: View {
     
+    @Environment(\.chatScreenAppearance) var chatScreenAppearance
+    
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @Environment(\.keyboardState) var keyboardState
@@ -21,17 +23,17 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @State private var recipient: HMSRecipient?
-    var isTransparentMode: Bool = false
     
     @ViewBuilder let content: () -> Content
     @ViewBuilder let contentV: () -> ContentV
-    public init(isTransparentMode: Bool = false, @ViewBuilder content: @escaping () -> Content, @ViewBuilder contentV: @escaping () -> ContentV) {
+    public init(@ViewBuilder content: @escaping () -> Content, @ViewBuilder contentV: @escaping () -> ContentV) {
         self.content = content
         self.contentV = contentV
-        self.isTransparentMode = isTransparentMode
     }
     
     public var body: some View {
+        
+        let isTransparentMode = chatScreenAppearance.mode.wrappedValue == .transparent
         
         Group {
             if isTransparentMode {
@@ -96,6 +98,8 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
     
     var chatListView: some View {
         
+        let isTransparentMode = chatScreenAppearance.mode.wrappedValue == .transparent
+        
         let chatScopes = conferenceParams.chat?.chatScopes
         let messages =  roomModel.messages
         
@@ -106,7 +110,7 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
                         .padding()
                 }
             }
-            HMSChatListView(recipient: $recipient, isTransparentMode: isTransparentMode)
+            HMSChatListView(recipient: $recipient)
         }
     }
     
@@ -201,9 +205,10 @@ struct HMSChatView_Previews: PreviewProvider {
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(3))
             
-            HMSChatScreen(isTransparentMode: true, content: {}, contentV: {})
+            HMSChatScreen(content: {}, contentV: {})
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(3))
+                .environment(\.chatScreenAppearance, .constant(.init(mode: .transparent)))
             
         }
 #endif
