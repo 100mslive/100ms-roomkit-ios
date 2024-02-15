@@ -25,19 +25,21 @@ public struct HMSHLSViewerScreen: View {
     
     @Binding var isMaximized: Bool
     
+    @State var resetGesture = false
+    
     public var body: some View {
         
         let isChatEnabled = conferenceParams.chat != nil
         
         Group {
 #if Preview
-            HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!) { player in
+            HMSHLSPlayerView(url: URL(string: "https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8")!, resetGesture: $resetGesture) { player in
                 HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
             }
 #else
             if roomModel.hlsVariants.first?.url != nil {
                 
-                HMSHLSPlayerView { player in
+                HMSHLSPlayerView(resetGesture: $resetGesture) { player in
                     HMSHLSPlayerControlsView(player: player, isMaximized: $isMaximized)
                 }
                 .onResolutionChanged { size in
@@ -93,6 +95,9 @@ public struct HMSHLSViewerScreen: View {
                     .padding(.top, 8)
                     .padding(.leading, 12)
             }
+        }
+        .onChange(of: isMaximized) { isMaximized in
+            resetGesture = true
         }
         .environment(\.hlsPlayerPreferences, $hlsPlaybackPreference)
     }
