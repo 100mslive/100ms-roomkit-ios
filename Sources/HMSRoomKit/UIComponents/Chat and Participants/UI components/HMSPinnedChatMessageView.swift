@@ -11,7 +11,6 @@ import HMSRoomModels
 
 struct HMSPinnedChatMessageView: View {
     
-    let scrollProxy: ScrollViewProxy?
     let pinnedMessage: HMSRoomModel.PinnedMessage
     var isPartOfTransparentChat: Bool
     
@@ -32,7 +31,7 @@ struct HMSPinnedChatMessageView: View {
 
 struct HMSPinnedChatMessageView_Previews: PreviewProvider {
     static var previews: some View {
-        HMSPinnedChatMessageView(scrollProxy: nil, pinnedMessage: .init(text: "This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message", id: "1", pinnedBy: "dummy user"), isPartOfTransparentChat: true)
+        HMSPinnedChatMessageView(pinnedMessage: .init(text: "This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message, This is pinned message", id: "1", pinnedBy: "dummy user"), isPartOfTransparentChat: true)
             .environmentObject(HMSUITheme())
     }
 }

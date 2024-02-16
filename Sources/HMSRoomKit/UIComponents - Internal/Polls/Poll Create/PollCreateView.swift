@@ -42,7 +42,7 @@ struct PollCreateView: View {
                         Spacer().frame(height: 16)
                         if model.canCreatePolls {
                             Group {
-                                Text("Select the type you want to continue with").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular)
+                                Text("Select the type you want to continue with").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular12)
                                 Spacer().frame(height: 16)
                                 HStack(spacing: 16) {
                                     PollTypeButton(text: "Poll", icon: "chart.bar.fill", selected: model.selectedCategory == .poll) {

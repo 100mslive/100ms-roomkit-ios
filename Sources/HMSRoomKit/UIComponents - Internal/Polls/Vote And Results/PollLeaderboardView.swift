@@ -38,7 +38,7 @@ struct PollLeaderboardEntryView: View {
             VStack(alignment: .leading) {
                 Text(model.name).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
                 if !model.score.isEmpty {
-                    Text(model.score).foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular)
+                    Text(model.score).foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular12)
                 }
             }
             Spacer()
@@ -47,12 +47,12 @@ struct PollLeaderboardEntryView: View {
             }
             HStack(spacing: 4) {
                 Image(assetName: "circle-checkmark").foregroundColor(HMSUIColorTheme().onSurfaceMedium).frame(width: 12, height: 12)
-                Text(model.correctAnswers).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().captionRegular)
+                Text(model.correctAnswers).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().captionRegular12)
             }
             if !model.time.isEmpty {
                 HStack(spacing: 4) {
                     Image(assetName: "clock").foregroundColor(HMSUIColorTheme().onSurfaceMedium).frame(width: 12, height: 12)
-                    Text(model.time).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().captionRegular)
+                    Text(model.time).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().captionRegular12)
                 }
             }
         }

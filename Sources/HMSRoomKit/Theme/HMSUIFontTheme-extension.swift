@@ -13,7 +13,7 @@ extension HMSUIFontTheme {
     func fontForToken(_ token: HMSThemeFont) -> Font {
          switch token {
          case .captionRegular12:
-             return captionRegular
+             return captionRegular12
          case .captionSemibold12:
              return captionSemibold12
          case .body2Regular14:

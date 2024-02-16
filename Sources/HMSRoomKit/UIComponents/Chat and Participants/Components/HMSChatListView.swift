@@ -12,18 +12,16 @@ import HMSRoomModels
 
 struct HMSChatListView: View {
     
+    @Environment(\.keyboardState) var keyboardState
+    
     @Environment(\.chatScreenAppearance) var chatScreenAppearance
     
     @Environment(\.conferenceParams) var conferenceParams
     
     @EnvironmentObject var roomModel: HMSRoomModel
-    private let messageCoordinateSpace = "messageCoordinateSpace"
     @State private var showNewMessageButton: Bool = false
     
     @Binding var recipient: HMSRecipient?
-    var isTransparentMode = false
-    
-    @State var scrollProxy: ScrollViewProxy?
     
     @State var selectedPinnedMessage: HMSRoomModel.PinnedMessage?
     
@@ -48,6 +46,8 @@ struct HMSChatListView: View {
     @ViewBuilder
     var pinnedMessageView: some View {
         
+        let isTransparentMode = chatScreenAppearance.mode.wrappedValue == .transparent
+        
         let canPinMessages =  conferenceParams.chat?.allowsPinningMessages ?? false
         let filteredPinnedMessages = roomModel.pinnedMessages.filter{pinnedMessage in !roomModel.chatMessageBlacklist.contains{$0 == pinnedMessage.id}}.suffix(3).reversed()
         
@@ -57,7 +57,7 @@ struct HMSChatListView: View {
                 if filteredPinnedMessages.count < 2, let firstMessage = filteredPinnedMessages.first {
                     
                     HStack {
-                        HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage:firstMessage, isPartOfTransparentChat: isTransparentMode)
+                        HMSPinnedChatMessageView(pinnedMessage:firstMessage, isPartOfTransparentChat: isTransparentMode)
                             .lineLimit(isPinnedViewExpanded ? nil : 2)
                             .background(.white.opacity(0.0001))
                             .onTapGesture {
@@ -101,7 +101,7 @@ struct HMSChatListView: View {
                                 TabView(selection: $selectedPinnedMessage) {
                                     
                                     ForEach(filteredPinnedMessages, id:\.self) { message in
-                                        HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage: message, isPartOfTransparentChat: isTransparentMode)
+                                        HMSPinnedChatMessageView(pinnedMessage: message, isPartOfTransparentChat: isTransparentMode)
                                             .background(.white.opacity(0.0001))
                                             .lineLimit(isPinnedViewExpanded ? nil : 2)
                                             .onTapGesture {
@@ -139,7 +139,7 @@ struct HMSChatListView: View {
                             
                             if isPinnedViewExpanded {
                                 if let selectedPinnedMessage = selectedPinnedMessage {
-                                    HMSPinnedChatMessageView(scrollProxy: scrollProxy, pinnedMessage: selectedPinnedMessage, isPartOfTransparentChat: isTransparentMode)
+                                    HMSPinnedChatMessageView(pinnedMessage: selectedPinnedMessage, isPartOfTransparentChat: isTransparentMode)
                                         .background(.white.opacity(0.0001))
                                         .lineLimit(nil)
                                         .onTapGesture {
@@ -187,8 +187,12 @@ struct HMSChatListView: View {
         }
     }
     
+    @State var isLastMessageVisible = false
+    
     @ViewBuilder
     var messageListView: some View {
+        
+        let isTransparentMode = chatScreenAppearance.mode.wrappedValue == .transparent
         
         let chatScopes = conferenceParams.chat?.chatScopes
         
@@ -215,13 +219,8 @@ struct HMSChatListView: View {
         
         let messages = roomModel.messages
         
-        ScrollViewReader { scrollView in
+        ScrollViewReader { scrollViewProxy in
             ScrollView(showsIndicators: false) {
-                GeometryReader { proxy in
-                    let frame = proxy.frame(in: .named(messageCoordinateSpace))
-                    let offset = frame.minY
-                    Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: offset)
-                }
                 LazyVStack(spacing: isTransparentMode ? 12 : 5) {
                     
                     let filteredMessages = messages.filter({ message in
@@ -229,7 +228,7 @@ struct HMSChatListView: View {
                         return true
 #else
                         // Don't show service messages
-                        guard let sender = message.sender else { return false }
+                        guard message.sender != nil else { return false }
                         
                         // Don't show hidden messages
                         guard !roomModel.chatMessageBlacklist.contains(message.messageID) else { return false }
@@ -238,59 +237,68 @@ struct HMSChatListView: View {
 #endif
                     })
                     
-                    ForEach(filteredMessages.reversed(), id:\.self) { message in
-                        HMSChatMessageView(messageModel: message, isPartOfTransparentChat: isTransparentMode, recipient: $recipient)
+                    ForEach(filteredMessages, id:\.self) { message in
+                        HMSChatMessageView(messageModel: message, recipient: $recipient)
                             .id(message.messageID)
-                            .mirrorV()
+                            .onAppear() {
+                                if message == messages.last {
+                                    showNewMessageButton = false
+                                    isLastMessageVisible = true
+                                }
+                            }
+                            .onDisappear() {
+                                if message == messages.last {
+                                    isLastMessageVisible = false
+                                }
+                            }
                     }
                 }
             }
-            .overlay(alignment: .top) {
+            .overlay(alignment: .bottom) {
                 if showNewMessageButton {
-                    HMSNewMessagesButton().onTapGesture {
-                        if let lastId = messages.last?.messageID {
-                            withAnimation {
-                                scrollView.scrollTo(lastId, anchor: .top)
-                            }
+                    HMSNewMessagesButton()
+                        .onTapGesture {
+                            scrollToBottom(scrollViewProxy: scrollViewProxy)
                         }
-                    }.mirrorV()
-                }
-            }
-            .coordinateSpace(name: messageCoordinateSpace)
-            .mirrorV()
-            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { offset in
-                DispatchQueue.main.async {
-                    let newOffset = offset ?? 0
-                    showNewMessageButton = newOffset < -20
                 }
             }
             .onChange(of: messages) { messages in
-                if let lastId = messages.last?.messageID {
-                    withAnimation {
-                        scrollView.scrollTo(lastId, anchor: .top)
-                    }
+                if isLastMessageVisible || keyboardState.wrappedValue == .visible {
+                    scrollToBottom(scrollViewProxy: scrollViewProxy)
+                } else {
+                    showNewMessageButton = true
                 }
             }
             .onAppear() {
-                scrollProxy = scrollView
-                if let lastId = messages.last?.messageID {
-                    withAnimation {
-                        scrollView.scrollTo(lastId, anchor: .top)
+                scrollToBottom(scrollViewProxy: scrollViewProxy, animate: false)
+            }
+            .onChange(of: keyboardState.wrappedValue) { keyboardState in
+                if keyboardState == .visible || isLastMessageVisible {
+                    Task { @MainActor in
+                        try? await Task.sleep(nanoseconds: 500_000_000)
+                        scrollToBottom(scrollViewProxy: scrollViewProxy, animate: keyboardState == .visible)
                     }
                 }
             }
         }
     }
-}
-
-struct ScrollOffsetPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat? = nil
     
-    static func reduce(value: inout CGFloat?, nextValue: () -> CGFloat?) {
-        value = value ?? nextValue()
+    func scrollToBottom(scrollViewProxy: ScrollViewProxy, animate: Bool = true) {
+        
+        let messages = roomModel.messages
+        
+        if let lastId = messages.last?.messageID {
+            if animate {
+                withAnimation {
+                    scrollViewProxy.scrollTo(lastId, anchor: .top)
+                }
+            }
+            else {
+                scrollViewProxy.scrollTo(lastId, anchor: .top)
+            }
+        }
     }
 }
-
 
 struct HMSChatListView_Previews: PreviewProvider {
     static var previews: some View {
@@ -302,9 +310,10 @@ struct HMSChatListView_Previews: PreviewProvider {
 #endif
             
 #if Preview
-            HMSChatListView(recipient: .constant(.everyone), isTransparentMode: true)
+            HMSChatListView(recipient: .constant(.everyone))
                 .environmentObject(HMSUITheme())
                 .environmentObject(HMSRoomModel.dummyRoom(4))
+                .environment(\.chatScreenAppearance, .constant(.init(mode: .plain)))
 #endif
         }
     }

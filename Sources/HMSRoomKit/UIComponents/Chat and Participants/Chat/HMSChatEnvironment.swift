@@ -11,16 +11,20 @@ extension HMSChatListView {
     
     struct Appearance {
         
+        enum Mode {
+            case plain, transparent, none
+        }
+        
         public enum Position {
             case top, bottom
         }
         
         var pinnedMessagePosition: Position
-        var isPlain = false
+        var mode = Mode.none
         
-        public init(pinnedMessagePosition: Position, isPlain: Bool = false) {
+        public init(pinnedMessagePosition: Position = .top, mode: Mode = .none) {
             self.pinnedMessagePosition = pinnedMessagePosition
-            self.isPlain = isPlain
+            self.mode = mode
         }
         
         struct Key: EnvironmentKey {
