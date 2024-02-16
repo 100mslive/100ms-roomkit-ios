@@ -144,9 +144,6 @@ struct HMSHLSLayout: View {
     @Environment(\.keyboardState) var keyboardState
     @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
     
-    let descriptionTimer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
-    
-    @State var streamStartedText: String = ""
     @State var isDescriptionExpanded: Bool = false
     
     @ViewBuilder
@@ -154,49 +151,10 @@ struct HMSHLSLayout: View {
         Button() {
             isDescriptionExpanded.toggle()
         } label: {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack {
-                    HMSCompanyLogoView()
-                    VStack(alignment: .leading, spacing: 4) {
-                        if let headerText = conferenceComponentParam.header?.title {
-                            Text(headerText).font(.subtitle2Semibold14)
-                                .foreground(.onSecondaryHigh)
-                        }
-                        HStack {
-                            Text("\(roomModel.participantCountDisplayString) watching").lineLimit(1).font(.captionRegular12)
-                                .foreground(.onSurfaceMedium).layoutPriority(2)
-                            if !streamStartedText.isEmpty {
-                                Text("·").font(.captionRegular12)
-                                    .foreground(.onSurfaceMedium)
-                                Text("Started \(streamStartedText) ago").lineLimit(1).font(.captionRegular12)
-                                    .foreground(.onSurfaceMedium).layoutPriority(1)
-                            }
-                            if conferenceComponentParam.header?.description != nil {
-                                Text("...more")
-                                    .font(.captionSemibold12)
-                                    .foreground(.onSurfaceHigh)
-                                
-                            }
-                            else if roomModel.recordingState == .recording {
-                                Text("·").font(.captionRegular12)
-                                    .foreground(.onSurfaceMedium)
-                                Text("Recording").lineLimit(1).truncationMode(.tail).font(.captionRegular12)
-                                    .foreground(.onSurfaceMedium)
-                            }
-                            Spacer()
-                        }
-                    }
-                }.padding(16)
-                HMSDivider(color: currentTheme.colorTheme.borderBright)
-            }
+             HMSConferenceDescriptionView(isExpanded: false)
         }
         .allowsHitTesting(conferenceComponentParam.header?.description != nil)
         .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
-        .onReceive(descriptionTimer) { time in
-            refreshStreamStartedText()
-        }.onAppear() {
-            refreshStreamStartedText()
-        }
     }
     
     @ViewBuilder
@@ -214,46 +172,10 @@ struct HMSHLSLayout: View {
                 }.padding(16)
             }
             HMSDivider(color: currentTheme.colorTheme.borderBright)
-            HStack {
-                HMSCompanyLogoView()
-                VStack(alignment: .leading, spacing: 4) {
-                    if let headerText = conferenceComponentParam.header?.title {
-                        Text(headerText).font(.subtitle2Semibold14)
-                            .foreground(.onSecondaryHigh)
-                    }
-                    HStack {
-                        Text("\(roomModel.participantCountDisplayString) watching").lineLimit(1).font(.captionRegular12)
-                            .foreground(.onSurfaceMedium).layoutPriority(2)
-                        if !streamStartedText.isEmpty {
-                            Text("·").font(.captionRegular12)
-                                .foreground(.onSurfaceMedium)
-                            Text("Started \(streamStartedText) ago").lineLimit(1).font(.captionRegular12)
-                                .foreground(.onSurfaceMedium).layoutPriority(1)
-                        }
-                        if roomModel.recordingState == .recording {
-                            Text("·").font(.captionRegular12)
-                                .foreground(.onSurfaceMedium)
-                            Text("Recording").lineLimit(1).truncationMode(.tail).font(.captionRegular12)
-                                .foreground(.onSurfaceMedium)
-                        }
-                        Spacer()
-                    }
-                }
-            }.padding(16)
-            if let descriptionText = conferenceComponentParam.header?.description {
-                Text(descriptionText)
-                    .font(.body2Regular14)
-                    .foreground(.onSurfaceMedium)
-                    .padding(.horizontal, 16)
-            }
+            HMSConferenceDescriptionView(isExpanded: true)
             Spacer()
         }
         .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
-        .onReceive(descriptionTimer) { time in
-            refreshStreamStartedText()
-        }.onAppear() {
-            refreshStreamStartedText()
-        }
     }
     
     @ViewBuilder
@@ -303,13 +225,6 @@ struct HMSHLSLayout: View {
             startPoint: .top,
             endPoint: .bottom
         )
-    }
-    
-    private func refreshStreamStartedText() {
-        if let variant = roomModel.hlsVariants.first,
-           let startedAt = variant.startedAt {
-            streamStartedText = startedAt.minutesSinceNow
-        }
     }
 }
 
