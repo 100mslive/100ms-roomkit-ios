@@ -44,7 +44,7 @@ struct PollVoteView: View {
                         Text("Questions").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().subtitle2Semibold14)
                     }
                     
-                    if model.poll.category == .quiz, !model.questions.isEmpty, model.poll.state == .started {
+                    if model.poll.category == .quiz, !model.questions.isEmpty, !model.voteComplete {
                         PollVoteQuestionCarouselView(questions: model.questions)
                     } else {
                         ForEach(model.questions) { question in
