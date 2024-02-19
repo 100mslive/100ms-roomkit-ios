@@ -165,6 +165,7 @@ struct HMSPrebuiltConferenceView: View {
             .environmentObject(roomKitModel)
             .onAppear() {
                 UIApplication.shared.isIdleTimerDisabled = true
+                updatePollNotifications()
             }
 #if !Preview
             .onChange(of: pollModel.currentPolls) { _ in
@@ -251,14 +252,13 @@ struct HMSPrebuiltConferenceView: View {
         
         let pollsThatAreStopped = existingPollNotificationIds.filter{!pollModel.currentPolls.map{$0.pollID}.contains($0)}
         
-        // Remove notification for peers who have lowered their hands
         roomKitModel.removeNotification(for: pollsThatAreStopped)
         
         guard (roomModel.userRole?.permissions.pollRead ?? false) || (roomModel.userRole?.permissions.pollWrite ?? false) else { return }
         
-        pollsOptionAppearance.containsItems.wrappedValue = !pollModel.polls.isEmpty
-        
-        // add notification for each new peer
+        let stoppedPolls = pollModel.polls.filter { $0.state == .stopped }
+        pollsOptionAppearance.containsItems.wrappedValue = !currentPolls.isEmpty || !stoppedPolls.isEmpty
+
         for newPoll in newPolls {
             let notification = HMSRoomKitNotification(id: newPoll.pollID, type: .poll(type: newPoll.category), actor: newPoll.createdBy?.name ?? "", isDismissible: true, title: "\(newPoll.createdBy?.name ?? "") started a new \(newPoll.category == .poll ? "poll": "quiz")")
             roomKitModel.addNotification(notification)
