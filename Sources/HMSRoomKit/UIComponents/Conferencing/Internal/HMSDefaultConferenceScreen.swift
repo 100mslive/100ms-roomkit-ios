@@ -102,10 +102,10 @@ public struct HMSDefaultConferenceScreen: View {
             }
         }
 //        .ignoresSafeArea(.keyboard)
-        // chat overlay
+        // chat bottom overlay (notifications + overlay chat)
         .overlay(alignment: .bottom) {
-            if isChatOverlay && !isHLSViewer {
-                HMSChatOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+            if !isHLSViewer {
+                HMSBottomOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
             }
         }
         .overlay {
