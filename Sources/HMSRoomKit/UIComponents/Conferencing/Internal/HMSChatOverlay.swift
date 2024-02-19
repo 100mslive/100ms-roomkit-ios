@@ -9,7 +9,7 @@
 import SwiftUI
 import HMSRoomModels
 
-struct HMSChatOverlay: View {
+struct HMSBottomOverlay: View {
     
     @Environment(\.controlsState) var controlsState
     @Environment(\.tabPageBarState) var tabPageBarState
@@ -82,7 +82,7 @@ struct HMSChatOverlay: View {
     }
 }
 
-struct HMSChatOverlay_Previews: PreviewProvider {
+struct HMSBottomOverlay_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
         let roomKitModel: HMSRoomNotificationModel = {
@@ -96,7 +96,7 @@ struct HMSChatOverlay_Previews: PreviewProvider {
         
         @State var isChatPresented = true
         
-        HMSChatOverlay(isChatPresented: $isChatPresented, isHLSViewer: false, isChatOverlay: true)
+        HMSBottomOverlay(isChatPresented: $isChatPresented, isHLSViewer: false, isChatOverlay: true)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(roomKitModel)
