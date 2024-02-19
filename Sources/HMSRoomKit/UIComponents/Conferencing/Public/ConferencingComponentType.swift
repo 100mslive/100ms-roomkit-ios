@@ -138,6 +138,12 @@ extension HMSConferenceScreen {
             public let skipPreviewForRoleChange: Bool
         }
         
+        public var header: ConferencingHeader? = nil
+        public struct ConferencingHeader {
+            public let title: String
+            public let description: String
+        }
+        
         public var brb: BRB? = .default
         public struct BRB {
             public static let `default`: Self = .init()
@@ -150,12 +156,13 @@ extension HMSConferenceScreen {
             internal init() {}
         }
         
-        public init(chat: Chat? = .default, tileLayout: TileLayout? = .init(grid: .default), onStageExperience: OnStageExperience? = nil, brb: BRB? = .default, participantList: ParticipantList? = .default) {
+        public init(chat: Chat? = .default, tileLayout: TileLayout? = .init(grid: .default), onStageExperience: OnStageExperience? = nil, brb: BRB? = .default, participantList: ParticipantList? = .default, header: ConferencingHeader? = nil) {
             self.chat = chat
             self.tileLayout = tileLayout
             self.onStageExperience = onStageExperience
             self.brb = brb
             self.participantList = participantList
+            self.header = header
         }
     }
 }
