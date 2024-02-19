@@ -34,6 +34,7 @@ struct HMSPrebuiltMeetingView: View {
             case .inMeeting:
                 HMSPrebuiltConferenceView()
                     .onDisappear() {
+                        pollModel.polls.removeAll()
                         pollModel.currentPolls.removeAll()
                     }
             case .notJoined:

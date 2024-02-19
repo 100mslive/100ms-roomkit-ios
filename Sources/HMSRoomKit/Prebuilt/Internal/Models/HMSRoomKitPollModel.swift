@@ -29,7 +29,7 @@ class HMSRoomKitPollModel: ObservableObject {
     weak var roomModel: HMSRoomModel?
     
     func beginListeningForPolls() {
-        
+        polls.removeAll()
         currentPolls.removeAll()
         
         (roomModel?.interactivityCenter.polls ?? []).forEach { poll in
