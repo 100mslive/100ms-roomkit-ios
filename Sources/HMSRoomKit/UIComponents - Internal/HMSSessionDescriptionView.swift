@@ -26,28 +26,42 @@ struct HMSConferenceDescriptionView: View {
                 HMSCompanyLogoView()
                 VStack(alignment: .leading, spacing: 4) {
                     if let headerText = conferenceComponentParam.header?.title {
-                        Text(headerText).font(.subtitle2Semibold14)
+                        Text(headerText)
+                            .font(.subtitle2Semibold14)
                             .foreground(.onSecondaryHigh)
                     }
                     HStack {
-                        Text("\(roomModel.participantCountDisplayString) watching").lineLimit(1).font(.captionRegular12)
-                            .foreground(.onSurfaceMedium).layoutPriority(2)
+                        Text("\(roomModel.participantCountDisplayString) watching")
+                            .lineLimit(1)
+                            .font(.captionRegular12)
+                            .foreground(.onSurfaceMedium)
+                            .layoutPriority(2)
                         if !streamStartedText.isEmpty {
-                            Text("•").font(.body2Regular14)
+                            Text("•")
+                                .font(.body2Regular14)
                                 .foreground(.onSurfaceMedium)
-                            Text("Started \(streamStartedText) ago").lineLimit(1).font(.captionRegular12)
-                                .foreground(.onSurfaceMedium).layoutPriority(1)
+                            Text("Started \(streamStartedText) ago")
+                                .lineLimit(1)
+                                .font(.captionRegular12)
+                                .foreground(.onSurfaceMedium)
+                                .layoutPriority(1)
                         }
                         if !isExpanded && conferenceComponentParam.header?.description != nil {
                             Text("...more")
+                                .lineLimit(1)
                                 .font(.captionSemibold12)
                                 .foreground(.onSurfaceHigh)
+                                .layoutPriority(3)
                             
                         }
                         else if roomModel.recordingState == .recording {
-                            Text("•").font(.body2Regular14)
+                            Text("•")
+                                .font(.body2Regular14)
                                 .foreground(.onSurfaceMedium)
-                            Text("Recording").lineLimit(1).truncationMode(.tail).font(.captionRegular12)
+                            Text("Recording")
+                                .lineLimit(1)
+                                .truncationMode(.tail)
+                                .font(.captionRegular12)
                                 .foreground(.onSurfaceMedium)
                         }
                         Spacer()
