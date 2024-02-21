@@ -394,7 +394,7 @@ struct HMSHLSPlayerControlsView: View {
 struct HMSHLSPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSHLSPlayerControlsView(player: HMSHLSPlayer(), isMaximized: .constant(false))
+        HMSHLSPlayerControlsView(player: HMSHLSPlayer(), isMaximized: .constant(false), isPlaying: .constant(false), isSeekEnabled: true)
             .environmentObject(HMSUITheme())
             .environment(\.colorScheme, .dark)
 #endif
