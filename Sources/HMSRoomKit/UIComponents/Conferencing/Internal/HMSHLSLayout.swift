@@ -148,28 +148,25 @@ struct HMSHLSLayout: View {
     
     @ViewBuilder
     var descriptionPane: some View {
-        Button() {
-            isDescriptionExpanded.toggle()
-        } label: {
-             HMSConferenceDescriptionView(isExpanded: false)
-        }
-        .allowsHitTesting(conferenceComponentParam.header?.description != nil)
-        .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
+        HMSConferenceDescriptionView(isExpanded: false)
+            .onTapGesture {
+                isDescriptionExpanded.toggle()
+            }
+            .allowsHitTesting(conferenceComponentParam.header?.description != nil)
+            .background(.surfaceDim, cornerRadius: 0, ignoringEdges: .all)
     }
     
     @ViewBuilder
     var expandedDescriptionPane: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Button() {
+            HStack {
+                Text("Description")
+                    .font(.subtitle2Semibold16)
+                    .foreground(.onSurfaceHigh)
+                Spacer()
+                Image(systemName: "chevron.down").foreground(.onSurfaceMedium)
+            }.padding(16).onTapGesture {
                 isDescriptionExpanded.toggle()
-            } label: {
-                HStack {
-                    Text("Description")
-                        .font(.subtitle2Semibold16)
-                        .foreground(.onSurfaceHigh)
-                    Spacer()
-                    Image(systemName: "chevron.down").foreground(.onSurfaceMedium)
-                }.padding(16)
             }
             HMSDivider(color: currentTheme.colorTheme.borderBright)
             HMSConferenceDescriptionView(isExpanded: true)
