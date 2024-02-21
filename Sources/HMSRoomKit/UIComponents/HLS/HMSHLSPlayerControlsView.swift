@@ -106,12 +106,14 @@ struct HMSHLSPlayerControlsView: View {
                     .overlay(alignment: .center) {
                         HStack(spacing: 24) {
                             Button {
+                                hlsPlayerPreferences.wrappedValue.resetHideTask?()
                                 seekBackward(seconds: seekBackSeconds)
                             } label: {
                                 Image(assetName: "seek-back")
                                     .foreground(.white)
                             }.opacity(canShowSeekBack ? 1.0 : 0.0)
                             Button {
+                                hlsPlayerPreferences.wrappedValue.resetHideTask?()
                                 togglePlay()
                             } label: {
                                 ZStack {
@@ -123,6 +125,7 @@ struct HMSHLSPlayerControlsView: View {
                                 }
                             }
                             Button {
+                                hlsPlayerPreferences.wrappedValue.resetHideTask?()
                                 seekForward(seconds: seekForwardSeconds)
                             } label: {
                                 Image(assetName: "seek-forward")
@@ -187,9 +190,11 @@ struct HMSHLSPlayerControlsView: View {
                             isSeeking = true
                             seekStartDate = Date()
                             player._nativePlayer.pause()
+                            hlsPlayerPreferences.wrappedValue.resetHideTask?()
                         }.onEndProgress {
                             seek(to: progress)
                             isSeeking = false
+                            hlsPlayerPreferences.wrappedValue.resetHideTask?()
                         }
                         .padding(.bottom, verticalSizeClass == .compact || isMaximized ? 40 : 0)
                         .opacity(isSeekEnabled ? 1.0 : 0.0)
@@ -289,7 +294,7 @@ struct HMSHLSPlayerControlsView: View {
         
         let start = timeRange.start.seconds
         let totalDuration = timeRange.duration.seconds
-        var targetTime = CMTime(seconds: start + totalDuration,
+        let targetTime = CMTime(seconds: start + totalDuration,
                             preferredTimescale: 600)
          
         if targetTime.isValid {
@@ -389,7 +394,7 @@ struct HMSHLSPlayerControlsView: View {
 struct HMSHLSPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSHLSPlayerControlsView(player: HMSHLSPlayer(), isMaximized: .constant(false))
+        HMSHLSPlayerControlsView(player: HMSHLSPlayer(), isMaximized: .constant(false), isPlaying: .constant(false), isSeekEnabled: true)
             .environmentObject(HMSUITheme())
             .environment(\.colorScheme, .dark)
 #endif

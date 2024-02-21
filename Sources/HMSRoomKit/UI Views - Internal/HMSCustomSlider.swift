@@ -102,6 +102,7 @@ public struct HMSCustomSlider: View {
                 }
             }
             .frame(width: geo.size.width, alignment: .leading)
+            .contentShape(Rectangle())
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged({ value in
