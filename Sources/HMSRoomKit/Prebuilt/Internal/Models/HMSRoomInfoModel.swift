@@ -46,10 +46,14 @@ class HMSRoomInfoModel: ObservableObject {
     }
     
     func update(role: String? = nil) {
-        guard let roomLayout = roomLayout,
-              let layoutData = roomLayout.data?.first(where: { $0.role == role ?? "" }) ?? roomLayout.data?.first
-            else { return }
+        guard let roomLayout = roomLayout else { return }
         
+        var layoutData: HMSRoomLayout.LayoutData?
+        if let role = role, !role.isEmpty {
+            layoutData = roomLayout.data?.first(where: { $0.role == role })
+        }
+        
+        guard let layoutData = layoutData ?? roomLayout.data?.first else { return }
         
         // Update theme
         if let layoutTheme = layoutData.themes.first(where: {$0.default}) {
