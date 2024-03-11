@@ -23,13 +23,11 @@ public struct HMSPrebuiltView: View {
     
     public init(roomCode: String, options: HMSPrebuiltOptions? = nil, onDismiss: (() -> Void)? = nil) {
         
-        roomModel = HMSRoomModel(roomCode: roomCode, options: options?.roomOptions) { sdk in
-            sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
+        roomModel = HMSRoomModel(roomCode: roomCode, options: options?.roomOptions) { sdk, audioSettingsBuilder, videoSettingsBuilder in
             
-            sdk.trackSettings = HMSTrackSettings.build { videoSettingsBuilder, audioSettingsBuilder in
-                videoSettingsBuilder.initialMuteState = .mute
-                audioSettingsBuilder.initialMuteState = .mute
-            }
+            sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
+            videoSettingsBuilder.initialMuteState = .mute
+            audioSettingsBuilder.initialMuteState = .mute
         }
         
         if let userName = options?.roomOptions?.userName {
@@ -44,13 +42,11 @@ public struct HMSPrebuiltView: View {
     
     public init(token: String, options: HMSPrebuiltOptions? = nil, onDismiss: (() -> Void)? = nil) {
         
-        roomModel = HMSRoomModel(token: token, options: options?.roomOptions) { sdk in
-            sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
+        roomModel = HMSRoomModel(token: token, options: options?.roomOptions) { sdk, audioSettingsBuilder, videoSettingsBuilder  in
             
-            sdk.trackSettings = HMSTrackSettings.build { videoSettingsBuilder, audioSettingsBuilder in
-                videoSettingsBuilder.initialMuteState = .mute
-                audioSettingsBuilder.initialMuteState = .mute
-            }
+            sdk.frameworkInfo = HMSFrameworkInfo(isPrebuilt: true)
+            videoSettingsBuilder.initialMuteState = .mute
+            audioSettingsBuilder.initialMuteState = .mute
         }
         
         if let userName = options?.roomOptions?.userName {
@@ -120,7 +116,7 @@ public extension HMSPrebuiltView {
     
     func screenShare(appGroupName: String, screenShareBroadcastExtensionBundleId: String) -> HMSPrebuiltView {
         let options = self.options
-        options.roomOptions = HMSRoomOptions(userName: options.roomOptions?.userName, userId: options.roomOptions?.userId, appGroupName: appGroupName, screenShareBroadcastExtensionBundleId: screenShareBroadcastExtensionBundleId)
+        options.roomOptions = HMSRoomOptions(userName: options.roomOptions?.userName, userId: options.roomOptions?.userId, appGroupName: appGroupName, screenShareBroadcastExtensionBundleId: screenShareBroadcastExtensionBundleId, noiseCancellation: self.options.roomOptions?.noiseCancellation)
         
         if let token = token {
             return HMSPrebuiltView(token: token, options: options, onDismiss: self.onDismiss)
@@ -129,6 +125,18 @@ public extension HMSPrebuiltView {
             // room code must be there if token is nil - our inits make sure of that
             return HMSPrebuiltView(roomCode: self.roomCode!, options: options, onDismiss: self.onDismiss)
         }
+    }
+    
+    func noiseCancellation(model: String, initialState: HMSNoiseCancellationInitialState) -> HMSPrebuiltView {
+        let options = self.options
+        options.roomOptions = HMSRoomOptions(userName: options.roomOptions?.userName, userId: options.roomOptions?.userId, appGroupName: options.roomOptions?.appGroupName, screenShareBroadcastExtensionBundleId: options.roomOptions?.screenShareBroadcastExtensionBundleId, noiseCancellation: .init(with: model, initialState: initialState))
         
+        if let token = token {
+            return HMSPrebuiltView(token: token, options: options, onDismiss: self.onDismiss)
+        }
+        else {
+            // room code must be there if token is nil - our inits make sure of that
+            return HMSPrebuiltView(roomCode: self.roomCode!, options: options, onDismiss: self.onDismiss)
+        }
     }
 }

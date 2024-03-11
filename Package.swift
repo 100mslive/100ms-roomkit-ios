@@ -17,6 +17,7 @@ let package = Package(
         .package(url: "https://github.com/100mslive/100ms-roomkit-models-ios", from: "1.4.0"),
         .package(url: "https://github.com/100mslive/Popovers", from: "1.0.0"),
         .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.3.0"),
+        .package(url: "https://github.com/100mslive/100ms-noise-cancellation-models-ios", branch: "main"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -31,7 +32,8 @@ let package = Package(
                 .product(name: "HMSHLSPlayerSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "HMSBroadcastExtensionSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "WebRTC", package: "100ms-roomkit-models-ios"),
-                .product(name: "Lottie", package: "lottie-spm")
+                .product(name: "Lottie", package: "lottie-spm"),
+                .product(name: "HMSNoiseCancellationModels", package: "100ms-noise-cancellation-models-ios")
                 ],
             resources: [.process("audio-level-white.json")]
         ),
