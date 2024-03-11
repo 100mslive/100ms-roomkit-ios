@@ -69,10 +69,14 @@ struct HMSConferenceDescriptionView: View {
                 }
             }.padding(16)
             if isExpanded, let descriptionText = conferenceComponentParam.header?.description {
-                Text(descriptionText)
-                    .font(.body2Regular14)
-                    .foreground(.onSurfaceMedium)
-                    .padding(.horizontal, 16)
+                ScrollView {
+                    VStack {
+                        Text(descriptionText)
+                            .font(.body2Regular14)
+                            .foreground(.onSurfaceMedium)
+                            .padding(.horizontal, 16)
+                    }
+                }
             }
             if !isExpanded {
                 HMSDivider(color: currentTheme.colorTheme.borderBright)
