@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  HMSRoomKitPreview
+//  HMSRoomNotificationModel.swift
+//  HMSRoomNotificationModel
 //
 //  Created by Pawan Dixit on 11/2/23.
 //
