@@ -25,7 +25,7 @@ public struct HMSScreenSharePaginatedView: View {
         TabView {
             ForEach(screenSharingPeers, id: \.self) { peer in
                 
-                WebView(url: URL(string: "https://whiteboard-qa.100ms.live/?endpoint=https://store-qa-in2-ipv6-grpc.100ms.live&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAzMjg5MDQsInBlZXJfaWQiOiIwYmM0OTk0Ni03MTYzLTQxNjktYmIwMC01OGVmYzJmMjQ5MzkiLCJ1c2VyX2lkIjoiMmY5ZTc4MjMtOTMxMS00ZWQxLThjNjMtNDJmZGQ0MjE5MjM2IiwidXNlcl9uYW1lIjoiUGF3YW4iLCJ1c2VyX3JvbGUiOiJicm9hZGNhc3RlciIsImJvYXJkX2lkIjoiNjVmMDJlOTVkOGE0NTMyMzczMzkwZjcyIiwibmFtZXNwYWNlIjoiNjU4MTRhZmZhOTliM2I1YmM0NDQzYmVlLTY1ZjAyZTgxMThiNmVhNDhhYjc3MGY0NiIsInBlcm1pc3Npb25zIjpbIndyaXRlIiwiYWRtaW4iLCJyZWFkIl19.hwWkHevsKrWo3Eao87mf9WiOa_L7uL637XjVRVWZNWU")!)
+                WebView(url: URL(string: "https://whiteboard-qa.100ms.live/?endpoint=https://store-qa-in2-ipv6-grpc.100ms.live&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAzMjg5MDQsInBlZXJfaWQiOiIwYmM0OTk0Ni03MTYzLTQxNjktYmIwMC01OGVmYzJmMjQ5MzkiLCJ1c2VyX2lkIjoiMmY5ZTc4MjMtOTMxMS00ZWQxLThjNjMtNDJmZGQ0MjE5MjM2IiwidXNlcl9uYW1lIjoiUGF3YW4iLCJ1c2VyX3JvbGUiOiJicm9hZGNhc3RlciIsImJvYXJkX2lkIjoiNjVmMDJlOTVkOGE0NTMyMzczMzkwZjcyIiwibmFtZXNwYWNlIjoiNjU4MTRhZmZhOTliM2I1YmM0NDQzYmVlLTY1ZjAyZTgxMThiNmVhNDhhYjc3MGY0NiIsInBlcm1pc3Npb25zIjpbIndyaXRlIiwiYWRtaW4iLCJyZWFkIl19.hwWkHevsKrWo3Eao87mf9WiOa_L7uL637XjVRVWZNWU&zoom_to_content=true")!)
                     .gesture(DragGesture())
                 
                 HMSPeerScreenTile(peerModel: peer)
