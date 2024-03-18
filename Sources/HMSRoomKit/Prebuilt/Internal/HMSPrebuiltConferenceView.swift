@@ -83,6 +83,8 @@ struct HMSPrebuiltConferenceView: View {
                                 screen.brb = nil
                             }
                             
+                            screen.isHandRaiseEnabled = defaultScreen.elements?.hand_raise != nil
+                            
                             if let header = defaultScreen.elements?.header {
                                 screen.header = .init(title: header.title, description: header.description)
                             }
@@ -144,6 +146,8 @@ struct HMSPrebuiltConferenceView: View {
                             else {
                                 screen.brb = nil
                             }
+                            
+                            screen.isHandRaiseEnabled = defaultScreen.elements?.hand_raise != nil
                             
                             if let header = defaultScreen.elements?.header {
                                 screen.header = .init(title: header.title, description: header.description)

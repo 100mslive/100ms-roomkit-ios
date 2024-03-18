@@ -30,7 +30,7 @@ struct HMSBottomControlStrip: View {
         
         let isParticipantListEnabled = conferenceComponentParam.participantList != nil
         let isBrbEnabled = conferenceComponentParam.brb != nil
-        let isHandRaiseEnabled = conferenceComponentParam.onStageExperience != nil
+        let isHandRaiseEnabled = conferenceComponentParam.isHandRaiseEnabled
         let canStartRecording = roomModel.userCanStartStopRecording
         let canScreenShare = roomModel.userCanShareScreen
         
@@ -46,7 +46,7 @@ struct HMSBottomControlStrip: View {
                         HMSMicToggle()
                             .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
                     }
-                    else {
+                    else if isHandRaiseEnabled {
                         HMSHandRaisedToggle()
                             .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
                     }

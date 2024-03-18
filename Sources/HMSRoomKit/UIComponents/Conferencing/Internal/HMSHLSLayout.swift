@@ -25,7 +25,7 @@ struct HMSHLSLayout: View {
         
         let isParticipantListEnabled = conferenceComponentParam.participantList != nil
         let isBrbEnabled = conferenceComponentParam.brb != nil
-        let isHandRaiseEnabled = conferenceComponentParam.onStageExperience != nil
+        let isHandRaiseEnabled = conferenceComponentParam.isHandRaiseEnabled
         let canStartRecording = roomModel.userCanStartStopRecording
         let canScreenShare = roomModel.userCanShareScreen
         
@@ -65,7 +65,7 @@ struct HMSHLSLayout: View {
                         if !isChatEnabled {
                             
                             layout2 {
-                                if let localPeerModel = roomModel.localPeerModel {
+                                if let localPeerModel = roomModel.localPeerModel, isHandRaiseEnabled {
                                     HMSHandRaisedToggle()
                                         .environmentObject(localPeerModel)
                                 }
@@ -106,7 +106,7 @@ struct HMSHLSLayout: View {
                             
                             if verticalSizeClass == .regular {
                                 HStack {
-                                    if let localPeerModel = roomModel.localPeerModel {
+                                    if let localPeerModel = roomModel.localPeerModel, isHandRaiseEnabled {
                                         HMSHandRaisedToggle()
                                             .environmentObject(localPeerModel)
                                     }
@@ -118,7 +118,7 @@ struct HMSHLSLayout: View {
                             }
                             else {
                                 VStack {
-                                    if let localPeerModel = roomModel.localPeerModel {
+                                    if let localPeerModel = roomModel.localPeerModel, isHandRaiseEnabled {
                                         HMSHandRaisedToggle()
                                             .environmentObject(localPeerModel)
                                     }
@@ -180,7 +180,7 @@ struct HMSHLSLayout: View {
         
         let isParticipantListEnabled = conferenceComponentParam.participantList != nil
         let isBrbEnabled = conferenceComponentParam.brb != nil
-        let isHandRaiseEnabled = conferenceComponentParam.onStageExperience != nil
+        let isHandRaiseEnabled = conferenceComponentParam.isHandRaiseEnabled
         let canStartRecording = roomModel.userCanStartStopRecording
         let canScreenShare = roomModel.userCanShareScreen
         
@@ -193,9 +193,10 @@ struct HMSHLSLayout: View {
                     HMSChatScreen(content: {
                         
                         if let localPeerModel = roomModel.localPeerModel {
-                            
-                            HMSHandRaisedToggle()
-                                .environmentObject(localPeerModel)
+                            if isHandRaiseEnabled {
+                                HMSHandRaisedToggle()
+                                    .environmentObject(localPeerModel)
+                            }
                             
                             if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
                                 HMSOptionsToggleView(isHLSViewer: true)
