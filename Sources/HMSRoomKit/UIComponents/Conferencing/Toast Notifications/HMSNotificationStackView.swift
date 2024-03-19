@@ -25,16 +25,31 @@ struct HMSNotificationStackView: View {
         let onStageExperience = conferenceComponentParam.onStageExperience
         let onStageRole = onStageExperience?.onStageRoleName ?? ""
         
-        let handRaisedNotifications = Set(roomKitModel.activeNotifications.filter{$0.type == .handRaised})
+        let handRaisefilter: (HMSRoomKitNotification) -> Bool = { notification in
+            if case .handRaised = notification.type {
+                return true
+            }
+            return false
+        }
+        let excludeHandRaisefilter: (HMSRoomKitNotification) -> Bool = { notification in
+            if case .handRaised = notification.type {
+                return false
+            }
+            return true
+        }
+        
+        
+        let handRaisedNotifications = Set(roomKitModel.activeNotifications.filter(handRaisefilter))
         let declineRoleChangeNotifications = Set(roomKitModel.activeNotifications.filter{$0.type == .declineRoleChange})
+        
         
         let groupedNotifications: [HMSRoomKitNotification] = {
             
             if handRaisedNotifications.count > 1 {
                 let combinedHandRaisedNotification = HMSRoomKitNotification(id: handRaisedNotifications.map{$0.id}.joined(separator: "+"), type: .handRaisedGrouped(ids: handRaisedNotifications.map{$0.id}), actor: handRaisedNotifications.map{$0.actor}.joined(separator: ", "), isDismissible: true, title: "\(handRaisedNotifications.first?.actor ?? "") and \(handRaisedNotifications.count - 1) other\(handRaisedNotifications.count > 2 ? "s" : "") raised hand")
                 
-                if let lastRaisedHandIndex = roomKitModel.activeNotifications.lastIndex(where: {$0.type == .handRaised}) {
-                    return (roomKitModel.activeNotifications[0..<lastRaisedHandIndex] +  [combinedHandRaisedNotification] + roomKitModel.activeNotifications[(lastRaisedHandIndex + 1)..<roomKitModel.activeNotifications.count]).filter{$0.type != .handRaised}
+                if let lastRaisedHandIndex = roomKitModel.activeNotifications.lastIndex(where: handRaisefilter) {
+                    return (roomKitModel.activeNotifications[0..<lastRaisedHandIndex] +  [combinedHandRaisedNotification] + roomKitModel.activeNotifications[(lastRaisedHandIndex + 1)..<roomKitModel.activeNotifications.count]).filter(excludeHandRaisefilter)
                 }
             }
             

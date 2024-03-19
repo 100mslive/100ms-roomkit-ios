@@ -129,6 +129,8 @@ extension HMSConferenceScreen {
             }
         }
         
+        public var isHandRaiseEnabled = true
+        
         public var onStageExperience: OnStageExperience? = nil
         public struct OnStageExperience {
             public let onStageRoleName: String
@@ -156,13 +158,14 @@ extension HMSConferenceScreen {
             internal init() {}
         }
         
-        public init(chat: Chat? = .default, tileLayout: TileLayout? = .init(grid: .default), onStageExperience: OnStageExperience? = nil, brb: BRB? = .default, participantList: ParticipantList? = .default, header: ConferencingHeader? = nil) {
+        public init(chat: Chat? = .default, tileLayout: TileLayout? = .init(grid: .default), onStageExperience: OnStageExperience? = nil, brb: BRB? = .default, participantList: ParticipantList? = .default, header: ConferencingHeader? = nil, isHandRaiseEnabled: Bool) {
             self.chat = chat
             self.tileLayout = tileLayout
             self.onStageExperience = onStageExperience
             self.brb = brb
             self.participantList = participantList
             self.header = header
+            self.isHandRaiseEnabled = isHandRaiseEnabled
         }
     }
 }

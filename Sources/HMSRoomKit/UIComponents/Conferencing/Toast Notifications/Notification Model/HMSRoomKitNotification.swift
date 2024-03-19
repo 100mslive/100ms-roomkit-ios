@@ -20,8 +20,8 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
     
     var action: Action {
         switch type {
-        case .handRaised:
-            return Action.bringOnStage
+        case .handRaised(let canBringOnStage):
+            return canBringOnStage ? Action.bringOnStage : Action.none
         case .declineRoleChange:
             return  Action.none
         case .handRaisedGrouped(_):
@@ -42,7 +42,7 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
     enum `Type`: Hashable, Equatable {
         
         // Hand Raised
-        case handRaised
+        case handRaised(canBringOnStage: Bool)
         case handRaisedGrouped(ids: [String])
         
         // Role change declined
