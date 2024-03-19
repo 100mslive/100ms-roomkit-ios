@@ -16,7 +16,7 @@ struct HMSParticipantNameLabel: View {
     
     var body: some View {
         let name = peerModel.isLocal ? peerModel.name + " (You)" : peerModel.name
-        HMSParticipantNameLabelView(name: name, wifiStrength: peerModel.displayQuality)
+        HMSParticipantNameLabelView(name: name, wifiStrength: peerModel.displayQuality, isSIP: peerModel.type == .sip)
     }
 }
 

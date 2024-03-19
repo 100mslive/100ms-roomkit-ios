@@ -12,9 +12,14 @@ struct HMSParticipantNameLabelView: View {
     
     let name: String?
     let wifiStrength: Int
-    
+    let isSIP: Bool
+
     var body: some View {
         HStack(spacing: 5) {
+            if isSIP {
+                Image(assetName: "phone", renderingMode: .original)
+            }
+            
             if let name = name {
                 Text("\(name)")
                     .kerning(0.25)
@@ -41,7 +46,7 @@ struct HMSParticipantNameView_Previews: PreviewProvider {
         Rectangle()
             .overlay(alignment: .bottom) {
                 HStack {
-                    HMSParticipantNameLabelView(name: "Pawans iOS eddsds sds sdds", wifiStrength: 4)
+                    HMSParticipantNameLabelView(name: "Pawans iOS eddsds sds sdds", wifiStrength: 4, isSIP: false)
                         .border(.yellow)
                     
                     Spacer()
