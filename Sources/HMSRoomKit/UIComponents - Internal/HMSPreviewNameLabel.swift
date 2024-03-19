@@ -15,7 +15,7 @@ struct HMSPreviewNameLabel: View {
     @ObservedObject var peerModel: HMSPeerModel
     
     var body: some View {
-        HMSParticipantNameLabelView(name: nil, wifiStrength: peerModel.displayQuality)
+        HMSParticipantNameLabelView(name: nil, wifiStrength: peerModel.displayQuality, isSIP: peerModel.type == .sip)
     }
 }
 
