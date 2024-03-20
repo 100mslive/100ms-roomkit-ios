@@ -38,7 +38,7 @@ struct HMSOptionSheetView: View {
         
         let isParticipantListEnabled = conferenceComponentParam.participantList != nil
         let isBrbEnabled = conferenceComponentParam.brb != nil
-        let isHandRaiseEnabled = conferenceComponentParam.onStageExperience != nil
+        let isHandRaiseEnabled = conferenceComponentParam.isHandRaiseEnabled
         
         VStack(spacing: 0) {
             HMSOptionsHeaderView(title: "Options", onClose: {

@@ -147,7 +147,14 @@ public struct HMSDefaultConferenceScreen: View {
         .animation(.default, value: userStreamingState.wrappedValue)
 #if !Preview
         .onChange(of: roomModel.remotePeersWithRaisedHand) { currentlyRaisedHandsPeers in
-            let previouslyRaisedHandsPeerIds = roomKitModel.notifications.filter{$0.type == .handRaised}.map{$0.id}
+            let handRaisefilter: (HMSRoomKitNotification) -> Bool = { notification in
+                if case .handRaised = notification.type {
+                    return true
+                }
+                return false
+            }
+            
+            let previouslyRaisedHandsPeerIds = roomKitModel.notifications.filter(handRaisefilter).map{$0.id}
             
             let newPeersWhoHaveRaisedHands = currentlyRaisedHandsPeers.filter{!previouslyRaisedHandsPeerIds.contains($0.id)}
             let peerIdsWhoHaveLoweredHands = previouslyRaisedHandsPeerIds.filter{!currentlyRaisedHandsPeers.map{$0.id}.contains($0)}
@@ -155,17 +162,13 @@ public struct HMSDefaultConferenceScreen: View {
             // Remove notification for peers who have lowered their hands
             roomKitModel.removeNotification(for: peerIdsWhoHaveLoweredHands)
             
-            let onStageExperience = conferenceComponentParam.onStageExperience
-            guard let rolesWhoCanComeOnStage = onStageExperience?.rolesWhoCanComeOnStage else {
-                return
-            }
+            let rolesWhoCanComeOnStage = conferenceComponentParam.onStageExperience?.rolesWhoCanComeOnStage ?? []
             
             // add notification for each new peer
             for newPeer in newPeersWhoHaveRaisedHands {
-                guard let role = newPeer.role?.name,
-                      rolesWhoCanComeOnStage.contains(role)
-                    else { continue }
-                let notification = HMSRoomKitNotification(id: newPeer.id, type: .handRaised, actor: newPeer.name, isDismissible: true, title: "\(newPeer.name) raised hand")
+                guard let role = newPeer.role?.name else { continue }
+
+                let notification = HMSRoomKitNotification(id: newPeer.id, type: .handRaised(canBringOnStage: rolesWhoCanComeOnStage.contains(role)), actor: newPeer.name, isDismissible: true, title: "\(newPeer.name) raised hand")
                 roomKitModel.addNotification(notification)
             }
         }
@@ -266,10 +269,10 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
 #if Preview
         let roomKitModel: HMSRoomNotificationModel = {
             let model = HMSRoomNotificationModel()
-            model.notifications.append(.init(id: "id1", type: .handRaised, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
-            model.notifications.append(.init(id: "id2", type: .handRaised, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
-            model.notifications.append(.init(id: "id3", type: .handRaised, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
-            model.notifications.append(.init(id: "id4", type: .handRaised, actor: "Bajaj", isDismissible: true, title: "Peer4 raised hands"))
+            model.notifications.append(.init(id: "id1", type: .handRaised(canBringOnStage: true), actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
+            model.notifications.append(.init(id: "id2", type: .handRaised(canBringOnStage: true), actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
+            model.notifications.append(.init(id: "id3", type: .handRaised(canBringOnStage: true), actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
+            model.notifications.append(.init(id: "id4", type: .handRaised(canBringOnStage: true), actor: "Bajaj", isDismissible: true, title: "Peer4 raised hands"))
             model.notifications.append(.init(id: "id5", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer5 declined request"))
             model.notifications.append(.init(id: "id6", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer6 declined request2"))
             model.notifications.append(.init(id: "id7", type: .declineRoleChange, actor: "Bajaj", isDismissible: true, title: "Peer7 declined request3"))
@@ -282,7 +285,7 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
             .environmentObject(HMSPrebuiltOptions())
             .environmentObject(HMSRoomInfoModel())
             .environmentObject(roomKitModel)
-            .environment(\.conferenceParams, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true, chatScopes: [.private, .public]), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true))))
+            .environment(\.conferenceParams, .init(chat: .init(initialState: .open, isOverlay: true, allowsPinningMessages: true, chatScopes: [.private, .public]), tileLayout: .init(grid: .init(isLocalTileInsetEnabled: true, prominentRoles: ["stage"], canSpotlightParticipant: true)), isHandRaiseEnabled: true))
 #endif
     }
 }
