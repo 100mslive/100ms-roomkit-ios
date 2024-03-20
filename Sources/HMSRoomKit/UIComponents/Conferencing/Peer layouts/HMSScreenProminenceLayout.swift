@@ -28,18 +28,34 @@ struct HMSScreenProminenceLayout: View {
     
     var body: some View {
         
+        let screenSharingPeers = roomModel.peersSharingScreen.filter{!$0.isLocal}
+        
         GeometryReader { geo in
             
             if verticalSizeClass == .regular {
                 VStack(spacing: 0) {
-                    screenView
+                    if screenSharingPeers.count > 0 {
+                        screenView
+                    }
+                    else {
+                        if let whiteboard = roomModel.whiteboard, let whiteboardUrl = whiteboard.url {
+                            whiteboardView(url: whiteboardUrl)
+                        }
+                    }
                     tilesView
                         .frame(height: geo.size.height * 0.33)
                 }
             }
             else {
                 HStack(spacing: 0) {
-                    screenView
+                    if screenSharingPeers.count > 0 {
+                        screenView
+                    }
+                    else {
+                        if let whiteboard = roomModel.whiteboard, let whiteboardUrl = whiteboard.url {
+                            whiteboardView(url: whiteboardUrl)
+                        }
+                    }
                     tilesView
                         .padding(.horizontal, 10)
                         .frame(width: geo.size.width * 0.33)
@@ -70,22 +86,33 @@ struct HMSScreenProminenceLayout: View {
         }
     }
     
+    func whiteboardView(url: URL) -> some View {
+        HMSWhiteboardView(url: url)
+            .overlay(alignment: .topTrailing) {
+                expandOverlay
+            }
+    }
+    
     var screenView: some View {
         HMSScreenSharePaginatedView()
             .overlay(alignment: .topTrailing) {
-                HMSExpandIconView()
-                    .frame(width: 16, height: 16)
-                    .frame(width: 40, height: 40)
-                    .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
-                    .foreground(.onSurfaceHigh)
-                    .background(.white.opacity(0.0001))
-                    .onTapGesture {
-                        withAnimation {
-                            isExpanded.toggle()
-                        }
-                    }
-                    .padding()
+                expandOverlay
             }
+    }
+    
+    var expandOverlay: some View {
+        HMSExpandIconView()
+            .frame(width: 16, height: 16)
+            .frame(width: 40, height: 40)
+            .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
+            .foreground(.onSurfaceHigh)
+            .background(.white.opacity(0.0001))
+            .onTapGesture {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }
+            .padding()
     }
     
     @ViewBuilder

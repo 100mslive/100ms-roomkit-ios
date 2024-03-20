@@ -133,6 +133,24 @@ struct HMSOptionSheetView: View {
                                 dismiss()
                             }
                     }
+                    
+                    if roomModel.isWhiteboardAvailable {
+                        HMSSessionMenuButton(text: roomModel.whiteboard != nil ? "Close Whiteboard" : "Open Whiteboard", image: "whiteboard-icon", highlighted: false, isDisabled: roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer)
+                            .onTapGesture {
+                                
+                                guard !(roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer) else { return }
+                                
+                                Task {
+                                    if roomModel.whiteboard != nil {
+                                        try? await roomModel.stopWhiteboard()
+                                    }
+                                    else {
+                                        try? await roomModel.startWhiteboard(options: .init())
+                                    }
+                                    dismiss()
+                                }
+                            }
+                    }
                 }
                 .padding(.bottom)
             }
