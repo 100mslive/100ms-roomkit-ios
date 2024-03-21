@@ -23,6 +23,15 @@ struct HMSNotificationView: View {
             return false
         }
     }
+    
+    var isWarningType: Bool {
+        if case .warning(_) = notification.type {
+            return true
+        }
+        else {
+            return false
+        }
+    }
 
     var body: some View {
         
@@ -58,6 +67,9 @@ struct HMSNotificationView: View {
                             
                     case .poll:
                         Image(assetName: "poll-vote")
+                    case .warning(icon: let icon):
+                        Image(assetName: icon)
+                            .foreground(.alertWarning)
                     }
                 }
                 .foreground(.onSurfaceHigh)
@@ -141,15 +153,15 @@ struct HMSNotificationView: View {
                 }
             }
         }
-        .padding(.leading, isErrorType ? 8 : 16)
+        .padding(.leading, (isWarningType || isErrorType) ? 8 : 16)
         .padding(.trailing, 8)
         .padding(.vertical, 8)
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .frame(maxWidth: .infinity)
         .fixedSize(horizontal: false, vertical: true)
         .background(.surfaceDefault, cornerRadius: 8)
-        .padding(.leading, isErrorType ? 8 : 0)
-        .background(.errorDefault, cornerRadius: 8)
+        .padding(.leading, (isWarningType || isErrorType) ? 8 : 0)
+        .background(isWarningType ? .alertWarning : .errorDefault, cornerRadius: 8)
     }
 }
 
@@ -159,7 +171,7 @@ struct HMSNotificationView_Previews: PreviewProvider {
         VStack {
             HMSNotificationView(notification: .init(id: "id1", type: .error(icon: "record-on", retry: true, isTerminal: false), actor: "Pawan", isDismissible: true, title: "Recording failed to start"), onDismiss: {}, onAction: {})
             
-            HMSNotificationView(notification: .init(id: "id2", type: .handRaised, actor: "Pawan", isDismissible: true, title: "Peer raised hands Peer raised hands Peer raised hands"), onDismiss: {}, onAction: {})
+            HMSNotificationView(notification: .init(id: "id2", type: .handRaised(canBringOnStage: false), actor: "Pawan", isDismissible: true, title: "Peer raised hands Peer raised hands Peer raised hands"), onDismiss: {}, onAction: {})
             
             HMSNotificationView(notification: .init(id: "id3", type: .error(icon: "warning-icon", retry: false, isTerminal: true), actor: "Pawan", isDismissible: false, title: "Recording failed to start"), onDismiss: {}, onAction: {})
         }

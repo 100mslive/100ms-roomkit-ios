@@ -39,7 +39,7 @@ struct HMSPeerGridLayout: View {
         let highlightedPeers: [HMSPeerModel] = (roomModel.highlightedPeers + prominentPeers).combinedWithoutDuplicates
         
         if screenSharingPeers.count > 0 || roomModel.whiteboard != nil {
-            HMSScreenProminenceLayout()
+            HMSPresentationProminenceLayout()
         }
         else if highlightedPeers.count > 0 {
             HMSPeerProminenceLayout(prominentPeers: highlightedPeers)

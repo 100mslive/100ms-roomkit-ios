@@ -10,7 +10,7 @@ import SwiftUI
 import HMSSDK
 import HMSRoomModels
 
-struct HMSScreenProminenceLayout: View {
+struct HMSPresentationProminenceLayout: View {
     
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
@@ -139,7 +139,7 @@ struct HMSScreenProminenceLayout: View {
 struct HMSScreenProminenceLayout_Previews: PreviewProvider {
     static var previews: some View {
 #if Preview
-        HMSScreenProminenceLayout()
+        HMSPresentationProminenceLayout()
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(1, [.screen, .screen]))
             .environmentObject(HMSPrebuiltOptions())

@@ -34,6 +34,8 @@ struct HMSOptionSheetView: View {
     
     let isHLSViewer: Bool
     
+    @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
+    
     var body: some View {
         
         let isParticipantListEnabled = conferenceComponentParam.participantList != nil
@@ -140,14 +142,22 @@ struct HMSOptionSheetView: View {
                                 
                                 guard !(roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer) else { return }
                                 
-                                Task {
-                                    if roomModel.whiteboard != nil {
-                                        try? await roomModel.stopWhiteboard()
-                                    }
-                                    else {
-                                        try? await roomModel.startWhiteboard(options: .init())
-                                    }
+                                if roomModel.peersSharingScreen.count > 0 {
+                                    roomKitModel.addNotification(HMSRoomKitNotification(id: "", type: .warning(icon: "whiteboard-icon"), actor: "", isDismissible: true, title: "Discontinue screenshare to open the whiteboard"))
+                                    
                                     dismiss()
+                                }
+                                else {
+                                    
+                                    Task {
+                                        if roomModel.whiteboard != nil {
+                                            try? await roomModel.stopWhiteboard()
+                                        }
+                                        else {
+                                            try? await roomModel.startWhiteboard(options: .init())
+                                        }
+                                        dismiss()
+                                    }
                                 }
                             }
                     }
