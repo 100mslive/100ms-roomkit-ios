@@ -439,6 +439,14 @@ struct ParticipantItem: View {
             Spacer()
            
             HStack(spacing: 16) {
+                if wrappedModel.type == .sip {
+                    Circle()
+                        .foreground(.secondaryDim)
+                        .overlay {
+                            Image(assetName: "phone").renderingMode(.original)
+                        }
+                        .frame(width: 24, height: 24)
+                }
                 if wrappedModel.status == .handRaised {
                     Circle()
                         .foreground(.secondaryDim)
