@@ -453,7 +453,7 @@ struct ParticipantItem: View {
                         .overlay {
                             Image(assetName: "hand-raise-icon").renderingMode(.original).resizable().aspectRatio(contentMode: .fit).frame(width: 18, height: 18)}.frame(width: 24, height: 24)
                 }
-                if let model = wrappedModel.regularAudioTrackModel {
+                if let model = wrappedModel.regularAudioTrackModel, wrappedModel.type != .sip {
                     HMSAudioTrackView(trackModel: model, style: .list)
                         .environmentObject(self.model.peerModel)
                 }
