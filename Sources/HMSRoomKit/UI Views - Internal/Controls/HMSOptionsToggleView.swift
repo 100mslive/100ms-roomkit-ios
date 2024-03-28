@@ -60,6 +60,15 @@ struct HMSOptionsToggleView: View {
                     }
                     .edgesIgnoringSafeArea(.all)
                 }
+                .onChange(of: roomModel.peersSharingScreen) { peersSharingScreen in
+                    if peersSharingScreen.count > 0 {
+                        if roomModel.whiteboard != nil {
+                            Task {
+                                try await roomModel.stopWhiteboard()
+                            }
+                        }
+                    }
+                }
         }
     }
 }

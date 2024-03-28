@@ -36,6 +36,8 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
             return .none
         case .poll(type: let type):
             return .vote(type: type)
+        case .warning:
+            return Action.none
         }
     }
     
@@ -52,6 +54,7 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
         // Errors
         case error(icon: String, retry: Bool, isTerminal: Bool)
         case info(icon: String)
+        case warning(icon: String)
         
         // Screen share
         case screenShare
