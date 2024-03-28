@@ -136,7 +136,7 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    if roomModel.isWhiteboardAvailable {
+                    if roomModel.isWhiteboardAvailable && roomModel.userWhiteboardPermissions.contains(.admin) {
                         HMSSessionMenuButton(text: roomModel.whiteboard != nil ? "Close Whiteboard" : "Open Whiteboard", image: "whiteboard-icon", highlighted: false, isDisabled: roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer)
                             .onTapGesture {
                                 
