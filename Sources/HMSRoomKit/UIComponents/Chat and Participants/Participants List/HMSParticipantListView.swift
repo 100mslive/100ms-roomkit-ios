@@ -457,7 +457,10 @@ struct ParticipantItem: View {
                     HMSAudioTrackView(trackModel: model, style: .list)
                         .environmentObject(self.model.peerModel)
                 }
-                HMSWifiSignalView(level: wrappedModel.displayQuality, style: .list)
+                
+                if  wrappedModel.type != .sip {
+                    HMSWifiSignalView(level: wrappedModel.displayQuality, style: .list)
+                }
                 
                 HMSPeerOptionsButtonView(peerModel: model.peerModel) {
                     Image(assetName: "vertical-ellipsis")
