@@ -88,7 +88,7 @@ struct HMSPreviewBottomOverlay: View {
                                     userStreamingState.wrappedValue = .none
                                     cancellable = nil
                                     roomModel.roomState = .inMeeting
-//                                    try await roomModel.leaveSession()
+                                    try await roomModel.leaveSession()
                                 }
                             }
                             else {
