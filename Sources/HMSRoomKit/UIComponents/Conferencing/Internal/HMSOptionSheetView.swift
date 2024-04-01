@@ -34,6 +34,8 @@ struct HMSOptionSheetView: View {
     
     let isHLSViewer: Bool
     
+    @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
+    
     var body: some View {
         
         let isParticipantListEnabled = conferenceComponentParam.participantList != nil
@@ -131,6 +133,32 @@ struct HMSOptionSheetView: View {
                             .onTapGesture {
                                 try? roomModel.toggleNoiseCancellation()
                                 dismiss()
+                            }
+                    }
+                    
+                    if roomModel.isWhiteboardAvailable && roomModel.userWhiteboardPermissions.contains(.admin) {
+                        HMSSessionMenuButton(text: roomModel.whiteboard != nil ? "Close Whiteboard" : "Open Whiteboard", image: "whiteboard-icon", highlighted: false, isDisabled: roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer)
+                            .onTapGesture {
+                                
+                                guard !(roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer) else { return }
+                                
+                                if roomModel.peersSharingScreen.count > 0 {
+                                    roomKitModel.addNotification(HMSRoomKitNotification(id: "", type: .warning(icon: "whiteboard-icon"), actor: "", isDismissible: true, title: "Discontinue screenshare to open the whiteboard"))
+                                    
+                                    dismiss()
+                                }
+                                else {
+                                    
+                                    Task {
+                                        if roomModel.whiteboard != nil {
+                                            try? await roomModel.stopWhiteboard()
+                                        }
+                                        else {
+                                            try? await roomModel.startWhiteboard()
+                                        }
+                                        dismiss()
+                                    }
+                                }
                             }
                     }
                 }
