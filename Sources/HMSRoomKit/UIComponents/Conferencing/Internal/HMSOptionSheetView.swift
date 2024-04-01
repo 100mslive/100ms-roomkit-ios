@@ -154,7 +154,7 @@ struct HMSOptionSheetView: View {
                                             try? await roomModel.stopWhiteboard()
                                         }
                                         else {
-                                            try? await roomModel.startWhiteboard(options: .init())
+                                            try? await roomModel.startWhiteboard()
                                         }
                                         dismiss()
                                     }
