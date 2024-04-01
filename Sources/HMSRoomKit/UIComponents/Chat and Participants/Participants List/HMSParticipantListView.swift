@@ -439,17 +439,28 @@ struct ParticipantItem: View {
             Spacer()
            
             HStack(spacing: 16) {
+                if wrappedModel.type == .sip {
+                    Circle()
+                        .foreground(.secondaryDim)
+                        .overlay {
+                            Image(assetName: "phone").renderingMode(.original)
+                        }
+                        .frame(width: 24, height: 24)
+                }
                 if wrappedModel.status == .handRaised {
                     Circle()
                         .foreground(.secondaryDim)
                         .overlay {
                             Image(assetName: "hand-raise-icon").renderingMode(.original).resizable().aspectRatio(contentMode: .fit).frame(width: 18, height: 18)}.frame(width: 24, height: 24)
                 }
-                if let model = wrappedModel.regularAudioTrackModel {
+                if let model = wrappedModel.regularAudioTrackModel, wrappedModel.type != .sip {
                     HMSAudioTrackView(trackModel: model, style: .list)
                         .environmentObject(self.model.peerModel)
                 }
-                HMSWifiSignalView(level: wrappedModel.displayQuality, style: .list)
+                
+                if  wrappedModel.type != .sip {
+                    HMSWifiSignalView(level: wrappedModel.displayQuality, style: .list)
+                }
                 
                 HMSPeerOptionsButtonView(peerModel: model.peerModel) {
                     Image(assetName: "vertical-ellipsis")
