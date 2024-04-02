@@ -34,10 +34,10 @@ struct HMSMainConferenceView_Previews: PreviewProvider {
 #if Preview
         let roomKitModel: HMSRoomNotificationModel = {
             let model = HMSRoomNotificationModel()
-            model.notifications.append(.init(id: "id1", type: .handRaised, actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
-            model.notifications.append(.init(id: "id2", type: .handRaised, actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
-            model.notifications.append(.init(id: "id3", type: .handRaised, actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
-            model.notifications.append(.init(id: "id4", type: .handRaised, actor: "Bajaj", isDismissible: true, title: "Peer4 raised hands"))
+            model.notifications.append(.init(id: "id1", type: .handRaised(canBringOnStage: false), actor: "Pawan", isDismissible: true, title: "Peer1 raised hands Peer1 raised hands"))
+            model.notifications.append(.init(id: "id2", type: .handRaised(canBringOnStage: false), actor: "Dmitry", isDismissible: true, title: "Peer2", isDismissed: true))
+            model.notifications.append(.init(id: "id3", type: .handRaised(canBringOnStage: false), actor: "Praveen", isDismissible: true, title: "Peer3 raised hands"))
+            model.notifications.append(.init(id: "id4", type: .handRaised(canBringOnStage: false), actor: "Bajaj", isDismissible: true, title: "Peer4 raised hands"))
             return model
         }()
         
