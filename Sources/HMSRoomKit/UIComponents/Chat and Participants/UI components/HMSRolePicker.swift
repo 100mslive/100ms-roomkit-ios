@@ -114,7 +114,7 @@ struct HMSRolePicker_Previews: PreviewProvider {
         HMSRolePicker(recipient: .constant(nil))
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(0))
-            .environment(\.conferenceParams, .init(chat: .init(chatScopes: [.private])))
+            .environment(\.conferenceParams, .init(chat: .init(chatScopes: [.private]), isHandRaiseEnabled: false))
 #endif
     }
 }
