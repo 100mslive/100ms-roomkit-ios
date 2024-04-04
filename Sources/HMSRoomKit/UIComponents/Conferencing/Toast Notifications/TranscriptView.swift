@@ -15,25 +15,24 @@ struct HMSTranscriptView: View {
     }
     
     @State var activity: Activity = .speaking
+    @State var expiredTranscriptionLength = 0
     
     @State var hideTasks = [Task<(), any Error>]()
     var hideTranscriptTask: Task<(), any Error> {
         Task {
             try await Task.sleep(nanoseconds: 5_000_000_000)
             activity = .none
-            expiredLength = roomModel.transcript.count
+            expiredTranscriptionLength = roomModel.transcript.count
         }
     }
     
-    @State var expiredLength = 0
-
     @EnvironmentObject var roomModel: HMSRoomModel
     
     var body: some View {
         VStack {
             if activity == .speaking {
-                
-                let transcript = roomModel.transcript.suffix(min(roomModel.transcript.count - expiredLength, 400))
+                let freshTranscriptLength = roomModel.transcript.count - expiredTranscriptionLength
+                let transcript = roomModel.transcript.suffix(min(freshTranscriptLength, 400))
                 
                 let speakerLabel: String = {
                     // if current transcript lacks speaker label then show recent speaker label ourselves
@@ -41,11 +40,12 @@ struct HMSTranscriptView: View {
                         return ""
                     }
                     else {
-                        let lastSpeakerName = lastTranscriptLabel(transcript: String(roomModel.transcript.prefix(expiredLength)))
+                        let lastSpeakerName = lastTranscriptLabel(transcript: String(roomModel.transcript.prefix(expiredTranscriptionLength)))
                         return "\(lastSpeakerName): "
                     }
                 }()
                 
+                // Don't show empty transcript
                 if !transcript.isEmpty {
                     VStack {
                         Text(speakerLabel + transcript)
@@ -64,6 +64,7 @@ struct HMSTranscriptView: View {
             }
         }
         .onChange(of: roomModel.transcript) { transcript in
+            // Cancel hiding transcript if there is new transcription activity
             hideTasks.forEach{$0.cancel()}
             hideTasks.removeAll()
             activity = .speaking
