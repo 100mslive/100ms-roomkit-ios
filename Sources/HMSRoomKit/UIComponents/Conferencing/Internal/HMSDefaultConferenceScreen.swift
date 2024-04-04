@@ -55,10 +55,10 @@ public struct HMSDefaultConferenceScreen: View {
                 }
                 
                 if isChatOverlay || isHLSViewer {
-                    HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                    HMSMainConferenceView(isHLSViewer: isHLSViewer)
                 }
                 else {
-                    HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                    HMSMainConferenceView(isHLSViewer: isHLSViewer)
                         .sheet(isPresented: $isChatPresented) {
                             if #available(iOS 16.0, *) {
                                 HMSChatParticipantToggleView().presentationDetents([.large])
