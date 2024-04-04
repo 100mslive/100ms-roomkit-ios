@@ -105,7 +105,15 @@ public struct HMSDefaultConferenceScreen: View {
         // chat bottom overlay (notifications + overlay chat)
         .overlay(alignment: .bottom) {
             if !isHLSViewer {
-                HMSBottomOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                VStack {
+                    HMSTranscriptView()
+                    
+                    if isChatOverlay && isChatPresented {
+                        Spacer()
+                    }
+                    
+                    HMSBottomOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                }
             }
         }
         .overlay {
