@@ -14,7 +14,7 @@ struct HMSTranscriptView: View {
     
     var body: some View {
             VStack {
-                Text(roomModel.transcript.joined().suffix(400))
+                Text(roomModel.transcript.suffix(400))
                     .lineLimit(nil)
                     .foregroundStyle(.white)
             }
