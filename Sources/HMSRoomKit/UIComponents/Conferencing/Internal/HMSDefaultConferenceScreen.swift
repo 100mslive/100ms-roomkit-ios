@@ -21,6 +21,7 @@ public struct HMSDefaultConferenceScreen: View {
     @State private var menuContext = EnvironmentValues.MenuContext.none
     @State private var keyboardState = EnvironmentValues.HMSKeyboardState.hidden
     @State private var chatBadgeState = EnvironmentValues.HMSChatBadgeState.none
+    @State private var captionsState = EnvironmentValues.HMSCaptionsState.visible
     @State private var previousRole = ""
 
     @State var hlsPlaybackQuality: HMSHLSQualityPickerView.Quality = .Auto
@@ -106,10 +107,13 @@ public struct HMSDefaultConferenceScreen: View {
         .overlay(alignment: .bottom) {
             if !isHLSViewer {
                 VStack {
-                    HMSTranscriptView()
                     
-                    if isChatOverlay && isChatPresented {
-                        Spacer()
+                    if captionsState == .visible {
+                        HMSTranscriptView()
+                        
+                        if isChatOverlay && isChatPresented {
+                            Spacer()
+                        }
                     }
                     
                     HMSBottomOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
@@ -251,6 +255,7 @@ public struct HMSDefaultConferenceScreen: View {
         .environment(\.tabPageBarState, $tabPageBarState)
         .environment(\.keyboardState, $keyboardState)
         .environment(\.chatBadgeState, $chatBadgeState)
+        .environment(\.captionsState, $captionsState)
         .environment(\.hlsPlaybackQuality, $hlsPlaybackQuality)
     }
     

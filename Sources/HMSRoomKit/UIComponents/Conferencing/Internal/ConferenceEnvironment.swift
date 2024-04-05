@@ -35,6 +35,19 @@ internal extension EnvironmentValues {
         get { self[HMSChatBadgeState.Key.self] }
         set { self[HMSChatBadgeState.Key.self] = newValue }
     }
+    
+    enum HMSCaptionsState {
+        case hidden, visible
+        
+        struct Key: EnvironmentKey {
+            static let defaultValue: Binding<HMSCaptionsState> = .constant(.visible)
+        }
+    }
+    
+    var captionsState: Binding<HMSCaptionsState> {
+        get { self[HMSCaptionsState.Key.self] }
+        set { self[HMSCaptionsState.Key.self] = newValue }
+    }
 }
 
 internal extension HMSOptionSheetView {
