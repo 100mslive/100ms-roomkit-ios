@@ -31,7 +31,7 @@ struct HMSTranscriptView: View {
     var body: some View {
         VStack {
             if activity == .speaking {
-                let freshTranscriptLength = roomModel.transcript.count - expiredTranscriptionLength
+                let freshTranscriptLength = max(roomModel.transcript.count - expiredTranscriptionLength, 0)
                 let transcript = roomModel.transcript.suffix(min(freshTranscriptLength, 400))
                 
                 let speakerLabel: String = {
