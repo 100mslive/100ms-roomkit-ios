@@ -26,7 +26,7 @@ struct HMSBottomOverlay: View {
             
             VStack(spacing: 8) {
                 
-                HMSTranscriptView()
+//                HMSTranscriptView()
                 
                 if isChatOverlay {
                     // transparent chat
