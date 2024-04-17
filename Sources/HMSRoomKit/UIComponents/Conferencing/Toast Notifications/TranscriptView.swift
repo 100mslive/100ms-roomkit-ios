@@ -48,13 +48,13 @@ struct HMSTranscriptView: View {
                 // Don't show empty transcript
                 if !transcript.isEmpty {
                     VStack {
-                        Text(speakerLabel + transcript)
+                        Text("\(Text(speakerLabel).font(HMSUIFontTheme().body2Semibold14))\(Text(transcript).font(HMSUIFontTheme().body2Regular14))")
                             .lineLimit(nil)
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     .fixedSize(horizontal: false, vertical: true)
-                    .frame(maxHeight: 90, alignment: .bottom)
+                    .frame(maxHeight: 66, alignment: .bottom)
                     .fixedSize(horizontal: false, vertical: true)
                     .clipped()
                     .padding(12)
