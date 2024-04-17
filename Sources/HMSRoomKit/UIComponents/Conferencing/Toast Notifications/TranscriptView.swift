@@ -50,7 +50,7 @@ struct HMSTranscriptView: View {
         }
         else {
             HMSTopControlStrip()
-                .padding([.bottom,.horizontal], 16)
+                .padding([.bottom,.horizontal], 8)
                 .transition(.move(edge: .top))
                 .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
                 .opacity(0)
@@ -78,10 +78,12 @@ struct HMSTranscriptView: View {
                     }
                 }()
                 
+                let trimmedTranscript = speakerLabel.isEmpty ? String(transcript.trimmingCharacters(in: .newlines)) : String(transcript)
+                
                 // Don't show empty transcript
                 if !transcript.isEmpty {
                     VStack {
-                        Text("\(Text(.init("\(speakerLabel)")).font(HMSUIFontTheme().body2Semibold14))\(Text(.init("\(transcript)")).font(HMSUIFontTheme().body2Regular14))")
+                        Text("\(Text(.init("\(speakerLabel)")).font(HMSUIFontTheme().body2Semibold14))\(Text(.init("\(trimmedTranscript)")).font(HMSUIFontTheme().body2Regular14))")
                             .lineLimit(nil)
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
