@@ -108,14 +108,8 @@ public struct HMSDefaultConferenceScreen: View {
             if !isHLSViewer {
                 VStack {
                     
-                    if captionsState == .visible {
-                        HMSTranscriptView()
-                        
-                        if isChatOverlay && isChatPresented {
-                            Spacer()
-                        }
-                    }
-                    
+                    HMSTranscriptView(isChatPresented: $isChatPresented)
+
                     HMSBottomOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
                 }
             }
@@ -292,7 +286,7 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
             return model
         }()
         
-        HMSDefaultConferenceScreen(isHLSViewer: true)
+        HMSDefaultConferenceScreen(isHLSViewer: false)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(HMSPrebuiltOptions())
