@@ -10,6 +10,8 @@ import HMSRoomModels
 
 struct HMSTranscriptView: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.captionsState) var captionsState
     @Environment(\.controlsState) var controlsState
     
@@ -95,6 +97,7 @@ struct HMSTranscriptView: View {
                     .padding(12)
                     .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
                     .padding(8)
+                    .padding(.horizontal, verticalSizeClass == .regular ? 0 : 64)
                 }
             }
         }
