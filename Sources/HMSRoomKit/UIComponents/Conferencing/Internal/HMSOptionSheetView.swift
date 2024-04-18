@@ -164,11 +164,13 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    HMSSessionMenuButton(text: captionsState.wrappedValue == .visible ? "Hide Captions" : "Show Captions", image: "captions-icon", highlighted: captionsState.wrappedValue == .visible)
-                        .onTapGesture {
-                            captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
-                            dismiss()
-                        }
+                    if !roomModel.transcript.isEmpty {
+                        HMSSessionMenuButton(text: captionsState.wrappedValue == .visible ? "Hide Captions" : "Show Captions", image: "captions-icon", highlighted: captionsState.wrappedValue == .visible)
+                            .onTapGesture {
+                                captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
+                                dismiss()
+                            }
+                    }
                 }
                 .padding(.bottom)
             }

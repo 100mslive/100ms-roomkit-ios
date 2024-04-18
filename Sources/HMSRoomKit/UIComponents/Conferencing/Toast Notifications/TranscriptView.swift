@@ -51,15 +51,17 @@ struct HMSTranscriptView: View {
             }
         }
         else {
-            HMSTopControlStrip()
-                .padding([.bottom,.horizontal], 8)
-                .transition(.move(edge: .top))
-                .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
-                .opacity(0)
-            
-            viewBody
-            
-            Spacer()
+            if captionsState.wrappedValue == .visible {
+                HMSTopControlStrip()
+                    .padding([.bottom,.horizontal], 8)
+                    .transition(.move(edge: .top))
+                    .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
+                    .opacity(0)
+                
+                viewBody
+                
+                Spacer()
+            }
         }
     }
     
