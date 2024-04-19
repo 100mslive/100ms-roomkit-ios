@@ -31,7 +31,7 @@ struct HMSConferenceDescriptionView: View {
                             .foreground(.onSecondaryHigh)
                     }
                     HStack {
-                        Text("\(roomModel.participantCountDisplayString) watching")
+                        Text("\(roomModel.viewerCountDisplayString) watching")
                             .lineLimit(1)
                             .font(.captionRegular12)
                             .foreground(.onSurfaceMedium)

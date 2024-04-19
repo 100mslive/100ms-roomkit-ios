@@ -32,11 +32,7 @@ struct HMSParticipantCountStatusView: View {
 
 extension HMSRoomModel {
     var viewerCountDisplayString: String {
-        viewerCountString(count: (peerCount ?? 1) - 1)
-    }
-    
-    var participantCountDisplayString: String {
-        viewerCountString(count: (peerCount ?? 1))
+        viewerCountString(count: (peerCount ?? 0))
     }
     
     func viewerCountString(count: Int) -> String {
