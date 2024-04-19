@@ -16,7 +16,7 @@ struct HMSPreviewParticipantsLabelView: View {
         
         let peerCount = peerCount
         var remotePeerCount: Int {
-            peerCount - 1
+            peerCount
         }
         
         Group {
