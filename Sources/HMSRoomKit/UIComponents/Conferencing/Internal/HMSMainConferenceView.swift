@@ -11,9 +11,7 @@ import HMSRoomModels
 
 struct HMSMainConferenceView: View {
     
-    @Binding var isChatPresented: Bool
     let isHLSViewer: Bool
-    let isChatOverlay: Bool
     
     var body: some View {
         
@@ -43,7 +41,7 @@ struct HMSMainConferenceView_Previews: PreviewProvider {
         
         @State var isChatPresented = false
         
-        HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: true, isChatOverlay: false)
+        HMSMainConferenceView(isHLSViewer: true)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(HMSPrebuiltOptions())

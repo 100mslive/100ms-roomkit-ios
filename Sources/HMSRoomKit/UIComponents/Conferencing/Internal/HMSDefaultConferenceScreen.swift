@@ -21,6 +21,7 @@ public struct HMSDefaultConferenceScreen: View {
     @State private var menuContext = EnvironmentValues.MenuContext.none
     @State private var keyboardState = EnvironmentValues.HMSKeyboardState.hidden
     @State private var chatBadgeState = EnvironmentValues.HMSChatBadgeState.none
+    @State private var captionsState = EnvironmentValues.HMSCaptionsState.visible
     @State private var previousRole = ""
 
     @State var hlsPlaybackQuality: HMSHLSQualityPickerView.Quality = .Auto
@@ -55,10 +56,10 @@ public struct HMSDefaultConferenceScreen: View {
                 }
                 
                 if isChatOverlay || isHLSViewer {
-                    HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                    HMSMainConferenceView(isHLSViewer: isHLSViewer)
                 }
                 else {
-                    HMSMainConferenceView(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                    HMSMainConferenceView(isHLSViewer: isHLSViewer)
                         .sheet(isPresented: $isChatPresented) {
                             if #available(iOS 16.0, *) {
                                 HMSChatParticipantToggleView().presentationDetents([.large])
@@ -105,7 +106,12 @@ public struct HMSDefaultConferenceScreen: View {
         // chat bottom overlay (notifications + overlay chat)
         .overlay(alignment: .bottom) {
             if !isHLSViewer {
-                HMSBottomOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                VStack {
+                    
+                    HMSTranscriptView(isChatPresented: $isChatPresented)
+
+                    HMSBottomOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
+                }
             }
         }
         .overlay {
@@ -243,6 +249,7 @@ public struct HMSDefaultConferenceScreen: View {
         .environment(\.tabPageBarState, $tabPageBarState)
         .environment(\.keyboardState, $keyboardState)
         .environment(\.chatBadgeState, $chatBadgeState)
+        .environment(\.captionsState, $captionsState)
         .environment(\.hlsPlaybackQuality, $hlsPlaybackQuality)
     }
     
@@ -279,7 +286,7 @@ struct HMSDefaultConferencingScreen_Previews: PreviewProvider {
             return model
         }()
         
-        HMSDefaultConferenceScreen(isHLSViewer: true)
+        HMSDefaultConferenceScreen(isHLSViewer: false)
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2, [.prominent, .prominent]))
             .environmentObject(HMSPrebuiltOptions())

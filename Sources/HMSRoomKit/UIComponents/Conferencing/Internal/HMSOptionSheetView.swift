@@ -12,6 +12,8 @@ import HMSRoomModels
 
 struct HMSOptionSheetView: View {
     
+    @Environment(\.captionsState) var captionsState
+    
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @Environment(\.pollsOptionAppearance) var pollsOptionAppearance
@@ -159,6 +161,14 @@ struct HMSOptionSheetView: View {
                                         dismiss()
                                     }
                                 }
+                            }
+                    }
+                    
+                    if !roomModel.transcript.isEmpty {
+                        HMSSessionMenuButton(text: captionsState.wrappedValue == .visible ? "Hide Captions" : "Show Captions", image: "captions-icon", highlighted: captionsState.wrappedValue == .visible)
+                            .onTapGesture {
+                                captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
+                                dismiss()
                             }
                     }
                 }
