@@ -46,21 +46,25 @@ struct HMSTranscriptView: View {
         let isChatOverlay = conferenceComponentParam.chat?.isOverlay ?? false
         
         if !(isChatOverlay && isChatPresented) {
-            if captionsState.wrappedValue == .visible {
-                viewBody
+            if !(roomModel.transcriptionStates?.allSatisfy({$0.state == .stopped}) ?? true) {
+                if captionsState.wrappedValue == .visible {
+                    viewBody
+                }
             }
         }
         else {
-            if captionsState.wrappedValue == .visible {
-                HMSTopControlStrip()
-                    .padding([.bottom,.horizontal], 8)
-                    .transition(.move(edge: .top))
-                    .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
-                    .opacity(0)
-                
-                viewBody
-                
-                Spacer()
+            if !(roomModel.transcriptionStates?.allSatisfy({$0.state == .stopped}) ?? true) {
+                if captionsState.wrappedValue == .visible {
+                    HMSTopControlStrip()
+                        .padding([.bottom,.horizontal], 8)
+                        .transition(.move(edge: .top))
+                        .frame(height: controlsState.wrappedValue == .hidden ? 0 : nil)
+                        .opacity(0)
+                    
+                    viewBody
+                    
+                    Spacer()
+                }
             }
         }
     }
