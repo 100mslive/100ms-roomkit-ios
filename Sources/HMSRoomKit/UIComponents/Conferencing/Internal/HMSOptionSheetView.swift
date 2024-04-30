@@ -164,7 +164,7 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    if !(roomModel.transcriptionStates?.allSatisfy({$0.state == .stopped}) ?? true) {
+                    if roomModel.isTranscriptionAvailable {
                         
                         HMSSessionMenuButton(text: captionsState.wrappedValue == .visible ? "Hide Captions" : "Show Captions", image: "captions-icon", highlighted: captionsState.wrappedValue == .visible)
                             .onTapGesture {
