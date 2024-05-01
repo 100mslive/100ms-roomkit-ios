@@ -582,6 +582,9 @@ extension HMSPeerModel {
             if canRemoveOthers {
                 actions.append(.removeParticipant)
             }
+            if permissions.changeRole == true {
+                actions.append(.switchRole)
+            }
         }
         
         return HMSPeerOptionsViewContext(isPresented: isPresented, action: menuAction, name: name + (isLocal ? " (You)" : ""), role: role?.name.capitalized ?? "", actions: actions)
