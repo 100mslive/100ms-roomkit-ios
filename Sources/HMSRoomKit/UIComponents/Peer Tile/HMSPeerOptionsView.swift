@@ -142,9 +142,16 @@ struct HMSOptionsHeaderView: View {
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
-                        .font(.subtitle1).foreground(.onSurfaceHigh)
+                        .font(.subtitle1)
+                        .foreground(.onSurfaceHigh)
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
                     if let subtitle = subtitle {
-                        Text(subtitle).font(.captionRegular12).foreground(.onSurfaceMedium)
+                        Text(subtitle)
+                            .font(.captionRegular12)
+                            .foreground(.onSurfaceMedium)
+                            .lineLimit(nil)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
                 Spacer()

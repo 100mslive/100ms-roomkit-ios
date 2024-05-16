@@ -20,6 +20,8 @@ struct HMSOptionSheetView: View {
     
     @Environment(\.conferenceParams) var conferenceComponentParam
     
+    @EnvironmentObject var theme: HMSUITheme
+    
     enum Sheet: String, Identifiable {
         case chat
         case participants
@@ -37,6 +39,8 @@ struct HMSOptionSheetView: View {
     let isHLSViewer: Bool
     
     @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
+    
+    @State var isCaptionAdminSheetPresented = false
     
     var body: some View {
         
@@ -138,7 +142,7 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    if roomModel.isWhiteboardAvailable && roomModel.userWhiteboardPermissions.contains(.admin) {
+                    if roomModel.isWhiteboardAvailable && roomModel.userPermissions.whiteboardPermissions.contains(.admin) {
                         HMSSessionMenuButton(text: roomModel.whiteboard != nil ? "Close Whiteboard" : "Open Whiteboard", image: "whiteboard-icon", highlighted: false, isDisabled: roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer)
                             .onTapGesture {
                                 
@@ -164,12 +168,31 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    if roomModel.isTranscriptionAvailable {
+                    if roomModel.isTranscriptionAvailable || roomModel.userPermissions.transcriptionPermissions.contains(.admin) {
                         
-                        HMSSessionMenuButton(text: captionsState.wrappedValue == .visible ? "Hide Captions" : "Show Captions", image: "captions-icon", highlighted: captionsState.wrappedValue == .visible)
+                        HMSSessionMenuButton(text: "Closed Captions", image: captionsState.wrappedValue == .visible ? "captions-highlighted" : "captions-icon", highlighted: captionsState.wrappedValue == .visible)
                             .onTapGesture {
-                                captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
+                                if roomModel.userPermissions.transcriptionPermissions.contains(.admin) {
+                                    isCaptionAdminSheetPresented.toggle()
+                                }
+                                else {
+                                    captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
+                                }
                                 dismiss()
+                            }
+                            .sheet(isPresented: $isCaptionAdminSheetPresented) {
+                                HMSSheet {
+                                    if verticalSizeClass == .regular {
+                                        HMSCaptionAdminOptionsView()
+                                    }
+                                    else {
+                                        ScrollView {
+                                            HMSCaptionAdminOptionsView()
+                                        }
+                                    }
+                                }
+                                .edgesIgnoringSafeArea(.all)
+                                .environmentObject(theme)
                             }
                     }
                 }
