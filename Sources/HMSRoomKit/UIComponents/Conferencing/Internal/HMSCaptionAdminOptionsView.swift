@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import HMSRoomModels
 
 struct HMSCaptionAdminOptionsView: View {
+    
+    @EnvironmentObject var roomModel: HMSRoomModel
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.captionsState) var captionsState
@@ -34,7 +37,9 @@ struct HMSCaptionAdminOptionsView: View {
                         .padding(.vertical, 12)
                         .background(.primaryDefault, cornerRadius: 8)
                         .onTapGesture {
-                            
+                            Task {
+                                try await roomModel.startTranscription()
+                            }
                         }
                     }
                     else {
@@ -48,7 +53,7 @@ struct HMSCaptionAdminOptionsView: View {
                         .padding(.vertical, 12)
                         .background(.secondaryDefault, cornerRadius: 8)
                         .onTapGesture {
-                            
+                            captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
                         }
                         
                         HStack(alignment: .top, spacing: 16) {
@@ -61,7 +66,9 @@ struct HMSCaptionAdminOptionsView: View {
                         .padding(.vertical, 12)
                         .background(.errorDefault, cornerRadius: 8)
                         .onTapGesture {
-                            
+                            Task {
+                                try await roomModel.stopTranscription()
+                            }
                         }
                     }
                     
