@@ -24,6 +24,7 @@ struct HMSPeerOptionsViewContext {
         case removeFromStage(String)
         case lowerHand
         case none
+        case switchRole
     }
     
     @Binding var isPresented: Bool
@@ -178,6 +179,7 @@ struct HMSPeerOptionsView: View {
     var context: HMSPeerOptionsViewContext
     
     @State private var isChangeNameSheetPresented: Bool = false
+    @State private var isChangeRoleSheetPresented: Bool = false
     
     var body: some View {
         
@@ -186,7 +188,7 @@ struct HMSPeerOptionsView: View {
         let onStageRoleName = onStageExperience?.onStageRoleName ?? ""
         
         VStack(alignment: .leading, spacing: 0) {
-            HMSOptionsHeaderView(title: peerModel.name + (peerModel.isLocal ? " (You)" : ""), subtitle: context.role, onClose: {
+            HMSOptionsHeaderView(title: peerModel.name + (peerModel.isLocal ? " (You)" : ""), subtitle: peerModel.role?.name, onClose: {
                 context.isPresented = false
             })
             VStack(alignment: .leading, spacing: 8) {
@@ -241,6 +243,18 @@ struct HMSPeerOptionsView: View {
                                 try await roomModel.remove(peer: peerModel)
                             }
                             context.isPresented = false
+                        }
+                    case .switchRole:
+                        HStack {
+                            Image(assetName: "user-gear")
+                            Text("Switch Role").font(.subtitle2Semibold14)
+                            Spacer(minLength: 0)
+                        }
+                        .padding(.vertical, 16)
+                        .padding(.horizontal, 24)
+                        .background(.white.opacity(0.0001))
+                        .onTapGesture {
+                            isChangeRoleSheetPresented = true
                         }
                     case .minimizeTile:
                         HStack {
@@ -350,6 +364,21 @@ struct HMSPeerOptionsView: View {
                 }
             }
             .edgesIgnoringSafeArea(.all)
+        }
+        .sheet(isPresented: $isChangeRoleSheetPresented) {
+            if let role = peerModel.role {
+                HMSSheet {
+                    if verticalSizeClass == .regular {
+                        HMSChangeRoleView(peerModel: peerModel, roleName: role.name)
+                    }
+                    else {
+                        ScrollView {
+                            HMSChangeRoleView(peerModel: peerModel, roleName: role.name)
+                        }
+                    }
+                }
+                .edgesIgnoringSafeArea(.all)
+            }
         }
 //            .background(.backgroundDim, cornerRadius: 8.0, ignoringEdges: .all)
     }
