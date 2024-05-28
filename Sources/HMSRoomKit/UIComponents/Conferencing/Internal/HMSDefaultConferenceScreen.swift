@@ -21,7 +21,7 @@ public struct HMSDefaultConferenceScreen: View {
     @State private var menuContext = EnvironmentValues.MenuContext.none
     @State private var keyboardState = EnvironmentValues.HMSKeyboardState.hidden
     @State private var chatBadgeState = EnvironmentValues.HMSChatBadgeState.none
-    @State private var captionsState = EnvironmentValues.HMSCaptionsState.visible
+    @State private var captionsState = EnvironmentValues.HMSCaptionsState.hidden
     @State private var previousRole = ""
 
     @State var hlsPlaybackQuality: HMSHLSQualityPickerView.Quality = .Auto
@@ -102,14 +102,14 @@ public struct HMSDefaultConferenceScreen: View {
                 }
             }
         }
-//        .ignoresSafeArea(.keyboard)
+        //        .ignoresSafeArea(.keyboard)
         // chat bottom overlay (notifications + overlay chat)
         .overlay(alignment: .bottom) {
             if !isHLSViewer {
                 VStack {
                     
                     HMSTranscriptView(isChatPresented: $isChatPresented)
-
+                    
                     HMSBottomOverlay(isChatPresented: $isChatPresented, isHLSViewer: isHLSViewer, isChatOverlay: isChatOverlay)
                 }
             }
@@ -173,7 +173,7 @@ public struct HMSDefaultConferenceScreen: View {
             // add notification for each new peer
             for newPeer in newPeersWhoHaveRaisedHands {
                 guard let role = newPeer.role?.name else { continue }
-
+                
                 let notification = HMSRoomKitNotification(id: newPeer.id, type: .handRaised(canBringOnStage: rolesWhoCanComeOnStage.contains(role)), actor: newPeer.name, isDismissible: true, title: "\(newPeer.name) raised hand")
                 roomKitModel.addNotification(notification)
             }
@@ -244,6 +244,43 @@ public struct HMSDefaultConferenceScreen: View {
             chatBadgeState = .none
         }
 #endif
+        .onAppear() {
+            
+            guard let localCaptionState = (roomModel.transcriptionStates.first{ state in state.mode == "caption"}) else { return }
+            
+            switch localCaptionState.state {
+            case .starting:
+                captionsState = .starting
+            case .started:
+                break
+            case .stopped:
+                captionsState = .hidden
+            case .failed:
+                captionsState = .failed
+            case .none:
+                captionsState = .hidden
+            @unknown default:
+                fatalError()
+            }
+        }
+        .onChange(of: roomModel.transcriptionStates) { transcriptionStates in
+            guard let localCaptionState = (transcriptionStates.first{ state in state.mode == "caption"}) else { return }
+            
+            switch localCaptionState.state {
+            case .starting:
+                captionsState = .starting
+            case .started:
+                break
+            case .stopped:
+                captionsState = .hidden
+            case .failed:
+                captionsState = .failed
+            case .none:
+                captionsState = .hidden
+            @unknown default:
+                fatalError()
+            }
+        }
         .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
         .environment(\.menuContext, $menuContext)
         .environment(\.tabPageBarState, $tabPageBarState)

@@ -46,14 +46,14 @@ struct HMSTranscriptView: View {
         let isChatOverlay = conferenceComponentParam.chat?.isOverlay ?? false
         
         if !(isChatOverlay && isChatPresented) {
-            if roomModel.isTranscriptionAvailable {
+            if roomModel.isTranscriptionStarted {
                 if captionsState.wrappedValue == .visible {
                     viewBody
                 }
             }
         }
         else {
-            if roomModel.isTranscriptionAvailable {
+            if roomModel.isTranscriptionStarted {
                 if captionsState.wrappedValue == .visible {
                     HMSTopControlStrip()
                         .padding([.bottom,.horizontal], 8)

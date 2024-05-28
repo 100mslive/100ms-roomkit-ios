@@ -17,16 +17,16 @@ struct HMSCaptionAdminOptionsView: View {
     
     var body: some View {
         
-        if captionsState.wrappedValue != .failed && captionsState.wrappedValue != .initializing {
+        if captionsState.wrappedValue != .failed && captionsState.wrappedValue != .starting {
             
             VStack(alignment: .leading) {
                 
-                HMSOptionsHeaderView(title: captionsState.wrappedValue == .notStarted ? "Enable Closed Captions (CC) for this session?" : "Closed Captions (CC)", onClose: {
+                HMSOptionsHeaderView(title: roomModel.isTranscriptionStarted ? "Closed Captions (CC)" : "Enable Closed Captions (CC) for this session?", onClose: {
                     dismiss()
                 })
                 VStack(alignment: .leading) {
                     
-                    if captionsState.wrappedValue == .notStarted {
+                    if !roomModel.isTranscriptionStarted {
                         HStack(alignment: .top, spacing: 16) {
                             Text("Enable for Everyone")
                                 .foreground(.onPrimaryHigh)
@@ -39,6 +39,7 @@ struct HMSCaptionAdminOptionsView: View {
                         .onTapGesture {
                             Task {
                                 try await roomModel.startTranscription()
+                                dismiss()
                             }
                         }
                     }
@@ -54,6 +55,7 @@ struct HMSCaptionAdminOptionsView: View {
                         .background(.secondaryDefault, cornerRadius: 8)
                         .onTapGesture {
                             captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
+                            dismiss()
                         }
                         
                         HStack(alignment: .top, spacing: 16) {
@@ -68,11 +70,12 @@ struct HMSCaptionAdminOptionsView: View {
                         .onTapGesture {
                             Task {
                                 try await roomModel.stopTranscription()
+                                dismiss()
                             }
                         }
                     }
                     
-                    Text(captionsState.wrappedValue == .notStarted ? "This will enable Closed Captions for everyone in this room. You can disable it later." : "This will disable Closed Captions for everyone in this room. You can enable it again.")
+                    Text(!roomModel.isTranscriptionStarted ? "This will enable Closed Captions for everyone in this room. You can disable it later." : "This will disable Closed Captions for everyone in this room. You can enable it again.")
                         .foreground(.onSurfaceMedium)
                         .font(.body2Regular14)
                     

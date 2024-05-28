@@ -26,6 +26,7 @@ struct HMSOptionSheetView: View {
         case chat
         case participants
         case stopRecording
+        case closedCaption
         var id: String { rawValue }
     }
     
@@ -39,8 +40,6 @@ struct HMSOptionSheetView: View {
     let isHLSViewer: Bool
     
     @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
-    
-    @State var isCaptionAdminSheetPresented = false
     
     var body: some View {
         
@@ -168,31 +167,20 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    if roomModel.isTranscriptionAvailable || roomModel.userPermissions.transcriptionPermissions.contains(.admin) {
+                    // isTranscriptionAvailable Or { transcription started in room || we are admin}
+                    if roomModel.isTranscriptionStarted
+                        || (roomModel.transcriptionStates.first{$0.mode == "caption"}?.state == .started
+                            || (roomModel.userPermissions.transcriptionsPermissions.first{$0.mode == "caption"}?.admin ?? false)
+                        ) {
                         
                         HMSSessionMenuButton(text: "Closed Captions", image: captionsState.wrappedValue == .visible ? "captions-highlighted" : "captions-icon", highlighted: captionsState.wrappedValue == .visible)
                             .onTapGesture {
-                                if roomModel.userPermissions.transcriptionPermissions.contains(.admin) {
-                                    isCaptionAdminSheetPresented.toggle()
+                                if (roomModel.userPermissions.transcriptionsPermissions.first{$0.mode == "caption"}?.admin ?? false) {
+                                    internalSheet = .closedCaption
                                 }
                                 else {
                                     captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
                                 }
-                                dismiss()
-                            }
-                            .sheet(isPresented: $isCaptionAdminSheetPresented) {
-                                HMSSheet {
-                                    if verticalSizeClass == .regular {
-                                        HMSCaptionAdminOptionsView()
-                                    }
-                                    else {
-                                        ScrollView {
-                                            HMSCaptionAdminOptionsView()
-                                        }
-                                    }
-                                }
-                                .edgesIgnoringSafeArea(.all)
-                                .environmentObject(theme)
                             }
                     }
                 }
@@ -227,6 +215,19 @@ struct HMSOptionSheetView: View {
                     }
                 }
                 .edgesIgnoringSafeArea(.all)
+            case .closedCaption:
+                HMSSheet {
+                    if verticalSizeClass == .regular {
+                        HMSCaptionAdminOptionsView()
+                    }
+                    else {
+                        ScrollView {
+                            HMSCaptionAdminOptionsView()
+                        }
+                    }
+                }
+                .edgesIgnoringSafeArea(.all)
+                .environmentObject(theme)
             }
         }
     }
