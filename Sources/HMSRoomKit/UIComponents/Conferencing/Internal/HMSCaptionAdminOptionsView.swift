@@ -94,7 +94,7 @@ struct HMSCaptionAdminOptionsView_Previews: PreviewProvider {
             .environmentObject(HMSUITheme())
             .environmentObject(HMSPrebuiltOptions())
             .environmentObject(HMSRoomModel.dummyRoom(3))
-            .environment(\.captionsState, .constant(.notStarted))
+            .environment(\.captionsState, .constant(.hidden))
 #endif
     }
 }
