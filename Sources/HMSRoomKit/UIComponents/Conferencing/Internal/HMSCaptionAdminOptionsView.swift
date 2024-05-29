@@ -7,83 +7,125 @@
 
 import SwiftUI
 import HMSRoomModels
+import Combine
 
 struct HMSCaptionAdminOptionsView: View {
+    
+    @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
     
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.captionsState) var captionsState
     
+    @State private var cancellable: AnyCancellable?
+    
     var body: some View {
         
-        if captionsState.wrappedValue != .failed && captionsState.wrappedValue != .starting {
+        VStack(alignment: .leading) {
             
+            HMSOptionsHeaderView(title: roomModel.isTranscriptionStarted ? "Closed Captions (CC)" : "Enable Closed Captions (CC) for this session?", onClose: {
+                dismiss()
+            })
             VStack(alignment: .leading) {
                 
-                HMSOptionsHeaderView(title: roomModel.isTranscriptionStarted ? "Closed Captions (CC)" : "Enable Closed Captions (CC) for this session?", onClose: {
-                    dismiss()
-                })
-                VStack(alignment: .leading) {
-                    
-                    if !roomModel.isTranscriptionStarted {
-                        HStack(alignment: .top, spacing: 16) {
-                            Text("Enable for Everyone")
-                                .foreground(.onPrimaryHigh)
-                                .font(.buttonSemibold16)
-                            
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(.primaryDefault, cornerRadius: 8)
-                        .onTapGesture {
-                            Task {
-                                try await roomModel.startTranscription()
-                                dismiss()
-                            }
-                        }
+                if !roomModel.isTranscriptionStarted {
+                    HStack(alignment: .top, spacing: 16) {
+                        Text("Enable for Everyone")
+                            .foreground(.onPrimaryHigh)
+                            .font(.buttonSemibold16)
+                        
                     }
-                    else {
-                        HStack(alignment: .top, spacing: 16) {
-                            Text(captionsState.wrappedValue == .visible ? "Hide for Me" : "Show for Me")
-                                .foreground(.onSecondaryHigh)
-                                .font(.buttonSemibold16)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(.primaryDefault, cornerRadius: 8)
+                    .onTapGesture {
+                        Task {
+
+                            let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "loading-record"), actor: "", isDismissible: false, title: "Enabling Closed Captioning for everyone")
+                            roomKitModel.addNotification(note)
                             
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(.secondaryDefault, cornerRadius: 8)
-                        .onTapGesture {
-                            captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
+                            do {
+                                cancellable = roomModel.$transcriptionStates.sink { transcriptionStates in
+                                    
+                                    guard let captionState = transcriptionStates.captionState else { return }
+                                    if captionState.state == .started {
+                                        roomKitModel.removeNotification(for: [note.id])
+                                        cancellable = nil
+                                    }
+                                }
+                                try await roomModel.startTranscription()
+                            }
+                            catch {
+                                roomKitModel.removeNotification(for: [note.id])
+                                cancellable = nil
+                            }
+
+                            dismiss()
                             dismiss()
                         }
+                    }
+                }
+                else {
+                    HStack(alignment: .top, spacing: 16) {
+                        Text(captionsState.wrappedValue == .visible ? "Hide for Me" : "Show for Me")
+                            .foreground(.onSecondaryHigh)
+                            .font(.buttonSemibold16)
                         
-                        HStack(alignment: .top, spacing: 16) {
-                            Text("Disable for Everyone")
-                                .foreground(.errorBrighter)
-                                .font(.buttonSemibold16)
-                            
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(.errorDefault, cornerRadius: 8)
-                        .onTapGesture {
-                            Task {
-                                try await roomModel.stopTranscription()
-                                dismiss()
-                            }
-                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(.secondaryDefault, cornerRadius: 8)
+                    .onTapGesture {
+                        captionsState.wrappedValue = captionsState.wrappedValue == .visible ? .hidden : .visible
+                        dismiss()
                     }
                     
-                    Text(!roomModel.isTranscriptionStarted ? "This will enable Closed Captions for everyone in this room. You can disable it later." : "This will disable Closed Captions for everyone in this room. You can enable it again.")
-                        .foreground(.onSurfaceMedium)
-                        .font(.body2Regular14)
-                    
+                    HStack(alignment: .top, spacing: 16) {
+                        Text("Disable for Everyone")
+                            .foreground(.errorBrighter)
+                            .font(.buttonSemibold16)
+                        
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(.errorDefault, cornerRadius: 8)
+                    .onTapGesture {
+                        Task {
+                            let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "loading-record"), actor: "", isDismissible: false, title: "Disabling Closed Captioning for everyone")
+                            roomKitModel.addNotification(note)
+                            
+                            do {
+                                cancellable = roomModel.$transcriptionStates.sink { transcriptionStates in
+                                    
+                                    guard let captionState = transcriptionStates.captionState else { return }
+                                    if captionState.state == .stopped {
+                                        roomKitModel.removeNotification(for: [note.id])
+                                        cancellable = nil
+                                    }
+                                }
+                                try await roomModel.stopTranscription()
+                            }
+                            catch {
+                                roomKitModel.removeNotification(for: [note.id])
+                                cancellable = nil
+                            }
+                            
+                            dismiss()
+                            dismiss()
+                        }
+                    }
                 }
-                .padding(.horizontal, 24)
+                
+                Text(!roomModel.isTranscriptionStarted ? "This will enable Closed Captions for everyone in this room. You can disable it later." : "This will disable Closed Captions for everyone in this room. You can enable it again.")
+                    .foreground(.onSurfaceMedium)
+                    .font(.body2Regular14)
                 
             }
+            .padding(.horizontal, 24)
+            
         }
+        
     }
 }
 

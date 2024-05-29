@@ -32,6 +32,8 @@ struct HMSPrebuiltConferenceView: View {
     @State var pollVoteViewModels: [PollVoteViewModel]? = nil
     @State var hlsPollIDs = [String]()
     
+    @State var previousTranscriptionStates: [HMSTranscriptionState]?
+    
     var body: some View {
         ZStack {
             HMSConferenceScreen {
@@ -174,6 +176,39 @@ struct HMSPrebuiltConferenceView: View {
 #if !Preview
             .onChange(of: pollModel.currentPolls) { _ in
                 updatePollNotifications()
+            }
+            .onAppear() {
+                previousTranscriptionStates = roomModel.transcriptionStates
+            }
+            .onChange(of: roomModel.transcriptionStates) { newTranscriptionStates in
+                
+                guard let newCaptionState = newTranscriptionStates.first(where: {$0.mode == "caption"}) else { return }
+                let prevCaptionState = previousTranscriptionStates?.first(where: {$0.mode == "caption"})
+                
+                if newCaptionState != prevCaptionState {
+                    
+                    if newCaptionState.state == .failed {
+                        roomKitModel.addNotification(HMSRoomKitNotification(id: UUID().uuidString, type: .error(icon: "warning-icon", retry: false, isTerminal: false), actor: "", isDismissible: true, title: "Failed to enable Closed Captions"))
+                    }
+                    else if newCaptionState.state == .started {
+                        let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "captions-highlighted"), actor: "", isDismissible: false, title: "Closed Captioning enabled for everyone")
+                        roomKitModel.addNotification(note)
+                        Task {
+                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                            roomKitModel.removeNotification(for: [note.id])
+                        }
+                    }
+                    else if newCaptionState.state == .stopped {
+                        let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "captions-icon"), actor: "", isDismissible: false, title: "Closed Captioning disabled for everyone")
+                        roomKitModel.addNotification(note)
+                        Task {
+                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                            roomKitModel.removeNotification(for: [note.id])
+                        }
+                    }
+                    
+                    previousTranscriptionStates = newTranscriptionStates
+                }
             }
             .onReceive(NotificationCenter.default.publisher(for: .init(rawValue: "poll-vote"))) { notification in
                 let center = roomModel.interactivityCenter

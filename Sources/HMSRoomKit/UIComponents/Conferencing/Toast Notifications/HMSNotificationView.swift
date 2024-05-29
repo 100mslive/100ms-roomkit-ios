@@ -70,6 +70,17 @@ struct HMSNotificationView: View {
                     case .warning(icon: let icon):
                         Image(assetName: icon)
                             .foreground(.alertWarning)
+                    case .closedCaptionStatus(icon: let icon):
+                        if icon == "loading-record" {
+                            HMSLoadingView {
+                                Image(assetName: icon)
+                                    .foreground(.onSurfaceHigh)
+                            }
+                        }
+                        else {
+                            Image(assetName: icon)
+                                .foreground(.onSurfaceHigh)
+                        }
                     }
                 }
                 .foreground(.onSurfaceHigh)
