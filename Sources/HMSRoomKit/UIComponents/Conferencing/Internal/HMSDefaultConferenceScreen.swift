@@ -250,13 +250,13 @@ public struct HMSDefaultConferenceScreen: View {
             
             switch localCaptionState.state {
             case .starting:
-                captionsState = .starting
+                break
             case .started:
                 break
             case .stopped:
                 captionsState = .hidden
             case .failed:
-                captionsState = .failed
+                captionsState = .hidden
             case .none:
                 captionsState = .hidden
             @unknown default:
@@ -268,13 +268,13 @@ public struct HMSDefaultConferenceScreen: View {
             
             switch localCaptionState.state {
             case .starting:
-                captionsState = .starting
+                break
             case .started:
                 break
             case .stopped:
                 captionsState = .hidden
             case .failed:
-                captionsState = .failed
+                captionsState = .hidden
             case .none:
                 captionsState = .hidden
             @unknown default:

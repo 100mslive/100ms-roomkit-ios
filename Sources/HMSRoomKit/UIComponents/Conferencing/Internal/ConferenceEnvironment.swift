@@ -37,7 +37,7 @@ internal extension EnvironmentValues {
     }
     
     enum HMSCaptionsState {
-        case hidden, visible, starting, failed
+        case hidden, visible
         
         struct Key: EnvironmentKey {
             static let defaultValue: Binding<HMSCaptionsState> = .constant(.hidden)
