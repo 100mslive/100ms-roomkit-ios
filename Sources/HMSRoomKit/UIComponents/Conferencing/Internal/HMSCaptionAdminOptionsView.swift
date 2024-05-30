@@ -48,7 +48,7 @@ struct HMSCaptionAdminOptionsView: View {
                             do {
                                 cancellable = roomModel.$transcriptionStates.sink { transcriptionStates in
                                     
-                                    guard let captionState = transcriptionStates.captionState else { return }
+                                    guard let captionState = transcriptionStates.stateWith(mode: HMSTranscriptionMode.caption) else { return }
                                     if captionState.state == .started {
                                         roomKitModel.removeNotification(for: [note.id])
                                         cancellable = nil
@@ -98,7 +98,7 @@ struct HMSCaptionAdminOptionsView: View {
                             do {
                                 cancellable = roomModel.$transcriptionStates.sink { transcriptionStates in
                                     
-                                    guard let captionState = transcriptionStates.captionState else { return }
+                                    guard let captionState = transcriptionStates.stateWith(mode: HMSTranscriptionMode.caption) else { return }
                                     if captionState.state == .stopped {
                                         roomKitModel.removeNotification(for: [note.id])
                                         cancellable = nil

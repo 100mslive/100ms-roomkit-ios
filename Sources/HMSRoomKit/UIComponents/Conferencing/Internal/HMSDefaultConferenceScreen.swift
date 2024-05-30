@@ -246,7 +246,7 @@ public struct HMSDefaultConferenceScreen: View {
 #endif
         .onAppear() {
             
-            guard let localCaptionState = (roomModel.transcriptionStates.first{ state in state.mode == "caption"}) else { return }
+            guard let localCaptionState = (roomModel.transcriptionStates.stateWith(mode: HMSTranscriptionMode.caption)) else { return }
             
             switch localCaptionState.state {
             case .starting:
@@ -264,7 +264,7 @@ public struct HMSDefaultConferenceScreen: View {
             }
         }
         .onChange(of: roomModel.transcriptionStates) { transcriptionStates in
-            guard let localCaptionState = (transcriptionStates.first{ state in state.mode == "caption"}) else { return }
+            guard let localCaptionState = (transcriptionStates.stateWith(mode: HMSTranscriptionMode.caption)) else { return }
             
             switch localCaptionState.state {
             case .starting:

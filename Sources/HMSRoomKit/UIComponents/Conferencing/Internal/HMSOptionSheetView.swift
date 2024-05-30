@@ -141,7 +141,7 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    if roomModel.isWhiteboardAvailable && roomModel.userPermissions.whiteboardPermissions.contains(.admin) {
+                    if roomModel.isWhiteboardAvailable && (roomModel.userWhiteboardPermission?.admin ?? false) {
                         HMSSessionMenuButton(text: roomModel.whiteboard != nil ? "Close Whiteboard" : "Open Whiteboard", image: "whiteboard-icon", highlighted: false, isDisabled: roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer)
                             .onTapGesture {
                                 
@@ -169,13 +169,13 @@ struct HMSOptionSheetView: View {
                     
                     // isTranscriptionAvailable Or { transcription started in room || we are admin}
                     if roomModel.isTranscriptionStarted
-                        || (roomModel.transcriptionStates.first{$0.mode == "caption"}?.state == .started
-                            || (roomModel.userPermissions.transcriptionsPermissions.first{$0.mode == "caption"}?.admin ?? false)
+                        || (roomModel.transcriptionStates.stateWith(mode: .caption)?.state == .started
+                            || (roomModel.userTranscriptionPermissions.permissionWith(mode: HMSTranscriptionMode.caption)?.admin ?? false)
                         ) {
                         
                         HMSSessionMenuButton(text: "Closed Captions", image: captionsState.wrappedValue == .visible ? "captions-highlighted" : "captions-icon", highlighted: captionsState.wrappedValue == .visible)
                             .onTapGesture {
-                                if (roomModel.userPermissions.transcriptionsPermissions.first{$0.mode == "caption"}?.admin ?? false) {
+                                if (roomModel.userTranscriptionPermissions.permissionWith(mode: HMSTranscriptionMode.caption)?.admin ?? false) {
                                     internalSheet = .closedCaption
                                 }
                                 else {

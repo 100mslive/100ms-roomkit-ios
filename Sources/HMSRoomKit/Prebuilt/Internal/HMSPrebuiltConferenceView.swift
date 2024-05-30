@@ -182,8 +182,8 @@ struct HMSPrebuiltConferenceView: View {
             }
             .onChange(of: roomModel.transcriptionStates) { newTranscriptionStates in
                 
-                guard let newCaptionState = newTranscriptionStates.first(where: {$0.mode == "caption"}) else { return }
-                let prevCaptionState = previousTranscriptionStates?.first(where: {$0.mode == "caption"})
+                guard let newCaptionState = newTranscriptionStates.stateWith(mode: .caption) else { return }
+                let prevCaptionState = previousTranscriptionStates?.stateWith(mode: .caption)
                 
                 if newCaptionState != prevCaptionState {
                     
