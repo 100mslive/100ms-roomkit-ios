@@ -187,10 +187,7 @@ struct HMSPrebuiltConferenceView: View {
                 
                 if newCaptionState != prevCaptionState {
                     
-                    if newCaptionState.state == .failed {
-                        roomKitModel.addNotification(HMSRoomKitNotification(id: UUID().uuidString, type: .error(icon: "warning-icon", retry: false, isTerminal: false), actor: "", isDismissible: true, title: "Failed to enable Closed Captions"))
-                    }
-                    else if newCaptionState.state == .started {
+                    if newCaptionState.state == .started {
                         let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "captions-highlighted"), actor: "", isDismissible: false, title: "Closed Captioning enabled for everyone")
                         roomKitModel.addNotification(note)
                         Task {

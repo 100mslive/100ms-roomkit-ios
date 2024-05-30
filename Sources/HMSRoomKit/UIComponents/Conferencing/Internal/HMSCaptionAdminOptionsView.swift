@@ -27,7 +27,8 @@ struct HMSCaptionAdminOptionsView: View {
             HMSOptionsHeaderView(title: roomModel.isTranscriptionStarted ? "Closed Captions (CC)" : "Enable Closed Captions (CC) for this session?", onClose: {
                 dismiss()
             })
-            VStack(alignment: .leading) {
+            .padding(.top, -16)
+            VStack(alignment: .leading, spacing: 16) {
                 
                 if !roomModel.isTranscriptionStarted {
                     HStack(alignment: .top, spacing: 16) {
@@ -55,9 +56,11 @@ struct HMSCaptionAdminOptionsView: View {
                                     }
                                 }
                                 try await roomModel.startTranscription()
+                                captionsState.wrappedValue = .visible
                             }
                             catch {
                                 roomKitModel.removeNotification(for: [note.id])
+                                roomKitModel.addNotification(HMSRoomKitNotification(id: UUID().uuidString, type: .error(icon: "warning-icon", retry: false, isTerminal: false), actor: "", isDismissible: true, title: "Failed to enable Closed Captions"))
                                 cancellable = nil
                             }
 
@@ -123,9 +126,8 @@ struct HMSCaptionAdminOptionsView: View {
                 
             }
             .padding(.horizontal, 24)
-            
         }
-        
+        .padding(.vertical, 24)
     }
 }
 
