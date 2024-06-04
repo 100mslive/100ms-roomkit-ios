@@ -38,6 +38,8 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
             return .vote(type: type)
         case .warning:
             return Action.none
+        case .closedCaptionStatus:
+            return Action.none
         }
     }
     
@@ -61,6 +63,9 @@ struct HMSRoomKitNotification: Identifiable, Hashable {
         
         // Poll, quiz
         case poll(type: HMSPollCategory)
+        
+        // Closed caption
+        case closedCaptionStatus(icon: String)
     }
     
     enum Action: Hashable {

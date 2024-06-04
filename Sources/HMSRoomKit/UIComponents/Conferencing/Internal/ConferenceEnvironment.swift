@@ -40,7 +40,7 @@ internal extension EnvironmentValues {
         case hidden, visible
         
         struct Key: EnvironmentKey {
-            static let defaultValue: Binding<HMSCaptionsState> = .constant(.visible)
+            static let defaultValue: Binding<HMSCaptionsState> = .constant(.hidden)
         }
     }
     
