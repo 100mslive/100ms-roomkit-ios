@@ -49,7 +49,7 @@ struct HMSPrebuiltMeetingView: View {
                 case .default:
                     HMSPreviewScreen { screen in
                         if let defaultScreen = roomInfoModel.defaultPreviewScreen {
-                            screen = .init(title: defaultScreen.elements?.preview_header?.title ?? "", subTitle: defaultScreen.elements?.preview_header?.sub_title ?? "", joinButtonType: defaultScreen.elements?.join_form.join_btn_type == .join ? .join : .goLive, joinButtonLabel: defaultScreen.elements?.join_form.join_btn_label ?? "", goLiveButtonLabel: defaultScreen.elements?.join_form.go_live_btn_label ?? "")
+                            screen = .init(title: defaultScreen.elements?.preview_header?.title ?? "", subTitle: defaultScreen.elements?.preview_header?.sub_title ?? "", joinButtonType: defaultScreen.elements?.join_form.join_btn_type == .join ? .join : .goLive, joinButtonLabel: defaultScreen.elements?.join_form.join_btn_label ?? "", goLiveButtonLabel: defaultScreen.elements?.join_form.go_live_btn_label ?? "", noiseCancellation: .init(startsEnabled: (defaultScreen.elements?.noise_cancellation?.starts_enabled ?? false) ? true : false))
                         }
                     }
                     .onAppear() {
