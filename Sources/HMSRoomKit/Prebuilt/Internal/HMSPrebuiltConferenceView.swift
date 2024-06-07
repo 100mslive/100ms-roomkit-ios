@@ -100,6 +100,10 @@ struct HMSPrebuiltConferenceView: View {
                             else {
                                 screen.participantList = nil
                             }
+                            
+                            if let noiseCancellation = defaultScreen.elements?.noise_cancellation {
+                                screen.noiseCancellation = .init(startsEnabled: noiseCancellation.starts_enabled)
+                            }
                         }
                     }
                 case .liveStreaming:
