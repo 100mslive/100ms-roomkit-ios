@@ -39,6 +39,8 @@ class HMSRoomInfoModel: ObservableObject {
     @Published var removeFromStageLabel = "Remove from Stage"
     @Published var isBroadcaster: Bool = false
     
+    @Published var isNoiseCancellationOnByDefault: Bool = false
+    
     var roomLayout: HMSRoomLayout? {
         didSet {
             update()
@@ -94,6 +96,8 @@ class HMSRoomInfoModel: ObservableObject {
         else if let previewScreen = layoutData.screens?.preview?.default {
             previewType = .default
             defaultPreviewScreen = previewScreen
+            
+            isNoiseCancellationOnByDefault = previewScreen.elements?.noise_cancellation?.starts_enabled ?? false
         }
         
         // Update conferencing screen
@@ -101,10 +105,14 @@ class HMSRoomInfoModel: ObservableObject {
             conferencingType = .default
             
             defaultConferencingScreen = conferencingScreen
+            
+            isNoiseCancellationOnByDefault = conferencingScreen.elements?.noise_cancellation?.starts_enabled ?? false
         }
         else if let conferencingScreen = layoutData.screens?.conferencing.hls_live_streaming {
             conferencingType = .liveStreaming
             liveStreamingConferencingScreen = conferencingScreen
+            
+            isNoiseCancellationOnByDefault = conferencingScreen.elements?.noise_cancellation?.starts_enabled ?? false
         }
     }
 }

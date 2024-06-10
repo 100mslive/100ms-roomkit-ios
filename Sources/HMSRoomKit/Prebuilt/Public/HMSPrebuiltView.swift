@@ -89,6 +89,11 @@ public struct HMSPrebuiltView: View {
             
             isLayoutLoaded = true
         }
+        .onChange(of: roomInfoModel.isNoiseCancellationOnByDefault) { isNoiseCancellationOnByDefault in
+            if !roomModel.isNoiseCancellationEnabled && isNoiseCancellationOnByDefault {
+                try? roomModel.toggleNoiseCancellation()
+            }
+        }
     }
 }
 
