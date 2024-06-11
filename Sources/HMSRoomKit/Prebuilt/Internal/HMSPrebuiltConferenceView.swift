@@ -102,7 +102,7 @@ struct HMSPrebuiltConferenceView: View {
                             }
                             
                             if let noiseCancellation = defaultScreen.elements?.noise_cancellation {
-                                screen.noiseCancellation = .init(startsEnabled: noiseCancellation.starts_enabled)
+                                screen.noiseCancellation = .init(startsEnabled: noiseCancellation.enabled_by_default)
                             }
                         }
                     }
@@ -256,6 +256,16 @@ struct HMSPrebuiltConferenceView: View {
 #endif
             if !roomModel.roleChangeRequests.isEmpty {
                 HMSPreviewRoleScreen()
+            }
+        }
+        .onAppear() {
+            if !roomModel.isNoiseCancellationEnabled && roomInfoModel.isNoiseCancellationOnByDefault {
+                try? roomModel.toggleNoiseCancellation()
+            }
+        }
+        .onChange(of: roomInfoModel.isNoiseCancellationOnByDefault) { isNoiseCancellationOnByDefault in
+            if !roomModel.isNoiseCancellationEnabled && isNoiseCancellationOnByDefault {
+                try? roomModel.toggleNoiseCancellation()
             }
         }
     }

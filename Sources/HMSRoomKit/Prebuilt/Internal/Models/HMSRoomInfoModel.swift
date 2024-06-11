@@ -97,7 +97,7 @@ class HMSRoomInfoModel: ObservableObject {
             previewType = .default
             defaultPreviewScreen = previewScreen
             
-            isNoiseCancellationOnByDefault = previewScreen.elements?.noise_cancellation?.starts_enabled ?? false
+            isNoiseCancellationOnByDefault = previewScreen.elements?.noise_cancellation?.enabled_by_default ?? false
         }
         
         // Update conferencing screen
@@ -106,13 +106,13 @@ class HMSRoomInfoModel: ObservableObject {
             
             defaultConferencingScreen = conferencingScreen
             
-            isNoiseCancellationOnByDefault = conferencingScreen.elements?.noise_cancellation?.starts_enabled ?? false
+            isNoiseCancellationOnByDefault = conferencingScreen.elements?.noise_cancellation?.enabled_by_default ?? false
         }
         else if let conferencingScreen = layoutData.screens?.conferencing.hls_live_streaming {
             conferencingType = .liveStreaming
             liveStreamingConferencingScreen = conferencingScreen
             
-            isNoiseCancellationOnByDefault = conferencingScreen.elements?.noise_cancellation?.starts_enabled ?? false
+            isNoiseCancellationOnByDefault = conferencingScreen.elements?.noise_cancellation?.enabled_by_default ?? false
         }
     }
 }
