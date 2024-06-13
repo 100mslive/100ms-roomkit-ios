@@ -133,7 +133,7 @@ struct HMSOptionSheetView: View {
                         }
                     }
                     
-                    if roomModel.localAudioTrackModel != nil, roomModel.isNoiseCancellationAvailable {
+                    if roomModel.localAudioTrackModel != nil, roomModel.isNoiseCancellationAvailable, roomModel.userCanUseNoiseCancellation {
                         HMSSessionMenuButton(text: roomModel.isNoiseCancellationEnabled ? "Noise Reduced" : "Reduce Noise", image: "noise-cancellation", highlighted: (roomModel.isNoiseCancellationEnabled))
                             .onTapGesture {
                                 try? roomModel.toggleNoiseCancellation()

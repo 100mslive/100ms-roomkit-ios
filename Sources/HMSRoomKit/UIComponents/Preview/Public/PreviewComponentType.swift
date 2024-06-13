@@ -52,12 +52,19 @@ extension HMSPreviewScreen {
         public var joinButtonLabel: String = defaultJoinButtonLabel
         public var goLiveButtonLabel: String = defaultGoLiveButtonLabel
         
-        public init(title: String = defaultTitle, subTitle: String = defaultSubTitle, joinButtonType: JoinButtonType = defaultJoinButtonType, joinButtonLabel: String = defaultJoinButtonLabel, goLiveButtonLabel: String = defaultGoLiveButtonLabel) {
+        public var noiseCancellation: NoiseCancellation? = .default
+        public struct NoiseCancellation {
+            public static let `default`: Self = .init(startsEnabled: false)
+            public let startsEnabled: Bool
+        }
+        
+        public init(title: String = defaultTitle, subTitle: String = defaultSubTitle, joinButtonType: JoinButtonType = defaultJoinButtonType, joinButtonLabel: String = defaultJoinButtonLabel, goLiveButtonLabel: String = defaultGoLiveButtonLabel, noiseCancellation: NoiseCancellation = .default) {
             self.title = title
             self.subTitle = subTitle
             self.joinButtonType = joinButtonType
             self.joinButtonLabel = joinButtonLabel
             self.goLiveButtonLabel = goLiveButtonLabel
+            self.noiseCancellation = noiseCancellation
         }
     }
 }

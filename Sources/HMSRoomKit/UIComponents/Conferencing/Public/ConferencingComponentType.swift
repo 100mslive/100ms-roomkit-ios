@@ -158,6 +158,12 @@ extension HMSConferenceScreen {
             internal init() {}
         }
         
+        public var noiseCancellation: NoiseCancellation? = .default
+        public struct NoiseCancellation {
+            public static let `default`: Self = .init(startsEnabled: false)
+            public let startsEnabled: Bool
+        }
+        
         public init(chat: Chat? = .default, tileLayout: TileLayout? = .init(grid: .default), onStageExperience: OnStageExperience? = nil, brb: BRB? = .default, participantList: ParticipantList? = .default, header: ConferencingHeader? = nil, isHandRaiseEnabled: Bool) {
             self.chat = chat
             self.tileLayout = tileLayout

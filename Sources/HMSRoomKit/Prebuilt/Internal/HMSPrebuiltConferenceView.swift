@@ -100,6 +100,10 @@ struct HMSPrebuiltConferenceView: View {
                             else {
                                 screen.participantList = nil
                             }
+                            
+                            if let noiseCancellation = defaultScreen.elements?.noise_cancellation {
+                                screen.noiseCancellation = .init(startsEnabled: noiseCancellation.enabled_by_default)
+                            }
                         }
                     }
                 case .liveStreaming:
@@ -252,6 +256,16 @@ struct HMSPrebuiltConferenceView: View {
 #endif
             if !roomModel.roleChangeRequests.isEmpty {
                 HMSPreviewRoleScreen()
+            }
+        }
+        .onAppear() {
+            if !roomModel.isNoiseCancellationEnabled && roomInfoModel.isNoiseCancellationOnByDefault {
+                try? roomModel.toggleNoiseCancellation()
+            }
+        }
+        .onChange(of: roomInfoModel.isNoiseCancellationOnByDefault) { isNoiseCancellationOnByDefault in
+            if !roomModel.isNoiseCancellationEnabled && isNoiseCancellationOnByDefault {
+                try? roomModel.toggleNoiseCancellation()
             }
         }
     }
