@@ -183,6 +183,13 @@ struct HMSOptionSheetView: View {
                                 }
                             }
                     }
+                    
+                    HMSSessionMenuButton(text: "Virtual Background", image: captionsState.wrappedValue == .visible ? "captions-highlighted" : "captions-icon", highlighted: roomModel.isVirtualBackgroundEnabled)
+                        .onTapGesture {
+                            Task {
+                                try roomModel.toggleVirtualBackground()
+                            }
+                        }
                 }
                 .padding(.bottom)
             }
