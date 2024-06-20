@@ -168,7 +168,7 @@ extension HMSMediaServerReport {
         items.append(published)
         
         if let connectionQualityScore = connectionQualityScore {
-            let score = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Connection Quality Score (CQS)", icon: "diag-tick-small", subtitle: "\(connectionQualityScore)", subtitleRight: "out of 5", subtitle2: "")
+            let score = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Connection Quality Score (CQS)", icon: connectionQualityScore > 0 ? "diag-tick-small" : "diag-cross-small", subtitle: "\(connectionQualityScore)", subtitleRight: "out of 5", subtitle2: "")
             items.append(score)
         }
         

@@ -211,6 +211,7 @@ struct HMSPrebuiltDiagnosticsConnectivityResultItemView: View {
 
 #Preview {
     HMSPrebuiltDiagnosticsConnectivityStepView(model: HMSPrebuiltDiagnosticsViewModel().connectivityStepModel())
+        .environmentObject(HMSUITheme())
 }
 
 
