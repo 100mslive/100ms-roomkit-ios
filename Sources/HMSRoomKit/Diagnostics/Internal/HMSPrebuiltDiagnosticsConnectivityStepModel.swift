@@ -175,7 +175,13 @@ extension HMSMediaServerReport {
         let section = HMSPrebuiltDiagnosticsConnectivityResultDetailSection(title: "", items: items)
         let item = HMSPrebuiltDiagnosticsConnectivityResultItem(title: "Media server connection test", subtitle: isSubscribeICEConnected && isPublishICEConnected ? "Connected" : "Failed", icon: isSubscribeICEConnected && isPublishICEConnected ? "diag-tick-large" : "diag-cross-large", sections: [section])
         
-        return [item] + statsItems()
+        var result = [item]
+        
+        if (isPublished && (connectionQualityScore ?? 0) > Float.leastNonzeroMagnitude) {
+            result.append(contentsOf: statsItems())
+        }
+        
+        return result
     }
     
     func statsItems() -> [HMSPrebuiltDiagnosticsConnectivityResultItem] {
