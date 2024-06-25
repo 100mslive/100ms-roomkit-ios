@@ -26,6 +26,8 @@ struct HMSPreviewBottomOverlay: View {
     
     @Environment(\.userStreamingState) var userStreamingState
     
+    @Binding var isVirtualBackgroundControlsPresent: Bool
+    
     var body: some View {
         VStack(spacing: 16) {
             
@@ -38,6 +40,11 @@ struct HMSPreviewBottomOverlay: View {
                 if roomModel.previewVideoTrack != nil {
                     HMSCameraToggle()
                     HMSSwitchCameraButton()
+                    HMSVirtualBackgroundControl{
+                        withAnimation {
+                            isVirtualBackgroundControlsPresent.toggle()
+                        }
+                    }
                 }
                 
                 Spacer()
@@ -109,7 +116,7 @@ struct HMSPreviewBottomOverlay_Previews: PreviewProvider {
 #if Preview
         @State var isStartingStream = false
         
-        HMSPreviewBottomOverlay()
+        HMSPreviewBottomOverlay(isVirtualBackgroundControlsPresent: .constant(false))
             .environmentObject(HMSUITheme())
             .environmentObject(HMSRoomModel.dummyRoom(2))
 #endif
