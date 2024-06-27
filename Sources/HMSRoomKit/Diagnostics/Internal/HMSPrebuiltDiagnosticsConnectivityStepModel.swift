@@ -159,12 +159,12 @@ extension HMSMediaServerReport {
         var items = [HMSPrebuiltDiagnosticsConnectivityResultDetailItem]()
         
         let isCaptured = state.rawValue >= HMSConnectivityCheckState.mediaCaptured.rawValue
-        let captured = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Media Captured", icon: isCaptured ? "diag-tick-small" : "diag-cross-small", subtitle: isPublishICEConnected ? "Yes" : "No", subtitleRight: "", subtitle2: "")
+        let captured = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Media Captured", icon: isCaptured ? "diag-tick-small" : "diag-cross-small", subtitle: isCaptured ? "Yes" : "No", subtitleRight: "", subtitle2: "")
         items.append(captured)
         
         
         let isPublished = state.rawValue >= HMSConnectivityCheckState.mediaPublished.rawValue
-        let published = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Media Published", icon: isPublished ? "diag-tick-small" : "diag-cross-small", subtitle: isSubscribeICEConnected ? "Yes" : "No", subtitleRight: "", subtitle2: "")
+        let published = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Media Published", icon: isPublished ? "diag-tick-small" : "diag-cross-small", subtitle: isPublished ? "Yes" : "No", subtitleRight: "", subtitle2: "")
         items.append(published)
         
         if let connectionQualityScore = connectionQualityScore {
