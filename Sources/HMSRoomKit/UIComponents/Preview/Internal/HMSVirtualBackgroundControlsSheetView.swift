@@ -11,11 +11,21 @@ import HMSSDK
 
 struct HMSVirtualBackgroundControlsSheetView: View {
     
+    @Environment(\.dismiss) var dismiss
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @Binding var isVirtualBackgroundControlsPresent: Bool
     
     @State var blurValue: CGFloat = 40
+    
+    var virtualBackgroundUrls: [URL]
+    
+    private let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     
     var body: some View {
         
@@ -24,8 +34,13 @@ struct HMSVirtualBackgroundControlsSheetView: View {
             HMSOptionsHeaderView(title: "Virtual Background", onClose: {
                 withAnimation {
                     isVirtualBackgroundControlsPresent = false
+                    dismiss()
                 }
             })
+            
+            if let localPeerModel = roomModel.localPeerModel {
+                HMSVideoTrackView(peer: localPeerModel, contentMode: .scaleAspectFit)
+            }
             
             ScrollView {
                 
@@ -42,12 +57,12 @@ struct HMSVirtualBackgroundControlsSheetView: View {
                                     VStack {
                                         Image(assetName: "diag-cross-xl")
                                             .resizable()
-                                            .frame(width: 40, height: 40)
+                                            .frame(width: 30, height: 30)
                                         Text("No effect")
                                             .foreground(.onSurfaceMedium)
                                             .font(.captionRegular12)
                                     }
-                                    .frame(width: 90, height: 90)
+                                    .frame(width: 90, height: 80)
                                     .background(.surfaceBright, cornerRadius: 8)
                                     .onTapGesture {
                                         if roomModel.isVirtualBackgroundEnabled {
@@ -58,12 +73,12 @@ struct HMSVirtualBackgroundControlsSheetView: View {
                                     VStack {
                                         Image(assetName: "blur-icon")
                                             .resizable()
-                                            .frame(width: 40, height: 40)
+                                            .frame(width: 30, height: 30)
                                         Text("Blur")
                                             .foreground(.onSurfaceMedium)
                                             .font(.captionRegular12)
                                     }
-                                    .frame(width: 90, height: 90)
+                                    .frame(width: 90, height: 80)
                                     .background(.surfaceBright, cornerRadius: 8)
                                     .onTapGesture {
                                         if !roomModel.isVirtualBackgroundEnabled {
@@ -75,7 +90,7 @@ struct HMSVirtualBackgroundControlsSheetView: View {
                                 
                             }
                             
-//                            if roomModel.isVirtualBackgroundEnabled, let virtualBackgroundOperatingMode = roomModel.virtualBackgroundOperatingMode, case .blur(_) = virtualBackgroundOperatingMode.mode {
+                            if roomModel.isVirtualBackgroundEnabled, let virtualBackgroundOperatingMode = roomModel.virtualBackgroundOperatingMode, case .blur(_) = virtualBackgroundOperatingMode.mode {
                                 HStack {
                                     
                                     Image(assetName: "blur-decrease")
@@ -92,7 +107,7 @@ struct HMSVirtualBackgroundControlsSheetView: View {
                                         .resizable()
                                         .frame(width: 24, height: 24)
                                 }
-//                            }
+                            }
                         }
                     }
                     .foreground(.onSurfaceHigh)
@@ -102,8 +117,19 @@ struct HMSVirtualBackgroundControlsSheetView: View {
                             .font(.body2Semibold14)
                             .foreground(.onSurfaceHigh)
                         
-                        VStack {
-                            
+                        LazyVGrid(columns: columns, spacing: 16) {
+                            ForEach(virtualBackgroundUrls, id: \.self) { url in
+                                
+                                CachedAsyncImageView(url: url) { image in
+                                    Task {
+                                        if !roomModel.isVirtualBackgroundEnabled {
+                                            try roomModel.toggleVirtualBackground()
+                                        }
+                                        try roomModel.updateVirtualBackground(with: .fixedImage(image))
+                                    }
+                                }
+                                .cornerRadius(8)
+                            }
                         }
                     }
                 }
@@ -116,6 +142,9 @@ struct HMSVirtualBackgroundControlsSheetView: View {
 }
 
 #Preview {
-    HMSVirtualBackgroundControlsSheetView(isVirtualBackgroundControlsPresent: .constant(true))
+    HMSVirtualBackgroundControlsSheetView(isVirtualBackgroundControlsPresent: .constant(true), virtualBackgroundUrls: [URL(string: "https://picsum.photos/200")!, URL(string: "https://picsum.photos/201")!, URL(string: "https://picsum.photos/202")!, URL(string: "https://picsum.photos/203")!, URL(string: "https://picsum.photos/204")!, URL(string: "https://picsum.photos/205")!])
         .environmentObject(HMSUITheme())
+#if Preview
+        .environmentObject(HMSRoomModel.dummyRoom(3))
+#endif
 }

@@ -49,7 +49,7 @@ struct HMSPreviewScreenLiveStreaming: View {
                         }
                     
                     if isVirtualBackgroundControlsPresent {
-                        HMSVirtualBackgroundControlsSheetView(isVirtualBackgroundControlsPresent: $isVirtualBackgroundControlsPresent)
+                        HMSVirtualBackgroundControlsSheetView(isVirtualBackgroundControlsPresent: $isVirtualBackgroundControlsPresent, virtualBackgroundUrls: previewComponentParam.virtualBackgrounds.map{$0.url})
                             .frame(height: 400)
                     }
                 }

@@ -27,6 +27,7 @@ struct HMSOptionSheetView: View {
         case participants
         case stopRecording
         case closedCaption
+        case virtualBackground
         var id: String { rawValue }
     }
     
@@ -184,18 +185,9 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    HMSSessionMenuButton(text: "Virtual Background", image: captionsState.wrappedValue == .visible ? "captions-highlighted" : "captions-icon", highlighted: roomModel.isVirtualBackgroundEnabled)
+                    HMSSessionMenuButton(text: "Virtual Background", image: "virtual-background", highlighted: roomModel.isVirtualBackgroundEnabled)
                         .onTapGesture {
-                            Task {
-                                try roomModel.toggleVirtualBackground()
-                            }
-                        }
-                    
-                    HMSSessionMenuButton(text: "VB Change", image: captionsState.wrappedValue == .visible ? "captions-highlighted" : "captions-icon", highlighted: roomModel.isVirtualBackgroundEnabled)
-                        .onTapGesture {
-                            Task {
-                                try roomModel.updateVirtualBackground(with: .blur(10))
-                            }
+                            internalSheet = .virtualBackground
                         }
                 }
                 .padding(.bottom)
@@ -237,6 +229,19 @@ struct HMSOptionSheetView: View {
                     else {
                         ScrollView {
                             HMSCaptionAdminOptionsView()
+                        }
+                    }
+                }
+                .edgesIgnoringSafeArea(.all)
+                .environmentObject(theme)
+            case .virtualBackground:
+                HMSSheet {
+                    if verticalSizeClass == .regular {
+                        HMSVirtualBackgroundControlsSheetView(isVirtualBackgroundControlsPresent: .constant(false), virtualBackgroundUrls: conferenceComponentParam.virtualBackgrounds.map{$0.url})
+                    }
+                    else {
+                        ScrollView {
+                            HMSVirtualBackgroundControlsSheetView(isVirtualBackgroundControlsPresent: .constant(false), virtualBackgroundUrls: conferenceComponentParam.virtualBackgrounds.map{$0.url})
                         }
                     }
                 }

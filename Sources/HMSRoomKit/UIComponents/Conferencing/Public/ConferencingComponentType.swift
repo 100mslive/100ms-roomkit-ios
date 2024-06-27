@@ -164,7 +164,18 @@ extension HMSConferenceScreen {
             public let startsEnabled: Bool
         }
         
-        public init(chat: Chat? = .default, tileLayout: TileLayout? = .init(grid: .default), onStageExperience: OnStageExperience? = nil, brb: BRB? = .default, participantList: ParticipantList? = .default, header: ConferencingHeader? = nil, isHandRaiseEnabled: Bool) {
+        public var virtualBackgrounds: [VirtualBackground] = []
+        public struct VirtualBackground {
+            public let url: URL
+            public let isDefault: Bool
+            public let type: BackgroundType
+            public enum BackgroundType: String {
+                case image = "IMAGE"
+                case video = "VIDEO"
+            }
+        }
+        
+        public init(chat: Chat? = .default, tileLayout: TileLayout? = .init(grid: .default), onStageExperience: OnStageExperience? = nil, brb: BRB? = .default, participantList: ParticipantList? = .default, header: ConferencingHeader? = nil, isHandRaiseEnabled: Bool, noiseCancellation: NoiseCancellation = .default, virtualBackgrounds: [VirtualBackground] = []) {
             self.chat = chat
             self.tileLayout = tileLayout
             self.onStageExperience = onStageExperience
@@ -172,6 +183,7 @@ extension HMSConferenceScreen {
             self.participantList = participantList
             self.header = header
             self.isHandRaiseEnabled = isHandRaiseEnabled
+            self.virtualBackgrounds = virtualBackgrounds
         }
     }
 }
