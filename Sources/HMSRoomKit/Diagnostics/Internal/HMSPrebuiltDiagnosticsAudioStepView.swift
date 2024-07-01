@@ -122,6 +122,7 @@ struct HMSPrebuiltDiagnosticsAudioStepView: View {
                             RoundedRectangle(cornerRadius: 4).stroke().foreground(model.isPlaybackAvailable ? .clear :   .secondaryDefault)
                         }
                     }
+                    .disabled(!model.isPlaybackAvailable)
                 }
             }
         } prompt: {

@@ -159,23 +159,29 @@ extension HMSMediaServerReport {
         var items = [HMSPrebuiltDiagnosticsConnectivityResultDetailItem]()
         
         let isCaptured = state.rawValue >= HMSConnectivityCheckState.mediaCaptured.rawValue
-        let captured = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Media Captured", icon: isCaptured ? "diag-tick-small" : "diag-cross-small", subtitle: isPublishICEConnected ? "Yes" : "No", subtitleRight: "", subtitle2: "")
+        let captured = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Media Captured", icon: isCaptured ? "diag-tick-small" : "diag-cross-small", subtitle: isCaptured ? "Yes" : "No", subtitleRight: "", subtitle2: "")
         items.append(captured)
         
         
         let isPublished = state.rawValue >= HMSConnectivityCheckState.mediaPublished.rawValue
-        let published = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Media Published", icon: isPublished ? "diag-tick-small" : "diag-cross-small", subtitle: isSubscribeICEConnected ? "Yes" : "No", subtitleRight: "", subtitle2: "")
+        let published = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Media Published", icon: isPublished ? "diag-tick-small" : "diag-cross-small", subtitle: isPublished ? "Yes" : "No", subtitleRight: "", subtitle2: "")
         items.append(published)
         
         if let connectionQualityScore = connectionQualityScore {
-            let score = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Connection Quality Score (CQS)", icon: "diag-tick-small", subtitle: "\(connectionQualityScore)", subtitleRight: "out of 5", subtitle2: "")
+            let score = HMSPrebuiltDiagnosticsConnectivityResultDetailItem(title: "Connection Quality Score (CQS)", icon: connectionQualityScore > 0 ? "diag-tick-small" : "diag-cross-small", subtitle: "\(connectionQualityScore)", subtitleRight: "out of 5", subtitle2: "")
             items.append(score)
         }
         
         let section = HMSPrebuiltDiagnosticsConnectivityResultDetailSection(title: "", items: items)
         let item = HMSPrebuiltDiagnosticsConnectivityResultItem(title: "Media server connection test", subtitle: isSubscribeICEConnected && isPublishICEConnected ? "Connected" : "Failed", icon: isSubscribeICEConnected && isPublishICEConnected ? "diag-tick-large" : "diag-cross-large", sections: [section])
         
-        return [item] + statsItems()
+        var result = [item]
+        
+        if (isPublished && (connectionQualityScore ?? 0) > Float.leastNonzeroMagnitude) {
+            result.append(contentsOf: statsItems())
+        }
+        
+        return result
     }
     
     func statsItems() -> [HMSPrebuiltDiagnosticsConnectivityResultItem] {
