@@ -116,7 +116,7 @@ public extension HMSPrebuiltView {
     
     func screenShare(appGroupName: String, screenShareBroadcastExtensionBundleId: String) -> HMSPrebuiltView {
         let options = self.options
-        options.roomOptions = HMSRoomOptions(userName: options.roomOptions?.userName, userId: options.roomOptions?.userId, appGroupName: appGroupName, screenShareBroadcastExtensionBundleId: screenShareBroadcastExtensionBundleId, noiseCancellation: self.options.roomOptions?.noiseCancellation)
+        options.roomOptions = HMSRoomOptions(userName: options.roomOptions?.userName, userId: options.roomOptions?.userId, appGroupName: appGroupName, screenShareBroadcastExtensionBundleId: screenShareBroadcastExtensionBundleId, noiseCancellation: self.options.roomOptions?.noiseCancellation, virtualBackground: options.roomOptions?.virtualBackground)
         
         if let token = token {
             return HMSPrebuiltView(token: token, options: options, onDismiss: self.onDismiss)
@@ -129,7 +129,7 @@ public extension HMSPrebuiltView {
     
     func noiseCancellation(model: String, initialState: HMSNoiseCancellationInitialState) -> HMSPrebuiltView {
         let options = self.options
-        options.roomOptions = HMSRoomOptions(userName: options.roomOptions?.userName, userId: options.roomOptions?.userId, appGroupName: options.roomOptions?.appGroupName, screenShareBroadcastExtensionBundleId: options.roomOptions?.screenShareBroadcastExtensionBundleId, noiseCancellation: .init(with: model, initialState: initialState))
+        options.roomOptions = HMSRoomOptions(userName: options.roomOptions?.userName, userId: options.roomOptions?.userId, appGroupName: options.roomOptions?.appGroupName, screenShareBroadcastExtensionBundleId: options.roomOptions?.screenShareBroadcastExtensionBundleId, noiseCancellation: .init(with: model, initialState: initialState), virtualBackground: options.roomOptions?.virtualBackground)
         
         if let token = token {
             return HMSPrebuiltView(token: token, options: options, onDismiss: self.onDismiss)

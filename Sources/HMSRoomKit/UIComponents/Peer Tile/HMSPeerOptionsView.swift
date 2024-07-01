@@ -166,7 +166,6 @@ struct HMSOptionsHeaderView: View {
             if showsDivider {
                 Divider()
                     .background(.borderBright, cornerRadius: 0)
-                    .padding(.bottom, 16)
             }
         }
     }

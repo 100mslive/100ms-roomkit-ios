@@ -27,21 +27,23 @@ struct HMSPreviewScreenLiveStreaming: View {
             
             if roomModel.localVideoTrackModel != nil {
                 
-                HMSPreviewTile()
-                    .ignoresSafeArea(.keyboard)
-                    .edgesIgnoringSafeArea([.top, .bottom])
-                    .overlay(alignment: .top) {
-                        HMSPreviewTopOverlay()
-                            .padding(.vertical, 8)
-                            .matchedGeometryEffect(id: "HMSPreviewTopOverlay", in: animation)
-                            .background (
-                                LinearGradient(
-                                    gradient: Gradient(colors: [currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(1.0), currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.0)]),
-                                    startPoint: .top,
-                                    endPoint: .bottom
+                VStack(spacing: 0) {
+                    HMSPreviewTile()
+                        .ignoresSafeArea(.keyboard)
+                        .edgesIgnoringSafeArea([.top, .bottom])
+                        .overlay(alignment: .top) {
+                            HMSPreviewTopOverlay()
+                                .padding(.vertical, 8)
+                                .matchedGeometryEffect(id: "HMSPreviewTopOverlay", in: animation)
+                                .background (
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(1.0), currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.0)]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
                                 )
-                            )
-                    }
+                        }
+                }
             }
             else {
                 VStack {
@@ -80,7 +82,7 @@ struct HMSPreviewScreenLiveStreaming: View {
                 }
                 
                 HMSPreviewBottomOverlay()
-                        .matchedGeometryEffect(id: "HMSPreviewBottomOverlay", in: animation)
+                    .matchedGeometryEffect(id: "HMSPreviewBottomOverlay", in: animation)
             }
         }
         .animation(.default, value: roomModel.localVideoTrackModel)

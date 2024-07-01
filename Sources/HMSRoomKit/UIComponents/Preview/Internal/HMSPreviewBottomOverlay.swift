@@ -14,6 +14,10 @@ import HMSRoomModels
 
 struct HMSPreviewBottomOverlay: View {
     
+    @EnvironmentObject var theme: HMSUITheme
+    
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     @Environment(\.previewParams) var previewComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -25,6 +29,8 @@ struct HMSPreviewBottomOverlay: View {
     @State var isJoining = false
     
     @Environment(\.userStreamingState) var userStreamingState
+    
+    @State var isVirtualBackgroundControlsPresent: Bool = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -38,6 +44,11 @@ struct HMSPreviewBottomOverlay: View {
                 if roomModel.previewVideoTrack != nil {
                     HMSCameraToggle()
                     HMSSwitchCameraButton()
+                    HMSVirtualBackgroundControl{
+                        withAnimation {
+                            isVirtualBackgroundControlsPresent.toggle()
+                        }
+                    }
                 }
                 
                 Spacer()
@@ -100,6 +111,13 @@ struct HMSPreviewBottomOverlay: View {
         }
         .padding(16)
         .background(.backgroundDefault, cornerRadius: 16, corners: [.topLeft, .topRight], ignoringEdges: .all)
+        .sheet(isPresented: $isVirtualBackgroundControlsPresent, content: {
+            HMSSheet {
+                HMSVirtualBackgroundControlsSheetView(virtualBackgroundUrls: previewComponentParam.virtualBackgrounds.map{$0.url})
+            }
+            .edgesIgnoringSafeArea(.all)
+            .environmentObject(theme)
+        })
     }
 }
 

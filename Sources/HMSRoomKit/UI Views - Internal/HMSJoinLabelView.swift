@@ -59,7 +59,7 @@ struct HMSJoinButtonView_Previews: PreviewProvider {
             
             HMSJoinLabelView(userName: "Pawan iOS", isJoining: .constant(false))
                 .environmentObject(HMSUITheme())
-                .environment(\.previewParams, HMSPreviewScreen.DefaultType(title: "Go Live", subTitle: "defaultValue", joinButtonType: .goLive, joinButtonLabel: "defaultValue", goLiveButtonLabel: "defaultGoLive"))
+                .environment(\.previewParams, HMSPreviewScreen.DefaultType(title: "Go Live", subTitle: "defaultValue", joinButtonType: .goLive, joinButtonLabel: "defaultValue", goLiveButtonLabel: "defaultGoLive", virtualBackgrounds: []))
         }
     }
 }

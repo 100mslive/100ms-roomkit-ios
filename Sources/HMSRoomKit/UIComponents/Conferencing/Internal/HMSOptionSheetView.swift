@@ -27,6 +27,7 @@ struct HMSOptionSheetView: View {
         case participants
         case stopRecording
         case closedCaption
+        case virtualBackground
         var id: String { rawValue }
     }
     
@@ -183,6 +184,11 @@ struct HMSOptionSheetView: View {
                                 }
                             }
                     }
+                    
+                    HMSSessionMenuButton(text: "Virtual Background", image: "virtual-background", highlighted: roomModel.isVirtualBackgroundEnabled)
+                        .onTapGesture {
+                            internalSheet = .virtualBackground
+                        }
                 }
                 .padding(.bottom)
             }
@@ -225,6 +231,12 @@ struct HMSOptionSheetView: View {
                             HMSCaptionAdminOptionsView()
                         }
                     }
+                }
+                .edgesIgnoringSafeArea(.all)
+                .environmentObject(theme)
+            case .virtualBackground:
+                HMSSheet {
+                    HMSVirtualBackgroundControlsSheetView(virtualBackgroundUrls: conferenceComponentParam.virtualBackgrounds.map{$0.url})
                 }
                 .edgesIgnoringSafeArea(.all)
                 .environmentObject(theme)
