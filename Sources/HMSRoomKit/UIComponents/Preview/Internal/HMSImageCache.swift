@@ -55,12 +55,15 @@ struct CachedAsyncImageView: View {
     @StateObject private var loader: ImageLoader
     private let url: URL
     
+    let onLoaded: (UIImage)->Void
+    
     let onTapGesture: (UIImage)->Void
     
-    init(url: URL, onTapGesture: @escaping (UIImage)->Void) {
+    init(url: URL, onLoaded: @escaping (UIImage)->Void, onTapGesture: @escaping (UIImage)->Void) {
         self.url = url
         _loader = StateObject(wrappedValue: ImageLoader())
         self.onTapGesture = onTapGesture
+        self.onLoaded = onLoaded
     }
     
     var body: some View {
@@ -69,6 +72,9 @@ struct CachedAsyncImageView: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
+                    .onAppear() {
+                        onLoaded(image)
+                    }
                     .onTapGesture {
                         onTapGesture(image)
                     }

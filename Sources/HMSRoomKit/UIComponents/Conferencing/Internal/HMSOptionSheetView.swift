@@ -236,14 +236,7 @@ struct HMSOptionSheetView: View {
                 .environmentObject(theme)
             case .virtualBackground:
                 HMSSheet {
-                    if verticalSizeClass == .regular {
-                        HMSVirtualBackgroundControlsSheetView(isVirtualBackgroundControlsPresent: .constant(false), virtualBackgroundUrls: conferenceComponentParam.virtualBackgrounds.map{$0.url})
-                    }
-                    else {
-                        ScrollView {
-                            HMSVirtualBackgroundControlsSheetView(isVirtualBackgroundControlsPresent: .constant(false), virtualBackgroundUrls: conferenceComponentParam.virtualBackgrounds.map{$0.url})
-                        }
-                    }
+                    HMSVirtualBackgroundControlsSheetView(virtualBackgroundUrls: conferenceComponentParam.virtualBackgrounds.map{$0.url})
                 }
                 .edgesIgnoringSafeArea(.all)
                 .environmentObject(theme)

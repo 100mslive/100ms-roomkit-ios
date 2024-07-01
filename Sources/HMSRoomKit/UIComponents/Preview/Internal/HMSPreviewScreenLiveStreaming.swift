@@ -21,8 +21,6 @@ struct HMSPreviewScreenLiveStreaming: View {
     
     @State var name: String = ""
     
-    @State var isVirtualBackgroundControlsPresent = false
-    
     var body: some View {
         
         VStack(spacing: 16) {
@@ -34,24 +32,17 @@ struct HMSPreviewScreenLiveStreaming: View {
                         .ignoresSafeArea(.keyboard)
                         .edgesIgnoringSafeArea([.top, .bottom])
                         .overlay(alignment: .top) {
-                            if !isVirtualBackgroundControlsPresent {
-                                HMSPreviewTopOverlay()
-                                    .padding(.vertical, 8)
-                                    .matchedGeometryEffect(id: "HMSPreviewTopOverlay", in: animation)
-                                    .background (
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(1.0), currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.0)]),
-                                            startPoint: .top,
-                                            endPoint: .bottom
-                                        )
+                            HMSPreviewTopOverlay()
+                                .padding(.vertical, 8)
+                                .matchedGeometryEffect(id: "HMSPreviewTopOverlay", in: animation)
+                                .background (
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(1.0), currentTheme.colorTheme.colorForToken(.backgroundDim).opacity(0.0)]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
                                     )
-                            }
+                                )
                         }
-                    
-                    if isVirtualBackgroundControlsPresent {
-                        HMSVirtualBackgroundControlsSheetView(isVirtualBackgroundControlsPresent: $isVirtualBackgroundControlsPresent, virtualBackgroundUrls: previewComponentParam.virtualBackgrounds.map{$0.url})
-                            .frame(height: 400)
-                    }
                 }
             }
             else {
@@ -79,22 +70,19 @@ struct HMSPreviewScreenLiveStreaming: View {
         }
         .overlay(alignment: .bottom) {
             
-            if !isVirtualBackgroundControlsPresent {
+            VStack {
                 
-                VStack {
-                    
-                    if let localPeerModel = roomModel.localPeerModel {
-                        HStack {
-                            HMSPreviewNameLabel(peerModel: localPeerModel)
-                                .padding(9)
-                            
-                            Spacer(minLength: 0)
-                        }
+                if let localPeerModel = roomModel.localPeerModel {
+                    HStack {
+                        HMSPreviewNameLabel(peerModel: localPeerModel)
+                            .padding(9)
+                        
+                        Spacer(minLength: 0)
                     }
-                    
-                    HMSPreviewBottomOverlay(isVirtualBackgroundControlsPresent: $isVirtualBackgroundControlsPresent)
-                        .matchedGeometryEffect(id: "HMSPreviewBottomOverlay", in: animation)
                 }
+                
+                HMSPreviewBottomOverlay()
+                    .matchedGeometryEffect(id: "HMSPreviewBottomOverlay", in: animation)
             }
         }
         .animation(.default, value: roomModel.localVideoTrackModel)
