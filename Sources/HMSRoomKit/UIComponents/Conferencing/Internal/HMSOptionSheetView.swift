@@ -185,10 +185,13 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    HMSSessionMenuButton(text: "Virtual Background", image: "virtual-background", highlighted: roomModel.isVirtualBackgroundEnabled)
-                        .onTapGesture {
-                            internalSheet = .virtualBackground
-                        }
+                    if let localVideoTrackModel = roomModel.localVideoTrackModel {
+                        HMSSessionMenuButton(text: "Virtual Background", image: "virtual-background", highlighted: roomModel.isVirtualBackgroundEnabled, isDisabled: localVideoTrackModel.isMute)
+                            .onTapGesture {
+                                guard !localVideoTrackModel.isMute else { return }
+                                internalSheet = .virtualBackground
+                            }
+                    }
                 }
                 .padding(.bottom)
             }
