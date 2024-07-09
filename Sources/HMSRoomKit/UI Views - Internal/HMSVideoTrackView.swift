@@ -29,7 +29,7 @@ public struct HMSPeerVideoTrackView: View {
         Group {
 #if !Preview
             if !trackModel.isMute {
-                HMSTrackView(track: trackModel, contentMode: contentMode, isZoomAndPanEnabled: isZoomAndPanEnabled)
+                HMSTrackView(track: trackModel, contentMode: contentMode, isZoomAndPanEnabled: isZoomAndPanEnabled, unsubscribeWhenOffscreen: true)
             }
 #else
             Rectangle().foregroundStyle(.red)
