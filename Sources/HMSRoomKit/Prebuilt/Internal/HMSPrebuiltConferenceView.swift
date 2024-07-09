@@ -104,6 +104,10 @@ struct HMSPrebuiltConferenceView: View {
                             if let noiseCancellation = defaultScreen.elements?.noise_cancellation {
                                 screen.noiseCancellation = .init(startsEnabled: noiseCancellation.enabled_by_default)
                             }
+                            
+                            if let virtualBackground = defaultScreen.elements?.virtual_background {
+                                screen.virtualBackgrounds = virtualBackground.background_media?.map{ HMSConferenceScreen.DefaultType.VirtualBackground(url: URL(string:$0.url)!, isDefault: $0.default, type: $0.media_type == .image ? .image : .video) } ?? []
+                            }
                         }
                     }
                 case .liveStreaming:
@@ -167,6 +171,14 @@ struct HMSPrebuiltConferenceView: View {
                             }
                             else {
                                 screen.participantList = nil
+                            }
+                            
+                            if let noiseCancellation = defaultScreen.elements?.noise_cancellation {
+                                screen.noiseCancellation = .init(startsEnabled: noiseCancellation.enabled_by_default)
+                            }
+                            
+                            if let virtualBackground = defaultScreen.elements?.virtual_background {
+                                screen.virtualBackgrounds = virtualBackground.background_media?.map{ HMSConferenceScreen.DefaultType.VirtualBackground(url: URL(string:$0.url)!, isDefault: $0.default, type: $0.media_type == .image ? .image : .video) } ?? []
                             }
                         }
                     }
