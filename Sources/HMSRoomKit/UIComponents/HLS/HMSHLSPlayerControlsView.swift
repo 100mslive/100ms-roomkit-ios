@@ -143,6 +143,20 @@ struct HMSHLSPlayerControlsView: View {
                                     .resizable()
                                     .foreground(.white)
                                     .frame(width: 32, height: 32)
+                                    .onAppear() {
+                                        
+                                        let player = player._nativePlayer
+                                        guard let playerItem = player.currentItem else {return }
+                                        
+                                        guard let availableSubtitleTracks = playerItem.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else { return }
+                                        
+                                        if let firstSubtitle = availableSubtitleTracks.options.first(where: {$0.mediaType == .subtitle}) {
+                                            
+                                            playerItem.select(firstSubtitle, in: availableSubtitleTracks)
+                                            
+                                            isSubtitlesOff = false
+                                        }
+                                    }
                                     .onTapGesture {
                                         
                                         hlsPlayerPreferences.wrappedValue.resetHideTask?()
