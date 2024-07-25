@@ -40,6 +40,7 @@ class HMSRoomInfoModel: ObservableObject {
     @Published var isBroadcaster: Bool = false
     
     @Published var isNoiseCancellationOnByDefault: Bool = false
+    @Published var defaultVirtualBackgroundUrl: URL? = nil
     
     var roomLayout: HMSRoomLayout? {
         didSet {
@@ -107,12 +108,22 @@ class HMSRoomInfoModel: ObservableObject {
             defaultConferencingScreen = conferencingScreen
             
             isNoiseCancellationOnByDefault = conferencingScreen.elements?.noise_cancellation?.enabled_by_default ?? false
+            
+            if let defaultVBMedia = conferencingScreen.elements?.virtual_background?.background_media?.first(where: { $0.default }) {
+                
+                defaultVirtualBackgroundUrl = URL(string: defaultVBMedia.url)
+            }
         }
         else if let conferencingScreen = layoutData.screens?.conferencing.hls_live_streaming {
             conferencingType = .liveStreaming
             liveStreamingConferencingScreen = conferencingScreen
             
             isNoiseCancellationOnByDefault = conferencingScreen.elements?.noise_cancellation?.enabled_by_default ?? false
+            
+            if let defaultVBMedia = conferencingScreen.elements?.virtual_background?.background_media?.first(where: { $0.default }) {
+                
+                defaultVirtualBackgroundUrl = URL(string: defaultVBMedia.url)
+            }
         }
     }
 }
