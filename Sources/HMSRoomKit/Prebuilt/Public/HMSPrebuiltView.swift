@@ -76,6 +76,24 @@ public struct HMSPrebuiltView: View {
             }
         }
         .environmentObject(options.theme ?? roomInfoModel.theme)
+        .onChange(of: roomInfoModel.defaultVirtualBackgroundUrl) { defaultVirtualBackgroundUrl in
+            
+            Task {
+                if let url = defaultVirtualBackgroundUrl {
+                    do {
+                        let (data, _) = try await URLSession.shared.data(from: url)
+                        if let image = UIImage(data: data) {
+                            if !roomModel.isVirtualBackgroundEnabled {
+                                try roomModel.toggleVirtualBackground()
+                            }
+                            try roomModel.updateVirtualBackground(with: .fixedImage(image))
+                        }
+                    } catch {
+                        // do nothing
+                    }
+                }
+            }
+        }
         .task {
             // Call layout API
 
