@@ -20,6 +20,8 @@ public struct HMSEndCallScreen: View {
         self.onDismiss = onDismiss
     }
     
+    @State var isFeedbackSheetPresented = true
+    
     public var body: some View {
         VStack {
             
@@ -90,6 +92,12 @@ public struct HMSEndCallScreen: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
+        .sheet(isPresented: $isFeedbackSheetPresented, content: {
+            HMSSheet {
+                HMSCallFeedbackView()
+            }
+            .edgesIgnoringSafeArea(.all)
+        })
     }
 }
 
