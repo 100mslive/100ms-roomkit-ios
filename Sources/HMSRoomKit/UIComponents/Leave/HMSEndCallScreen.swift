@@ -13,6 +13,7 @@ import HMSRoomModels
 public struct HMSEndCallScreen: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
+    @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     
     var onDismiss: (() -> Void)? = nil
     
@@ -20,7 +21,7 @@ public struct HMSEndCallScreen: View {
         self.onDismiss = onDismiss
     }
     
-    @State var isFeedbackSheetPresented = true
+    @State var isFeedbackSheetPresented = false
     
     public var body: some View {
         VStack {
@@ -94,10 +95,15 @@ public struct HMSEndCallScreen: View {
         .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
         .sheet(isPresented: $isFeedbackSheetPresented, content: {
             HMSSheet {
-                HMSCallFeedbackView()
+                if let feedback = roomInfoModel.defaultLeaveScreen?.elements?.feedback {
+                    HMSCallFeedbackView(feedback: feedback)
+                }
             }
             .edgesIgnoringSafeArea(.all)
         })
+        .onAppear() {
+            isFeedbackSheetPresented = (roomInfoModel.defaultLeaveScreen?.elements?.feedback != nil)
+        }
     }
 }
 
