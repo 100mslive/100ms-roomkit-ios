@@ -11,6 +11,7 @@ import HMSRoomModels
 
 struct HMSCallFeedbackView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
+    @EnvironmentObject var currentTheme: HMSUITheme
     
     let feedback: HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen.Elements.Feedback
     
@@ -42,113 +43,118 @@ struct HMSCallFeedbackView: View {
             else {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(feedback.title)
+                        .lineLimit(3)
                         .font(.heading6Semibold20)
                         .foreground(.onSurfaceHigh)
                     
                     Text(feedback.sub_title)
+                        .lineLimit(3)
                         .font(.body2Regular14)
                         .foreground(.onSurfaceMedium)
                 }
                 
                 HStack {
                     ForEach(feedback.ratings) { rating in
-                        VStack {
+                        VStack(spacing: 8) {
                             if let emoji = rating.emoji {
                                 Text(emoji)
-                                    .font(.heading6Semibold20)
+                                    .font(.system(size: 32))
                                     .foreground(.onSurfaceHigh)
+                                    .opacity(selectedResponse == nil || selectedResponse == rating ? 1.0 : 0.2)
                             }
                             Text(rating.label)
-                                .font(.body2Regular14)
-                                .foreground(.onSurfaceMedium)
+                                .font(selectedResponse == rating  ? .body2Semibold14 : .body2Regular14)
+                                .foreground(selectedResponse == nil ? .onSurfaceMedium : (selectedResponse == rating ? .onSurfaceHigh : .onSurfaceLow))
+                                .frame(maxWidth: .infinity)
                         }
-                        .opacity(selectedResponse == rating ? 1.0 : 0.2)
+                        
                         .onTapGesture {
                             selectedResponse = rating
-                            // TODO: if no reasons then send response directly
                         }
                         Spacer()
                     }
+                }.onChange(of: selectedResponse) { _ in
+                    selectedReasons.removeAll()
                 }
                 
                 if let selectedResponse = selectedResponse, 
                     let reasons = selectedResponse.reasons,
                     !reasons.isEmpty {
-                    Divider()
+                    HMSDivider(color: currentTheme.colorTheme.borderDefault)
                     
-                    if let question = selectedResponse.question {
-                        Text(question)
-                            .font(.heading6Semibold20)
-                            .foreground(.onSurfaceHigh)
-                    }
-                    
-                    VStack {
-                        FlexibleView(data: reasons,
-                                     spacing: 8,
-                                     alignment: .leading) { reason in
-                            VStack {
-                                HStack {
-                                    Toggle(isOn: Binding(get: {
-                                        selectedReasons.contains(reason)
-                                    }, set: { value in
-                                        if selectedReasons.contains(reason) {
-                                            selectedReasons.remove(reason)
-                                        }
-                                        else {
-                                            selectedReasons.insert(reason)
-                                        }
-                                    })) {
-                                        Text(reason)
-                                            .foreground(.onSurfaceHigh)
-                                            .font(.body2Regular14)
-                                    }
-                                    .padding(12)
-                                    .toggleStyle(CheckboxStyle())
-                                }
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                            }
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .strokeBorder(.gray, lineWidth: 1)
-                            )
+                    VStack(alignment: .leading, spacing: 12) {
+                        if let question = selectedResponse.question {
+                            Text(question)
+                                .lineLimit(2)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .font(.subtitle2Semibold14)
+                                .foreground(.onSurfaceHigh)
                         }
+                        ScrollView {
+                            FlexibleView(data: reasons,
+                                         spacing: 8,
+                                         alignment: .leading) { reason in
+                                Toggle(isOn: Binding(get: {
+                                    selectedReasons.contains(reason)
+                                }, set: { value in
+                                    if selectedReasons.contains(reason) {
+                                        selectedReasons.remove(reason)
+                                    }
+                                    else {
+                                        selectedReasons.insert(reason)
+                                    }
+                                })) {
+                                    Text(reason)
+                                        .foreground(.onSurfaceHigh)
+                                        .font(.body2Regular14)
+                                }
+                                .padding(12)
+                                .toggleStyle(CheckboxStyle())
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .strokeBorder(.gray, lineWidth: 1)
+                                )
+                            }
+                        }
+                        .frame(height: 100)
                     }
                     
                     if let comment = feedback.comment {
-                        Text(comment.label)
-                            .font(.body2Regular14)
-                            .foreground(.onSurfaceHigh)
-                        
-                        ZStack(alignment: .topLeading) {
-                            if additionalComments.isEmpty {
-                                VStack {
-                                    Text(comment.placeholder)
-                                        .font(.body1Regular16)
-                                        .foreground(.onSurfaceMedium)
-                                        .padding(.top, 10)
-                                        .padding(.leading, 6)
-                                        .opacity(1.0)
-                                }
-                            }
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(comment.label)
+                                .font(.body2Regular14)
+                                .foreground(.onSurfaceHigh)
                             
-                            VStack {
-                                HStack {
-                                    if #available(iOS 16.0, *) {
-                                        TextEditor(text: $additionalComments)
-                                            .frame(height: 140)
-                                            .scrollContentBackground(.hidden)
-                                            .background(.surfaceDefault, cornerRadius: 8)
-                                    } else {
-                                        TextEditor(text: $additionalComments)
-                                            .frame(height: 140)
-                                            .background(.surfaceDefault, cornerRadius: 8)
-                                            .onAppear() {
-                                                UITextView.appearance().backgroundColor = .clear
-                                            }
+                            ZStack(alignment: .topLeading) {
+                                if additionalComments.isEmpty {
+                                    VStack {
+                                        Text(comment.placeholder)
+                                            .font(.body1Regular16)
+                                            .foreground(.onSurfaceMedium)
+                                            .padding(.top, 10)
+                                            .padding(.leading, 6)
+                                            .opacity(1.0)
                                     }
                                 }
-                                .opacity(additionalComments.isEmpty ? 0.5 : 1)
+                                
+                                VStack {
+                                    HStack {
+                                        if #available(iOS 16.0, *) {
+                                            TextEditor(text: $additionalComments)
+                                                .frame(height: 112)
+                                                .scrollContentBackground(.hidden)
+                                                .background(.surfaceDefault, cornerRadius: 8)
+                                        } else {
+                                            TextEditor(text: $additionalComments)
+                                                .frame(height: 112)
+                                                .background(.surfaceDefault, cornerRadius: 8)
+                                                .onAppear() {
+                                                    UITextView.appearance().backgroundColor = .clear
+                                                }
+                                        }
+                                    }
+                                    .opacity(additionalComments.isEmpty ? 0.5 : 1)
+                                }
                             }
                         }
                     }
@@ -174,7 +180,6 @@ struct HMSCallFeedbackView: View {
                 }
             }
         }
-        .animation(.default, value: selectedResponse)
         .padding([.horizontal, .top], 24)
         .background(.surfaceDim, cornerRadius: 0)
     }
