@@ -63,7 +63,7 @@ public struct HMSEndCallScreen: View {
                 
                 if case .leftMeeting(let reason) = roomModel.roomState {
                     switch reason {
-                    case .userLeft, .removedFromRoom:
+                    case .userLeft, .removedFromRoom, .leftPreview:
                         VStack(spacing: 16) {
                             Text("Left by mistake?")
                                 .font(.body2Regular14)
@@ -102,7 +102,14 @@ public struct HMSEndCallScreen: View {
             .edgesIgnoringSafeArea(.all)
         })
         .onAppear() {
-            isFeedbackSheetPresented = (roomInfoModel.defaultLeaveScreen?.elements?.feedback != nil)
+            if case .leftMeeting(let reason) = roomModel.roomState {
+                switch(reason) {
+                case .leftPreview:
+                    break
+                default:
+                    isFeedbackSheetPresented = (roomInfoModel.defaultLeaveScreen?.elements?.feedback != nil)
+                }
+            }
         }
     }
 }
