@@ -21,6 +21,8 @@ struct HMSCallFeedbackView: View {
     
     @State private var submitted = false
     
+    @State private var isCommentFocused = false
+    
     var body: some View {
         
         VStack(alignment: .leading, spacing: 24) {
@@ -139,19 +141,9 @@ struct HMSCallFeedbackView: View {
                                 
                                 VStack {
                                     HStack {
-                                        if #available(iOS 16.0, *) {
-                                            TextEditor(text: $additionalComments)
-                                                .frame(height: 112)
-                                                .scrollContentBackground(.hidden)
-                                                .background(.surfaceDefault, cornerRadius: 8)
-                                        } else {
-                                            TextEditor(text: $additionalComments)
-                                                .frame(height: 112)
-                                                .background(.surfaceDefault, cornerRadius: 8)
-                                                .onAppear() {
-                                                    UITextView.appearance().backgroundColor = .clear
-                                                }
-                                        }
+                                        ToolbarTextView(text: $additionalComments, color: UIColor(currentTheme.colorTheme.onSurfaceHigh))
+                                            .frame(height: 112)
+                                            .background(.surfaceDefault, cornerRadius: 8)
                                     }
                                     .opacity(additionalComments.isEmpty ? 0.5 : 1)
                                 }
@@ -208,5 +200,58 @@ extension HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen.Elements.Fee
     
     public var id: Int {
         return value
+    }
+}
+
+struct ToolbarTextView: UIViewRepresentable {
+    @Binding var text: String
+    var color: UIColor
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+    
+    func makeUIView(context: Context) -> UITextView {
+        let view = context.coordinator.textView
+        view.textColor = color
+        return view
+    }
+    
+    func updateUIView(_ uiView: UITextView, context: Context) {
+        uiView.text = text
+        
+        context.coordinator.onTextChange = { string in
+            text = string
+        }
+    }
+    
+    class Coordinator: NSObject, UITextViewDelegate {
+        lazy var textView: UITextView = {
+            let textView = UITextView()
+            textView.font = UIFont(name: "Inter-Regular", size: 16) ?? .systemFont(ofSize: 16)
+            textView.delegate = self
+            textView.inputAccessoryView = accessory()
+            return textView
+        }()
+        
+        func accessory() -> UIView {
+            let numberToolbar = UIToolbar(frame:CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+            numberToolbar.barStyle = .default
+            numberToolbar.items = [
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonPressed))]
+            numberToolbar.sizeToFit()
+            return numberToolbar
+        }
+        
+        var onTextChange: ((String) -> ())?
+        
+        func textViewDidChange(_ textView: UITextView) {
+            onTextChange?(textView.text)
+        }
+        
+        @objc func doneButtonPressed() {
+            textView.resignFirstResponder()
+        }
     }
 }
