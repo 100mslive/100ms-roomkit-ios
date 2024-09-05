@@ -128,26 +128,19 @@ struct HMSCallFeedbackView: View {
                                 .foreground(.onSurfaceHigh)
                             
                             ZStack(alignment: .topLeading) {
-                                if additionalComments.isEmpty {
-                                    VStack {
-                                        Text(comment.placeholder)
-                                            .font(.body1Regular16)
-                                            .foreground(.onSurfaceMedium)
-                                            .padding(.top, 10)
-                                            .padding(.leading, 6)
-                                            .opacity(1.0)
-                                    }
-                                }
+                                Text(comment.placeholder)
+                                    .font(.body1Regular16)
+                                    .foreground(.onSurfaceLow)
+                                    .padding(.top, 8)
+                                    .padding(.leading, 5)
+                                    .opacity(additionalComments.isEmpty ? 1 : 0)
                                 
-                                VStack {
-                                    HStack {
-                                        ToolbarTextView(text: $additionalComments, color: UIColor(currentTheme.colorTheme.onSurfaceHigh))
-                                            .frame(height: 112)
-                                            .background(.surfaceDefault, cornerRadius: 8)
-                                    }
-                                    .opacity(additionalComments.isEmpty ? 0.5 : 1)
-                                }
+                                ToolbarTextView(text: $additionalComments, color: UIColor(currentTheme.colorTheme.onSurfaceHigh))
                             }
+                            .padding(.vertical, 4)
+                            .padding(.horizontal, 11)
+                            .background(.surfaceDefault, cornerRadius: 8)
+                            .frame(height: 112)
                         }
                     }
                     
@@ -231,6 +224,7 @@ struct ToolbarTextView: UIViewRepresentable {
             textView.font = UIFont(name: "Inter-Regular", size: 16) ?? .systemFont(ofSize: 16)
             textView.delegate = self
             textView.inputAccessoryView = accessory()
+            textView.backgroundColor = .clear
             return textView
         }()
         
