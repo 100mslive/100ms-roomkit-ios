@@ -251,6 +251,10 @@ struct ToolbarTextView: UIViewRepresentable {
             onTextChange?(textView.text)
         }
         
+        func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+           return textView.text.count + (text.count - range.length) <= 500
+       }
+        
         @objc func doneButtonPressed() {
             textView.resignFirstResponder()
         }
