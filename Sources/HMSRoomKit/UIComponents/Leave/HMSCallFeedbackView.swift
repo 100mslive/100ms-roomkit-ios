@@ -10,19 +10,19 @@ import HMSSDK
 import HMSRoomModels
 
 struct HMSCallFeedbackView: View {
+    typealias Feedback = HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen.Elements.Feedback
+    
+    let feedback: Feedback
+
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
     
-    let feedback: HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen.Elements.Feedback
-    
-    @State private var selectedResponse: HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen.Elements.Feedback.Rating?
+    @State private var selectedResponse: Feedback.Rating?
     @State private var selectedReasons = Set<String>()
     @State private var additionalComments = ""
-    
     @State private var submitted = false
-    
     @State private var isCommentFocused = false
-    
+
     var body: some View {
         
         VStack(alignment: .leading, spacing: 24) {
