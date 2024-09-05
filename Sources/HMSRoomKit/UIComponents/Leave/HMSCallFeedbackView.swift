@@ -154,7 +154,14 @@ struct HMSCallFeedbackView: View {
                             Task {
                                 submitted = true
                                 let reasons = selectedReasons.isEmpty ? nil : Array(selectedReasons)
-                                let feedbackResult = HMSSessionFeedback(question: feedback.title, rating: selectedResponse.value, reasons: reasons, comment: additionalComments)
+                                var components = [feedback.title]
+                                if let question = selectedResponse.question, 
+                                    !question.isEmpty {
+                                    components.append(question)
+                                }
+                                let questionText = components.joined(separator: " | ")
+
+                                let feedbackResult = HMSSessionFeedback(question: questionText, rating: selectedResponse.value, reasons: reasons, comment: additionalComments)
                                 do {
                                     try await roomModel.submitFeedback(feedbackResult)
                                 } catch {
