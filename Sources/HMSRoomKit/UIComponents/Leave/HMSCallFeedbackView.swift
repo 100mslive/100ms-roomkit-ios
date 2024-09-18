@@ -9,81 +9,38 @@ import SwiftUI
 import HMSSDK
 import HMSRoomModels
 
+typealias Feedback = HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen.Elements.Feedback
+
 struct HMSCallFeedbackView: View {
-    typealias Feedback = HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen.Elements.Feedback
+    
     
     let feedback: Feedback
-
+    @Binding var selectedResponse: Feedback.Rating?
+    @Binding var feedbackSubmitted: Bool
+    
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var currentTheme: HMSUITheme
     
-    @State private var selectedResponse: Feedback.Rating?
+    @Environment(\.dismiss) var dismiss
+    
     @State private var selectedReasons = Set<String>()
     @State private var additionalComments = ""
-    @State private var submitted = false
+    
     @State private var isCommentFocused = false
-
+    
     var body: some View {
         
         VStack(alignment: .leading, spacing: 24) {
-            
-            if submitted {
-                VStack(alignment: .center, spacing: 4) {
-                    
-                    Image(assetName: "user-music")
-                        .renderingMode(.original)
-                    
-                    Text("Thank you for your feedback!")
-                        .font(.heading6Semibold20)
-                        .foreground(.onSurfaceHigh)
-                    
-                    Text("Your answers help us improve.")
-                        .font(.body2Regular14)
-                        .foreground(.onSurfaceMedium)
-                }
-            }
-            else {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(feedback.title)
-                        .lineLimit(3)
-                        .font(.heading6Semibold20)
-                        .foreground(.onSurfaceHigh)
-                    
-                    Text(feedback.sub_title)
-                        .lineLimit(3)
-                        .font(.body2Regular14)
-                        .foreground(.onSurfaceMedium)
-                }
-                
-                HStack {
-                    ForEach(feedback.ratings) { rating in
-                        VStack(spacing: 8) {
-                            if let emoji = rating.emoji {
-                                Text(emoji)
-                                    .font(.system(size: 32))
-                                    .foreground(.onSurfaceHigh)
-                                    .opacity(selectedResponse == nil || selectedResponse == rating ? 1.0 : 0.2)
-                            }
-                            Text(rating.label)
-                                .font(selectedResponse == rating  ? .body2Semibold14 : .body2Regular14)
-                                .foreground(selectedResponse == nil ? .onSurfaceMedium : (selectedResponse == rating ? .onSurfaceHigh : .onSurfaceLow))
-                                .frame(maxWidth: .infinity)
-                        }
-                        
-                        .onTapGesture {
-                            selectedResponse = rating
-                        }
-                        Spacer()
-                    }
-                }.onChange(of: selectedResponse) { _ in
+            HMSCallFeedbackRatingsView(feedback: feedback, showsClose: true, selectedResponse: $selectedResponse)
+                .onChange(of: selectedResponse) { _ in
                     selectedReasons.removeAll()
                 }
+            
+            if let selectedResponse = selectedResponse {
+                HMSDivider(color: currentTheme.colorTheme.borderDefault)
                 
-                if let selectedResponse = selectedResponse, 
-                    let reasons = selectedResponse.reasons,
-                    !reasons.isEmpty {
-                    HMSDivider(color: currentTheme.colorTheme.borderDefault)
-                    
+                if let reasons = selectedResponse.reasons,
+                !reasons.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
                         if let question = selectedResponse.question {
                             Text(question)
@@ -120,60 +77,119 @@ struct HMSCallFeedbackView: View {
                         }
                         .frame(height: 100)
                     }
-                    
-                    if let comment = feedback.comment {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(comment.label)
-                                .font(.body2Regular14)
-                                .foreground(.onSurfaceHigh)
+                }
+                
+                if let comment = feedback.comment {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(comment.label)
+                            .font(.body2Regular14)
+                            .foreground(.onSurfaceHigh)
+                        
+                        ZStack(alignment: .topLeading) {
+                            Text(comment.placeholder)
+                                .font(.body1Regular16)
+                                .foreground(.onSurfaceLow)
+                                .padding(.top, 8)
+                                .padding(.leading, 5)
+                                .opacity(additionalComments.isEmpty ? 1 : 0)
                             
-                            ZStack(alignment: .topLeading) {
-                                Text(comment.placeholder)
-                                    .font(.body1Regular16)
-                                    .foreground(.onSurfaceLow)
-                                    .padding(.top, 8)
-                                    .padding(.leading, 5)
-                                    .opacity(additionalComments.isEmpty ? 1 : 0)
-                                
-                                ToolbarTextView(text: $additionalComments, color: UIColor(currentTheme.colorTheme.onSurfaceHigh))
+                            ToolbarTextView(text: $additionalComments, color: UIColor(currentTheme.colorTheme.onSurfaceHigh))
+                        }
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 11)
+                        .background(.surfaceDefault, cornerRadius: 8)
+                        .frame(height: 112)
+                    }
+                }
+                
+                let layoutLabel = feedback.submit_btn_label ?? ""
+                let buttonText =  layoutLabel.isEmpty ? "Submit Feedback" : layoutLabel
+                
+                Text(buttonText)
+                    .font(.buttonSemibold16)
+                    .foreground(.onPrimaryHigh)
+                    .padding(12)
+                    .frame(maxWidth: .infinity)
+                    .background(.primaryDefault, cornerRadius: 8)
+                    .onTapGesture {
+                        Task {
+                            feedbackSubmitted = true
+                            dismiss()
+                            let reasons = selectedReasons.isEmpty ? nil : Array(selectedReasons)
+                            var components = [feedback.title]
+                            if let question = selectedResponse.question,
+                                !question.isEmpty {
+                                components.append(question)
                             }
-                            .padding(.vertical, 4)
-                            .padding(.horizontal, 11)
-                            .background(.surfaceDefault, cornerRadius: 8)
-                            .frame(height: 112)
+                            let questionText = components.joined(separator: " | ")
+                            
+                            let feedbackResult = HMSSessionFeedback(question: questionText, rating: selectedResponse.value, reasons: reasons, comment: additionalComments)
+                            do {
+                                try await roomModel.submitFeedback(feedbackResult)
+                            } catch {
+                                try await roomModel.submitFeedback(feedbackResult)
+                            }
                         }
                     }
-                    
-                    Text(feedback.submit_btn_label ?? "Submit Feedback")
-                        .font(.buttonSemibold16)
-                        .foreground(.onPrimaryHigh)
-                        .padding(12)
-                        .frame(maxWidth: .infinity)
-                        .background(.primaryDefault, cornerRadius: 8)
-                        .onTapGesture {
-                            Task {
-                                submitted = true
-                                let reasons = selectedReasons.isEmpty ? nil : Array(selectedReasons)
-                                var components = [feedback.title]
-                                if let question = selectedResponse.question, 
-                                    !question.isEmpty {
-                                    components.append(question)
-                                }
-                                let questionText = components.joined(separator: " | ")
-
-                                let feedbackResult = HMSSessionFeedback(question: questionText, rating: selectedResponse.value, reasons: reasons, comment: additionalComments)
-                                do {
-                                    try await roomModel.submitFeedback(feedbackResult)
-                                } catch {
-                                    try await roomModel.submitFeedback(feedbackResult)
-                                }
-                            }
-                        }
-                }
             }
+            
         }
         .padding([.horizontal, .top], 24)
         .background(.surfaceDim, cornerRadius: 0)
+    }
+}
+
+struct HMSCallFeedbackRatingsView: View {
+    let feedback: Feedback
+    let showsClose: Bool
+    @Binding var selectedResponse: Feedback.Rating?
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 25) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(feedback.title)
+                        .lineLimit(3)
+                        .font(.heading6Semibold20)
+                        .foreground(.onSurfaceHigh)
+                    
+                    Text(feedback.sub_title)
+                        .lineLimit(3)
+                        .font(.body2Regular14)
+                        .foreground(.onSurfaceMedium)
+                }
+                if showsClose {
+                    Spacer()
+                    Image(assetName: "close")
+                        .foreground(.onSurfaceHigh)
+                        .onTapGesture {
+                            dismiss()
+                        }
+                }
+            }
+            HStack {
+                ForEach(feedback.ratings) { rating in
+                    VStack(spacing: 8) {
+                        if let emoji = rating.emoji {
+                            Text(emoji)
+                                .font(.system(size: 32))
+                                .foreground(.onSurfaceHigh)
+                                .opacity(selectedResponse == nil || selectedResponse == rating ? 1.0 : 0.2)
+                        }
+                        Text(rating.label)
+                            .font(selectedResponse == rating  ? .body2Semibold14 : .body2Regular14)
+                            .foreground(selectedResponse == nil ? .onSurfaceMedium : (selectedResponse == rating ? .onSurfaceHigh : .onSurfaceLow))
+                            .frame(maxWidth: .infinity)
+                    }
+                    
+                    .onTapGesture {
+                        selectedResponse = rating
+                    }
+                    Spacer()
+                }
+            }
+        }
     }
 }
 
@@ -252,8 +268,8 @@ struct ToolbarTextView: UIViewRepresentable {
         }
         
         func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-           return textView.text.count + (text.count - range.length) <= 500
-       }
+            return textView.text.count + (text.count - range.length) <= 500
+        }
         
         @objc func doneButtonPressed() {
             textView.resignFirstResponder()
