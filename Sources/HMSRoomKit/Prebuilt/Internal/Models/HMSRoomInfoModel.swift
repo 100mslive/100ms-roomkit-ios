@@ -42,6 +42,8 @@ class HMSRoomInfoModel: ObservableObject {
     @Published var isNoiseCancellationOnByDefault: Bool = false
     @Published var defaultVirtualBackgroundUrl: URL? = nil
     
+    @Published var defaultLeaveScreen: HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen?
+    
     var roomLayout: HMSRoomLayout? {
         didSet {
             update()
@@ -125,5 +127,7 @@ class HMSRoomInfoModel: ObservableObject {
                 defaultVirtualBackgroundUrl = URL(string: defaultVBMedia.url)
             }
         }
+        
+        defaultLeaveScreen = layoutData.screens?.leave?.default
     }
 }

@@ -13,9 +13,14 @@ import HMSRoomModels
 public struct HMSEndCallScreen: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
-    
+    @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
+
     var onDismiss: (() -> Void)? = nil
-    
+
+    @State private var selectedResponse: Feedback.Rating?
+    @State private var feedbackSubmitted = false
+    @State private var isFeedbackSheetPresented = false
+
     public init(onDismiss: (() -> Void)? = nil) {
         self.onDismiss = onDismiss
     }
@@ -60,7 +65,7 @@ public struct HMSEndCallScreen: View {
                 
                 if case .leftMeeting(let reason) = roomModel.roomState {
                     switch reason {
-                    case .userLeft, .removedFromRoom:
+                    case .userLeft, .removedFromRoom, .leftPreview:
                         VStack(spacing: 16) {
                             Text("Left by mistake?")
                                 .font(.body2Regular14)
@@ -87,9 +92,58 @@ public struct HMSEndCallScreen: View {
             .minimumScaleFactor(0.3)
             
             Spacer()
+            
+            if case .leftMeeting(let reason) = roomModel.roomState {
+                switch(reason) {
+                case .leftPreview:
+                    EmptyView()
+                default:
+                    if let feedback = roomInfoModel.defaultLeaveScreen?.elements?.feedback {
+                        VStack {
+                            if feedbackSubmitted {
+                                VStack(alignment: .center, spacing: 4) {
+                                    
+                                    Image(assetName: "user-music")
+                                        .renderingMode(.original)
+                                    
+                                    Text("Thank you for your feedback!")
+                                        .font(.heading6Semibold20)
+                                        .foreground(.onSurfaceHigh)
+                                        .frame(maxWidth: .infinity)
+                                    
+                                    Text("Your answers help us improve.")
+                                        .font(.body2Regular14)
+                                        .foreground(.onSurfaceMedium)
+                                }
+                            }
+                            else {
+                                HMSCallFeedbackRatingsView(feedback: feedback, showsClose: false, selectedResponse: $selectedResponse)
+                                    .onChange(of: selectedResponse) { _ in
+                                        isFeedbackSheetPresented = selectedResponse != nil
+                                    }
+                                    .onChange(of: isFeedbackSheetPresented) { _ in
+                                        if !isFeedbackSheetPresented && selectedResponse != nil {
+                                            selectedResponse = nil
+                                        }
+                                    }
+                            }
+                        }
+                        .padding(24)
+                        .background(.surfaceDim, cornerRadius: 16, corners: [.topLeft, .topRight], ignoringEdges: .bottom)
+                    }
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
+        .sheet(isPresented: $isFeedbackSheetPresented, content: {
+            HMSSheet {
+                if let feedback = roomInfoModel.defaultLeaveScreen?.elements?.feedback {
+                    HMSCallFeedbackView(feedback: feedback, selectedResponse: $selectedResponse, feedbackSubmitted: $feedbackSubmitted)
+                }
+            }
+            .edgesIgnoringSafeArea(.all)
+        })
     }
 }
 
