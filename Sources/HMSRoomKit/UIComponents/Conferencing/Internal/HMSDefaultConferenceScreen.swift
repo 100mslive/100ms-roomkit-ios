@@ -61,11 +61,11 @@ public struct HMSDefaultConferenceScreen: View {
                 else {
                     HMSMainConferenceView(isHLSViewer: isHLSViewer)
                         .sheet(isPresented: $isChatPresented) {
-//                            if #available(iOS 16.0, *) {
-//                                HMSChatParticipantToggleView().presentationDetents([.large])
-//                            } else {
-//                                HMSChatParticipantToggleView()
-//                            }
+                            if #available(iOS 16.0, *) {
+                                HMSChatParticipantToggleView().presentationDetents([.large])
+                            } else {
+                                HMSChatParticipantToggleView()
+                            }
                         }
                 }
                 
