@@ -12,6 +12,10 @@ struct HMSHLSLayout: View {
     
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
+    var isLandscape: Bool {
+        UIDevice.current.orientation.isLandscape
+    }
+    
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     @EnvironmentObject var roomModel: HMSRoomModel
@@ -40,19 +44,19 @@ struct HMSHLSLayout: View {
                 
                 if #available(iOS 16.0, *) {
                     
-                    let layout = verticalSizeClass == .compact ? AnyLayout(HStackLayout(spacing: 0))
+                    let layout = isLandscape ? AnyLayout(HStackLayout(spacing: 0))
                     : AnyLayout(VStackLayout(spacing: 0))
                     
-                    let layout2 = verticalSizeClass == .compact ? AnyLayout(VStackLayout())
+                    let layout2 = isLandscape ? AnyLayout(VStackLayout())
                     : AnyLayout(HStackLayout())
                     
                     layout {
                         HMSHLSViewerScreen(isMaximized: $isMaximized)
-                            .frame(height: !isMaximized && verticalSizeClass == .regular ? HMSPlayerConstants.preferredHeight(for: reader.size.width) : nil).background(verticalSizeClass == .compact || isMaximized ? .clear : .surfaceDim, cornerRadius: 0)
+                            .frame(height: !isMaximized && !isLandscape ? HMSPlayerConstants.preferredHeight(for: reader.size.width) : nil).background(isLandscape || isMaximized ? .clear : .surfaceDim, cornerRadius: 0)
 
                         if !isMaximized {
                             
-                            if verticalSizeClass == .regular {
+                            if !isLandscape {
                                 chatScreen
                             }
                             else {
@@ -61,7 +65,7 @@ struct HMSHLSLayout: View {
                             }
                         }
                     }
-                    .overlay(alignment: verticalSizeClass == .regular ? .bottom : .trailing) {
+                    .overlay(alignment: !isLandscape ? .bottom : .trailing) {
                         if !isChatEnabled {
                             
                             layout2 {
@@ -133,11 +137,17 @@ struct HMSHLSLayout: View {
                 }
             }
         }
+        
         .background(.backgroundDim, cornerRadius: 0)
         .onAppear() {
+            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
             if !isChatEnabled {
                 isMaximized = true
             }
+        }
+        .onDisappear {
+            // Stop orientation updates when not needed
+            UIDevice.current.endGeneratingDeviceOrientationNotifications()
         }
     }
     
