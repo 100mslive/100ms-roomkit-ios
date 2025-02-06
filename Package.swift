@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/100mslive/100ms-roomkit-models-ios", from: "1.13.1"),
+        .package(url: "https://github.com/100mslive/100ms-roomkit-models-ios", from: "1.13.2"),
         .package(url: "https://github.com/100mslive/Popovers", from: "1.0.0"),
         .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.3.0"),
         .package(url: "https://github.com/100mslive/100ms-noise-cancellation-models-ios", from: "1.0.0"),
@@ -31,7 +31,7 @@ let package = Package(
                 .product(name: "HMSAnalyticsSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "HMSHLSPlayerSDK", package: "100ms-roomkit-models-ios"),
                 .product(name: "HMSBroadcastExtensionSDK", package: "100ms-roomkit-models-ios"),
-                .product(name: "WebRTC", package: "100ms-roomkit-models-ios"),
+                .product(name: "HMSWebRTC", package: "100ms-roomkit-models-ios"),
                 .product(name: "Lottie", package: "lottie-spm"),
                 .product(name: "HMSNoiseCancellationModels", package: "100ms-noise-cancellation-models-ios")
                 ],
