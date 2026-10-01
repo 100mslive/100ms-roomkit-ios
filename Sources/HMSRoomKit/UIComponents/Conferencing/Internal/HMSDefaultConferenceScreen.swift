@@ -61,11 +61,18 @@ public struct HMSDefaultConferenceScreen: View {
                 else {
                     HMSMainConferenceView(isHLSViewer: isHLSViewer)
                         .sheet(isPresented: $isChatPresented) {
-                            if #available(iOS 16.0, *) {
-                                HMSChatParticipantToggleView().presentationDetents([.large])
-                            } else {
-                                HMSChatParticipantToggleView()
+                            // Re-inject the environment objects: a .sheet presents a separate view
+                            // hierarchy that does not reliably inherit @EnvironmentObject (breaks on
+                            // iPad / iOS 26.x), which otherwise crashes HMSChatParticipantToggleView.
+                            Group {
+                                if #available(iOS 16.0, *) {
+                                    HMSChatParticipantToggleView().presentationDetents([.large])
+                                } else {
+                                    HMSChatParticipantToggleView()
+                                }
                             }
+                            .environmentObject(currentTheme)
+                            .environmentObject(roomModel)
                         }
                 }
                 
