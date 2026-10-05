@@ -200,18 +200,29 @@ struct HMSOptionSheetView: View {
         .sheet(item: $internalSheet) { sheet in
             switch sheet {
             case .participants:
-                if #available(iOS 16.0, *) {
-                    HMSChatParticipantToggleView(initialPane: .participants).presentationDetents([.large])
-                } else {
-                    HMSChatParticipantToggleView(initialPane: .participants)
+                // Re-inject environment objects: a .sheet presents a separate view hierarchy that
+                // does not reliably inherit @EnvironmentObject (breaks on iPad / iOS 26.x), which
+                // otherwise crashes HMSChatParticipantToggleView. (`theme` is this view's HMSUITheme.)
+                Group {
+                    if #available(iOS 16.0, *) {
+                        HMSChatParticipantToggleView(initialPane: .participants).presentationDetents([.large])
+                    } else {
+                        HMSChatParticipantToggleView(initialPane: .participants)
+                    }
                 }
-            
+                .environmentObject(theme)
+                .environmentObject(roomModel)
+
             case .chat:
-                if #available(iOS 16.0, *) {
-                    HMSChatParticipantToggleView().presentationDetents([.large])
-                } else {
-                    HMSChatParticipantToggleView()
+                Group {
+                    if #available(iOS 16.0, *) {
+                        HMSChatParticipantToggleView().presentationDetents([.large])
+                    } else {
+                        HMSChatParticipantToggleView()
+                    }
                 }
+                .environmentObject(theme)
+                .environmentObject(roomModel)
             case .stopRecording:
                 HMSSheet {
                     if verticalSizeClass == .regular {

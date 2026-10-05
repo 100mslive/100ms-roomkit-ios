@@ -40,11 +40,18 @@ struct HMSTopControlStrip: View {
                                 }
                             }
                             .sheet(isPresented: $isParticipantsPresented) {
-                                if #available(iOS 16.0, *) {
-                                    HMSChatParticipantToggleView(initialPane: .participants).presentationDetents([.large])
-                                } else {
-                                    HMSChatParticipantToggleView(initialPane: .participants)
+                                // Re-inject the environment objects: a .sheet presents a separate view
+                                // hierarchy that does not reliably inherit @EnvironmentObject (breaks on
+                                // iPad / iOS 26.x), which otherwise crashes HMSChatParticipantToggleView.
+                                Group {
+                                    if #available(iOS 16.0, *) {
+                                        HMSChatParticipantToggleView(initialPane: .participants).presentationDetents([.large])
+                                    } else {
+                                        HMSChatParticipantToggleView(initialPane: .participants)
+                                    }
                                 }
+                                .environmentObject(currentTheme)
+                                .environmentObject(roomModel)
                             }
                     }
                 }
